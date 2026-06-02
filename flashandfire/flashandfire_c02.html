@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flash and Fire — Capítulo 2 (Chapter 2) · Lectura Glosada</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #e0e0e0;
+    --muted: #8892a4;
+    --spanish: #f5c518;
+    --gloss: #a8d8a8;
+    --vocab-bg: #0d1b2a;
+    --grammar-bg: #1b1228;
+    --tag: #533483;
+    --dialogue: #1e2d1e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; line-height: 1.7; padding: 2rem 1rem; }
+  header { max-width: 880px; margin: 0 auto 3rem; text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 1.5rem; }
+  header h1 { font-size: 2rem; color: var(--accent); letter-spacing: 1px; }
+  header h2 { font-size: 1.1rem; color: var(--muted); font-weight: normal; margin-top: .4rem; }
+  header p { font-size: .9rem; color: var(--muted); margin-top: .8rem; font-style: italic; }
+  .chapter-intro { max-width: 880px; margin: 0 auto 2.5rem; background: var(--accent2); border-left: 4px solid var(--accent); padding: 1rem 1.4rem; border-radius: 4px; font-size: .95rem; }
+  .chapter-intro h3 { color: var(--accent); margin-bottom: .4rem; }
+  .sentence-block { max-width: 880px; margin: 0 auto 2rem; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .sentence-num { display: inline-block; background: var(--accent); color: #fff; font-size: .75rem; font-family: monospace; padding: .2rem .5rem; border-radius: 3px; margin-bottom: .5rem; letter-spacing: 1px; }
+  .sentence-top { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .spanish-text { font-size: 1.2rem; color: var(--spanish); font-style: italic; margin-bottom: .6rem; line-height: 1.5; }
+  .gloss-text { font-size: 1rem; color: var(--gloss); margin-top: .35rem; }
+  .gloss-label, .vocab-label, .grammar-label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; margin-bottom: .3rem; font-family: sans-serif; }
+  /* ── Per-sentence gloss toggle ── */
+  .gloss-toggle { background: none; border: none; padding: .4rem 0; cursor: pointer; font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-family: sans-serif; margin-bottom: .3rem; display: block; touch-action: manipulation; min-height: 2.5rem; }
+  .gloss-toggle:hover { color: var(--gloss); }
+  .gloss-text { visibility: visible; }
+  .gloss-text.gloss-hidden { visibility: hidden; pointer-events: none; }
+
+  .breakdown { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px) { .breakdown { grid-template-columns: 1fr; } }
+  .vocab-section { background: var(--vocab-bg); padding: 1rem 1.4rem; border-right: 1px solid rgba(255,255,255,.05); }
+  .grammar-section { background: var(--grammar-bg); padding: 1rem 1.4rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+  td { padding: .3rem .4rem; vertical-align: top; }
+  td:first-child { color: var(--spanish); font-style: italic; white-space: nowrap; padding-right: .8rem; width: 42%; }
+  tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,.05); }
+  .grammar-section ul { list-style: none; font-size: .87rem; }
+  .grammar-section li { margin-bottom: .55rem; padding-left: .8rem; border-left: 2px solid var(--tag); }
+  .grammar-section li strong { color: var(--spanish); font-style: italic; }
+  .grammar-section li em { color: #c9b1ff; font-style: normal; }
+  .section-label { max-width: 880px; margin: 0 auto 1.2rem; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--tag); font-family: sans-serif; padding-left: .2rem; display: flex; align-items: center; gap: .8rem; }
+  .tag { display: inline-block; background: var(--tag); color: #ddd; font-size: .7rem; font-family: sans-serif; padding: .1rem .4rem; border-radius: 3px; margin-right: .3rem; }
+  .dialogue-marker { color: var(--muted); font-size: .8rem; font-family: sans-serif; margin-bottom: .3rem; display: block; }
+  footer { max-width: 880px; margin: 3rem auto 0; text-align: center; font-size: .8rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); }
+
+  /* ── Audio controls ── */
+  #audio-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,52,96,.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(233,69,96,.4);
+    padding: .6rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: sans-serif; font-size: .82rem;
+  }
+  #audio-bar .bar-label { color: var(--muted); white-space: nowrap; }
+  #audio-bar .voice-select {
+    background: #0d1b2a; color: var(--text); border: 1px solid var(--tag);
+    border-radius: 4px; padding: .25rem .5rem; font-size: .8rem; flex: 1; min-width: 160px; max-width: 280px;
+  }
+  #audio-bar .speed-wrap { display: flex; align-items: center; gap: .5rem; }
+  #audio-bar input[type=range] { width: 90px; accent-color: var(--accent); cursor: pointer; }
+  #speed-val { color: var(--accent); font-weight: bold; min-width: 2.5ch; }
+  #stop-btn, .section-gloss-btn, .shadow-btn {
+    border: none; border-radius: 4px;
+    padding: .25rem .8rem; cursor: pointer; font-size: .8rem; white-space: nowrap;
+  }
+  #stop-btn { background: var(--accent); color: #fff; }
+  #stop-btn:hover { opacity: .85; }
+  .section-gloss-btn { background: var(--accent2); color: var(--muted); border: 1px solid var(--tag); margin-left: auto; flex-shrink: 0; }
+  .section-gloss-btn:hover { background: #1a4a80; color: var(--text); }
+  .shadow-btn { background: #1e3a1e; color: #8db88d; border-color: #3a7a3a; }
+  .shadow-btn:hover { background: #2a5a2a; color: #c0e0c0; }
+  .voice-status { color: var(--muted); font-size: .75rem; font-style: italic; }
+
+  /* ── Play button on each card ── */
+  .spanish-row { display: flex; align-items: flex-start; gap: .6rem; }
+  .spanish-text { flex: 1; }
+  .play-btn {
+    flex-shrink: 0; margin-top: .15rem;
+    background: none; border: 1.5px solid var(--accent);
+    color: var(--accent); border-radius: 50%;
+    width: 2rem; height: 2rem; cursor: pointer;
+    font-size: .9rem; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s;
+  }
+  .play-btn:hover { background: var(--accent); color: #fff; }
+  .play-btn.playing {
+    background: var(--accent); color: #fff;
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(233,69,96,.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(233,69,96,0); }
+  }
+
+  /* ── Dictionary word spans ── */
+  .es-word {
+    cursor: pointer;
+    border-bottom: 1px dotted rgba(245,197,24,.35);
+    border-radius: 2px;
+    padding: 0 1px;
+    transition: background .1s;
+  }
+  .es-word:hover, .es-word.dp-active {
+    background: rgba(245,197,24,.18);
+    border-bottom-color: var(--spanish);
+  }
+
+  /* ── Dictionary popup ── */
+  #dict-popup {
+    position: fixed;
+    z-index: 500;
+    background: #0d1b2a;
+    border: 1px solid var(--tag);
+    border-radius: 8px;
+    padding: .75rem 1.1rem .85rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,.7);
+    min-width: 210px;
+    max-width: 310px;
+    font-family: sans-serif;
+    display: none;
+  }
+  #dict-popup .dp-word {
+    color: var(--spanish);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-family: Georgia, serif;
+    display: block;
+    margin-bottom: .4rem;
+    padding-right: 1.6rem;
+  }
+  .dp-loading { color: var(--muted); font-size: .8rem; font-style: italic; padding: .15rem 0 .3rem; }
+  .dp-pos {
+    color: var(--muted); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: 1px; margin: .45rem 0 .2rem; font-family: sans-serif;
+  }
+  .dp-defs {
+    font-size: .85rem; color: var(--text);
+    margin: 0; padding-left: 1.1rem; line-height: 1.45;
+  }
+  .dp-defs li { margin-bottom: .25rem; }
+  .dp-trans { font-size: .95rem; color: var(--text); margin: .25rem 0 .1rem; }
+  .dp-alts  { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: .1rem; }
+  .dp-none  { color: var(--muted); font-size: .8rem; font-style: italic; padding: .2rem 0 .3rem; }
+  .dp-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,.09);
+    margin: .6rem 0 .5rem;
+  }
+  #dict-popup .dp-links {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  #dict-popup .dp-links a {
+    color: var(--gloss);
+    text-decoration: none;
+    font-size: .8rem;
+    padding: .25rem .55rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,.06);
+    transition: background .12s;
+    display: block;
+  }
+  #dict-popup .dp-links a:hover { background: rgba(255,255,255,.14); }
+  #dict-close {
+    position: absolute;
+    top: .45rem; right: .6rem;
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: .9rem; line-height: 1;
+    padding: .1rem .2rem;
+  }
+  #dict-close:hover { color: var(--text); }
+
+</style>
+</head>
+<body>
+<div id="audio-bar">
+  <span class="bar-label">&#128266; Voz:</span>
+  <select id="voice-select" class="voice-select"><option>Cargando voces&hellip;</option></select>
+  <div class="speed-wrap">
+    <span class="bar-label">Velocidad:</span>
+    <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.05" value="0.85">
+    <span id="speed-val">0.85&times;</span>
+  </div>
+  <button id="stop-btn">&#9632; Parar</button>
+  <span class="voice-status" id="voice-status"></span>
+</div>
+<header>
+  <h1>Flash and Fire</h1>
+  <h2>Sheikh &amp; Lex &middot; Cap&iacute;tulo 2: <em>Chapter 2</em></h2>
+  <p>Lectura glosada para el estudio del español — cada oración con glosa, vocabulario y notas gramaticales</p>
+</header>
+<div class="section-group"><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">01</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Otro coche «prestado», este del aparcamiento de larga estancia. Pasa despacio frente al teatro para echar un vistazo al Kia Soul amarillo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Another &quot;borrowed&quot; car, this one from long-term parking. He drives by the
+theater, to check on the yellow Kia Soul.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>prestado</td><td>borrowed — scare quotes imply stolen here</td></tr>
+        <tr><td>aparcamiento de larga estancia</td><td>long-term parking</td></tr>
+        <tr><td>echar un vistazo</td><td>to take a look, check on — very common colloquial phrase</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">02</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">El aparcamiento del teatro está menos concurrido a primera hora de la mañana. Así que llama la atención ver una moto aparcada a unos metros del Soul, y a un hombre junto al vehículo. Más bajo que Thessalar, con el pelo negro largo y salvaje recogido en una cola alta. Chaqueta de cuero, vaqueros negros. Y una furia absoluta que irradia de él, aunque nadie salvo Bodhi podría notarlo. Está sacando fotos del Soul con el móvil.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">The theater parking lot is less crowded in the early morning.  So it stands
+out that there&#x27;s a motorcycle parked a few spaces down from the Soul, and a
+man standing near the vehicle.  Shorter than Thessalar, with long, wild
+black hair pulled up in a high ponytail.  Leather jacket, black jeans.  And
+utter fury radiating off him, not that anyone but Bodhi would be able to
+tell.  He&#x27;s taking pictures of the Soul with his cell phone.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>llama la atención</td><td>stands out, draws attention — fixed phrase</td></tr>
+        <tr><td>recogido en una cola alta</td><td>pulled up in a high ponytail</td></tr>
+        <tr><td>irradia</td><td>radiates — from <em>irradiar</em></td></tr>
+        <tr><td>salvo</td><td>except, save — literary synonym of <em>excepto</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>llama la atención ver...</strong> — <em>Infinitivo nominal</em>: after <em>llama la atención</em> with a generic subject, Spanish often uses an infinitive rather than a subjunctive clause.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">03</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Un curioso destello de poder —levantando sus pensamientos, quién es, por qué está aquí. Su historia.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">A curious flicker of power--lifting his thoughts, who he is, why he&#x27;s here.
+His
+deal
+.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>destello</td><td>flicker, flash</td></tr>
+        <tr><td>levantar</td><td>to lift, raise — here metaphorical: accessing or reading someone's thoughts</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">04</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Un vistazo rápido a su mente mientras Akaji le Saihre manda fotos del coche a su hermana adoptiva, Dyris, escribiendo junto a ellas: «como puedes ver aquí está el coche sin explotar una puta mierda», mientras piensa: ese cabrón con colmillos tenía un solo maldito trabajo y era meterse en el estúpido coche, pero nooo, en vez de eso él—
+
+Un destello en su mente. Un eco de sus propios pensamientos, casi, una sensación que ya ha sentido antes.
+Alguien está escuchando.
+
+Akaji cierra el móvil de golpe, se lo mete en el bolsillo. Se da la vuelta; sus ojos dorados recorren el aparcamiento desierto.
+¿Quién podría estar ahí? Thessalar seguro que no. Si puede leer mentes, eso se va a complicar mucho muy rápido.
+Todas las opciones que no sean Thessalar son peores. De día, no puede ser un vampiro. Mierda.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">A quick glimpse into his mind, as Akaji le Saihre sends pictures of the car
+to his adopted sister, Dyris, typing out to go with them,
+as you can see here is the car un fucking exploded
+ while thinking 
+that toothy bastard had one goddamn job and it was get in the stupid car but
+noooo instead he--
+
+A flicker in his mind.  An echo of his own thoughts, almost, a feeling he
+has felt before.
+Someone is listening.
+
+Akaji snaps the phone shut, stuffs it in his pocket.  Whirls, golden eyes
+looking around the deserted parking lot.
+Who could be there?  Surely not Thessalar.  If he can read minds that&#x27;s
+gonna get fucked in a realquick way.
+12:07 AM
+Every option that&#x27;s not Thessalar is worse.  Daylight, can&#x27;t be a vampire.
+Fuck.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>hermana adoptiva</td><td>adopted sister</td></tr>
+        <tr><td>colmillos</td><td>fangs — lit. eyeteeth/canine teeth</td></tr>
+        <tr><td>maldito</td><td>damn, accursed — common intensifier</td></tr>
+        <tr><td>de golpe</td><td>all at once, suddenly — lit. 'at a blow'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>tenía un solo trabajo y era meterse</strong> — <em>Imperfecto de obligación</em>: <em>era + infinitivo</em> here means 'his job was to'. The imperfect conveys frustrated expectation about something that should have happened.</li>
+        <li><strong>¿Quién podría estar ahí?</strong> — <em>Condicional de posibilidad</em>: <em>podría</em> (conditional) expresses a rhetorical hypothetical — 'who could possibly be there?'</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">05</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Un Toyota Camry gris ha reducido la velocidad al pasar. Una figura de pelo oscuro al volante, cara sin arrugas, masculina.
+Su cabeza gira al pasar.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">A grey toyota camry has reduced speed, as it rolls by. A dark-haired figure
+in the driver&#x27;s seat, face unlined, male.
+12:08 AM
+His head turns, as he passes by.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>al volante</td><td>at the wheel, in the driver's seat</td></tr>
+        <tr><td>sin arrugas</td><td>unlined — lit. 'without wrinkles'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>al pasar</strong> — <em>Al + infinitivo</em>: a very versatile construction meaning 'upon/when/as (someone) does something'. Equivalent to an English temporal clause.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">06</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Sus ojos dorados se encuentran con los suyos. Akaji no lo reconoce.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Golden eyes lock with his.  Akaji doesn&#x27;t recognize him.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>encontrarse con</td><td>to meet, to lock eyes with — lit. 'to find oneself with'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">07</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Físicamente es... poco imponente. Psíquicamente, es enorme. Una telepatía como una bobina de Tesla, que lanza arcos hacia cada mente cercana —tiene la atención de Akaji, sin duda, su atención deliberada. Pero el poder está dirigido, aunque no exactamente controlado.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Physically he is--unimposing. Psychically, he&#x27;s 
+big
+. Telepathy like a tesla coil, arcing into contact with every nearby mind--
+Akaji has his actual attention, certainly, his deliberate attention. But the
+power is directed, not per se
+controlled
+.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>poco imponente</td><td>unimposing — lit. 'not very imposing'</td></tr>
+        <tr><td>bobina de Tesla</td><td>Tesla coil</td></tr>
+        <tr><td>lanzar arcos</td><td>to arc, to discharge — lit. 'to throw arcs'</td></tr>
+        <tr><td>dirigido</td><td>directed, focused — past participle of <em>dirigir</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>poco + adjetivo</strong> — <em>Atenuación con «poco»</em>: a very common way to express the opposite of an adjective softly. «Poco imponente» = 'not very imposing / unimposing', without resorting to a negative prefix.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">08</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">No retiene la atención de Akaji. Este vuelve a escudriñar el aparcamiento. Sospecha que algo inhumano lo está acechando, o quizás apuntando a Thessalar. Hay en él una mezcla de pavor y resignación ante esa posibilidad. Pero nadie se acerca, y que él sepa, nadie lo mira fijamente.
+
+Y aun así sigue sintiendo el eco de sus pensamientos, como si su mente fuera un teatro abierto con el público oculto tras el velo de los focos del escenario.
+
+Echa un vistazo hacia el coche. De día, había pensado que quizás tendría tiempo de retirar la bomba —desde luego no quiere que Thessalar la encuentre. Pero quizás la mejor apuesta sea detonarla antes del anochecer, antes de que la gente empiece a congregarse aquí. Una pérdida total y absoluta, y un paso más cerca de tener que enfrentarse a Thessalar en persona, lo último que Akaji desea.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He doesn&#x27;t keep Akaji&#x27;s attention.  Akaji is scanning the parking lot again.
+Suspects something inhuman of stalking him, or perhaps targeting Thessalar.
+There&#x27;s a mingled dread and resignation in him at the prospect.  But no one
+is approaching, and to the best of his awareness no one is staring at him.
+
+But he can still feel the echo of his thoughts, like his mind is an open
+theater with an audience hidden past the veil of stage lights.
+
+He glances towards the car.  Given the daylight, he&#x27;d thought he might have
+time to remove the bomb--he certainly doesn&#x27;t want Thessalar extracting it.
+But maybe the better bet is to set it off before nightfall, before people
+start to gather here.  A complete and utter loss, and a step closer to
+having to fight Thessalar in person, the very last thing Akaji wants to do.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>escudriñar</td><td>to scan, scrutinize carefully</td></tr>
+        <tr><td>acechar</td><td>to stalk, lurk, lie in wait</td></tr>
+        <tr><td>pavor</td><td>dread, terror — more intense than <em>miedo</em></td></tr>
+        <tr><td>que él sepa</td><td>as far as he knows — fixed conditional phrase</td></tr>
+        <tr><td>congregarse</td><td>to gather, congregate</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>como si su mente fuera</strong> — <em>Como si + subjuntivo imperfecto</em>: <em>como si</em> always triggers imperfect or pluperfect subjunctive. <em>Fuera</em> is the imperfect subjunctive of <em>ser</em>.</li>
+        <li><strong>la mejor apuesta sea detonarla</strong> — <em>Subjuntivo nominal</em>: after an expression of judgment (<em>la mejor apuesta</em>), <em>sea</em> is the present subjunctive of <em>ser</em>, introducing the infinitive.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">09</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Los dedos tamborilean sobre el volante mientras lo medita. Gira en el siguiente cruce —para dar la vuelta a la manzana despacio, mientras decide qué hacer. No tiene datos de contacto de Thessalar (¿y por qué querría ayudarlo de todas formas?), y ese tal Akaji va a deshacerse de la bomba de un modo u otro. Quizás hará volar el coche de Thessalar —un atisbo de satisfacción ante ese pensamiento.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">His fingers drum on the steering wheel as he considers. Turning, at the next
+intersection--to circle the block, slow, as he decides what to do here. He
+doesn&#x27;t have contact info for Thessalar (and why should he want to help him
+anyway), and that man Akaji is going to clean up the bomb, one way or the
+other. Maybe he&#x27;ll blow up Thessalar&#x27;s car--a hint of satisfaction, at that
+thought.
+ 
+
+ 
+1</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>tamborilean</td><td>they drum, tap — from <em>tamborear/tamborilearse</em></td></tr>
+        <tr><td>dar la vuelta a la manzana</td><td>to go around the block</td></tr>
+        <tr><td>datos de contacto</td><td>contact information</td></tr>
+        <tr><td>un atisbo de</td><td>a hint, a glimmer of — lit. 'a glimpse of'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">10</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">A Akaji se le ocurre otra idea sobre el coche. Quizás un hechizo sobre él para atrapar al próximo vampiro o espíritu que lo toque. Sería tan, tan estúpido si funcionara. Un coche no es un objeto de contención estable. Cómo quedaría eso siquiera. ¿Podría un vampiro cautivo controlar el coche? Akaji se pregunta si quizás esta sea la idea más estúpida que ha tenido últimamente.
+
+De momento se dirige a su moto. Queda mucho tiempo antes del anochecer. Se pone el casco, se lo abrocha. Si se va una hora, quizás lo que esté merodeando también se marche. Si sigue aquí cuando vuelva, bueno... irá mejor armado.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Another idea occurs to Akaji, about the car.  Maybe a spell on it, to entrap
+the next vampire or spirit to touch it.  It would be so, so stupid if that
+worked.  A car is not a stable containment item.  What would that even look
+like.  Would a captive vampire be able to control the car?  Akaji wonders if
+this might be the stupidest idea he&#x27;s had recently.
+
+For now he crosses to his motorcycle.  There&#x27;s still plenty of time left
+before sunset.  He pulls a helmet on, straps it in place.  If he leaves for
+an hour, maybe whatever is hanging around will depart as well.  If it&#x27;s
+still here when he gets back, well... he&#x27;ll be better armed then.
+12:27 AM
+Herbie fully loaded, but the undead edition.
+ 
+1</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>se le ocurre</td><td>it occurs to him — reflexive impersonal idiom, like <em>gustar</em></td></tr>
+        <tr><td>hechizo</td><td>spell, hex</td></tr>
+        <tr><td>atrapar</td><td>to trap, catch</td></tr>
+        <tr><td>anochecer</td><td>nightfall, dusk — also a verb meaning 'to get dark'</td></tr>
+        <tr><td>merodear</td><td>to lurk, prowl around</td></tr>
+        <tr><td>abrochar</td><td>to buckle, fasten</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>A Akaji se le ocurre</strong> — <em>Verbo de afección con dativo</em>: <em>ocurrirse</em> works like <em>gustar</em> — the person to whom the idea occurs is marked with a dative pronoun (<em>le</em>) and introduced by <em>a</em>.</li>
+        <li><strong>si se va... quizás se marche</strong> — <em>Condicional real</em>: <em>si</em> + present indicative expresses a real condition; <em>quizás</em> + subjunctive (<em>se marche</em>) expresses uncertainty about the result.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">11</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Para cerca de allí, convence a alguien para que llame a la policía con un soplo basado en una conversación inventada que supuestamente oyó.
+Todas las palabras clave esperadas. Coche, bomba, Kia Soul amarillo, la intersección.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He stops nearby, 
+encourages
+ someone to call in a tip to the police based off of a fabricated overheard
+conversation.
+12:29 AM
+All the keywords you&#x27;d expect. Car, bomb, yellow kia soul, the intersection.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>soplo</td><td>tip-off to the police — colloquial; lit. 'a breath/blow'</td></tr>
+        <tr><td>inventada</td><td>fabricated, made up</td></tr>
+        <tr><td>supuestamente</td><td>supposedly, ostensibly</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>para que llame</strong> — <em>Para que + subjuntivo</em>: purpose clause with subject change always takes the subjunctive. Compare <em>para llamar</em> (same subject) vs <em>para que llame</em> (different subject).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">12</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Sin saber nada de esto, Akaji monta la moto. Mete las llaves. El motor ronronea al arrancar, y él se marcha.
+Pensando en los lugares a los que podría ir, en algún sitio donde matar una hora.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Oblivious to this, Akaji swings a leg over the bike.  Slots in the keys.
+The engine purrs to life, and he makes a departure.
+12:32 AM
+Thinking over places he could go, somewhere he can kill an hour of time.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>ronronear</td><td>to purr — typically of cats, here applied to a motor engine</td></tr>
+        <tr><td>al arrancar</td><td>when it starts up — <em>al</em> + infinitive</td></tr>
+        <tr><td>matar una hora</td><td>to kill an hour — same idiom as in English</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">13</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Y allá va. Con intención de estar... fuera de la ciudad antes del anochecer. Tomando prestadas las llaves de un piso vacío en alquiler, unos kilómetros más adelante por la carretera, de manos de algún administrador de fincas. Haciéndose con una botella de bourbon. Sus trucos de siempre.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">And off he goes. Intending to be--out of town by nightfall. Borrowing keys
+to a staged vacant apartment a ways down the highway from some property
+manager. Lining up a bottle of bourbon. His usual tricks.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>en alquiler</td><td>for rent, for lease</td></tr>
+        <tr><td>administrador de fincas</td><td>property manager</td></tr>
+        <tr><td>hacerse con</td><td>to get hold of, to acquire</td></tr>
+        <tr><td>de siempre</td><td>usual, habitual — lit. 'of always'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>Tomando... Haciéndose...</strong> — <em>Gerundio narrativo</em>: a series of gerunds without a finite verb is a common literary device, conveying ongoing simultaneous actions. It gives the narration a cinematographic, cut-scene feel.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div></div>
+<footer>
+  <p><em>Flash and Fire</em> &mdash; Sheikh &amp; Lex</p>
+  <p style="margin-top:.5rem;">Lectura glosada para uso personal de estudio del espa&ntilde;ol &middot; Cap&iacute;tulo 2</p>
+</footer>
+
+<script>
+(function () {
+  /* ── 1. Wrap every .spanish-text in a flex row and prepend a play button ── */
+  document.querySelectorAll('.spanish-text').forEach(function (el, i) {
+    var text = el.textContent.trim();
+    el.dataset.speak = text;
+
+    var btn = document.createElement('button');
+    btn.className = 'play-btn';
+    btn.title = 'Reproducir';
+    btn.innerHTML = '&#9654;';
+    btn.dataset.idx = i;
+
+    var row = document.createElement('div');
+    row.className = 'spanish-row';
+    el.parentNode.insertBefore(row, el);
+    row.appendChild(btn);
+    row.appendChild(el);
+  });
+
+  /* ── 2. Voice loading ── */
+  var voiceSelect = document.getElementById('voice-select');
+  var statusEl    = document.getElementById('voice-status');
+  var spanishVoices = [];
+  var allVoices     = [];
+
+  function loadVoices() {
+    allVoices = window.speechSynthesis.getVoices();
+    if (!allVoices.length) return;
+    spanishVoices = allVoices.filter(function (v) {
+      return v.lang.toLowerCase().startsWith('es');
+    });
+    voiceSelect.innerHTML = '';
+    if (spanishVoices.length === 0) {
+      allVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i + '_all';
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u26a0 No Spanish voices found \u2014 showing all voices.';
+    } else {
+      spanishVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        if (v.lang.toLowerCase() === 'es-es') opt.selected = true;
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u2713 ' + spanishVoices.length + ' Spanish voice(s) found';
+    }
+  }
+
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  setTimeout(loadVoices, 500);
+
+  function getSelectedVoice() {
+    var val = voiceSelect.value;
+    if (!val) return null;
+    if (val.endsWith('_all')) return allVoices[parseInt(val)] || null;
+    return spanishVoices[parseInt(val)] || null;
+  }
+
+  /* ── 3. Speed slider ── */
+  var speedSlider = document.getElementById('speed-slider');
+  var speedVal    = document.getElementById('speed-val');
+  speedSlider.addEventListener('input', function () {
+    speedVal.textContent = parseFloat(this.value).toFixed(2) + '\u00d7';
+  });
+
+  /* ── 4. Speech playback ── */
+  var currentBtn = null;
+
+  function stopSpeech() {
+    window.speechSynthesis.cancel();
+    if (currentBtn) {
+      currentBtn.classList.remove('playing');
+      currentBtn.innerHTML = '&#9654;';
+      currentBtn = null;
+    }
+  }
+
+  document.getElementById('stop-btn').addEventListener('click', stopSpeech);
+
+  /* ── 4b. Per-section gloss toggle ── */
+  window.toggleSectionGloss = function(btn) {
+    var group = btn.closest('.section-group');
+    if (!group) return;
+    var glosses = group.querySelectorAll('.gloss-text');
+    var toggles = group.querySelectorAll('.gloss-toggle');
+    var allHidden = Array.from(glosses).every(function(g){ return g.classList.contains('gloss-hidden'); });
+    glosses.forEach(function(g){ g.classList.toggle('gloss-hidden', !allHidden); });
+    toggles.forEach(function(t){ t.textContent = allHidden ? '▼ English' : '▶ English'; });
+    btn.textContent = allHidden ? 'Ocultar English' : 'Mostrar English';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn === currentBtn) { stopSpeech(); return; }
+    stopSpeech();
+
+    var spanishEl = btn.parentElement.querySelector('.spanish-text');
+    var text = spanishEl ? spanishEl.dataset.speak : '';
+    if (!text) return;
+
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang  = 'es-ES';
+    utter.rate  = parseFloat(speedSlider.value);
+    utter.pitch = 1;
+
+    var voice = getSelectedVoice();
+    if (voice) utter.voice = voice;
+
+    btn.classList.add('playing');
+    btn.innerHTML = '&#9632;';
+    currentBtn = btn;
+
+    /* Chrome keepalive: prevents silent cutoff of utterances > ~15 s */
+    var keepAlive = setInterval(function () {
+      if (!window.speechSynthesis.speaking) { clearInterval(keepAlive); return; }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, 10000);
+
+    utter.onend = function () {
+      clearInterval(keepAlive);
+      if (currentBtn === btn) {
+        btn.classList.remove('playing');
+        btn.innerHTML = '&#9654;';
+        currentBtn = null;
+      }
+    };
+    utter.onerror = utter.onend;
+
+    window.speechSynthesis.speak(utter);
+  });
+})();
+</script>
+<script>
+/* ── Dictionary lookup ── */
+(function () {
+
+  /* 1. Tokenize each .spanish-text into clickable word spans */
+  document.querySelectorAll('.spanish-text').forEach(function (el) {
+    var newHTML = el.innerHTML.replace(
+      /([A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+(?:['\u2019-][A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+)*)/g,
+      function (token) {
+        var lookup = token.replace(/^['\u2019-]+|['\u2019-]+$/g, '').toLowerCase();
+        if (!lookup) return token;
+        return '<span class="es-word" data-word="' + lookup + '">' + token + '</span>';
+      }
+    );
+    el.innerHTML = newHTML;
+  });
+
+  /* 2. Build popup */
+  var popup = document.createElement('div');
+  popup.id = 'dict-popup';
+  popup.innerHTML =
+    '<button id="dict-close" title="Cerrar">&#10005;</button>' +
+    '<span class="dp-word"></span>' +
+    '<div class="dp-body"></div>' +
+    '<hr class="dp-divider">' +
+    '<div class="dp-links"></div>';
+  document.body.appendChild(popup);
+
+  var dpWord  = popup.querySelector('.dp-word');
+  var dpBody  = popup.querySelector('.dp-body');
+  var dpLinks = popup.querySelector('.dp-links');
+  var dpClose = popup.querySelector('#dict-close');
+  var activeSpan = null;
+  var ES_LEMMAS = {"dorados": "dorado", "esa": "ese", "masculina": "masculino", "vuelve": "volver", "irradia": "irradiar", "esté": "estar", "ocurre": "ocurrir", "ojos": "ojo", "es": "ser", "todas": "todo", "las": "el", "estúpida": "estúpido", "recogido": "recoger", "ellas": "él", "una": "uno", "arrugas": "arruga", "tamborilean": "tamborilear", "dirigido": "dirigir", "dirige": "dirigir", "tenía": "tener", "puede": "poder", "había": "haber", "le": "él", "pensando": "pensar", "otra": "otro", "reducido": "reducir", "vaqueros": "vaquero", "controlado": "controlar", "armado": "armar", "basado": "basar", "negros": "negro", "piensa": "pensar", "propios": "propio", "acechando": "acechar", "inventada": "inventar", "cierra": "cerrar", "eso": "ese", "palabras": "palabra", "muy": "mucho", "recorren": "recorrer", "prestado": "prestar", "apuntando": "apuntar", "kilómetros": "kilómetro", "decide": "decidir", "pensamientos": "pensamiento", "los": "el", "sepa": "saber", "vuelva": "volver", "oyó": "oír", "aparcada": "aparcar", "desea": "desear", "colmillos": "colmillo", "peores": "peor", "llame": "llamar", "focos": "foco", "convence": "convencer", "unos": "uno", "arcos": "arco", "mentes": "mente", "tenido": "tener", "metros": "metro", "prestadas": "prestar", "levantando": "levantar", "encuentre": "encontrar", "hará": "hacer", "sacando": "sacar", "escribiendo": "escribir", "escuchando": "escuchar", "mete": "meter", "llaves": "llave", "concurrido": "concurrir", "pone": "poner", "marche": "marchar", "lo": "él", "medita": "meditar", "manos": "mano", "adelante": "adelantar", "quiere": "querer", "se": "él", "va": "ir", "apuesta": "apuesto", "era": "ser", "formas": "forma", "da": "dar", "funcionara": "funcionar", "está": "estar", "querría": "querer", "esta": "estar", "cercana": "cercano", "irá": "ir", "la": "el", "fotos": "foto", "reconoce": "reconocer", "pensado": "pensar", "suyos": "suyo", "sigue": "seguir", "sus": "su", "sería": "ser", "dedos": "dedo", "aun": "aún", "trucos": "truco", "algún": "alguno", "esperadas": "esperar", "absoluta": "absoluto", "tiene": "tener", "puedes": "poder", "acerca": "acercar", "hay": "haber", "encuentran": "encontrar", "esto": "este", "adoptiva": "adoptivo", "fuera": "ser", "sintiendo": "sentir", "deliberada": "deliberar", "abrocha": "abrochar", "fincas": "finca", "retiene": "retener", "tendría": "tener", "quedaría": "quedar", "hermana": "hermanar", "abierto": "abrir", "opciones": "opción", "sean": "ser", "podría": "poder", "merodeando": "merodear", "un": "uno", "ronronea": "ronronear", "datos": "dato", "lugares": "lugar", "tomando": "tomar", "ha": "haber", "echa": "echar"};
+  function toLemma(w) { return ES_LEMMAS[w.toLowerCase()] || w; }
+  var dictCache  = {};
+
+  /* 3. Fetch definition (Wiktionary, then MyMemory fallback) */
+  /* Extract base word from a "form of X" Wiktionary definition HTML string.
+     Returns the base word string, or null if not a form-of entry. */
+  function extractBaseForm(defHtml) {
+    var t = defHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    // "first/second/third-person ... of X"
+    var m = t.match(/(?:first|second|third)[- ]person.{0,60}of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "plural of X", "inflection of X", "feminine of X", etc.
+    m = t.match(/^(?:inflection|plural|singular|feminine|masculine|augmentative|diminutive|superlative|past\s+(?:tense|participle)|present\s+participle|gerund|form)\s+of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "X of Y" where X ends right before "of" and Y is at end
+    m = t.match(/of\s+([\wÀ-ɏ]+)\s*(?:[:,]|$)/i);
+    if (m) return m[1].toLowerCase();
+    return null;
+  }
+
+  /* Returns true if ALL definitions in all entries look like form-of entries */
+  function getFirstBase(entries) {
+    // Return the base form if the first definition looks like a form-of entry
+    var firstDef = ((entries[0] || {}).definitions || [])[0] || {};
+    return extractBaseForm(firstDef.definition || '');
+  }
+
+  function fetchWiktionary(word) {
+    return fetch(
+      'https://en.wiktionary.org/api/rest_v1/page/definition/' + encodeURIComponent(word),
+      { headers: { Accept: 'application/json' } }
+    ).then(function(r) {
+      if (!r.ok) throw new Error('wikt');
+      return r.json();
+    }).then(function(data) {
+      var es = data.es || data.Es;
+      if (es && es.length) return es;
+      throw new Error('no entry');
+    });
+  }
+
+  function fetchDefinition(rawWord) {
+    var word = toLemma(rawWord);
+    if (dictCache[word]) return Promise.resolve(dictCache[word]);
+    return fetchWiktionary(word).then(function(es) {
+      // If all definitions are "form of X", follow the link to the base form
+      var base = getFirstBase(es);
+      if (base && base !== word.toLowerCase()) {
+        return fetchWiktionary(base).then(function(baseEs) {
+          var result = { source: 'wiktionary', entries: baseEs, inflectedFrom: rawWord, baseForm: base };
+          dictCache[word] = result; return result;
+        }).catch(function() {
+          var result = { source: 'wiktionary', entries: es };
+          dictCache[word] = result; return result;
+        });
+      }
+      var result = { source: 'wiktionary', entries: es };
+      if (word.toLowerCase() !== rawWord.toLowerCase()) result.baseForm = word;
+      dictCache[word] = result; return result;
+    }).catch(function () {
+      return fetch(
+        'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=es|en'
+      ).then(function (r) { return r.json(); }).then(function (data) {
+        var trans = data.responseData && data.responseData.translatedText;
+        if (!trans || trans.toLowerCase() === word.toLowerCase()) throw new Error('no trans');
+        var alts = (data.matches || [])
+          .filter(function (m) {
+            return m.quality > 50 && m.translation &&
+              m.translation.toLowerCase() !== word.toLowerCase() &&
+              m.translation.toLowerCase() !== trans.toLowerCase();
+          })
+          .map(function (m) { return m.translation; })
+          .filter(function (v, i, a) { return a.indexOf(v) === i; })
+          .slice(0, 3);
+        var result = { source: 'mymemory', translation: trans, alts: alts };
+        dictCache[word] = result; return result;
+      });
+    }).catch(function () {
+      var result = { source: 'none' };
+      dictCache[word] = result; return result;
+    });
+  }
+
+  function strip(h) { return h.replace(/<[^>]+>/g, ''); }
+
+  function renderBody(r) {
+    if (r.source === 'wiktionary') {
+      var html = '';
+      // Show a small note when we resolved an inflected form to its base
+      if (r.baseForm) {
+        html += '<div class="dp-alts">form of <em>' + r.baseForm + '</em></div>';
+      }
+      r.entries.slice(0, 3).forEach(function (e) {
+        html += '<div class="dp-pos">' + (e.partOfSpeech || '') + '</div><ol class="dp-defs">';
+        (e.definitions || []).slice(0, 4).forEach(function (d) {
+          html += '<li>' + strip(d.definition || '') + '</li>';
+        });
+        html += '</ol>';
+      });
+      return html;
+    }
+    if (r.source === 'mymemory') {
+      var h = '<div class="dp-trans">' + r.translation + '</div>';
+      if (r.alts && r.alts.length) h += '<div class="dp-alts">also: ' + r.alts.join(', ') + '</div>';
+      return h;
+    }
+    return '<div class="dp-none">no definition found</div>';
+  }
+
+  /* 4. Show / position / hide */
+  function positionPopup(cx, cy) {
+    var pw = popup.offsetWidth || 220, ph = popup.offsetHeight || 130;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var left = cx + 14, top = cy + 14;
+    if (left + pw > vw - 8) left = cx - pw - 14;
+    if (top  + ph > vh - 8) top  = cy - ph - 14;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  }
+
+  function showPopup(word, cx, cy) {
+    dpWord.textContent = word;
+    dpBody.innerHTML = '<div class="dp-loading">buscando…</div>';
+    dpLinks.innerHTML =
+      '<a href="https://www.wordreference.com/es/en/translation.asp?spen=' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128214; WordReference &#8594;</a>' +
+      '<a href="https://www.spanishdict.com/translate/' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128216; SpanishDict &#8594;</a>';
+    popup.style.display = 'block';
+    positionPopup(cx, cy);
+    fetchDefinition(word).then(function (result) {
+      if (dpWord.textContent !== word) return;
+      dpBody.innerHTML = renderBody(result);
+      positionPopup(cx, cy);
+    });
+  }
+
+  function hidePopup() {
+    popup.style.display = 'none';
+    if (activeSpan) { activeSpan.classList.remove('dp-active'); activeSpan = null; }
+  }
+
+  /* 5. Events */
+  document.addEventListener('click', function (e) {
+    var wordEl = e.target.closest('.es-word');
+    if (wordEl) {
+      if (activeSpan) activeSpan.classList.remove('dp-active');
+      activeSpan = wordEl;
+      wordEl.classList.add('dp-active');
+      showPopup(wordEl.dataset.word, e.clientX, e.clientY);
+      return;
+    }
+    if (!e.target.closest('#dict-popup')) hidePopup();
+  });
+
+  dpClose.addEventListener('click', function (e) { e.stopPropagation(); hidePopup(); });
+})();
+</script>
+</body>
+</html>

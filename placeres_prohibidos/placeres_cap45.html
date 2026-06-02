@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Placeres Prohibidos — Capítulo 45 (Cuarenta y cinco) · Lectura Glosada</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #e0e0e0;
+    --muted: #8892a4;
+    --spanish: #f5c518;
+    --gloss: #a8d8a8;
+    --vocab-bg: #0d1b2a;
+    --grammar-bg: #1b1228;
+    --tag: #533483;
+    --dialogue: #1e2d1e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; line-height: 1.7; padding: 2rem 1rem; }
+  header { max-width: 880px; margin: 0 auto 3rem; text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 1.5rem; }
+  header h1 { font-size: 2rem; color: var(--accent); letter-spacing: 1px; }
+  header h2 { font-size: 1.1rem; color: var(--muted); font-weight: normal; margin-top: .4rem; }
+  header p { font-size: .9rem; color: var(--muted); margin-top: .8rem; font-style: italic; }
+  .chapter-intro { max-width: 880px; margin: 0 auto 2.5rem; background: var(--accent2); border-left: 4px solid var(--accent); padding: 1rem 1.4rem; border-radius: 4px; font-size: .95rem; }
+  .chapter-intro h3 { color: var(--accent); margin-bottom: .4rem; }
+  .sentence-block { max-width: 880px; margin: 0 auto 2rem; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .sentence-num { display: inline-block; background: var(--accent); color: #fff; font-size: .75rem; font-family: monospace; padding: .2rem .5rem; border-radius: 3px; margin-bottom: .5rem; letter-spacing: 1px; }
+  .sentence-top { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .spanish-text { font-size: 1.2rem; color: var(--spanish); font-style: italic; margin-bottom: .6rem; line-height: 1.5; }
+  .gloss-text { font-size: 1rem; color: var(--gloss); margin-top: .35rem; }
+  .gloss-label, .vocab-label, .grammar-label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; margin-bottom: .3rem; font-family: sans-serif; }
+  /* ── Per-sentence gloss toggle ── */
+  .gloss-toggle { background: none; border: none; padding: .4rem 0; cursor: pointer; font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-family: sans-serif; margin-bottom: .3rem; display: block; touch-action: manipulation; min-height: 2.5rem; }
+  .gloss-toggle:hover { color: var(--gloss); }
+  .gloss-text { visibility: visible; }
+  .gloss-text.gloss-hidden { visibility: hidden; pointer-events: none; }
+
+  .breakdown { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px) { .breakdown { grid-template-columns: 1fr; } }
+  .vocab-section { background: var(--vocab-bg); padding: 1rem 1.4rem; border-right: 1px solid rgba(255,255,255,.05); }
+  .grammar-section { background: var(--grammar-bg); padding: 1rem 1.4rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+  td { padding: .3rem .4rem; vertical-align: top; }
+  td:first-child { color: var(--spanish); font-style: italic; white-space: nowrap; padding-right: .8rem; width: 42%; }
+  tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,.05); }
+  .grammar-section ul { list-style: none; font-size: .87rem; }
+  .grammar-section li { margin-bottom: .55rem; padding-left: .8rem; border-left: 2px solid var(--tag); }
+  .grammar-section li strong { color: var(--spanish); font-style: italic; }
+  .grammar-section li em { color: #c9b1ff; font-style: normal; }
+  .section-label { max-width: 880px; margin: 0 auto 1.2rem; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--tag); font-family: sans-serif; padding-left: .2rem; display: flex; align-items: center; gap: .8rem; }
+  .tag { display: inline-block; background: var(--tag); color: #ddd; font-size: .7rem; font-family: sans-serif; padding: .1rem .4rem; border-radius: 3px; margin-right: .3rem; }
+  .dialogue-marker { color: var(--muted); font-size: .8rem; font-family: sans-serif; margin-bottom: .3rem; display: block; }
+  footer { max-width: 880px; margin: 3rem auto 0; text-align: center; font-size: .8rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); }
+
+  /* ── Audio controls ── */
+  #audio-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,52,96,.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(233,69,96,.4);
+    padding: .6rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: sans-serif; font-size: .82rem;
+  }
+  #audio-bar .bar-label { color: var(--muted); white-space: nowrap; }
+  #audio-bar .voice-select {
+    background: #0d1b2a; color: var(--text); border: 1px solid var(--tag);
+    border-radius: 4px; padding: .25rem .5rem; font-size: .8rem; flex: 1; min-width: 160px; max-width: 280px;
+  }
+  #audio-bar .speed-wrap { display: flex; align-items: center; gap: .5rem; }
+  #audio-bar input[type=range] { width: 90px; accent-color: var(--accent); cursor: pointer; }
+  #speed-val { color: var(--accent); font-weight: bold; min-width: 2.5ch; }
+  #stop-btn, .section-gloss-btn, .shadow-btn {
+    border: none; border-radius: 4px;
+    padding: .25rem .8rem; cursor: pointer; font-size: .8rem; white-space: nowrap;
+  }
+  #stop-btn { background: var(--accent); color: #fff; }
+  #stop-btn:hover { opacity: .85; }
+  .section-gloss-btn { background: var(--accent2); color: var(--muted); border: 1px solid var(--tag); margin-left: auto; flex-shrink: 0; }
+  .section-gloss-btn:hover { background: #1a4a80; color: var(--text); }
+  .shadow-btn { background: #1e3a1e; color: #8db88d; border-color: #3a7a3a; }
+  .shadow-btn:hover { background: #2a5a2a; color: #c0e0c0; }
+  .voice-status { color: var(--muted); font-size: .75rem; font-style: italic; }
+
+  /* ── Play button on each card ── */
+  .spanish-row { display: flex; align-items: flex-start; gap: .6rem; }
+  .spanish-text { flex: 1; }
+  .play-btn {
+    flex-shrink: 0; margin-top: .15rem;
+    background: none; border: 1.5px solid var(--accent);
+    color: var(--accent); border-radius: 50%;
+    width: 2rem; height: 2rem; cursor: pointer;
+    font-size: .9rem; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s;
+  }
+  .play-btn:hover { background: var(--accent); color: #fff; }
+  .play-btn.playing {
+    background: var(--accent); color: #fff;
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(233,69,96,.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(233,69,96,0); }
+  }
+
+  /* ── Dictionary word spans ── */
+  .es-word {
+    cursor: pointer;
+    border-bottom: 1px dotted rgba(245,197,24,.35);
+    border-radius: 2px;
+    padding: 0 1px;
+    transition: background .1s;
+  }
+  .es-word:hover, .es-word.dp-active {
+    background: rgba(245,197,24,.18);
+    border-bottom-color: var(--spanish);
+  }
+
+  /* ── Dictionary popup ── */
+  #dict-popup {
+    position: fixed;
+    z-index: 500;
+    background: #0d1b2a;
+    border: 1px solid var(--tag);
+    border-radius: 8px;
+    padding: .75rem 1.1rem .85rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,.7);
+    min-width: 210px;
+    max-width: 310px;
+    font-family: sans-serif;
+    display: none;
+  }
+  #dict-popup .dp-word {
+    color: var(--spanish);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-family: Georgia, serif;
+    display: block;
+    margin-bottom: .4rem;
+    padding-right: 1.6rem;
+  }
+  .dp-loading { color: var(--muted); font-size: .8rem; font-style: italic; padding: .15rem 0 .3rem; }
+  .dp-pos {
+    color: var(--muted); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: 1px; margin: .45rem 0 .2rem; font-family: sans-serif;
+  }
+  .dp-defs {
+    font-size: .85rem; color: var(--text);
+    margin: 0; padding-left: 1.1rem; line-height: 1.45;
+  }
+  .dp-defs li { margin-bottom: .25rem; }
+  .dp-trans { font-size: .95rem; color: var(--text); margin: .25rem 0 .1rem; }
+  .dp-alts  { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: .1rem; }
+  .dp-none  { color: var(--muted); font-size: .8rem; font-style: italic; padding: .2rem 0 .3rem; }
+  .dp-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,.09);
+    margin: .6rem 0 .5rem;
+  }
+  #dict-popup .dp-links {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  #dict-popup .dp-links a {
+    color: var(--gloss);
+    text-decoration: none;
+    font-size: .8rem;
+    padding: .25rem .55rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,.06);
+    transition: background .12s;
+    display: block;
+  }
+  #dict-popup .dp-links a:hover { background: rgba(255,255,255,.14); }
+  #dict-close {
+    position: absolute;
+    top: .45rem; right: .6rem;
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: .9rem; line-height: 1;
+    padding: .1rem .2rem;
+  }
+  #dict-close:hover { color: var(--text); }
+
+</style>
+</head>
+<body>
+<div id="audio-bar">
+  <span class="bar-label">&#128266; Voz:</span>
+  <select id="voice-select" class="voice-select"><option>Cargando voces&hellip;</option></select>
+  <div class="speed-wrap">
+    <span class="bar-label">Velocidad:</span>
+    <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.05" value="0.85">
+    <span id="speed-val">0.85&times;</span>
+  </div>
+  <button id="stop-btn">&#9632; Parar</button>
+  <span class="voice-status" id="voice-status"></span>
+</div>
+<header>
+  <h1>Placeres Prohibidos</h1>
+  <h2>Laurell K. Hamilton &middot; Cap&iacute;tulo 45: <em>Cuarenta y cinco</em></h2>
+  <p>Lectura glosada para el estudio del español — cada oración con glosa, vocabulario y notas gramaticales</p>
+</header>
+<div class="chapter-intro">
+  <h3>Capítulo 44 — La cueva — Los hombres rata</h3>
+  <p>Durante el día, Anita aprende a manejar la escopeta. Por la noche, los hombres rata los guían por la Caverna Cherokee hasta los túneles bajo el Circo. El cambio de forma en la oscuridad — sonidos de huesos y carne. Ratas en trocitos. Dos horas de túneles con el techo cada vez más bajo; Anita y Edward gateando mientras las ratas se deslizan con elegancia. Al final: luz parpadeante de antorchas. Rafael: 'Os he traído a la puerta del infierno.' Entran a rastras a la mazmorra vacía. Edward: 'Concéntrate en el trabajo.'</p>
+</div>
+<div class="section-group">
+<div class="section-label"><span>§ La oscuridad — el cambio de forma</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button><button class="shadow-btn" onclick="var g=this.closest(&#x27;.section-group&#x27;);var ss=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;)).map(function(e){return e.dataset.speak||e.textContent.trim();}).join(&#x27;\n&#x27;);window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">01</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">Durante el día aprendí a usar la escopeta, y por la noche fui a hacer espeleología con los hombres rata. La cueva estaba a oscuras. Me sujeté el casco, buscando protección de la negrura absoluta, pero no vi nada. Llevaba un casco con linterna, pero en aquel momento estaba apagada; los hombres rata habían insistido. Estaba rodeada de sonidos. Gritos, gemidos, crujir de huesos y un curioso chirrido como el de un cuchillo que se desclavara de la carne. Los hombres rata estaban cambiando de forma humana a animal. Sonaba como si les doliera mucho.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">During the day I learned how to use a shotgun. That night I went caving with wererats. The cave was dark. I stood in absolute blackness, gripping my flashlight, but I couldn&#x27;t see a thing. I was wearing a hard hat with a light on it, turned off at present. The wererats had insisted. All around me were sounds. Cries, moans, the popping of bone, a curious sliding sound like a knife drawing out of flesh. The wererats were changing from human to animal. It sounded like it hurt — a lot.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>espeleología</td><td>caving, speleology — <em>espeleología</em>: the exploration of caves</td></tr>
+        <tr><td>la negrura absoluta</td><td>absolute blackness — <em>negrura</em>: blackness, darkness</td></tr>
+        <tr><td>crujir de huesos</td><td>popping of bone — <em>crujir</em>: to crack, pop; <em>huesos</em>: bones</td></tr>
+        <tr><td>como el de un cuchillo que se desclavara de la carne</td><td>like a knife drawing out of flesh — <em>como si + subjuntivo</em>; <em>desclavar</em>: to pull out</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">02</span>
+    <span class="dialogue-marker">💬 Rafael</span>
+    <div class="spanish-text">¿Qué coño hacía en mitad de una cueva a oscuras, rodeada de hombres rata, citando al doctor Seuss y con intenciones de matar a una vampira de mil años? Vaya semana más rara estaba teniendo. —Podéis encender —dijo Rafael, el rey de las ratas. No me lo pensé dos veces. Mis ojos parecieron absorber la luz, impacientes por ver.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">What the hell was I doing standing in the middle of a cave, in the dark, surrounded by wererats, quoting Dr. Seuss, and trying to kill a one-thousand-year-old vampire? It had been one of my stranger weeks. &quot;You may turn on your lights,&quot; Rafael, the Rat King, said. I did, instantly. My eyes seemed to leech on the light, eager to see.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>¿qué coño hacía en mitad de una cueva?</td><td>what the hell was I doing in the middle of a cave? — <em>coño</em>: vulgar intensifier</td></tr>
+        <tr><td>vaya semana más rara estaba teniendo</td><td>it had been one of my stranger weeks — <em>vaya</em>: what a (exclamatory)</td></tr>
+        <tr><td>mis ojos parecieron absorber la luz</td><td>my eyes seemed to leech on the light — hungry for any light after total darkness</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">03</span>
+    <div class="spanish-text">Los hombres rata estaban en grupos pequeños en un túnel ancho y de techo plano. Eran diez; los había contado cuando tenían forma humana. En aquel momento, los siete hombres estaban cubiertos de pelo y llevaban vaqueros cortados; dos se habían puesto también camisetas holgadas. Las tres mujeres llevaban vestidos amplios, como de premamá; sus ojos centelleaban como botones negros. Y todos ellos eran peludos.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">The ratmen stood in small groups in the wide, flat-roofed tunnel. There were ten of them. I had counted them in human form. Now the seven males were fur-covered and wearing jean cutoffs. Two wore loose t-shirts. The three women wore loose dresses, like maternity clothes. Their black button eyes glittered in the light. Everybody was furry.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>vaqueros cortados</td><td>jean cutoffs — <em>cortado</em>: cut off</td></tr>
+        <tr><td>camisetas holgadas</td><td>loose t-shirts — <em>holgado</em>: loose, baggy</td></tr>
+        <tr><td>vestidos amplios, como de premamá</td><td>loose dresses, like maternity clothes — practical for the transformation</td></tr>
+        <tr><td>sus ojos centelleaban como botones negros</td><td>their black button eyes glittered — <em>centellear</em>: to sparkle, glitter</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">04</span>
+    <span class="dialogue-marker">💬 Anita / Louie / Anita / Louie / Anita / Louie / Rafael</span>
+    <div class="spanish-text">—Yo creía que las cuevas eran lugares húmedos —dije, a nadie en particular. —La caverna Cherokee es una cueva muerta —dijo un hombre rata menudo que llevaba camiseta. —No te entiendo. —Las cuevas vivas tienen agua, y sus formaciones rocosas están en proceso de cambio. Las cuevas secas donde ya no crecen estalactitas ni estalagmitas se llaman cuevas muertas. —Mira tú —dije. Separó los labios y mostró unos dientes enormes. Creo que era una sonrisa. —Te he dicho más de lo que querías saber, ¿no? —No hemos venido a hacer de guías turísticos, Louie —siseó Rafael.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I thought caves were damp,&quot; I said, to no one in particular. &quot;Cherokee Caverns is dead cave,&quot; a smaller ratman in a t-shirt said. &quot;I don&#x27;t understand.&quot; &quot;Live cave has water and growing formations. A dry cave where none of the formations are growing is called dead cave.&quot; &quot;Oh,&quot; I said. He drew lips back from huge teeth, a smile, I think. &quot;More than you wanted to know, huh?&quot; Rafael hissed back, &quot;We are not here to give guided tours, Louie.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>cueva muerta</td><td>dead cave — a dry cave where formations have stopped growing</td></tr>
+        <tr><td>estalactitas y estalagmitas</td><td>stalactites and stalagmites — cave formations</td></tr>
+        <tr><td>separó los labios y mostró unos dientes enormes</td><td>drew lips back from huge teeth — rat-smile</td></tr>
+        <tr><td>guías turísticos</td><td>tour guides — <em>guía turístico</em>: tourist guide</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ Los túneles — la puerta del infierno</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button><button class="shadow-btn" onclick="var g=this.closest(&#x27;.section-group&#x27;);var ss=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;)).map(function(e){return e.dataset.speak||e.textContent.trim();}).join(&#x27;\n&#x27;);window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">05</span>
+    <div class="spanish-text">Al cabo de dos horas, el techo se hizo tan bajo que ya no pude avanzar erguida. Entonces descubrí por qué nos habían dado cascos a Edward y a mí: me había dado unos mil golpes en la cabeza. Las ratas parecían tener la forma idónea para avanzar por el túnel; se deslizaban y aplanaban el cuerpo con una extraña elegancia. Edward y yo no podíamos imitarlas ni de lejos. Edward maldijo en silencio a mis espaldas: los quince centímetros que me sacaba se las estaban haciendo pasar canutas.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Two hours later the ceiling dropped to a point where I couldn&#x27;t stand upright. And I learned what the hard hats were for. I scraped my head on the rock at least a thousand times. The rats seemed designed for the tunnel, sliding along, flattening their bodies in a strange, scrambling grace. Edward and I could not match it. Not even close. He cursed softly behind me. His five inches of extra height were causing him pain.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>avanzar erguida</td><td>stand upright — <em>erguido</em>: upright, erect</td></tr>
+        <tr><td>se deslizaban y aplanaban el cuerpo con una extraña elegancia</td><td>sliding along, flattening their bodies in a strange grace — rat anatomy adapted to tunnels</td></tr>
+        <tr><td>los quince centímetros que me sacaba</td><td>his five inches of extra height — <em>sacar</em>: to have more of (height)</td></tr>
+        <tr><td>se las estaban haciendo pasar canutas</td><td>were causing him serious trouble — <em>pasarlas canutas</em>: to have a terrible time</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">06</span>
+    <span class="dialogue-marker">💬 Rafael</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">El tipo de oscuridad cambió. Luz… Había luz delante; no mucha, pero allí estaba, parpadeando al final del túnel como un espejismo. Rafael se agazapó a nuestro lado. Edward se sentó en la roca seca, y me uní a él. —Ahí tenéis la mazmorra. Esperaremos aquí hasta que empiece a oscurecer. Si no habéis salido, nos iremos. Cuando Nikolaos esté muerta, os ayudaremos si podemos.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">The quality of darkness changed. Light — there was light up ahead, not much, but it was there. It flickered at the far end of the tunnel like a mirage. Rafael crouched beside us. Edward sat flat on the dry rock. I joined him. &quot;There is your dungeon. We will wait here until near dark. If you have not come out, we will leave. After Nikolaos is dead, if we can, we will help you.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>parpadeando al final del túnel como un espejismo</td><td>flickering at the far end like a mirage — <em>parpadear</em>: to flicker; <em>espejismo</em>: mirage</td></tr>
+        <tr><td>hasta que empiece a oscurecer</td><td>until near dark — <em>hasta que + subjuntivo</em>: until (future event)</td></tr>
+        <tr><td>si no habéis salido, nos iremos</td><td>if you have not come out, we will leave — their limit</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">07</span>
+    <span class="dialogue-marker">💬 Anita / Rafael</span>
+    <div class="spanish-text">Asentí, y la luz de mi casco se movió conmigo. —Gracias por ayudarnos. —Os he traído a la puerta del infierno —dijo sacudiendo la cabeza estrecha y ratuna—. No tenéis nada que agradecerme. Miré a Edward. Seguía con aquel gesto distante e inescrutable; era imposible saber si lo que acababa de decir el hombre rata lo afectaba. Por su expresión, cualquiera diría que hablábamos de la lista de la compra.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">I nodded; the light on my hard hat nodded with me. &quot;Thank you for helping us.&quot; He shook his narrow, ratty face. &quot;I have delivered you to the devil&#x27;s door. Do not thank me for that.&quot; I glanced at Edward. His face was still distant, unreadable. If he was interested in what the ratman had just said, I couldn&#x27;t tell it. We might as well have been talking about a grocery list.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>la puerta del infierno</td><td>the devil's door — <em>infierno</em>: hell; the gravitas of the moment</td></tr>
+        <tr><td>no tenéis nada que agradecerme</td><td>don't thank me for that — <em>tener algo que agradecer</em>: to have something to be grateful for</td></tr>
+        <tr><td>la lista de la compra</td><td>a grocery list — Edward's utter calm in contrast</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">08</span>
+    <span class="dialogue-marker">💬 Edward</span>
+    <div class="spanish-text">Edward y yo nos arrodillamos frente a la abertura que daba a la mazmorra. La temblorosa luz de las antorchas era casi deslumbrante después de la oscuridad. Edward empuñaba la Uzi que llevaba colgada en bandolera; yo llevaba la escopeta… y mis dos pistolas y dos cuchillos, y una Derringer, regalo de Edward, en el bolsillo de la chaqueta. —Tiene un retroceso de la leche —me había comentado Edward al entregármela—, pero si se la pones a alguien bajo la barbilla, le volarás la puta cabeza.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Edward and I knelt before the opening into the dungeon. Torchlight flickered, incredibly bright after the darkness. Edward was cradling his Uzi that hung on a strap across his chest. I had the shotgun. I was also carrying my two pistols, two knives, and a derringer stuffed in the pocket of my jacket. It was a present from Edward. He had handed it to me with this advice: &quot;It kicks like a sonofabitch, but press it under someone&#x27;s chin, and it will blow their fucking head off.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>colgada en bandolera</td><td>slung across his chest — <em>bandolera</em>: sash, strap across the body</td></tr>
+        <tr><td>tiene un retroceso de la leche</td><td>it kicks like a hell — <em>retroceso</em>: recoil; <em>de la leche</em>: intensifier (vulgar)</td></tr>
+        <tr><td>si se la pones a alguien bajo la barbilla</td><td>press it under someone's chin — <em>barbilla</em>: chin</td></tr>
+        <tr><td>le volarás la puta cabeza</td><td>it will blow their fucking head off — the Derringer's effective range</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">09</span>
+    <span class="dialogue-marker">💬 Edward / Anita / Edward</span>
+    <div class="spanish-text">Entramos a rastras, dispuestos a montar una carnicería. La habitación estaba vacía. La adrenalina me bullía en las venas, me aceleraba la respiración y hacía que se me disparara el corazón. El lugar donde habían encadenado a Phillip estaba limpio. Lo habían fregado a fondo. Reprimí el impulso de tocar la pared donde había estado él. —Anita. —Aquí fue donde mató a Phillip. —Concéntrate en el trabajo. No quiero morir porque tengas la cabeza en otro lado. Noté crecer la ira, pero me la tragué. Tenía razón.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">We scrambled inside, ready to kill and maim. The room was empty. All that adrenaline sort of sat in my body, making my breathing too quick and my heart pound for no reason. The spot where Phillip had been chained was clean. Someone had scrubbed it down real good. I fought an urge to touch the wall where he&#x27;d been. &quot;Anita.&quot; &quot;She killed Phillip in here.&quot; &quot;Keep your mind on business. I don&#x27;t want to die because you&#x27;re daydreaming.&quot; I started to get angry and swallowed it. He was right.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>a rastras, dispuestos a montar una carnicería</td><td>scrambled inside, ready to kill and maim — <em>a rastras</em>: crawling; <em>carnicería</em>: carnage, butchery</td></tr>
+        <tr><td>la adrenalina me bullía en las venas</td><td>adrenaline was bubbling in my veins — <em>bullir</em>: to bubble, boil</td></tr>
+        <tr><td>lo habían fregado a fondo</td><td>someone had scrubbed it down — <em>fregar a fondo</em>: to scrub thoroughly</td></tr>
+        <tr><td>tengas la cabeza en otro lado</td><td>you're daydreaming — lit. 'you have your head somewhere else'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<footer>
+  <p><em>Placeres Prohibidos</em> &mdash; Laurell K. Hamilton</p>
+  <p style="margin-top:.5rem;">Lectura glosada para uso personal de estudio del espa&ntilde;ol &middot; Cap&iacute;tulo 45</p>
+</footer>
+
+<script>
+(function () {
+  /* ── 1. Wrap every .spanish-text in a flex row and prepend a play button ── */
+  document.querySelectorAll('.spanish-text').forEach(function (el, i) {
+    var text = el.textContent.trim();
+    el.dataset.speak = text;
+
+    var btn = document.createElement('button');
+    btn.className = 'play-btn';
+    btn.title = 'Reproducir';
+    btn.innerHTML = '&#9654;';
+    btn.dataset.idx = i;
+
+    var row = document.createElement('div');
+    row.className = 'spanish-row';
+    el.parentNode.insertBefore(row, el);
+    row.appendChild(btn);
+    row.appendChild(el);
+  });
+
+  /* ── 2. Voice loading ── */
+  var voiceSelect = document.getElementById('voice-select');
+  var statusEl    = document.getElementById('voice-status');
+  var spanishVoices = [];
+  var allVoices     = [];
+
+  function loadVoices() {
+    allVoices = window.speechSynthesis.getVoices();
+    if (!allVoices.length) return;
+    spanishVoices = allVoices.filter(function (v) {
+      return v.lang.toLowerCase().startsWith('es');
+    });
+    voiceSelect.innerHTML = '';
+    if (spanishVoices.length === 0) {
+      allVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i + '_all';
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u26a0 No Spanish voices found \u2014 showing all voices.';
+    } else {
+      spanishVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        if (v.lang.toLowerCase() === 'es-es') opt.selected = true;
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u2713 ' + spanishVoices.length + ' Spanish voice(s) found';
+    }
+  }
+
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  setTimeout(loadVoices, 500);
+
+  function getSelectedVoice() {
+    var val = voiceSelect.value;
+    if (!val) return null;
+    if (val.endsWith('_all')) return allVoices[parseInt(val)] || null;
+    return spanishVoices[parseInt(val)] || null;
+  }
+
+  /* ── 3. Speed slider ── */
+  var speedSlider = document.getElementById('speed-slider');
+  var speedVal    = document.getElementById('speed-val');
+  speedSlider.addEventListener('input', function () {
+    speedVal.textContent = parseFloat(this.value).toFixed(2) + '\u00d7';
+  });
+
+  /* ── 4. Speech playback ── */
+  var currentBtn = null;
+
+  function stopSpeech() {
+    window.speechSynthesis.cancel();
+    if (currentBtn) {
+      currentBtn.classList.remove('playing');
+      currentBtn.innerHTML = '&#9654;';
+      currentBtn = null;
+    }
+  }
+
+  document.getElementById('stop-btn').addEventListener('click', stopSpeech);
+
+  /* ── 4b. Per-section gloss toggle ── */
+  window.toggleSectionGloss = function(btn) {
+    var group = btn.closest('.section-group');
+    if (!group) return;
+    var glosses = group.querySelectorAll('.gloss-text');
+    var toggles = group.querySelectorAll('.gloss-toggle');
+    var allHidden = Array.from(glosses).every(function(g){ return g.classList.contains('gloss-hidden'); });
+    glosses.forEach(function(g){ g.classList.toggle('gloss-hidden', !allHidden); });
+    toggles.forEach(function(t){ t.textContent = allHidden ? '▼ English' : '▶ English'; });
+    btn.textContent = allHidden ? 'Ocultar English' : 'Mostrar English';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn === currentBtn) { stopSpeech(); return; }
+    stopSpeech();
+
+    var spanishEl = btn.parentElement.querySelector('.spanish-text');
+    var text = spanishEl ? spanishEl.dataset.speak : '';
+    if (!text) return;
+
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang  = 'es-ES';
+    utter.rate  = parseFloat(speedSlider.value);
+    utter.pitch = 1;
+
+    var voice = getSelectedVoice();
+    if (voice) utter.voice = voice;
+
+    btn.classList.add('playing');
+    btn.innerHTML = '&#9632;';
+    currentBtn = btn;
+
+    /* Chrome keepalive: prevents silent cutoff of utterances > ~15 s */
+    var keepAlive = setInterval(function () {
+      if (!window.speechSynthesis.speaking) { clearInterval(keepAlive); return; }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, 10000);
+
+    utter.onend = function () {
+      clearInterval(keepAlive);
+      if (currentBtn === btn) {
+        btn.classList.remove('playing');
+        btn.innerHTML = '&#9654;';
+        currentBtn = null;
+      }
+    };
+    utter.onerror = utter.onend;
+
+    window.speechSynthesis.speak(utter);
+  });
+})();
+</script>
+<script>
+/* ── Dictionary lookup ── */
+(function () {
+
+  /* 1. Tokenize each .spanish-text into clickable word spans */
+  document.querySelectorAll('.spanish-text').forEach(function (el) {
+    var newHTML = el.innerHTML.replace(
+      /([A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+(?:['\u2019-][A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+)*)/g,
+      function (token) {
+        var lookup = token.replace(/^['\u2019-]+|['\u2019-]+$/g, '').toLowerCase();
+        if (!lookup) return token;
+        return '<span class="es-word" data-word="' + lookup + '">' + token + '</span>';
+      }
+    );
+    el.innerHTML = newHTML;
+  });
+
+  /* 2. Build popup */
+  var popup = document.createElement('div');
+  popup.id = 'dict-popup';
+  popup.innerHTML =
+    '<button id="dict-close" title="Cerrar">&#10005;</button>' +
+    '<span class="dp-word"></span>' +
+    '<div class="dp-body"></div>' +
+    '<hr class="dp-divider">' +
+    '<div class="dp-links"></div>';
+  document.body.appendChild(popup);
+
+  var dpWord  = popup.querySelector('.dp-word');
+  var dpBody  = popup.querySelector('.dp-body');
+  var dpLinks = popup.querySelector('.dp-links');
+  var dpClose = popup.querySelector('#dict-close');
+  var activeSpan = null;
+  var ES_LEMMAS = {"colgada": "colgar", "venido": "venir", "arrodillamos": "arrodillar", "una": "uno", "cuchillos": "cuchillo", "la": "el", "es": "ser", "podéis": "podar", "parpadeando": "parpadear", "gritos": "grito", "ojos": "ojo", "parecían": "parecer", "me": "yo", "horas": "hora", "rara": "raro", "temblorosa": "tembloroso", "traído": "traer", "eran": "ser", "siseó": "sisear", "seca": "seco", "turísticos": "turístico", "era": "ser", "pistolas": "pistola", "muertas": "muerta", "bullía": "bullir", "tenían": "tener", "diría": "decir", "humana": "humanar", "reprimí": "reprimir", "citando": "citar", "vivas": "vivar", "vacía": "vacío", "le": "él", "años": "año", "ratas": "rata", "ellos": "él", "impacientes": "impaciente", "extraña": "extrañar", "descubrí": "descubrir", "estrecha": "estrechar", "pensé": "pensar", "tenéis": "tener", "cambiando": "cambiar", "grupos": "grupo", "idónea": "idóneo", "oscuras": "oscuro", "esté": "estar", "podíamos": "poder", "comentado": "comentar", "salido": "salir", "negros": "negro", "dientes": "diente", "entiendo": "entender", "hacía": "hacer", "fui": "ir", "tragué": "tragar", "cuevas": "cueva", "querías": "querer", "aplanaban": "aplanar", "aprendí": "aprender", "hombres": "hombre", "rodeada": "rodear", "intenciones": "intención", "venas": "vena", "amplios": "amplio", "haciendo": "hacendar", "llaman": "llamar", "cortados": "cortado", "uní": "unir", "sacaba": "sacar", "movió": "mover", "aceleraba": "acelerar", "había": "haber", "mucha": "mucho", "guías": "guía", "tengas": "tener", "húmedos": "húmedo", "vi": "ver", "miré": "mirar", "llevaban": "llevar", "apagada": "apagar", "quiero": "querer", "sentó": "sentar", "esperaremos": "esperar", "sujeté": "sujetar", "cascos": "casco", "seguía": "seguir", "enormes": "enorme", "separó": "separar", "parecieron": "parecer", "habían": "haber", "dispuestos": "disponer", "te": "tú", "cubiertos": "cubierto", "creo": "crear", "podemos": "poder", "holgadas": "holgar", "labios": "labio", "golpes": "golpe", "formaciones": "formación", "hizo": "hacer", "sonaba": "sonar", "todos": "todo", "rastras": "rastra", "creía": "creer", "un": "uno", "empuñaba": "empuñar", "disparara": "disparar", "gracias": "gracia", "daba": "dar", "cambió": "cambiar", "las": "el", "se": "él", "noté": "notar", "centelleaban": "centellear", "asentí": "asentir", "unos": "uno", "maldijo": "maldecir", "estalagmitas": "estalagmita", "estaba": "estar", "he": "haber", "llevaba": "llevar", "desclavara": "desclavar", "tienen": "tener", "estaban": "estar", "pones": "poner", "peludos": "peludo", "fue": "ir", "sonidos": "sonido", "hemos": "hemo", "mostró": "mostrar", "mató": "matar", "mis": "mi", "los": "el", "erguida": "erguir", "tiene": "tener", "huesos": "hueso", "vaqueros": "vaquero", "agazapó": "agazapar", "volarás": "volar", "secas": "secar", "pude": "poder", "están": "estar", "gemidos": "gemido", "acababa": "acabar", "les": "él", "iremos": "ir", "sus": "su", "dijo": "decir", "crecen": "crecer", "afectaba": "afectar", "antorchas": "antorcha", "camisetas": "camiseta", "centímetros": "centímetro", "lo": "él", "estalactitas": "estalactita", "pequeños": "pequeño", "rocosas": "rocoso", "buscando": "buscar", "vestidos": "vestido", "teniendo": "tener", "mujeres": "mujer", "habéis": "haber", "ayudaremos": "ayudar", "sacudiendo": "sacudir", "insistido": "insistir", "lugares": "lugar", "tenía": "tener", "doliera": "doler", "espaldas": "espalda", "entramos": "entrar", "veces": "vez", "hablábamos": "hablar", "absoluta": "absoluto", "deslizaban": "deslizar"};
+  function toLemma(w) { return ES_LEMMAS[w.toLowerCase()] || w; }
+  var dictCache  = {};
+
+  /* 3. Fetch definition (Wiktionary, then MyMemory fallback) */
+  /* Extract base word from a "form of X" Wiktionary definition HTML string.
+     Returns the base word string, or null if not a form-of entry. */
+  function extractBaseForm(defHtml) {
+    var t = defHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    // "first/second/third-person ... of X"
+    var m = t.match(/(?:first|second|third)[- ]person.{0,60}of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "plural of X", "inflection of X", "feminine of X", etc.
+    m = t.match(/^(?:inflection|plural|singular|feminine|masculine|augmentative|diminutive|superlative|past\s+(?:tense|participle)|present\s+participle|gerund|form)\s+of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "X of Y" where X ends right before "of" and Y is at end
+    m = t.match(/of\s+([\wÀ-ɏ]+)\s*(?:[:,]|$)/i);
+    if (m) return m[1].toLowerCase();
+    return null;
+  }
+
+  /* Returns true if ALL definitions in all entries look like form-of entries */
+  function getFirstBase(entries) {
+    // Return the base form if the first definition looks like a form-of entry
+    var firstDef = ((entries[0] || {}).definitions || [])[0] || {};
+    return extractBaseForm(firstDef.definition || '');
+  }
+
+  function fetchWiktionary(word) {
+    return fetch(
+      'https://en.wiktionary.org/api/rest_v1/page/definition/' + encodeURIComponent(word),
+      { headers: { Accept: 'application/json' } }
+    ).then(function(r) {
+      if (!r.ok) throw new Error('wikt');
+      return r.json();
+    }).then(function(data) {
+      var es = data.es || data.Es;
+      if (es && es.length) return es;
+      throw new Error('no entry');
+    });
+  }
+
+  function fetchDefinition(rawWord) {
+    var word = toLemma(rawWord);
+    if (dictCache[word]) return Promise.resolve(dictCache[word]);
+    return fetchWiktionary(word).then(function(es) {
+      // If all definitions are "form of X", follow the link to the base form
+      var base = getFirstBase(es);
+      if (base && base !== word.toLowerCase()) {
+        return fetchWiktionary(base).then(function(baseEs) {
+          var result = { source: 'wiktionary', entries: baseEs, inflectedFrom: rawWord, baseForm: base };
+          dictCache[word] = result; return result;
+        }).catch(function() {
+          var result = { source: 'wiktionary', entries: es };
+          dictCache[word] = result; return result;
+        });
+      }
+      var result = { source: 'wiktionary', entries: es };
+      if (word.toLowerCase() !== rawWord.toLowerCase()) result.baseForm = word;
+      dictCache[word] = result; return result;
+    }).catch(function () {
+      return fetch(
+        'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=es|en'
+      ).then(function (r) { return r.json(); }).then(function (data) {
+        var trans = data.responseData && data.responseData.translatedText;
+        if (!trans || trans.toLowerCase() === word.toLowerCase()) throw new Error('no trans');
+        var alts = (data.matches || [])
+          .filter(function (m) {
+            return m.quality > 50 && m.translation &&
+              m.translation.toLowerCase() !== word.toLowerCase() &&
+              m.translation.toLowerCase() !== trans.toLowerCase();
+          })
+          .map(function (m) { return m.translation; })
+          .filter(function (v, i, a) { return a.indexOf(v) === i; })
+          .slice(0, 3);
+        var result = { source: 'mymemory', translation: trans, alts: alts };
+        dictCache[word] = result; return result;
+      });
+    }).catch(function () {
+      var result = { source: 'none' };
+      dictCache[word] = result; return result;
+    });
+  }
+
+  function strip(h) { return h.replace(/<[^>]+>/g, ''); }
+
+  function renderBody(r) {
+    if (r.source === 'wiktionary') {
+      var html = '';
+      // Show a small note when we resolved an inflected form to its base
+      if (r.baseForm) {
+        html += '<div class="dp-alts">form of <em>' + r.baseForm + '</em></div>';
+      }
+      r.entries.slice(0, 3).forEach(function (e) {
+        html += '<div class="dp-pos">' + (e.partOfSpeech || '') + '</div><ol class="dp-defs">';
+        (e.definitions || []).slice(0, 4).forEach(function (d) {
+          html += '<li>' + strip(d.definition || '') + '</li>';
+        });
+        html += '</ol>';
+      });
+      return html;
+    }
+    if (r.source === 'mymemory') {
+      var h = '<div class="dp-trans">' + r.translation + '</div>';
+      if (r.alts && r.alts.length) h += '<div class="dp-alts">also: ' + r.alts.join(', ') + '</div>';
+      return h;
+    }
+    return '<div class="dp-none">no definition found</div>';
+  }
+
+  /* 4. Show / position / hide */
+  function positionPopup(cx, cy) {
+    var pw = popup.offsetWidth || 220, ph = popup.offsetHeight || 130;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var left = cx + 14, top = cy + 14;
+    if (left + pw > vw - 8) left = cx - pw - 14;
+    if (top  + ph > vh - 8) top  = cy - ph - 14;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  }
+
+  function showPopup(word, cx, cy) {
+    dpWord.textContent = word;
+    dpBody.innerHTML = '<div class="dp-loading">buscando…</div>';
+    dpLinks.innerHTML =
+      '<a href="https://www.wordreference.com/es/en/translation.asp?spen=' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128214; WordReference &#8594;</a>' +
+      '<a href="https://www.spanishdict.com/translate/' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128216; SpanishDict &#8594;</a>';
+    popup.style.display = 'block';
+    positionPopup(cx, cy);
+    fetchDefinition(word).then(function (result) {
+      if (dpWord.textContent !== word) return;
+      dpBody.innerHTML = renderBody(result);
+      positionPopup(cx, cy);
+    });
+  }
+
+  function hidePopup() {
+    popup.style.display = 'none';
+    if (activeSpan) { activeSpan.classList.remove('dp-active'); activeSpan = null; }
+  }
+
+  /* 5. Events */
+  document.addEventListener('click', function (e) {
+    var wordEl = e.target.closest('.es-word');
+    if (wordEl) {
+      if (activeSpan) activeSpan.classList.remove('dp-active');
+      activeSpan = wordEl;
+      wordEl.classList.add('dp-active');
+      showPopup(wordEl.dataset.word, e.clientX, e.clientY);
+      return;
+    }
+    if (!e.target.closest('#dict-popup')) hidePopup();
+  });
+
+  dpClose.addEventListener('click', function (e) { e.stopPropagation(); hidePopup(); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrevista con el Vampiro — Capítulo 3 (Segunda parte) · Lectura Glosada</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #e0e0e0;
+    --muted: #8892a4;
+    --spanish: #f5c518;
+    --gloss: #a8d8a8;
+    --vocab-bg: #0d1b2a;
+    --grammar-bg: #1b1228;
+    --tag: #533483;
+    --dialogue: #1e2d1e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; line-height: 1.7; padding: 2rem 1rem; }
+  header { max-width: 880px; margin: 0 auto 3rem; text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 1.5rem; }
+  header h1 { font-size: 2rem; color: var(--accent); letter-spacing: 1px; }
+  header h2 { font-size: 1.1rem; color: var(--muted); font-weight: normal; margin-top: .4rem; }
+  header p { font-size: .9rem; color: var(--muted); margin-top: .8rem; font-style: italic; }
+  .chapter-intro { max-width: 880px; margin: 0 auto 2.5rem; background: var(--accent2); border-left: 4px solid var(--accent); padding: 1rem 1.4rem; border-radius: 4px; font-size: .95rem; }
+  .chapter-intro h3 { color: var(--accent); margin-bottom: .4rem; }
+  .sentence-block { max-width: 880px; margin: 0 auto 2rem; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .sentence-num { display: inline-block; background: var(--accent); color: #fff; font-size: .75rem; font-family: monospace; padding: .2rem .5rem; border-radius: 3px; margin-bottom: .5rem; letter-spacing: 1px; }
+  .sentence-top { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .spanish-text { font-size: 1.2rem; color: var(--spanish); font-style: italic; margin-bottom: .6rem; line-height: 1.5; }
+  .gloss-text { font-size: 1rem; color: var(--gloss); margin-top: .35rem; }
+  .gloss-label, .vocab-label, .grammar-label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; margin-bottom: .3rem; font-family: sans-serif; }
+  /* ── Per-sentence gloss toggle ── */
+  .gloss-toggle { background: none; border: none; padding: .4rem 0; cursor: pointer; font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-family: sans-serif; margin-bottom: .3rem; display: block; touch-action: manipulation; min-height: 2.5rem; }
+  .gloss-toggle:hover { color: var(--gloss); }
+  .gloss-text { visibility: visible; }
+  .gloss-text.gloss-hidden { visibility: hidden; pointer-events: none; }
+
+  .breakdown { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px) { .breakdown { grid-template-columns: 1fr; } }
+  .vocab-section { background: var(--vocab-bg); padding: 1rem 1.4rem; border-right: 1px solid rgba(255,255,255,.05); }
+  .grammar-section { background: var(--grammar-bg); padding: 1rem 1.4rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+  td { padding: .3rem .4rem; vertical-align: top; }
+  td:first-child { color: var(--spanish); font-style: italic; white-space: nowrap; padding-right: .8rem; width: 42%; }
+  tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,.05); }
+  .grammar-section ul { list-style: none; font-size: .87rem; }
+  .grammar-section li { margin-bottom: .55rem; padding-left: .8rem; border-left: 2px solid var(--tag); }
+  .grammar-section li strong { color: var(--spanish); font-style: italic; }
+  .grammar-section li em { color: #c9b1ff; font-style: normal; }
+  .section-label { max-width: 880px; margin: 0 auto 1.2rem; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--tag); font-family: sans-serif; padding-left: .2rem; display: flex; align-items: center; gap: .8rem; }
+  .tag { display: inline-block; background: var(--tag); color: #ddd; font-size: .7rem; font-family: sans-serif; padding: .1rem .4rem; border-radius: 3px; margin-right: .3rem; }
+  .dialogue-marker { color: var(--muted); font-size: .8rem; font-family: sans-serif; margin-bottom: .3rem; display: block; }
+  footer { max-width: 880px; margin: 3rem auto 0; text-align: center; font-size: .8rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); }
+
+  /* ── Audio controls ── */
+  #audio-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,52,96,.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(233,69,96,.4);
+    padding: .6rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: sans-serif; font-size: .82rem;
+  }
+  #audio-bar .bar-label { color: var(--muted); white-space: nowrap; }
+  #audio-bar .voice-select {
+    background: #0d1b2a; color: var(--text); border: 1px solid var(--tag);
+    border-radius: 4px; padding: .25rem .5rem; font-size: .8rem; flex: 1; min-width: 160px; max-width: 280px;
+  }
+  #audio-bar .speed-wrap { display: flex; align-items: center; gap: .5rem; }
+  #audio-bar input[type=range] { width: 90px; accent-color: var(--accent); cursor: pointer; }
+  #speed-val { color: var(--accent); font-weight: bold; min-width: 2.5ch; }
+  #stop-btn, .section-gloss-btn {
+    border: none; border-radius: 4px;
+    padding: .25rem .8rem; cursor: pointer; font-size: .8rem; white-space: nowrap;
+  }
+  #stop-btn { background: var(--accent); color: #fff; }
+  #stop-btn:hover { opacity: .85; }
+  .section-gloss-btn { background: var(--accent2); color: var(--muted); border: 1px solid var(--tag); margin-left: auto; flex-shrink: 0; }
+  .section-gloss-btn:hover { background: #1a4a80; color: var(--text); }
+  .voice-status { color: var(--muted); font-size: .75rem; font-style: italic; }
+
+  /* ── Play button on each card ── */
+  .spanish-row { display: flex; align-items: flex-start; gap: .6rem; }
+  .spanish-text { flex: 1; }
+  .play-btn {
+    flex-shrink: 0; margin-top: .15rem;
+    background: none; border: 1.5px solid var(--accent);
+    color: var(--accent); border-radius: 50%;
+    width: 2rem; height: 2rem; cursor: pointer;
+    font-size: .9rem; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s;
+  }
+  .play-btn:hover { background: var(--accent); color: #fff; }
+  .play-btn.playing {
+    background: var(--accent); color: #fff;
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(233,69,96,.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(233,69,96,0); }
+  }
+
+  /* ── Dictionary word spans ── */
+  .es-word {
+    cursor: pointer;
+    border-bottom: 1px dotted rgba(245,197,24,.35);
+    border-radius: 2px;
+    padding: 0 1px;
+    transition: background .1s;
+  }
+  .es-word:hover, .es-word.dp-active {
+    background: rgba(245,197,24,.18);
+    border-bottom-color: var(--spanish);
+  }
+
+  /* ── Dictionary popup ── */
+  #dict-popup {
+    position: fixed;
+    z-index: 500;
+    background: #0d1b2a;
+    border: 1px solid var(--tag);
+    border-radius: 8px;
+    padding: .75rem 1.1rem .85rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,.7);
+    min-width: 210px;
+    max-width: 310px;
+    font-family: sans-serif;
+    display: none;
+  }
+  #dict-popup .dp-word {
+    color: var(--spanish);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-family: Georgia, serif;
+    display: block;
+    margin-bottom: .4rem;
+    padding-right: 1.6rem;
+  }
+  .dp-loading { color: var(--muted); font-size: .8rem; font-style: italic; padding: .15rem 0 .3rem; }
+  .dp-pos {
+    color: var(--muted); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: 1px; margin: .45rem 0 .2rem; font-family: sans-serif;
+  }
+  .dp-defs {
+    font-size: .85rem; color: var(--text);
+    margin: 0; padding-left: 1.1rem; line-height: 1.45;
+  }
+  .dp-defs li { margin-bottom: .25rem; }
+  .dp-trans { font-size: .95rem; color: var(--text); margin: .25rem 0 .1rem; }
+  .dp-alts  { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: .1rem; }
+  .dp-none  { color: var(--muted); font-size: .8rem; font-style: italic; padding: .2rem 0 .3rem; }
+  .dp-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,.09);
+    margin: .6rem 0 .5rem;
+  }
+  #dict-popup .dp-links {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  #dict-popup .dp-links a {
+    color: var(--gloss);
+    text-decoration: none;
+    font-size: .8rem;
+    padding: .25rem .55rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,.06);
+    transition: background .12s;
+    display: block;
+  }
+  #dict-popup .dp-links a:hover { background: rgba(255,255,255,.14); }
+  #dict-close {
+    position: absolute;
+    top: .45rem; right: .6rem;
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: .9rem; line-height: 1;
+    padding: .1rem .2rem;
+  }
+  #dict-close:hover { color: var(--text); }
+
+</style>
+</head>
+<body>
+<div id="audio-bar">
+  <span class="bar-label">&#128266; Voz:</span>
+  <select id="voice-select" class="voice-select"><option>Cargando voces&hellip;</option></select>
+  <div class="speed-wrap">
+    <span class="bar-label">Velocidad:</span>
+    <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.05" value="0.85">
+    <span id="speed-val">0.85&times;</span>
+  </div>
+  <button id="stop-btn">&#9632; Parar</button>
+  <span class="voice-status" id="voice-status"></span>
+</div>
+<header>
+  <h1>Entrevista con el Vampiro</h1>
+  <h2>Anne Rice &middot; Cap&iacute;tulo 3: <em>Segunda parte</em></h2>
+  <p>Pasaje 3 de 8</p>
+</header>
+<div class="section-group">
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">01</span>
+    <div class="spanish-text">Se produjo una leve conmoción entre aquellos cercanos a la puerta cuando abrieron paso. Y entramos juntos en una pequeña sala. Únicamente ardía una vela en un aparador y lo primero que vi fue una hilera de platos delicadamente dibujados sobre un estante. Había cortinas sobre una pequeña ventana y una luminosa imagen de la Virgen María y el Niño sobre una pared. Pero las paredes y las sillas apenas encuadraban una gran mesa de roble y, sobre esa mesa, yacía el cuerpo de una mujer joven, con las manos blancas cruzadas sobre el pecho, y el cabello castaño peinado sobre su cuello fino y blanco sobre los hombros. Alrededor de su muñeca brillaban los abalorios de ámbar de un rosario, que caían al lado de su oscura falda de lana. Y a su costado había un muy bonito sombrero rojo de fieltro con un velo y un par de guantes oscuros. Todo estaba puesto como si ella muy pronto se fuera al levantar y ponerse esas cosas. Y el inglés, entonces, tocó cuidadosamente el sombrero y se acercó a ella. Estaba a punto de echarse a llorar. Había sacado de su abrigo un gran pañuelo y se lo llevó a la cara.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `Yes, I do,&#x27; I said to him. And he glanced at the others, triumphantly. They stared at him stonily. &quot; `You speak English!&#x27; he cried, his lips stretching into a bitter smile, his eyes moving around the ceiling and then fixing on mine. `Get out of this country,&#x27; he said. `Get out of it now. Tales your carriage, your horses, drive them till they drop, but get out of it!&#x27; Then his shoulders convulsed as if he were sick. He put his hand to his mouth. The woman who stood against the wall now, her arms folded over her soiled apron, said calmly in German, `At dawn you can go. At dawn.&#x27; &quot; `But what is it?&#x27; I whispered to her; and then I looked to him. He was watching me, his eyes glassy and red. No one spoke. A log fell heavily in the fire. &quot; `Won&#x27;t you tell me?&#x27; I asked the Englishman gently. He stood up. For a moment I thought he was going to fall. He loomed over me, a much taller man than myself, his head pitching forward, then backward, before he righted himself and put his hands on the edge of the table. His black coat was stained with wine, and so was his shirt cuff. `You want to see?&#x27; he gasped as he peered into my eyes. `Do you want to see for yourself?&#x27; There was a soft, pathetic tone to his voice as he spoke these words.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">02</span>
+    <div class="spanish-text">—¿Sabe lo que quieren hacer con ella? —me susurró cuando me miró—. ¿Tiene alguna idea? La mujer vino por detrás y lo tomó del brazo, pero él se la quitó de encima. —¿Sabe usted? —me preguntó imperioso, con fuego en los ojos—. ¡Salvajes! —¡Basta ya! —dijo la mujer, casi sin aliento. Él hizo rechinar los dientes y sacudió la cabeza, y un rizo de sus cabellos pelirrojos le cayó sobre los ojos.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `But what is it?&#x27; I whispered to her; and then I looked to him. He was watching me, his eyes glassy and red. No one spoke. A log fell heavily in the fire. &quot; `Won&#x27;t you tell me?&#x27; I asked the Englishman gently. He stood up. For a moment I thought he was going to fall. He loomed over me, a much taller man than myself, his head pitching forward, then backward, before he righted himself and put his hands on the edge of the table. His black coat was stained with wine, and so was his shirt cuff. `You want to see?&#x27; he gasped as he peered into my eyes. `Do you want to see for yourself?&#x27; There was a soft, pathetic tone to his voice as he spoke these words. &quot; &#x27;Leave the child!&#x27; said the woman abruptly, with a quick, imperious gesture. &quot; `She&#x27;s sleeping,&#x27; I said. And, rising, I followed the Englishman to the door at the foot of the stairs. &quot;There was a slight commotion as those nearest the door moved away from it. And we entered a small parlor together. &quot;Only one candle burned on the sideboard, and the first thing I saw was a row of delicately painted plates on a shelf. There were curtains on the small ,window, and a gleaming picture of the Virgin Mary and Christ child on the wall. But the walls and chairs barely enclosed a great oak table, and on that table lay the body of a young woman, her white hands folded on her breast, her auburn hair mussed and tucked about her thin, white throat and under her shoulders. Her pretty face was already hard with death. Amber rosary beads gleamed around her wrist and down the side of her dark wool skirt. And beside her lay a very pretty red felt hat with a wide, soft brim and a &#x27;veil, and a pair of dark gloves. It was all laid there as if she would very soon rise and put these things on. And the Englishman patted the hat carefully now as he drew close to her. He was on the verge of breaking down altogether. He&#x27;d drawn a large handkerchief out of his coat, and he had put it to his face. `Do you know what they want to do with her?&#x27; he whispered as he looked at me. `Do you have any idea?&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">03</span>
+    <div class="spanish-text">—Aléjese de ella —le dijo en alemán a la mujer—. Y aléjese de mí. Alguien murmuraba algo en la otra habitación. El inglés volvió a contemplar a la joven y se le llenaron los ojos de lágrimas. —Tan inocente... —dijo en voz baja; entonces miró el techo cerrando la mano derecha y susurrando—. ¡Maldito seas, Dios! ¡Maldito seas! —Dios santo —dijo la mujer y rápidamente hizo la señal de la cruz.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `She&#x27;s sleeping,&#x27; I said. And, rising, I followed the Englishman to the door at the foot of the stairs. &quot;There was a slight commotion as those nearest the door moved away from it. And we entered a small parlor together. &quot;Only one candle burned on the sideboard, and the first thing I saw was a row of delicately painted plates on a shelf. There were curtains on the small ,window, and a gleaming picture of the Virgin Mary and Christ child on the wall. But the walls and chairs barely enclosed a great oak table, and on that table lay the body of a young woman, her white hands folded on her breast, her auburn hair mussed and tucked about her thin, white throat and under her shoulders. Her pretty face was already hard with death. Amber rosary beads gleamed around her wrist and down the side of her dark wool skirt. And beside her lay a very pretty red felt hat with a wide, soft brim and a &#x27;veil, and a pair of dark gloves. It was all laid there as if she would very soon rise and put these things on. And the Englishman patted the hat carefully now as he drew close to her. He was on the verge of breaking down altogether. He&#x27;d drawn a large handkerchief out of his coat, and he had put it to his face. `Do you know what they want to do with her?&#x27; he whispered as he looked at me. `Do you have any idea?&#x27; &quot;The woman came in behind us and reached for his arm, but he roughly shook her off. `Do you know?&#x27; he demanded of me with his eyes fierce. `Savages!&#x27; &quot; `You stop now! she said under her breath. &quot;He clenched his teeth and shook his head, so that a shock of his red hair loosened in his eyes. `You get away from me,&#x27; he said to the woman in German. `Get away from me.&#x27; Someone was whispering in the other room. The Englishman looked again at the young woman, and his eyes filled with tears. `So innocent,&#x27; he said softly; and then he glanced at the ceiling and, making a fist with his right hand, he gasped, `Damn you . . . God! Damn you!&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">04</span>
+    <div class="spanish-text">—¿Ve usted esto? —me preguntó él. Y levantó con sumo cuidado el lazo de la joven como si no quisiera, o no pudiera, tocar la carne endurecida. Allí, en la garganta, sin la menor duda, estaban las dos heridas que yo había visto mil y mil veces, talladas en la piel amarillenta. El hombre se llevó las manos a la cara, y su cuerpo, alto y delgado, osciló sobre las plantas de sus pies—. Pienso que me voy a volver loco —dijo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;The woman came in behind us and reached for his arm, but he roughly shook her off. `Do you know?&#x27; he demanded of me with his eyes fierce. `Savages!&#x27; &quot; `You stop now! she said under her breath. &quot;He clenched his teeth and shook his head, so that a shock of his red hair loosened in his eyes. `You get away from me,&#x27; he said to the woman in German. `Get away from me.&#x27; Someone was whispering in the other room. The Englishman looked again at the young woman, and his eyes filled with tears. `So innocent,&#x27; he said softly; and then he glanced at the ceiling and, making a fist with his right hand, he gasped, `Damn you . . . God! Damn you!&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">05</span>
+    <div class="spanish-text">—Vamos —dijo la mujer cogiéndolo, y su rostro se encendió de improviso. —Déjelo —le dije—. Déjelo. Yo cuidaré de él. Ella contorsionó la boca. —Os echaré a todos de aquí, a la oscuridad, si no deja ya de comportarse así. Ella estaba demasiado exhausta para ello, demasiado cerca ella misma de un ataque. Pero entonces nos dio la espalda, se puso el mantón sobre los hombros, salió y los hombres afuera le abrieron paso.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `You stop now! she said under her breath. &quot;He clenched his teeth and shook his head, so that a shock of his red hair loosened in his eyes. `You get away from me,&#x27; he said to the woman in German. `Get away from me.&#x27; Someone was whispering in the other room. The Englishman looked again at the young woman, and his eyes filled with tears. `So innocent,&#x27; he said softly; and then he glanced at the ceiling and, making a fist with his right hand, he gasped, `Damn you . . . God! Damn you!&#x27; &quot; `Lord,&#x27; the woman whispered, and quickly she made the Sign of the Cross. &quot; `Do you see this?&#x27; he asked me. And he pried very carefully at the lace of the dead woman&#x27;s throat, as though he could not, did not wish to actually touch the hardening flesh. Thereon her throat, unmistakable, were the two puncture wounds, as I&#x27;d seen them a thousand times upon a thousand, engraved in the yellowing skin. The man drew his hands up to his face, his tall, lean body rocking on the balls of his feet. `I think I&#x27;m going mad!&#x27; he said. &quot; `Come now,&#x27; said the woman, holding onto him as he struggled, her face suddenly flushed. &quot; &#x27;Let him be,&#x27; I said to her. &#x27;Just let him be. I&#x27;ll take care of him.&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">06</span>
+    <div class="spanish-text">El inglés sollozaba. Me di cuenta de lo que debía hacer, pero no se debió solo al hecho de que quisiera enterarme por él de lo ocurrido y a que el corazón me latiera excitado, en silencio. Era abrumador verlo. El destino inmisericorde me llevó demasiado cerca de él en ese momento. —Me quedaré con usted —le ofrecí. Y traje dos sillas al lado de la mesa. El se sentó pesadamente, con los ojos fijos en la vela que ardía a su lado. Cerré la puerta, y las paredes parecieron retroceder y el círculo de la vela creció más brillante alrededor de su cabeza gacha. Se apoyó en el aparador y se limpió la cara con el pañuelo. Entonces sacó del bolsillo un frasco cubierto de cuero, me lo ofreció y dije que no.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `Come now,&#x27; said the woman, holding onto him as he struggled, her face suddenly flushed. &quot; &#x27;Let him be,&#x27; I said to her. &#x27;Just let him be. I&#x27;ll take care of him.&#x27; &quot;Her mouth contorted. `I&#x27;ll throw you all out of here, out into that dark, if you don&#x27;t stop.&#x27; She was too weary for this, too close to some breaking point herself. But then she turned her back on us, drawing her shawl tight around her, and padded softly out, the men who&#x27;d gathered at the door making way for her. &quot;The Englishman was crying. &quot;I could see what I must do, but it wasn&#x27;t only that I wanted so much to learn from him, my heart pounding with silent excitement. It was heartrending to see him this way. Fate brought me too mercilessly close to him.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">07</span>
+    <div class="spanish-text">—¿Quiere decirme qué ha sucedido? Él asintió con la cabeza. —Quizás usted pueda traer un poco de cordura a este lugar —dijo—. Usted es francés, ¿verdad? Yo soy inglés. Y entonces, cogiéndome la mano con fuerza —el licor había adormecido tanto sus sensaciones que no notó mi frialdad—, me contó que se llamaba Morgan y que me necesitaba desesperadamente, más de lo que jamás había necesitado a nadie. Y, en ese momento, cogido de esa mano, sintiendo su fiebre, hice algo extraño. Le dije mi nombre, lo que no confiaba a casi nadie. Pero él contemplaba a la muerta como si no me oyese, y sus labios parecieron formar la más leve de las sonrisas, con las lágrimas visibles en sus ojos. Su expresión hubiera emocionado a cualquier ser humano; podría haber sido más de lo que muchos hubieran podido aguantar.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Her mouth contorted. `I&#x27;ll throw you all out of here, out into that dark, if you don&#x27;t stop.&#x27; She was too weary for this, too close to some breaking point herself. But then she turned her back on us, drawing her shawl tight around her, and padded softly out, the men who&#x27;d gathered at the door making way for her. &quot;The Englishman was crying. &quot;I could see what I must do, but it wasn&#x27;t only that I wanted so much to learn from him, my heart pounding with silent excitement. It was heartrending to see him this way. Fate brought me too mercilessly close to him. &quot; `I&#x27;ll stay with you,&#x27; I offered. And I brought two chairs up beside the table. He sat down heavily, his eyes on the flickering candle at his side. I shut the door, and the walls seemed to recede and the circle of the candle to grow brighter around his bowed head. He leaned back against the sideboard and wiped his face with his handkerchief. Then he drew a leatherbound flask from his pocket and offered it to me, and I said no. &quot; `Do you want to tell me what happened?&#x27; &quot;He nodded. &quot; `Perhaps you can bring some sanity to this place,&#x27; he said. `You&#x27;re a Frenchman, aren&#x27;t you? You know, I&#x27;m English.&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">08</span>
+    <div class="spanish-text">—Yo lo hice —dijo—. Yo la traje aquí. —Y arqueó las cejas como preguntándose. —No —repliqué rápidamente—, usted no lo hizo. Dígame quién lo hizo. Pero entonces él pareció confundido, perdido en sus pensamientos. —Jamás he estado fuera de Inglaterra —empezó a decir—. Yo estaba pintando ¿sabe?... Como si ahora eso importara..., las pinturas, el libro. ¡Pensaba que todo era tan curioso, tan pintoresco!</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `I&#x27;ll stay with you,&#x27; I offered. And I brought two chairs up beside the table. He sat down heavily, his eyes on the flickering candle at his side. I shut the door, and the walls seemed to recede and the circle of the candle to grow brighter around his bowed head. He leaned back against the sideboard and wiped his face with his handkerchief. Then he drew a leatherbound flask from his pocket and offered it to me, and I said no. &quot; `Do you want to tell me what happened?&#x27; &quot;He nodded. &quot; `Perhaps you can bring some sanity to this place,&#x27; he said. `You&#x27;re a Frenchman, aren&#x27;t you? You know, I&#x27;m English.&#x27; &quot; `Yes,&#x27; I nodded. &quot;And then, pressing my hand fervently, the liquor so dulling his senses that he never felt the coldness of it, he told me his name was Morgan and he needed me desperately, more than he&#x27;d ever needed anyone in his life. And at that moment, holding that hand, feeling the fever of it, I did a strange thing. I told him my name, which I confided to almost no one. But he was looking at the dead woman as if he hadn&#x27;t heard me, his lips forming what appeared to be the faintest smile, the tears standing in his eyes. His expression would have moved any human being; it might have been more than some could bear. &quot; `I did this,&#x27; he said, nodding. `I brought her here.&#x27; And he raised his eyebrows as if wondering at it.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">09</span>
+    <div class="spanish-text">Paseó la mirada por la habitación y su voz se fue apagando. La miró durante largo rato y luego le dijo suavemente: Me pareció que estaba vislumbrando algo precioso que él guardaba en su corazón. Poco a poco, entonces, empezó a revelar la historia. Un viaje de luna de miel a través de Alemania y otros países, dondequiera que los llevaran los transportes públicos, dondequiera que Morgan encontrase paisajes para pintar. Y, por último, habían llegado a este sitio remoto porque en las cercanías había un monasterio en ruinas del que se decía que se conservaba muy bien.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `Yes,&#x27; I nodded. &quot;And then, pressing my hand fervently, the liquor so dulling his senses that he never felt the coldness of it, he told me his name was Morgan and he needed me desperately, more than he&#x27;d ever needed anyone in his life. And at that moment, holding that hand, feeling the fever of it, I did a strange thing. I told him my name, which I confided to almost no one. But he was looking at the dead woman as if he hadn&#x27;t heard me, his lips forming what appeared to be the faintest smile, the tears standing in his eyes. His expression would have moved any human being; it might have been more than some could bear. &quot; `I did this,&#x27; he said, nodding. `I brought her here.&#x27; And he raised his eyebrows as if wondering at it. &quot; `No,&#x27; I said quickly. `You didn&#x27;t do it. Tell me who did.&#x27; &quot;But then he seemed confused, lost in thought. &#x27;I&#x27;d never been out of England,&#x27; he started. `I was painting, you see . . . as if it mattered now . . . the paintings, the book! I thought it all so quaint! So picturesque!&#x27; His eyes moved over the room, his voice trailing off. For a long time he looked at her again, and then softly he said to her, `Emily,&#x27; and I felt I&#x27;d glimpsed something precious he held to his heart.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">10</span>
+    <div class="spanish-text">Pero Morgan y Emily jamás habían llegado a ese monasterio. Sin lugar a dudas la tragedia les había estado esperando. Resultó que ninguno de los transportes públicos llegaban a ese lugar y que Morgan había pagado a un campesino para que los trajera en su carro. Pero la tarde en que llegaron había una verdadera conmoción en el cementerio en las afueras del pueblo. El campesino, después de haber echado una mirada, se negó a dejar el carro para investigar lo que pasaba.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `No,&#x27; I said quickly. `You didn&#x27;t do it. Tell me who did.&#x27; &quot;But then he seemed confused, lost in thought. &#x27;I&#x27;d never been out of England,&#x27; he started. `I was painting, you see . . . as if it mattered now . . . the paintings, the book! I thought it all so quaint! So picturesque!&#x27; His eyes moved over the room, his voice trailing off. For a long time he looked at her again, and then softly he said to her, `Emily,&#x27; and I felt I&#x27;d glimpsed something precious he held to his heart. &quot;Gradually, then, the story began to come. A honeymoon journey, through Germany, into this country, wherever the regular coaches would carry them, wherever Morgan found scenes to paint. And they&#x27;d come to this remote place finally because there was a ruined monastery nearby which was said to be a very well reserved place.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">11</span>
+    <div class="spanish-text">—Era un especie de procesión —dijo Morgan—, con toda esa gente con sus mejores ropas y algunas flores. Y la verdad es que me pareció bastante fascinante. Quería ver el acontecimiento. Sentí tal ansiedad que permití que el rústico nos dejara aquí con las maletas y todo. Podíamos ver el pueblo. En realidad, fueron más deseos míos que de Emily, pero ella era tan complaciente... Finalmente la dejé sentada sobre nuestro equipaje y subí la colina sin ella. ¿Vio usted el cementerio cuando venía? No, por supuesto que no. Gracias a Dios que su carruaje los trajo hasta aquí, sanos y salvos. De cualquier manera, de haber seguido adelante, por más mal estado en que estén sus caballos...</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;But then he seemed confused, lost in thought. &#x27;I&#x27;d never been out of England,&#x27; he started. `I was painting, you see . . . as if it mattered now . . . the paintings, the book! I thought it all so quaint! So picturesque!&#x27; His eyes moved over the room, his voice trailing off. For a long time he looked at her again, and then softly he said to her, `Emily,&#x27; and I felt I&#x27;d glimpsed something precious he held to his heart. &quot;Gradually, then, the story began to come. A honeymoon journey, through Germany, into this country, wherever the regular coaches would carry them, wherever Morgan found scenes to paint. And they&#x27;d come to this remote place finally because there was a ruined monastery nearby which was said to be a very well reserved place. &quot;But Morgan and Emily had never reached that monastery. Tragedy had been waiting for them here.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">12</span>
+    <div class="spanish-text">—¿Cuál es el peligro? —lo interrumpí. —Ah..., el peligro... ¡Esos animales! —murmuró. Y echó una mirada a la puerta. Luego tomó otro trago de su frasco y lo tapó—. Pues bien, no se trataba de una procesión. Me di cuenta de inmediato —dijo—. La gente no me habló ni cuando me acerqué. Usted sabe cómo son, pero no se negaron a que yo mirara. La verdad es que podía haberme ido de allí. Pero no me creerá cuando le cuente lo que vi, aunque debe creerme, porque, si no lo hace, entonces estoy loco. Lo sé.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Gradually, then, the story began to come. A honeymoon journey, through Germany, into this country, wherever the regular coaches would carry them, wherever Morgan found scenes to paint. And they&#x27;d come to this remote place finally because there was a ruined monastery nearby which was said to be a very well reserved place. &quot;But Morgan and Emily had never reached that monastery. Tragedy had been waiting for them here. &quot;It turned out the regular coaches did not come this way, and Morgan had paid a farmer to bring them by cart. But the afternoon they arrived, there was a great commotion in the cemetery outside of town. The farmer, taking one look, refused to leave his cart to see further. &quot; `It was some kind of procession, it seemed,&#x27; Morgan said, `with all the people outfitted in their best, and some with flowers; and the truth was I thought it quite fascinating. I wanted to see it. I was so eager I had the fellow leave us, bags and all. We could see the village just up ahead. Actually it was I more than Emily, of course, but she was so agreeable, you see. I left her, finally, seated on our suitcases, and I went on up the hill without her. Did you see it when you were coming, the cemetery? No, of course you didn&#x27;t. Thank God that carriage of yours brought you here safe and sound. Though, if you&#x27;d driven on, no matter how bad off your horses were . . &#x27; He stopped.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">13</span>
+    <div class="spanish-text">—Le creo, continúe —dije. —Pues mire, el cementerio estaba lleno de nuevas tumbas; me percaté de ello al momento; algunas de ellas tenían nuevas cruces de madera y otras no eran más que montones de tierra con flores aún con vida; y allí los campesinos tenían flores en las manos, unos pocos de ellos, como si tuvieran la intención de arreglar esas tumbas; pero todos ellos seguían de pie e inmóviles, con los ojos fijos en dos hombres que tenían a un caballo blanco de la rienda. ¡Y qué animal! Cabriolaba y se alzaba o se apartaba como si no quisiera formar parte del grupo; era hermoso, un animal espléndido, un potro completamente blanco. Pero, en un momento —y no le podría decir cómo se pusieron de acuerdo, porque nadie dijo una palabra—, un hombre, el jefe, según creo, le dio al caballo un golpe tremendo con el mango de su pala y el animal salió disparado a la colina, enardecido. Se puede imaginar que pensé que ésa sería la última vez que veríamos al animal. Pero estaba equivocado. En un momento aminoró el galope, se dio vuelta y volvió lentamente a las nuevas tumbas. Y toda la gente se quedó allí mirándolo. Nadie hizo el menor ruido. Volvió trotando sobre las nuevas tumbas, encima de las flores y nadie se movió para hacerse con las riendas. Y entonces, súbitamente, se detuvo ante una de las tumbas.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;But Morgan and Emily had never reached that monastery. Tragedy had been waiting for them here. &quot;It turned out the regular coaches did not come this way, and Morgan had paid a farmer to bring them by cart. But the afternoon they arrived, there was a great commotion in the cemetery outside of town. The farmer, taking one look, refused to leave his cart to see further. &quot; `It was some kind of procession, it seemed,&#x27; Morgan said, `with all the people outfitted in their best, and some with flowers; and the truth was I thought it quite fascinating. I wanted to see it. I was so eager I had the fellow leave us, bags and all. We could see the village just up ahead. Actually it was I more than Emily, of course, but she was so agreeable, you see. I left her, finally, seated on our suitcases, and I went on up the hill without her. Did you see it when you were coming, the cemetery? No, of course you didn&#x27;t. Thank God that carriage of yours brought you here safe and sound. Though, if you&#x27;d driven on, no matter how bad off your horses were . . &#x27; He stopped. &quot; `What&#x27;s the danger?&#x27; I urged him, gently.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">14</span>
+    <div class="spanish-text">Se limpió los ojos, pero ya casi se le habían ido las lágrimas. Parecía fascinado con su historia. Yo también. —Y esto es lo que sucedió —continuó diciendo—: El animal se quedó allí. Y, de repente, la multitud pegó un alarido. No, no fue un alarido; fue como si todos suspirasen y gimiesen. Y todo quedó en silencio. El caballo permanecía allí moviendo la cabeza. Por último, ese tipo que parecía ser el jefe se adelantó y pegó un grito a varios de los otros; y una de las mujeres gritó y se arrojó a la tumba casi bajo las patas del caballo. Entonces me acerqué lo más posible. Pude ver la lápida con el nombre de la difunta; era una mujer joven, fallecida sólo unos seis meses antes, según las fechas allí mismo marcadas. Y allí estaba esa mujer miserable de rodillas en la tierra, abrazada ahora a la piedra como si quisiera arrancarla de la tierra. Los hombres intentaban levantarla y separarla. Entonces quise darme vuelta, pero no pude hacerlo, no hasta terminar de ver aquello y averiguar qué pensaban hacer. Y, por supuesto, Emily estaba bastante a salvo y ni una sola de esas personas nos prestó la más mínima atención. Dos de ellos finalmente consiguieron levantar a la mujer. Entonces vinieron los otros con las palas y empezaron a cavar en la tumba. Muy pronto uno de ellos hizo un pozo, y todos estaban en tal silencio que sólo se podía oír el ruido de la pala cavando mientras se iba formando una pila de tierra. No le puedo decir lo que parecía. Estaba el sol justo encima y no había una nube en el cielo, y todos ellos seguían de pie alrededor, asidos ahora el uno al otro, incluso aquella mujer patética...</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `It was some kind of procession, it seemed,&#x27; Morgan said, `with all the people outfitted in their best, and some with flowers; and the truth was I thought it quite fascinating. I wanted to see it. I was so eager I had the fellow leave us, bags and all. We could see the village just up ahead. Actually it was I more than Emily, of course, but she was so agreeable, you see. I left her, finally, seated on our suitcases, and I went on up the hill without her. Did you see it when you were coming, the cemetery? No, of course you didn&#x27;t. Thank God that carriage of yours brought you here safe and sound. Though, if you&#x27;d driven on, no matter how bad off your horses were . . &#x27; He stopped. &quot; `What&#x27;s the danger?&#x27; I urged him, gently. &quot; &#x27;Ah . . . danger! Barbarians!&#x27; he murmured. And he glanced at the door. Then he took another drink from his flask and capped it. &quot; Well, it was no procession. I saw that right off,&#x27; he said. `The people wouldn&#x27;t even speak to me when I came up-you know what they are; but they had no objection to letting me watch. The truth was, you wouldn&#x27;t have thought I was standing there at all. You won&#x27;t believe me when I tell you what I saw, but you must believe me; because if you don&#x27;t, I&#x27;m mad, I know it.&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<footer>
+  <p><em>Entrevista con el Vampiro</em> &mdash; Anne Rice</p>
+  <p style="margin-top:.5rem;">Lectura glosada para uso personal de estudio del espa&ntilde;ol &middot; Cap&iacute;tulo 3</p>
+</footer>
+
+<script>
+(function () {
+  /* ── 1. Wrap every .spanish-text in a flex row and prepend a play button ── */
+  document.querySelectorAll('.spanish-text').forEach(function (el, i) {
+    var text = el.textContent.trim();
+    el.dataset.speak = text;
+
+    var btn = document.createElement('button');
+    btn.className = 'play-btn';
+    btn.title = 'Reproducir';
+    btn.innerHTML = '&#9654;';
+    btn.dataset.idx = i;
+
+    var row = document.createElement('div');
+    row.className = 'spanish-row';
+    el.parentNode.insertBefore(row, el);
+    row.appendChild(btn);
+    row.appendChild(el);
+  });
+
+  /* ── 2. Voice loading ── */
+  var voiceSelect = document.getElementById('voice-select');
+  var statusEl    = document.getElementById('voice-status');
+  var spanishVoices = [];
+  var allVoices     = [];
+
+  function loadVoices() {
+    allVoices = window.speechSynthesis.getVoices();
+    if (!allVoices.length) return;
+    spanishVoices = allVoices.filter(function (v) {
+      return v.lang.toLowerCase().startsWith('es');
+    });
+    voiceSelect.innerHTML = '';
+    if (spanishVoices.length === 0) {
+      allVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i + '_all';
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u26a0 No Spanish voices found \u2014 showing all voices.';
+    } else {
+      spanishVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        if (v.lang.toLowerCase() === 'es-es') opt.selected = true;
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u2713 ' + spanishVoices.length + ' Spanish voice(s) found';
+    }
+  }
+
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  setTimeout(loadVoices, 500);
+
+  function getSelectedVoice() {
+    var val = voiceSelect.value;
+    if (!val) return null;
+    if (val.endsWith('_all')) return allVoices[parseInt(val)] || null;
+    return spanishVoices[parseInt(val)] || null;
+  }
+
+  /* ── 3. Speed slider ── */
+  var speedSlider = document.getElementById('speed-slider');
+  var speedVal    = document.getElementById('speed-val');
+  speedSlider.addEventListener('input', function () {
+    speedVal.textContent = parseFloat(this.value).toFixed(2) + '\u00d7';
+  });
+
+  /* ── 4. Speech playback ── */
+  var currentBtn = null;
+
+  function stopSpeech() {
+    window.speechSynthesis.cancel();
+    if (currentBtn) {
+      currentBtn.classList.remove('playing');
+      currentBtn.innerHTML = '&#9654;';
+      currentBtn = null;
+    }
+  }
+
+  document.getElementById('stop-btn').addEventListener('click', stopSpeech);
+
+  /* ── 4b. Per-section gloss toggle ── */
+  window.toggleSectionGloss = function(btn) {
+    var group = btn.closest('.section-group');
+    if (!group) return;
+    var glosses = group.querySelectorAll('.gloss-text');
+    var toggles = group.querySelectorAll('.gloss-toggle');
+    var allHidden = Array.from(glosses).every(function(g){ return g.classList.contains('gloss-hidden'); });
+    glosses.forEach(function(g){ g.classList.toggle('gloss-hidden', !allHidden); });
+    toggles.forEach(function(t){ t.textContent = allHidden ? '▼ English' : '▶ English'; });
+    btn.textContent = allHidden ? 'Ocultar English' : 'Mostrar English';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn === currentBtn) { stopSpeech(); return; }
+    stopSpeech();
+
+    var spanishEl = btn.parentElement.querySelector('.spanish-text');
+    var text = spanishEl ? spanishEl.dataset.speak : '';
+    if (!text) return;
+
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang  = 'es-ES';
+    utter.rate  = parseFloat(speedSlider.value);
+    utter.pitch = 1;
+
+    var voice = getSelectedVoice();
+    if (voice) utter.voice = voice;
+
+    btn.classList.add('playing');
+    btn.innerHTML = '&#9632;';
+    currentBtn = btn;
+
+    /* Chrome keepalive: prevents silent cutoff of utterances > ~15 s */
+    var keepAlive = setInterval(function () {
+      if (!window.speechSynthesis.speaking) { clearInterval(keepAlive); return; }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, 10000);
+
+    utter.onend = function () {
+      clearInterval(keepAlive);
+      if (currentBtn === btn) {
+        btn.classList.remove('playing');
+        btn.innerHTML = '&#9654;';
+        currentBtn = null;
+      }
+    };
+    utter.onerror = utter.onend;
+
+    window.speechSynthesis.speak(utter);
+  });
+})();
+</script>
+<script>
+/* ── Dictionary lookup ── */
+(function () {
+
+  /* 1. Tokenize each .spanish-text into clickable word spans */
+  document.querySelectorAll('.spanish-text').forEach(function (el) {
+    var newHTML = el.innerHTML.replace(
+      /([A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+(?:['\u2019-][A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+)*)/g,
+      function (token) {
+        var lookup = token.replace(/^['\u2019-]+|['\u2019-]+$/g, '').toLowerCase();
+        if (!lookup) return token;
+        return '<span class="es-word" data-word="' + lookup + '">' + token + '</span>';
+      }
+    );
+    el.innerHTML = newHTML;
+  });
+
+  /* 2. Build popup */
+  var popup = document.createElement('div');
+  popup.id = 'dict-popup';
+  popup.innerHTML =
+    '<button id="dict-close" title="Cerrar">&#10005;</button>' +
+    '<span class="dp-word"></span>' +
+    '<div class="dp-body"></div>' +
+    '<hr class="dp-divider">' +
+    '<div class="dp-links"></div>';
+  document.body.appendChild(popup);
+
+  var dpWord  = popup.querySelector('.dp-word');
+  var dpBody  = popup.querySelector('.dp-body');
+  var dpLinks = popup.querySelector('.dp-links');
+  var dpClose = popup.querySelector('#dict-close');
+  var activeSpan = null;
+  var ES_LEMMAS = {"aminoró": "aminorar", "ellos": "él", "pueda": "poder", "otras": "otro", "sacado": "sacar", "cabellos": "cabello", "parecieron": "parecer", "ropas": "ropa", "sería": "ser", "paseó": "pasear", "tumbas": "tumbar", "ésa": "ese", "cercanías": "cercanía", "brillaban": "brillar", "sentó": "sentar", "murmuró": "murmurar", "repliqué": "replicar", "endurecida": "endurecer", "encuadraban": "encuadrar", "alguna": "alguno", "venía": "venir", "habló": "hablar", "disparado": "disparar", "cercanos": "cercano", "todos": "todo", "soy": "ser", "una": "uno", "abrieron": "abrir", "quitó": "quitar", "habían": "haber", "sucedió": "suceder", "apoyó": "apoyar", "fuera": "ser", "he": "haber", "consiguieron": "conseguir", "visibles": "visible", "tenían": "tener", "emocionado": "emocionar", "debió": "deber", "es": "ser", "sido": "ser", "debía": "deber", "movió": "mover", "puso": "poner", "aléjese": "alejarse", "manos": "mano", "intentaban": "intentar", "pusieron": "poner", "fueron": "ser", "nuevas": "nueva", "sentí": "sentir", "podría": "poder", "sanos": "sano", "toda": "todo", "era": "ser", "le": "él", "asidos": "asir", "quise": "querer", "cortinas": "cortina", "hubieran": "haber", "volvió": "volver", "asintió": "asentir", "pocos": "poco", "aquellos": "aquel", "puedo": "poder", "tocó": "tocar", "aquello": "aquel", "unos": "uno", "visto": "vestir", "pies": "pie", "ocurrido": "ocurrir", "entramos": "entrar", "abalorios": "abalorio", "sensaciones": "sensación", "llevó": "llevar", "eran": "ser", "plantas": "planta", "había": "haber", "ofrecí": "ofrecer", "ojos": "ojo", "última": "último", "apagando": "apagar", "empezó": "empezar", "tuvieran": "tener", "quedó": "quedar", "transportes": "transporte", "quieren": "querer", "sintiendo": "sentir", "campesinos": "campesino", "arqueó": "arquear", "fue": "ir", "cerré": "cerrar", "otra": "otro", "los": "el", "pasaba": "pasar", "permanecía": "permanecer", "podíamos": "poder", "personas": "persona", "lo": "él", "vislumbrando": "vislumbrar", "algunas": "alguno", "encima": "encimar", "mujeres": "mujer", "adelantó": "adelantar", "la": "el", "creo": "crear", "mirara": "mirar", "voy": "ir", "marcadas": "marcar", "dibujados": "dibujar", "se": "él", "trotando": "trotar", "esperando": "esperar", "oscura": "oscuro", "hace": "hacer", "estaba": "estar", "pensamientos": "pensamiento", "latiera": "latir", "pensaba": "pensar", "encendió": "encender", "maletas": "maleta", "esto": "este", "pagado": "pagar", "cuente": "contar", "blancas": "blanco", "importara": "importar", "moviendo": "mover", "empezaron": "empezar", "trajo": "traer", "confiaba": "confiar", "meses": "mesar", "seas": "ser", "creció": "crecer", "fascinado": "fascinar", "verdadera": "verdadero", "esas": "ese", "resultó": "resultar", "fijos": "fijo", "alzaba": "alzar", "un": "uno", "inmóviles": "inmóvil", "quiere": "querer", "dijo": "decir", "tiene": "tener", "seguían": "seguir", "heridas": "herida", "vio": "ver", "continúe": "continuar", "llegado": "llegar", "cerrando": "cerrar", "ardía": "arder", "sacudió": "sacudir", "juntos": "junto", "ruinas": "ruinar", "palas": "pala", "llevaran": "llevar", "eso": "ese", "contorsionó": "contorsionar", "adelante": "adelantar", "ido": "ir", "las": "el", "animales": "animal", "paisajes": "paisaje", "hizo": "hacer", "deseos": "deseo", "cualquier": "cualquiera", "tomó": "tomar", "trataba": "tratar", "salvos": "salvo", "dudas": "duda", "di": "dar", "percaté": "percatar", "diciendo": "decir", "conservaba": "conservar", "pensaban": "pensar", "gritó": "gritar", "acercó": "acercar", "patas": "pata", "míos": "mío", "amarillenta": "amarillento", "contemplaba": "contemplar", "salió": "salir", "hice": "hacer", "flores": "florar", "esa": "ese", "permití": "permitir", "platos": "plato", "formando": "formar", "parecía": "parecer", "seguido": "seguir", "basta": "bastar", "estoy": "estar", "necesitaba": "necesitar", "pintando": "pintar", "ofreció": "ofrecer", "quisiera": "querer", "cruces": "cruce", "cosas": "cosa", "dejara": "dejar", "ellas": "él", "mire": "mirar", "ella": "él", "mejores": "mejorar", "llamaba": "llamar", "esos": "ese", "vamos": "ir", "notó": "notar", "acerqué": "acercar", "paredes": "pared", "rodillas": "rodilla", "negó": "negar", "echaré": "echar", "iba": "ir", "llegaban": "llegar", "caían": "caer", "sacó": "sacar", "dientes": "diente", "susurró": "susurrar", "interrumpí": "interrumpir", "enardecido": "enardecer", "les": "él", "patética": "patético", "detuvo": "detener", "vi": "ver", "hombres": "hombre", "podía": "poder", "difunta": "difunto", "contó": "contar", "pelirrojos": "pelirrojo", "llenaron": "llenar", "decía": "decir", "labios": "labio", "negaron": "negar", "talladas": "tallar", "ha": "haber", "podido": "poder", "riendas": "rienda", "murmuraba": "murmurar", "pudiera": "poder", "hubiera": "haber", "países": "país", "apartaba": "apartar", "echó": "echar", "gracias": "gracia", "sonrisas": "sonrisa", "guardaba": "guardar", "arrojó": "arrojar", "puede": "poder", "guantes": "guante", "adormecido": "adormecer", "preguntándose": "preguntarse", "suspirasen": "suspirar", "dejé": "dejar", "subí": "subir", "oscuros": "oscuro", "equivocado": "equivocar", "otros": "otro", "cuidaré": "cuidar", "cabriolaba": "cabriolar", "vinieron": "venir", "montones": "montón", "cavando": "cavar", "aquella": "aquel", "prestó": "prestar", "encontrase": "encontrar", "yacía": "yacer", "cruzadas": "cruzada", "fallecida": "fallecido", "quería": "querer", "produjo": "producir", "sus": "su", "limpió": "limpiar", "estaban": "estar", "muchos": "mucho", "luminosa": "luminoso", "públicos": "público", "quedaré": "quedar", "preguntó": "preguntar", "sé": "ser", "gimiesen": "gemir", "dio": "dar", "sillas": "silla", "afuera": "aforar", "pequeña": "pequeño", "confundido": "confundir", "continuó": "continuar", "hombros": "hombro", "me": "yo", "levantó": "levantar", "estén": "estar", "abrazada": "abrazar", "excitado": "excitar", "sollozaba": "sollozar", "lágrimas": "lágrima", "veríamos": "verse", "oyese": "oír", "pinturas": "pintura", "muy": "mucho", "osciló": "oscilar", "exhausta": "exhausto", "susurrando": "susurrar", "pegó": "pegar", "caballos": "caballo", "trajera": "traer", "cayó": "caer", "miró": "mirar", "pareció": "parecer", "veces": "vez", "salvajes": "salvaje", "tapó": "tapar", "fechas": "fecha", "misma": "mismo", "sabe": "saber", "cejas": "ceja", "llegaron": "llegar", "sola": "solar", "pude": "poder", "creerá": "creer", "pensé": "pensar"};
+  function toLemma(w) { return ES_LEMMAS[w.toLowerCase()] || w; }
+  var dictCache  = {};
+
+  /* 3. Fetch definition (Wiktionary, then MyMemory fallback) */
+  /* Extract base word from a "form of X" Wiktionary definition HTML string.
+     Returns the base word string, or null if not a form-of entry. */
+  function extractBaseForm(defHtml) {
+    var t = defHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    // "first/second/third-person ... of X"
+    var m = t.match(/(?:first|second|third)[- ]person.{0,60}of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "plural of X", "inflection of X", "feminine of X", etc.
+    m = t.match(/^(?:inflection|plural|singular|feminine|masculine|augmentative|diminutive|superlative|past\s+(?:tense|participle)|present\s+participle|gerund|form)\s+of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "X of Y" where X ends right before "of" and Y is at end
+    m = t.match(/of\s+([\wÀ-ɏ]+)\s*(?:[:,]|$)/i);
+    if (m) return m[1].toLowerCase();
+    return null;
+  }
+
+  /* Returns true if ALL definitions in all entries look like form-of entries */
+  function getFirstBase(entries) {
+    // Return the base form if the first definition looks like a form-of entry
+    var firstDef = ((entries[0] || {}).definitions || [])[0] || {};
+    return extractBaseForm(firstDef.definition || '');
+  }
+
+  function fetchWiktionary(word) {
+    return fetch(
+      'https://en.wiktionary.org/api/rest_v1/page/definition/' + encodeURIComponent(word),
+      { headers: { Accept: 'application/json' } }
+    ).then(function(r) {
+      if (!r.ok) throw new Error('wikt');
+      return r.json();
+    }).then(function(data) {
+      var es = data.es || data.Es;
+      if (es && es.length) return es;
+      throw new Error('no entry');
+    });
+  }
+
+  function fetchDefinition(rawWord) {
+    var word = toLemma(rawWord);
+    if (dictCache[word]) return Promise.resolve(dictCache[word]);
+    return fetchWiktionary(word).then(function(es) {
+      // If all definitions are "form of X", follow the link to the base form
+      var base = getFirstBase(es);
+      if (base && base !== word.toLowerCase()) {
+        return fetchWiktionary(base).then(function(baseEs) {
+          var result = { source: 'wiktionary', entries: baseEs, inflectedFrom: rawWord, baseForm: base };
+          dictCache[word] = result; return result;
+        }).catch(function() {
+          var result = { source: 'wiktionary', entries: es };
+          dictCache[word] = result; return result;
+        });
+      }
+      var result = { source: 'wiktionary', entries: es };
+      if (word.toLowerCase() !== rawWord.toLowerCase()) result.baseForm = word;
+      dictCache[word] = result; return result;
+    }).catch(function () {
+      return fetch(
+        'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=es|en'
+      ).then(function (r) { return r.json(); }).then(function (data) {
+        var trans = data.responseData && data.responseData.translatedText;
+        if (!trans || trans.toLowerCase() === word.toLowerCase()) throw new Error('no trans');
+        var alts = (data.matches || [])
+          .filter(function (m) {
+            return m.quality > 50 && m.translation &&
+              m.translation.toLowerCase() !== word.toLowerCase() &&
+              m.translation.toLowerCase() !== trans.toLowerCase();
+          })
+          .map(function (m) { return m.translation; })
+          .filter(function (v, i, a) { return a.indexOf(v) === i; })
+          .slice(0, 3);
+        var result = { source: 'mymemory', translation: trans, alts: alts };
+        dictCache[word] = result; return result;
+      });
+    }).catch(function () {
+      var result = { source: 'none' };
+      dictCache[word] = result; return result;
+    });
+  }
+
+  function strip(h) { return h.replace(/<[^>]+>/g, ''); }
+
+  function renderBody(r) {
+    if (r.source === 'wiktionary') {
+      var html = '';
+      // Show a small note when we resolved an inflected form to its base
+      if (r.baseForm) {
+        html += '<div class="dp-alts">form of <em>' + r.baseForm + '</em></div>';
+      }
+      r.entries.slice(0, 3).forEach(function (e) {
+        html += '<div class="dp-pos">' + (e.partOfSpeech || '') + '</div><ol class="dp-defs">';
+        (e.definitions || []).slice(0, 4).forEach(function (d) {
+          html += '<li>' + strip(d.definition || '') + '</li>';
+        });
+        html += '</ol>';
+      });
+      return html;
+    }
+    if (r.source === 'mymemory') {
+      var h = '<div class="dp-trans">' + r.translation + '</div>';
+      if (r.alts && r.alts.length) h += '<div class="dp-alts">also: ' + r.alts.join(', ') + '</div>';
+      return h;
+    }
+    return '<div class="dp-none">no definition found</div>';
+  }
+
+  /* 4. Show / position / hide */
+  function positionPopup(cx, cy) {
+    var pw = popup.offsetWidth || 220, ph = popup.offsetHeight || 130;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var left = cx + 14, top = cy + 14;
+    if (left + pw > vw - 8) left = cx - pw - 14;
+    if (top  + ph > vh - 8) top  = cy - ph - 14;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  }
+
+  function showPopup(word, cx, cy) {
+    dpWord.textContent = word;
+    dpBody.innerHTML = '<div class="dp-loading">buscando…</div>';
+    dpLinks.innerHTML =
+      '<a href="https://www.wordreference.com/es/en/translation.asp?spen=' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128214; WordReference &#8594;</a>' +
+      '<a href="https://www.spanishdict.com/translate/' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128216; SpanishDict &#8594;</a>';
+    popup.style.display = 'block';
+    positionPopup(cx, cy);
+    fetchDefinition(word).then(function (result) {
+      if (dpWord.textContent !== word) return;
+      dpBody.innerHTML = renderBody(result);
+      positionPopup(cx, cy);
+    });
+  }
+
+  function hidePopup() {
+    popup.style.display = 'none';
+    if (activeSpan) { activeSpan.classList.remove('dp-active'); activeSpan = null; }
+  }
+
+  /* 5. Events */
+  document.addEventListener('click', function (e) {
+    var wordEl = e.target.closest('.es-word');
+    if (wordEl) {
+      if (activeSpan) activeSpan.classList.remove('dp-active');
+      activeSpan = wordEl;
+      wordEl.classList.add('dp-active');
+      showPopup(wordEl.dataset.word, e.clientX, e.clientY);
+      return;
+    }
+    if (!e.target.closest('#dict-popup')) hidePopup();
+  });
+
+  dpClose.addEventListener('click', function (e) { e.stopPropagation(); hidePopup(); });
+})();
+</script>
+</body>
+</html>

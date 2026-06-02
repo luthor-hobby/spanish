@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrevista con el Vampiro — Capítulo 10 (Tercera parte) · Lectura Glosada</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #e0e0e0;
+    --muted: #8892a4;
+    --spanish: #f5c518;
+    --gloss: #a8d8a8;
+    --vocab-bg: #0d1b2a;
+    --grammar-bg: #1b1228;
+    --tag: #533483;
+    --dialogue: #1e2d1e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; line-height: 1.7; padding: 2rem 1rem; }
+  header { max-width: 880px; margin: 0 auto 3rem; text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 1.5rem; }
+  header h1 { font-size: 2rem; color: var(--accent); letter-spacing: 1px; }
+  header h2 { font-size: 1.1rem; color: var(--muted); font-weight: normal; margin-top: .4rem; }
+  header p { font-size: .9rem; color: var(--muted); margin-top: .8rem; font-style: italic; }
+  .chapter-intro { max-width: 880px; margin: 0 auto 2.5rem; background: var(--accent2); border-left: 4px solid var(--accent); padding: 1rem 1.4rem; border-radius: 4px; font-size: .95rem; }
+  .chapter-intro h3 { color: var(--accent); margin-bottom: .4rem; }
+  .sentence-block { max-width: 880px; margin: 0 auto 2rem; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .sentence-num { display: inline-block; background: var(--accent); color: #fff; font-size: .75rem; font-family: monospace; padding: .2rem .5rem; border-radius: 3px; margin-bottom: .5rem; letter-spacing: 1px; }
+  .sentence-top { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .spanish-text { font-size: 1.2rem; color: var(--spanish); font-style: italic; margin-bottom: .6rem; line-height: 1.5; }
+  .gloss-text { font-size: 1rem; color: var(--gloss); margin-top: .35rem; }
+  .gloss-label, .vocab-label, .grammar-label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; margin-bottom: .3rem; font-family: sans-serif; }
+  /* ── Per-sentence gloss toggle ── */
+  .gloss-toggle { background: none; border: none; padding: .4rem 0; cursor: pointer; font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-family: sans-serif; margin-bottom: .3rem; display: block; touch-action: manipulation; min-height: 2.5rem; }
+  .gloss-toggle:hover { color: var(--gloss); }
+  .gloss-text { visibility: visible; }
+  .gloss-text.gloss-hidden { visibility: hidden; pointer-events: none; }
+
+  .breakdown { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px) { .breakdown { grid-template-columns: 1fr; } }
+  .vocab-section { background: var(--vocab-bg); padding: 1rem 1.4rem; border-right: 1px solid rgba(255,255,255,.05); }
+  .grammar-section { background: var(--grammar-bg); padding: 1rem 1.4rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+  td { padding: .3rem .4rem; vertical-align: top; }
+  td:first-child { color: var(--spanish); font-style: italic; white-space: nowrap; padding-right: .8rem; width: 42%; }
+  tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,.05); }
+  .grammar-section ul { list-style: none; font-size: .87rem; }
+  .grammar-section li { margin-bottom: .55rem; padding-left: .8rem; border-left: 2px solid var(--tag); }
+  .grammar-section li strong { color: var(--spanish); font-style: italic; }
+  .grammar-section li em { color: #c9b1ff; font-style: normal; }
+  .section-label { max-width: 880px; margin: 0 auto 1.2rem; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--tag); font-family: sans-serif; padding-left: .2rem; display: flex; align-items: center; gap: .8rem; }
+  .tag { display: inline-block; background: var(--tag); color: #ddd; font-size: .7rem; font-family: sans-serif; padding: .1rem .4rem; border-radius: 3px; margin-right: .3rem; }
+  .dialogue-marker { color: var(--muted); font-size: .8rem; font-family: sans-serif; margin-bottom: .3rem; display: block; }
+  footer { max-width: 880px; margin: 3rem auto 0; text-align: center; font-size: .8rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); }
+
+  /* ── Audio controls ── */
+  #audio-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,52,96,.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(233,69,96,.4);
+    padding: .6rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: sans-serif; font-size: .82rem;
+  }
+  #audio-bar .bar-label { color: var(--muted); white-space: nowrap; }
+  #audio-bar .voice-select {
+    background: #0d1b2a; color: var(--text); border: 1px solid var(--tag);
+    border-radius: 4px; padding: .25rem .5rem; font-size: .8rem; flex: 1; min-width: 160px; max-width: 280px;
+  }
+  #audio-bar .speed-wrap { display: flex; align-items: center; gap: .5rem; }
+  #audio-bar input[type=range] { width: 90px; accent-color: var(--accent); cursor: pointer; }
+  #speed-val { color: var(--accent); font-weight: bold; min-width: 2.5ch; }
+  #stop-btn, .section-gloss-btn {
+    border: none; border-radius: 4px;
+    padding: .25rem .8rem; cursor: pointer; font-size: .8rem; white-space: nowrap;
+  }
+  #stop-btn { background: var(--accent); color: #fff; }
+  #stop-btn:hover { opacity: .85; }
+  .section-gloss-btn { background: var(--accent2); color: var(--muted); border: 1px solid var(--tag); margin-left: auto; flex-shrink: 0; }
+  .section-gloss-btn:hover { background: #1a4a80; color: var(--text); }
+  .voice-status { color: var(--muted); font-size: .75rem; font-style: italic; }
+
+  /* ── Play button on each card ── */
+  .spanish-row { display: flex; align-items: flex-start; gap: .6rem; }
+  .spanish-text { flex: 1; }
+  .play-btn {
+    flex-shrink: 0; margin-top: .15rem;
+    background: none; border: 1.5px solid var(--accent);
+    color: var(--accent); border-radius: 50%;
+    width: 2rem; height: 2rem; cursor: pointer;
+    font-size: .9rem; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s;
+  }
+  .play-btn:hover { background: var(--accent); color: #fff; }
+  .play-btn.playing {
+    background: var(--accent); color: #fff;
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(233,69,96,.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(233,69,96,0); }
+  }
+
+  /* ── Dictionary word spans ── */
+  .es-word {
+    cursor: pointer;
+    border-bottom: 1px dotted rgba(245,197,24,.35);
+    border-radius: 2px;
+    padding: 0 1px;
+    transition: background .1s;
+  }
+  .es-word:hover, .es-word.dp-active {
+    background: rgba(245,197,24,.18);
+    border-bottom-color: var(--spanish);
+  }
+
+  /* ── Dictionary popup ── */
+  #dict-popup {
+    position: fixed;
+    z-index: 500;
+    background: #0d1b2a;
+    border: 1px solid var(--tag);
+    border-radius: 8px;
+    padding: .75rem 1.1rem .85rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,.7);
+    min-width: 210px;
+    max-width: 310px;
+    font-family: sans-serif;
+    display: none;
+  }
+  #dict-popup .dp-word {
+    color: var(--spanish);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-family: Georgia, serif;
+    display: block;
+    margin-bottom: .4rem;
+    padding-right: 1.6rem;
+  }
+  .dp-loading { color: var(--muted); font-size: .8rem; font-style: italic; padding: .15rem 0 .3rem; }
+  .dp-pos {
+    color: var(--muted); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: 1px; margin: .45rem 0 .2rem; font-family: sans-serif;
+  }
+  .dp-defs {
+    font-size: .85rem; color: var(--text);
+    margin: 0; padding-left: 1.1rem; line-height: 1.45;
+  }
+  .dp-defs li { margin-bottom: .25rem; }
+  .dp-trans { font-size: .95rem; color: var(--text); margin: .25rem 0 .1rem; }
+  .dp-alts  { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: .1rem; }
+  .dp-none  { color: var(--muted); font-size: .8rem; font-style: italic; padding: .2rem 0 .3rem; }
+  .dp-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,.09);
+    margin: .6rem 0 .5rem;
+  }
+  #dict-popup .dp-links {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  #dict-popup .dp-links a {
+    color: var(--gloss);
+    text-decoration: none;
+    font-size: .8rem;
+    padding: .25rem .55rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,.06);
+    transition: background .12s;
+    display: block;
+  }
+  #dict-popup .dp-links a:hover { background: rgba(255,255,255,.14); }
+  #dict-close {
+    position: absolute;
+    top: .45rem; right: .6rem;
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: .9rem; line-height: 1;
+    padding: .1rem .2rem;
+  }
+  #dict-close:hover { color: var(--text); }
+
+</style>
+</head>
+<body>
+<div id="audio-bar">
+  <span class="bar-label">&#128266; Voz:</span>
+  <select id="voice-select" class="voice-select"><option>Cargando voces&hellip;</option></select>
+  <div class="speed-wrap">
+    <span class="bar-label">Velocidad:</span>
+    <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.05" value="0.85">
+    <span id="speed-val">0.85&times;</span>
+  </div>
+  <button id="stop-btn">&#9632; Parar</button>
+  <span class="voice-status" id="voice-status"></span>
+</div>
+<header>
+  <h1>Entrevista con el Vampiro</h1>
+  <h2>Anne Rice &middot; Cap&iacute;tulo 10: <em>Tercera parte</em></h2>
+  <p>Pasaje 10 de 20</p>
+</header>
+<div class="section-group">
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">01</span>
+    <div class="spanish-text">—No te vayas —dijo. —No tengo otra posibilidad. Yo ya estaba en el pasillo cuando lo sentí tan próximo a mí que me quedé atónito. Estaba a mi lado, sus ojos a la altura de mis ojos y en su mano tenía una llave que puso en la mía. —Aquí hay una puerta —dijo, señalando el fondo a oscuras que yo pensaba que era nada más que una pared—. Y una escalera que da a la calle lateral que sólo uso yo. Vete por aquí y podrás evitar a los otros. Estás ansioso y ellos se darían cuenta —agregó. Me di la vuelta para irme de inmediato, aunque cada poro de mi cuerpo me pedía que me quedara—. Pero déjame que te diga lo siguiente —dijo, y levemente posó la palma de su mano contra mi corazón—: Usa el poder interior que tienes. ¡No lo rechaces más! ¡Usa ese poder! Y cuando te vean arriba en la calle, usa ese poder para hacer una máscara de tu rostro, y cuando los mires a ellos, o a cualquiera, piensa: cuidado. Lleva esa palabra como si fuera un amuleto que te hubiera dado para que lo uses atado al cuello. Y cuando tus ojos se crucen con los de Santiago o con los ojos de cualquier otro vampiro, dile amablemente lo que se te ocurra, pero piensa en esa palabra y en esa palabra únicamente. Te hablo de esta forma simple porque sé que tú respetas la sencillez. Tú la comprendes. Ésa es tu fortaleza.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;He shook his head. `Not the way you mean. I only know the danger to you and the child is real because it&#x27;s real to you. And I know your loneliness even with her love is almost more terrible than you can bear.&#x27; &quot;I stood up then. It would seem a simple thing to do, to rise, to go to the door, to hurry quickly down that passage; and yet it took every ounce of strength, every smattering of that curious thing I&#x27;ve called my detachment. &quot; `I ask you to keep them away from us,&#x27; I said at the door; but I couldn&#x27;t look back at him, didn&#x27;t even want the soft intrusion of his voice. &quot; `Don&#x27;t go,&#x27; he said. &quot; `I have no choice.&#x27; &quot;I was in the passage when I heard him so close to me that I started. He stood beside me, eye level with my eye, and in his hand he held a key which he pressed into mine.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">02</span>
+    <div class="spanish-text">Me llevé la llave y no recuerdo haberla puesto en la cerradura ni haber subido los escalones; o dónde estaba o lo que él hizo, salvo que, cuando pisé la oscura calleja detrás del teatro, le escuché decirme en voz muy baja en algún sitio cerca de mí: —Ven aquí, a mí, cuando puedas. Eché una mirada a mi alrededor y no me sorprendió no verlo. En algún momento, también me había dicho que no abandonara el Hotel Saint-Gabriel, que no debía darles a los otros un solo indicio de la culpabilidad que ellos buscaban.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `I have no choice.&#x27; &quot;I was in the passage when I heard him so close to me that I started. He stood beside me, eye level with my eye, and in his hand he held a key which he pressed into mine. &quot; `There is a door there,&#x27; he said, gesturing to the dark end, which I&#x27;d thought to be merely a wall. `And a stairs to the side street which no one uses but myself. Go this way now, so you can avoid the others. You are anxious and they will see it&#x27; I turned around to go at once, though every part of my being wanted to remain there. &#x27;But let me tell you this,&#x27; he said, and lightly he pressed the back of his hand against my heart. `Use the power inside you. Don&#x27;t abhor it anymore. Use that power! And when they see you in the streets above, use that power to make your face a mask and think as you gaze on them as on anyone: beware. Take that word as if it were an amulet rd given you to wear about your neck. And when your eyes meet Santiago&#x27;s eyes, or the eyes of any other vampire, speak to them politely what you will, but think of that word and that word only. Remember what I say. I speak to you simply because you respect what is simple. You understand this. That&#x27;s your strength.&#x27; &quot;I took the key from him, and I don&#x27;t remember actually putting it into the lock or going up the steps. Or where he was or what he&#x27;d done. Except that, as I was stepping into the dark side street behind the theater, I heard ham say very softly to me from someplace close to me: `Come here, to me, when you can.&#x27; I looked around for him but was not surprised that I couldn&#x27;t see him. He had told me also sometime or other that I must not leave the Hotel Saint-Gabriel, that I must not give the others the shred of evidence of guilt they wanted. `You see,&#x27; he said, `killing other vampires is very exciting; that is why it is forbidden under penalty of death.&#x27; &quot;And . then I seemed to awake. To the Paris street sharing with rain, to the tall, narrow buildings on either side of me, to the fact that the door had shut to make a solid dark wall behind me and that Armand was no longer there.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">03</span>
+    <div class="spanish-text">—¿Ves? —me dijo—, matar a otros vampiros es algo muy excitante y por eso está prohibido, bajo pena de muerte. Y entonces me pareció despertar: a las calles de París brillantes con la lluvia, a los edificios cerrados para constituir otra vez una sólida pared oscura a mis espaldas, y a que Armand ya no estaba allí. Y aunque Claudia me esperaba, aunque pasé por el hotel y vi las ventanas iluminadas, y ella, una figura diminuta, estaba de pie entre flores de pétalos de cera, me alejé de la avenida; dejé que me tragaran las calles más tenebrosas, como lo habían hecho con tanta frecuencia aquellas calles de Nueva Orleans.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `There is a door there,&#x27; he said, gesturing to the dark end, which I&#x27;d thought to be merely a wall. `And a stairs to the side street which no one uses but myself. Go this way now, so you can avoid the others. You are anxious and they will see it&#x27; I turned around to go at once, though every part of my being wanted to remain there. &#x27;But let me tell you this,&#x27; he said, and lightly he pressed the back of his hand against my heart. `Use the power inside you. Don&#x27;t abhor it anymore. Use that power! And when they see you in the streets above, use that power to make your face a mask and think as you gaze on them as on anyone: beware. Take that word as if it were an amulet rd given you to wear about your neck. And when your eyes meet Santiago&#x27;s eyes, or the eyes of any other vampire, speak to them politely what you will, but think of that word and that word only. Remember what I say. I speak to you simply because you respect what is simple. You understand this. That&#x27;s your strength.&#x27; &quot;I took the key from him, and I don&#x27;t remember actually putting it into the lock or going up the steps. Or where he was or what he&#x27;d done. Except that, as I was stepping into the dark side street behind the theater, I heard ham say very softly to me from someplace close to me: `Come here, to me, when you can.&#x27; I looked around for him but was not surprised that I couldn&#x27;t see him. He had told me also sometime or other that I must not leave the Hotel Saint-Gabriel, that I must not give the others the shred of evidence of guilt they wanted. `You see,&#x27; he said, `killing other vampires is very exciting; that is why it is forbidden under penalty of death.&#x27; &quot;And . then I seemed to awake. To the Paris street sharing with rain, to the tall, narrow buildings on either side of me, to the fact that the door had shut to make a solid dark wall behind me and that Armand was no longer there. &quot;And though I knew Claudia waited for me, though I passed her in the hotel window above the gas lamps, a tiny figure standing among waxen petaled flowers, I moved away from the boulevard, letting the darker streets swallow me, as so often the streets of New Orleans had done. &quot;It was not that I did not love her; rather, it was that I knew I loved her only too well, that the passion for her was as great as the passion for Armand. And I fled them both now, letting the desire for the kill rise in me like a welcome fever, threatening consciousness, threatening pain.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">04</span>
+    <div class="spanish-text">No se trataba de que yo no la amara; más bien fue que la quería mucho y que mi pasión era tan grande como la pasión por Armand. Y ahora escapé de ambos, dejando que el deseo de matar creciera en mí como una fiebre esperada, una conciencia amenazadora, un dolor amenazador. De entre la bruma que siguió a la lluvia, apareció un hombre y caminó hacia mí. Puedo recordarlo como caminando en un paisaje de ensueño, porque la noche a mi alrededor era oscura e irreal. Ese lugar podría haber estado en cualquier parte del mundo y las luces suaves de París eran un resplandor amorfo en la niebla. Con los ojos hundidos y borracho, él caminaba ciegamente a los brazos de la misma muerte, y sus dedos vivos se extendieron para tocar los huesos de mi rostro.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;And though I knew Claudia waited for me, though I passed her in the hotel window above the gas lamps, a tiny figure standing among waxen petaled flowers, I moved away from the boulevard, letting the darker streets swallow me, as so often the streets of New Orleans had done. &quot;It was not that I did not love her; rather, it was that I knew I loved her only too well, that the passion for her was as great as the passion for Armand. And I fled them both now, letting the desire for the kill rise in me like a welcome fever, threatening consciousness, threatening pain. &quot;Out of the mist which had followed the rain, a man was walking towards me. I can remember him as roaming on the landscape of a dream, because the night around me was dark and unreal. The hill might have been anywhere in the world, and the soft lights of Paris were an amorphous shimmering in the fog. And sharp-eyed and drunk, he was walking blindly into the arms of death itself, his pulsing fingers reaching out to touch the very bones of my face. &quot;I was not crazed yet, not desperate. I might have said to him, `Pass by.&#x27; I believe my lips did form the word Armand had given me, `Beware.&#x27; Yet I let him slip his bold, drunken arm around my waist; I yielded to his adoring eyes, to the voice that begged to paint me now and spoke of warmth, to the rich, sweet smell of the oils that streaked his loose shirt. I was following him, through Montmartre, and I whispered to him, `You are not a member of the dead.&#x27; He was leading me through an overgrown garden, through the sweet, wet grasses, and he was laughing as I said, `Alive, alive,&#x27; his hand touching my cheek, stroking my face, clasping finally my chin as he guided me into the light of the low doorway, his reddened face brilliantly illuminated by the oil lamps, the warmth seeping about. us as the door closed.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">05</span>
+    <div class="spanish-text">Yo aún no estaba en el límite, todavía no sentía una sed desesperada. Le podría haber dicho: &quot;Pasa&quot;. Creo que mis labios formaron la palabra que me había dicho Armand: &quot;Cuidado&quot;. Y, sin embargo, le permití que me pasara sus brazos borrachos por la cintura; cedí ante sus ojos adoradores, ante la voz que me rogaba que me dejase pintar, y que habló con cariño del olor rico y dulce de los óleos que manchaban su camisa abierta. Lo seguí a través de Montmartre y le susurré:</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Out of the mist which had followed the rain, a man was walking towards me. I can remember him as roaming on the landscape of a dream, because the night around me was dark and unreal. The hill might have been anywhere in the world, and the soft lights of Paris were an amorphous shimmering in the fog. And sharp-eyed and drunk, he was walking blindly into the arms of death itself, his pulsing fingers reaching out to touch the very bones of my face. &quot;I was not crazed yet, not desperate. I might have said to him, `Pass by.&#x27; I believe my lips did form the word Armand had given me, `Beware.&#x27; Yet I let him slip his bold, drunken arm around my waist; I yielded to his adoring eyes, to the voice that begged to paint me now and spoke of warmth, to the rich, sweet smell of the oils that streaked his loose shirt. I was following him, through Montmartre, and I whispered to him, `You are not a member of the dead.&#x27; He was leading me through an overgrown garden, through the sweet, wet grasses, and he was laughing as I said, `Alive, alive,&#x27; his hand touching my cheek, stroking my face, clasping finally my chin as he guided me into the light of the low doorway, his reddened face brilliantly illuminated by the oil lamps, the warmth seeping about. us as the door closed. &quot;I saw the great sparkling orbs of his eyes, the tiny red veins that reached for the dark centers, that warm hand burning my cold hunger as he guided me to a chair. And then all around me I saw faces blazing, faces rising in the smoke of the lamps, in the shimmer of the burning stove, a wonderland of colors on canvases surrounding us beneath the small, sloped roof, a blaze of beauty that pulsed and throbbed. `Sit down, sit down . . &#x27; he said to me, those feverish hands against my chest, clasped by my hands, yet sliding away, my hunger rising in waves.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">06</span>
+    <div class="spanish-text">—Tú no eres un miembro de los muertos. Me guió por un jardín descuidado, a través de las hierbas fragantes y mojadas y se rió cuando le dije: —Estás vivo, vivo... Su mano me tocó las mejillas, la cara, y por último el mentón, mientras me guiaba hacia la luz del portal bajo y su cara enrojecida se iluminó súbitamente con la luz de la lámpara y el calor cuando se cerró la puerta.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I was not crazed yet, not desperate. I might have said to him, `Pass by.&#x27; I believe my lips did form the word Armand had given me, `Beware.&#x27; Yet I let him slip his bold, drunken arm around my waist; I yielded to his adoring eyes, to the voice that begged to paint me now and spoke of warmth, to the rich, sweet smell of the oils that streaked his loose shirt. I was following him, through Montmartre, and I whispered to him, `You are not a member of the dead.&#x27; He was leading me through an overgrown garden, through the sweet, wet grasses, and he was laughing as I said, `Alive, alive,&#x27; his hand touching my cheek, stroking my face, clasping finally my chin as he guided me into the light of the low doorway, his reddened face brilliantly illuminated by the oil lamps, the warmth seeping about. us as the door closed. &quot;I saw the great sparkling orbs of his eyes, the tiny red veins that reached for the dark centers, that warm hand burning my cold hunger as he guided me to a chair. And then all around me I saw faces blazing, faces rising in the smoke of the lamps, in the shimmer of the burning stove, a wonderland of colors on canvases surrounding us beneath the small, sloped roof, a blaze of beauty that pulsed and throbbed. `Sit down, sit down . . &#x27; he said to me, those feverish hands against my chest, clasped by my hands, yet sliding away, my hunger rising in waves. &quot;And now I saw him at a distance, eyes intent, the palette in his hand, the huge canvas obscuring the arm that moved. And mindless and helpless, I sat there drifting with his paintings, drifting with those adoring eyes, letting it go on and on till Armand&#x27;s eyes were gone and Claudia was running down that stone passage with clicking heels away from me, away from me. &quot; `You are alive . . : I whispered. `Bones,&#x27; he answered me. `Bones . . .&#x27; And I saw them in heaps, taken from those shallow graves in New Orleans as they are and put in chambers behind the sepulcher so that another can be laid in that narrow plot. I felt my eyes close; I felt my hunger become agony, my heart crying out for a living heart; and then I felt him moving forward, hands out to right my face-that fatal step, that fatal lurch. A sigh escaped my lips. `Save yourself,&#x27; I whispered to him. `Beware.&#x27; &quot;And then something happened in the moist radiance of his face, something drained the broken vessels of his fragile skin. He backed away from me, the . brush falling from ills hands. And I rose over him, feeling my teeth against my lip, feeling my eyes fill with the colors of his face, my ears fill with his struggling cry, my hands fill with that strong, fighting flesh until I drew him up to me, helpless, and tore that flesh and had the blood that gave it life. `Die,&#x27; I whispered when I held him loose now, his head bowed against my coat, `die,&#x27; and felt him struggle to look up at. me. And again I drank and again he fought, until at last he slipped, limp and shocked and near to death, on the floor. Yet his eyes did not close.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">07</span>
+    <div class="spanish-text">Vi los grandes globos chispeantes de sus ojos, las diminutas venas rojas que llegaban a los centros oscuros, la mano cálida que hacía arder mi hambre helado cuando me guió hasta la silla. Entonces, en todas partes vi rostros brillantes, caras que se elevaban por encima del humo de las lámparas, o de las ascuas de la cocina; una maravilla de colores en telas que nos rodeaban bajo el techo bajo e irregular; un brillo de belleza que latía y palpitaba.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `You are alive . . : I whispered. `Bones,&#x27; he answered me. `Bones . . .&#x27; And I saw them in heaps, taken from those shallow graves in New Orleans as they are and put in chambers behind the sepulcher so that another can be laid in that narrow plot. I felt my eyes close; I felt my hunger become agony, my heart crying out for a living heart; and then I felt him moving forward, hands out to right my face-that fatal step, that fatal lurch. A sigh escaped my lips. `Save yourself,&#x27; I whispered to him. `Beware.&#x27; &quot;And then something happened in the moist radiance of his face, something drained the broken vessels of his fragile skin. He backed away from me, the . brush falling from ills hands. And I rose over him, feeling my teeth against my lip, feeling my eyes fill with the colors of his face, my ears fill with his struggling cry, my hands fill with that strong, fighting flesh until I drew him up to me, helpless, and tore that flesh and had the blood that gave it life. `Die,&#x27; I whispered when I held him loose now, his head bowed against my coat, `die,&#x27; and felt him struggle to look up at. me. And again I drank and again he fought, until at last he slipped, limp and shocked and near to death, on the floor. Yet his eyes did not close. &quot;I settled before his canvas, weak, at peace, gazing down at him, at his vague, graying eyes, my own hands florid, my skin so luxuriously warm. `I am mortal again,&#x27; I whispered to him. `I am alive. With your blood I am alive.&#x27; His eyes closed. I sank back against the wall and found myself gazing at my own face.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">08</span>
+    <div class="spanish-text">—Siéntate, siéntate... —me dijo, con esas manos febriles sobre mi pecho, estrechadas por las mías, pero apartándose, mientras crecía en mí el hambre en oleadas. Luego lo vi a distancia, con los ojos concentrados, la paleta en una mano, la tela enorme oscureciendo el brazo que se movía. Y sin pensar e indefenso, me quedé allí sentado, descansando con sus pinturas, descansando con esos ojos adoradores, dejando que todo continuara hasta que recordé los ojos de Armand, y Claudia, que corría por aquel pasillo de piedra y se alejaba con pasos resonantes, se alejaba de mí...</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;And then something happened in the moist radiance of his face, something drained the broken vessels of his fragile skin. He backed away from me, the . brush falling from ills hands. And I rose over him, feeling my teeth against my lip, feeling my eyes fill with the colors of his face, my ears fill with his struggling cry, my hands fill with that strong, fighting flesh until I drew him up to me, helpless, and tore that flesh and had the blood that gave it life. `Die,&#x27; I whispered when I held him loose now, his head bowed against my coat, `die,&#x27; and felt him struggle to look up at. me. And again I drank and again he fought, until at last he slipped, limp and shocked and near to death, on the floor. Yet his eyes did not close. &quot;I settled before his canvas, weak, at peace, gazing down at him, at his vague, graying eyes, my own hands florid, my skin so luxuriously warm. `I am mortal again,&#x27; I whispered to him. `I am alive. With your blood I am alive.&#x27; His eyes closed. I sank back against the wall and found myself gazing at my own face. &quot;A sketch was all he&#x27;d done, a series of bold black lines that nevertheless made up my face and shoulders perfectly, and the color was already begun in dabs and splashes: the green of my eyes, the white of my cheek. But the horror, the horror of seeing my expression! For he had captured it perfectly, and there was nothing of horror in it. Those green eyes gazed at me from out of that loosely drawn shape with a mindless innocence, the expressionless wonder of that overpowering craving which he had not understood. Louis of a hundred years ago lost in listening to the sermon of the priest at Mass, lips parted and slack, hair careless, a hand curved in the lap and limp. A mortal Louis. I believe I was laughing, putting my hands to my face and laughing so that the tears nearly rose in my eyes; and when I took my fingers down, there was the stain of the tears, tinged with mortal blood. And already there was begun in me the tingling of the monster that had killed, and would kill again, who was gathering up the painting now and starting to flee with it from the small house. &quot;When suddenly, up from the floor, the man rose with an animal groan and clutched at my boot, his hands sliding off the leather. With some colossal spirit that defied me, he reached up for the painting and held fast to it with his whitening hands. `Give it back!&#x27; he growled at me. `Give it back!&#x27; And we held fast, the two of us, I staring at him and at my own hands that held so easily what he sought so desperately to rescue, as if he would take it to heaven or hell; I the thing that his blood could not make human, he the man that my evil had not overcome. And then, as if I were not myself, I tore the painting loose from him and, wrenching him up to my lips with one arm, gashed his throat in rage.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">09</span>
+    <div class="spanish-text">—Estás vivo —murmuré. —Huesos —me contestó—. Huesos... Y los vi amontonados, sacados de esas fosas de Nueva Orleans tal como están allí, puestos en cámaras detrás del sepulcro para poder poner otros en esos angostos espacios. Sentí que se me cerraban los ojos; el hambre se me transformó en agonía, y mi corazón clamó por un corazón vivo; entonces sentí que se me acercaba, con las manos extendidas hacia mi cara..., ese paso fatal, ese impulso fatal. Un suspiro se escapó de mis labios.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;A sketch was all he&#x27;d done, a series of bold black lines that nevertheless made up my face and shoulders perfectly, and the color was already begun in dabs and splashes: the green of my eyes, the white of my cheek. But the horror, the horror of seeing my expression! For he had captured it perfectly, and there was nothing of horror in it. Those green eyes gazed at me from out of that loosely drawn shape with a mindless innocence, the expressionless wonder of that overpowering craving which he had not understood. Louis of a hundred years ago lost in listening to the sermon of the priest at Mass, lips parted and slack, hair careless, a hand curved in the lap and limp. A mortal Louis. I believe I was laughing, putting my hands to my face and laughing so that the tears nearly rose in my eyes; and when I took my fingers down, there was the stain of the tears, tinged with mortal blood. And already there was begun in me the tingling of the monster that had killed, and would kill again, who was gathering up the painting now and starting to flee with it from the small house. &quot;When suddenly, up from the floor, the man rose with an animal groan and clutched at my boot, his hands sliding off the leather. With some colossal spirit that defied me, he reached up for the painting and held fast to it with his whitening hands. `Give it back!&#x27; he growled at me. `Give it back!&#x27; And we held fast, the two of us, I staring at him and at my own hands that held so easily what he sought so desperately to rescue, as if he would take it to heaven or hell; I the thing that his blood could not make human, he the man that my evil had not overcome. And then, as if I were not myself, I tore the painting loose from him and, wrenching him up to my lips with one arm, gashed his throat in rage.&quot; &quot;Entering the rooms of the Hotel Saint-Gabriel, I set the picture on the mantel above the fire and looked at it a long time. Claudia was somewhere in the rooms, and some other presence intruded, as though on one of the balconies above a woman or a man stood near, giving off an unmistakable personal perfume. I didn&#x27;t know why I had taken the picture, why I&#x27;d fought for it so that it shamed me now worse than the death, and why I still held onto it at the marble mantel, my head bowed, my hands visibly trembling. And then slowly I turned my head. I wanted the rooms to take shape around me; I wanted the flowers, the velvet, the candles in their sconces. To be mortal and trivial and safe. And then, as if in a mist, I saw a woman there. &quot;She was seated calmly at that lavish table where Claudia attended to her hair; and so still she sat, so utterly without fear, her green taffeta sleeves reflected in the tilted mirrors, her skirts reflected, that she was not one still woman but a gathering of women. Her dark-red hair was parted in the middle and drawn back to her ears, though a dozen little ringlets escaped to make a frame for her pale face. And she was looking at me with two calm, violet eyes and a child&#x27;s mouth that seemed almost obdurately soft, obdurately the cupid&#x27;s bow unsullied by paint or personality; and the mouth smiled now and said, as those eyes seemed to fire: `Yes, he&#x27;s as you said he would be, and I love him already. He&#x27;s as you said.&#x27; She rose now, gently lifting that abundance of dark taffeta, and the three small mirrors emptied at once.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">10</span>
+    <div class="spanish-text">—Sálvate —susurré—. Cuidado. Entonces algo sucedió en el resplandor húmedo de su rostro, algo desangró las venas rotas de su frágil piel. Se separó de mí y se le cayó el pincel de las manos. Me puse de pie sintiendo los dientes contra los labios, sintiendo que se me llenaban los ojos con los colores de su cara, mis oídos llenos con su grito apagado, mis manos llenas con esa carne firme, rebelde hasta que lo acerqué a mí, indefenso, y le rasgué la carne y tuve la sangre que le daba vida.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Entering the rooms of the Hotel Saint-Gabriel, I set the picture on the mantel above the fire and looked at it a long time. Claudia was somewhere in the rooms, and some other presence intruded, as though on one of the balconies above a woman or a man stood near, giving off an unmistakable personal perfume. I didn&#x27;t know why I had taken the picture, why I&#x27;d fought for it so that it shamed me now worse than the death, and why I still held onto it at the marble mantel, my head bowed, my hands visibly trembling. And then slowly I turned my head. I wanted the rooms to take shape around me; I wanted the flowers, the velvet, the candles in their sconces. To be mortal and trivial and safe. And then, as if in a mist, I saw a woman there. &quot;She was seated calmly at that lavish table where Claudia attended to her hair; and so still she sat, so utterly without fear, her green taffeta sleeves reflected in the tilted mirrors, her skirts reflected, that she was not one still woman but a gathering of women. Her dark-red hair was parted in the middle and drawn back to her ears, though a dozen little ringlets escaped to make a frame for her pale face. And she was looking at me with two calm, violet eyes and a child&#x27;s mouth that seemed almost obdurately soft, obdurately the cupid&#x27;s bow unsullied by paint or personality; and the mouth smiled now and said, as those eyes seemed to fire: `Yes, he&#x27;s as you said he would be, and I love him already. He&#x27;s as you said.&#x27; She rose now, gently lifting that abundance of dark taffeta, and the three small mirrors emptied at once. &quot;And utterly baffled and almost incapable of speech, I turned to see Claudia far off on the immense bed, her small face rigidly calm, though she clung to the silk curtain with a tight fist. &#x27;Madeleine,&#x27; she said under her breath, `Louis is shy.&#x27; And she watched with cold eyes as Madeleine only smiled when she said this and, drawing closer to me, put both of her hands to the lace fringe around her throat, moving it back so I could see the two small marks there. Then the smile died on her lips, and they became at once sullen and sensual as her eyes narrowed and she breathed the word, `Drink.&#x27; &quot;I turned away from her, my fist rising in a consternation for which I couldn&#x27;t find words. But then Claudia had hold of that fist and was looking up at me with relentless eyes. `Do it, Louis,&#x27; she commanded. `Because I cannot do it.&#x27; Her voice was painfully calm, all the emotion under the hard, measured tone. `I haven&#x27;t the size, I haven&#x27;t the strength! You saw to that when you made me! Do it!&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">11</span>
+    <div class="spanish-text">—Muere —susurré cuando lo dejé en libertad de movimientos, con su cabeza apoyada en mi abrigo—, muere —insistí, y sentí que luchaba por levantar la cabeza y mirarme. Y volví a beber y él volvió a removerse hasta que, por último, se dejó caer, sin fuerzas, espantado y próximo a la muerte, al suelo. No obstante, no cerró los ojos. Me puse ante su tela, debilitado, en paz, mirando sus vagos ojos grises, mis propias manos rosadas, mi piel tan lujosamente cálida.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;And utterly baffled and almost incapable of speech, I turned to see Claudia far off on the immense bed, her small face rigidly calm, though she clung to the silk curtain with a tight fist. &#x27;Madeleine,&#x27; she said under her breath, `Louis is shy.&#x27; And she watched with cold eyes as Madeleine only smiled when she said this and, drawing closer to me, put both of her hands to the lace fringe around her throat, moving it back so I could see the two small marks there. Then the smile died on her lips, and they became at once sullen and sensual as her eyes narrowed and she breathed the word, `Drink.&#x27; &quot;I turned away from her, my fist rising in a consternation for which I couldn&#x27;t find words. But then Claudia had hold of that fist and was looking up at me with relentless eyes. `Do it, Louis,&#x27; she commanded. `Because I cannot do it.&#x27; Her voice was painfully calm, all the emotion under the hard, measured tone. `I haven&#x27;t the size, I haven&#x27;t the strength! You saw to that when you made me! Do it!&#x27; &quot;I broke away from her, clutching my wrist as if she&#x27;d burned it. I could see the door, and it seemed to me the better part of wisdom to leave by it at once. I could feel Claudia&#x27;s strength, her will, and the mortal woman&#x27;s eyes seemed afire with that same will. But Claudia held me, not with a gentle pleading, a miserable coaxing that would have dissipated that power, making me feel pity for her as I gathered my own forces. She held me with the emotion her eyes had evinced even through her coldness and the way that she turned away from me now, almost as if she&#x27;d been instantly defeated. I did not understand the manner in which she sank back on the bed, her head bowed, her lips moving feverishly, her eyes rising only to scan the walls. I wanted to touch her and say to her that what she asked was impossible; I wanted to soothe that fire that seemed to be consuming her from within. &quot;And the soft, mortal woman had settled into one of the velvet chairs by the fire, with the rustling and iridescence of her taffeta dress surrounding her like part of the mystery of her, of her dispassionate eyes which watched us now, the fever of her pale face. I remember turning to her, spurred on by that childish, pouting mouth set against the fragile face. The vampire kiss had left no visible trace except the wound, no inalterable change on the pale pink flesh. `How do we appear to you?&#x27; I asked, seeing her eyes on Claudia. She seemed excited by the diminutive beauty, the awful woman&#x27;s-passion knotted in the small dimpled hands.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">12</span>
+    <div class="spanish-text">—Soy un mortal nuevamente —dije—. Estoy con vida. Con tu sangre, recupero la vida. Cerró los ojos. Me apoyé en la pared y me encontré contemplando mi propio rostro. Lo único que había hecho era un boceto, una serie de líneas negras que, sin embargo, formaban mi cara y mis hombros a la perfección. Y el color ya había comenzado con manchones y pinceladas: el verde de mis ojos, la blancura de mis mejillas. Pero, ¡qué horror el contemplar mi propia expresión! Porque él la había captado perfectamente y allí no había nada de horror. Esos ojos verdes me miraban desde esa forma apenas bocetada con una inocencia simple, con la sorpresa inexpresiva de ese deseo todopoderoso que él no había comprendido. El Louis de hacía cien años, perdido y escuchando el sermón del sacerdote en la misa, con los labios abiertos e inmóviles, el cabello despeinado y una mano cerrada sobre las rodillas. Un Louis mortal. Creo que me reí y me llevé las manos a la cara, y me reí casi hasta el punto de tener los ojos llenos de lágrimas; y cuando bajé los ojos, allí estaba la mancha de las lágrimas mezcladas con la sangre humana. Ya había comenzado en mí el impulso del monstruo que había matado y que volvería a matar, que ahora recogía la pintura y se aprestaba a irse con ella de la pequeña casa, cuando, súbitamente, el hombre se levantó del suelo con un gruñido animal y se aferró a mis botas, con sus manos resbalando por el cuero. Con un espíritu colosal que me desafiaba, alcanzó la pintura y la agarró con fuerza con sus manos blancuzcas.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I turned away from her, my fist rising in a consternation for which I couldn&#x27;t find words. But then Claudia had hold of that fist and was looking up at me with relentless eyes. `Do it, Louis,&#x27; she commanded. `Because I cannot do it.&#x27; Her voice was painfully calm, all the emotion under the hard, measured tone. `I haven&#x27;t the size, I haven&#x27;t the strength! You saw to that when you made me! Do it!&#x27; &quot;I broke away from her, clutching my wrist as if she&#x27;d burned it. I could see the door, and it seemed to me the better part of wisdom to leave by it at once. I could feel Claudia&#x27;s strength, her will, and the mortal woman&#x27;s eyes seemed afire with that same will. But Claudia held me, not with a gentle pleading, a miserable coaxing that would have dissipated that power, making me feel pity for her as I gathered my own forces. She held me with the emotion her eyes had evinced even through her coldness and the way that she turned away from me now, almost as if she&#x27;d been instantly defeated. I did not understand the manner in which she sank back on the bed, her head bowed, her lips moving feverishly, her eyes rising only to scan the walls. I wanted to touch her and say to her that what she asked was impossible; I wanted to soothe that fire that seemed to be consuming her from within. &quot;And the soft, mortal woman had settled into one of the velvet chairs by the fire, with the rustling and iridescence of her taffeta dress surrounding her like part of the mystery of her, of her dispassionate eyes which watched us now, the fever of her pale face. I remember turning to her, spurred on by that childish, pouting mouth set against the fragile face. The vampire kiss had left no visible trace except the wound, no inalterable change on the pale pink flesh. `How do we appear to you?&#x27; I asked, seeing her eyes on Claudia. She seemed excited by the diminutive beauty, the awful woman&#x27;s-passion knotted in the small dimpled hands. &quot;She broke her gaze and looked up at me. `I ask you . . . how do we appear? Do you think us beautiful, magical, our white skin, our fierce eyes? (r)h, I remember perfectly what mortal vision was, the dimness of it, and how the vampire&#x27;s beauty burned through that veil, so powerfully alluring, so utterly deceiving! Drink, you tell me. You haven&#x27;t the vaguest conception under God of what you ask!&#x27; &quot;But Claudia rose from the bed and came towards me. `How dare you!&#x27; she whispered. `How dare you make this decision for both of us! Do you know how I despise you! Do you know that I despise you with a passion that eats at me like a canker!&#x27; Her small form trembled, her hands hovering over the pleated bodice of her yellow gown. `Don&#x27;t you look away from me! I am sick at heart with your looking away, with your suffering. You understand nothing. Your evil is that you cannot be evil, and I must suffer for it. I tell you, I will suffer no longer!&#x27; Her fingers bit into the flesh of my wrist; I twisted, stepping back from her, foundering in the face of the hatred, the rage rising like some dormant beast in her, looking out through her eyes. `Snatching me from mortal hands like two grim monsters in a nightmare fairy tale, you idle, blind parents! Fathers!&#x27; She spat the word. `Let tears gather in your eyes. You haven&#x27;t tears enough for what you&#x27;ve done to me. Six more mortal years, seven, eight . . I might have had that shape!&#x27; Her pointed finger flew at Madeleine, whose hands had risen to her face, whose eyes were clouded over. Her moan was almost Claudia&#x27;s name. But Claudia did not hear her. `Yes, that shape, I might have known what it was to walk at your side. Monsters! To give me immortality in this hopeless guise, this helpless form!&#x27; The tears stood in her eyes. The words had died away, drawn in, as it were, on her breast.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">13</span>
+    <div class="spanish-text">—¡Devuélvemela! —me gruñó—. ¡Devuélvemela! Nos la disputamos. Mientras, yo lo miraba y miraba también mis propias manos, que retenían con tanta facilidad lo que él quería arrancarme con tanta desesperación, como si quisiera llevársela al cielo o al infierno; yo, el monstruo que su sangre no podía transformar en humano, y él, el hombre que mi mal no había derrotado. Y entonces, como si no hubiera sido yo, le arranqué la pintura de las manos y levantándolo hasta mis labios con un solo brazo, le abrí la garganta, enfurecido.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;She broke her gaze and looked up at me. `I ask you . . . how do we appear? Do you think us beautiful, magical, our white skin, our fierce eyes? (r)h, I remember perfectly what mortal vision was, the dimness of it, and how the vampire&#x27;s beauty burned through that veil, so powerfully alluring, so utterly deceiving! Drink, you tell me. You haven&#x27;t the vaguest conception under God of what you ask!&#x27; &quot;But Claudia rose from the bed and came towards me. `How dare you!&#x27; she whispered. `How dare you make this decision for both of us! Do you know how I despise you! Do you know that I despise you with a passion that eats at me like a canker!&#x27; Her small form trembled, her hands hovering over the pleated bodice of her yellow gown. `Don&#x27;t you look away from me! I am sick at heart with your looking away, with your suffering. You understand nothing. Your evil is that you cannot be evil, and I must suffer for it. I tell you, I will suffer no longer!&#x27; Her fingers bit into the flesh of my wrist; I twisted, stepping back from her, foundering in the face of the hatred, the rage rising like some dormant beast in her, looking out through her eyes. `Snatching me from mortal hands like two grim monsters in a nightmare fairy tale, you idle, blind parents! Fathers!&#x27; She spat the word. `Let tears gather in your eyes. You haven&#x27;t tears enough for what you&#x27;ve done to me. Six more mortal years, seven, eight . . I might have had that shape!&#x27; Her pointed finger flew at Madeleine, whose hands had risen to her face, whose eyes were clouded over. Her moan was almost Claudia&#x27;s name. But Claudia did not hear her. `Yes, that shape, I might have known what it was to walk at your side. Monsters! To give me immortality in this hopeless guise, this helpless form!&#x27; The tears stood in her eyes. The words had died away, drawn in, as it were, on her breast. &quot; `Now, you give her to met&#x27; she said, her head bowing, her curls tumbling down to make a concealing veil. `You give her to me. You do this, or you finish what you did to me that night in the hotel in New Orleans. I will not live with this hatred any longer, I will not live with this rage! I cannot. I will not abide it!&#x27; And tossing her hair, she put her hands to her ears as if to stop the sound of her own words, her breath, drawn in rapid gasps, the tears seeming to scald her cheeks. &quot;I had sunk to my knees at her side, and my arms were outstretched as if to enfold her. Yet I dared not touch her, dared not even say her name, lest my own pain break from me with the first syllable in a monstrous outpouring of hopelessly inarticulate cries. `Oooh.&#x27; She shook her head now, squeezing the tears out onto her cheeks, her teeth clenched tight together. `I love you still, that&#x27;s the torment of it. Lestat I never loved. But you! The measure of my hatred is that love. They are the same! Do you know now how much I hate you!&#x27; She flashed at me through the red film that covered her eyes.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">14</span>
+    <div class="spanish-text">Al entrar en las habitaciones del Hotel Saint-Gabriel —prosiguió el vampiro—, puse el cuadro sobre la chimenea y lo contemplé largo rato. Claudia estaba en alguna de las habitaciones. Había otra presencia intrusa, como si en uno de los balcones superiores, un hombre o una mujer estuviera próximo, despidiendo un inconfundible perfume personal. Yo no sabía por qué me había llevado el cuadro, por qué había luchado por él de un modo que ahora me avergonzaba más que el asesinato. Ni por qué lo tenía encima de la chimenea, viéndolo con mi cabeza gacha, mis manos temblando visiblemente. Y entonces, lentamente, volví la cabeza. Quise que las habitaciones tomasen forma a mí alrededor. Quise las flores, el terciopelo, los candelabros, todo en su sitio. Ser mortal y trivial y seguro. Y entonces, como surgiendo de entre brumas, vi allí a una mujer.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `Now, you give her to met&#x27; she said, her head bowing, her curls tumbling down to make a concealing veil. `You give her to me. You do this, or you finish what you did to me that night in the hotel in New Orleans. I will not live with this hatred any longer, I will not live with this rage! I cannot. I will not abide it!&#x27; And tossing her hair, she put her hands to her ears as if to stop the sound of her own words, her breath, drawn in rapid gasps, the tears seeming to scald her cheeks. &quot;I had sunk to my knees at her side, and my arms were outstretched as if to enfold her. Yet I dared not touch her, dared not even say her name, lest my own pain break from me with the first syllable in a monstrous outpouring of hopelessly inarticulate cries. `Oooh.&#x27; She shook her head now, squeezing the tears out onto her cheeks, her teeth clenched tight together. `I love you still, that&#x27;s the torment of it. Lestat I never loved. But you! The measure of my hatred is that love. They are the same! Do you know now how much I hate you!&#x27; She flashed at me through the red film that covered her eyes. &quot; `Yes,&#x27; I whispered. I bowed my head. But she was gone from me into the arms of Madeleine, who enfolded her</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">15</span>
+    <div class="spanish-text">Estaba sentada con calma en la mesa lujosa de tocador donde Claudia se peinaba; y estaba sentada tan inmóvil, tan absolutamente sin miedo, con sus grandes mangas de tafetán verde reflejadas en los espejos inclinados, que parecía que no era una mujer inmóvil sino una reunión de mujeres. Su cabello pelirrojo oscuro estaba peinado con la raya al medio, pero no caía todo a los lados, ya que una docena de pequeños rizos se escapaban para formar un marco alrededor de su rostro pálido. Me miraba con ojos serenos y violetas, y su boca de niña parecía obstinadamente suave, obstinadamente niña y sin mancha de pintura. La boca sonrió y dijo mientras los ojos parecían encenderse:</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I had sunk to my knees at her side, and my arms were outstretched as if to enfold her. Yet I dared not touch her, dared not even say her name, lest my own pain break from me with the first syllable in a monstrous outpouring of hopelessly inarticulate cries. `Oooh.&#x27; She shook her head now, squeezing the tears out onto her cheeks, her teeth clenched tight together. `I love you still, that&#x27;s the torment of it. Lestat I never loved. But you! The measure of my hatred is that love. They are the same! Do you know now how much I hate you!&#x27; She flashed at me through the red film that covered her eyes. &quot; `Yes,&#x27; I whispered. I bowed my head. But she was gone from me into the arms of Madeleine, who enfolded her desperately, as if she might protect Claudia from me-the irony of it, the pathetic irony-protect Claudia from</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">16</span>
+    <div class="spanish-text">—Sí, él es como tú dijiste, y ya lo quiero. Es como dijiste. Se puso de pie levantando con cuidado la abundancia del tafetán oscuro y los tres pequeños espejos se vaciaron al mismo tiempo. Absolutamente atónito y casi sin poder pronunciar palabra, me di vuelta para ver a Claudia, que estaba al otro lado de la gran cama, y vi su pequeña cara rígidamente calma, aunque se aferraba a la cortina de seda con un puño.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I had sunk to my knees at her side, and my arms were outstretched as if to enfold her. Yet I dared not touch her, dared not even say her name, lest my own pain break from me with the first syllable in a monstrous outpouring of hopelessly inarticulate cries. `Oooh.&#x27; She shook her head now, squeezing the tears out onto her cheeks, her teeth clenched tight together. `I love you still, that&#x27;s the torment of it. Lestat I never loved. But you! The measure of my hatred is that love. They are the same! Do you know now how much I hate you!&#x27; She flashed at me through the red film that covered her eyes. &quot; `Yes,&#x27; I whispered. I bowed my head. But she was gone from me into the arms of Madeleine, who enfolded her desperately, as if she might protect Claudia from me-the irony of it, the pathetic irony-protect Claudia from herself. She ,was whispering to Claudia, `Don&#x27;t cry, don&#x27;t cry?&#x27; her hands stroking Claudia&#x27;s face and hair with a fierceness that would have bruised a human child.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">17</span>
+    <div class="spanish-text">—Madeleine —dijo casi sin aliento—. Louis es tímido. Y miró con sus ojos fríos a Madeleine, que sólo sonrió cuando Claudia dijo eso y, acercándose a mí, se llevó las manos al cuello de seda, de modo que allí pude ver las dos marcas pequeñas. Entonces la sonrisa murió en sus labios y, de improviso, éstos se volvieron henchidos y sensuales mientras entrecerraba los ojos, y ella musitó, la palabra:</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">herself. She ,was whispering to Claudia, `Don&#x27;t cry, don&#x27;t cry?&#x27; her hands stroking Claudia&#x27;s face and hair with a fierceness that would have bruised a human child. &quot;But Claudia seemed lost against her breast suddenly, her eyes closed, her face smooth, as if all passion were drained away from her, her arm sliding up around Madeleine&#x27;s neck, her head falling against the taffeta and lace. She lay still, the tears staining her cheeks, as if all this that had risen to the surface had left her weak and desperate for oblivion, as if the room around her, as if I, were not there. &quot;And there they were together, a tender mortal crying unstintingly now, her warm arms holding what she could not possibly understand, this white and fierce and unnatural child thing she believed she loved. And if I had not felt for her, this mad and reckless woman flirting with the damned, if I had not felt all the sorrow for her I felt for my mortal self, I would have wrested the demon thing from her arms, held it tight to me, denying over and over the words I&#x27;d just heard. But I knelt there still, thinking only, The love is equal to the hatred; gathering that selfishly to my own breast, holding onto that as I sank back against the bed.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">18</span>
+    <div class="spanish-text">Me alejé de ella y mi puño se levantó con tal consternación que no pude encontrar las palabras. Pero entonces Claudia se aferró a mi puño, y me miró fijamente:</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;But Claudia seemed lost against her breast suddenly, her eyes closed, her face smooth, as if all passion were drained away from her, her arm sliding up around Madeleine&#x27;s neck, her head falling against the taffeta and lace. She lay still, the tears staining her cheeks, as if all this that had risen to the surface had left her weak and desperate for oblivion, as if the room around her, as if I, were not there. &quot;And there they were together, a tender mortal crying unstintingly now, her warm arms holding what she could not possibly understand, this white and fierce and unnatural child thing she believed she loved. And if I had not felt for her, this mad and reckless woman flirting with the damned, if I had not felt all the sorrow for her I felt for my mortal self, I would have wrested the demon thing from her arms, held it tight to me, denying over and over the words I&#x27;d just heard. But I knelt there still, thinking only, The love is equal to the hatred; gathering that selfishly to my own breast, holding onto that as I sank back against the bed. &quot;A long time before Madeleine was to know it, Claudia had ceased crying and sat still as a statue on Madeleine&#x27;s lap, her liquid eyes fixed on me, oblivious to the soft, red hair that fell around her or the woman&#x27;s hand that still stroked her. And I sat slumped against the bedpost, staring back at those vampire eyes, unable and unwilling to speak in my defense. Madeleine was whispering into Claudia&#x27;s ear, she was letting her tears fall into Claudia&#x27;s tresses. And then gently, Claudia said to her, `Leave us.&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<footer>
+  <p><em>Entrevista con el Vampiro</em> &mdash; Anne Rice</p>
+  <p style="margin-top:.5rem;">Lectura glosada para uso personal de estudio del espa&ntilde;ol &middot; Cap&iacute;tulo 10</p>
+</footer>
+
+<script>
+(function () {
+  /* ── 1. Wrap every .spanish-text in a flex row and prepend a play button ── */
+  document.querySelectorAll('.spanish-text').forEach(function (el, i) {
+    var text = el.textContent.trim();
+    el.dataset.speak = text;
+
+    var btn = document.createElement('button');
+    btn.className = 'play-btn';
+    btn.title = 'Reproducir';
+    btn.innerHTML = '&#9654;';
+    btn.dataset.idx = i;
+
+    var row = document.createElement('div');
+    row.className = 'spanish-row';
+    el.parentNode.insertBefore(row, el);
+    row.appendChild(btn);
+    row.appendChild(el);
+  });
+
+  /* ── 2. Voice loading ── */
+  var voiceSelect = document.getElementById('voice-select');
+  var statusEl    = document.getElementById('voice-status');
+  var spanishVoices = [];
+  var allVoices     = [];
+
+  function loadVoices() {
+    allVoices = window.speechSynthesis.getVoices();
+    if (!allVoices.length) return;
+    spanishVoices = allVoices.filter(function (v) {
+      return v.lang.toLowerCase().startsWith('es');
+    });
+    voiceSelect.innerHTML = '';
+    if (spanishVoices.length === 0) {
+      allVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i + '_all';
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u26a0 No Spanish voices found \u2014 showing all voices.';
+    } else {
+      spanishVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        if (v.lang.toLowerCase() === 'es-es') opt.selected = true;
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u2713 ' + spanishVoices.length + ' Spanish voice(s) found';
+    }
+  }
+
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  setTimeout(loadVoices, 500);
+
+  function getSelectedVoice() {
+    var val = voiceSelect.value;
+    if (!val) return null;
+    if (val.endsWith('_all')) return allVoices[parseInt(val)] || null;
+    return spanishVoices[parseInt(val)] || null;
+  }
+
+  /* ── 3. Speed slider ── */
+  var speedSlider = document.getElementById('speed-slider');
+  var speedVal    = document.getElementById('speed-val');
+  speedSlider.addEventListener('input', function () {
+    speedVal.textContent = parseFloat(this.value).toFixed(2) + '\u00d7';
+  });
+
+  /* ── 4. Speech playback ── */
+  var currentBtn = null;
+
+  function stopSpeech() {
+    window.speechSynthesis.cancel();
+    if (currentBtn) {
+      currentBtn.classList.remove('playing');
+      currentBtn.innerHTML = '&#9654;';
+      currentBtn = null;
+    }
+  }
+
+  document.getElementById('stop-btn').addEventListener('click', stopSpeech);
+
+  /* ── 4b. Per-section gloss toggle ── */
+  window.toggleSectionGloss = function(btn) {
+    var group = btn.closest('.section-group');
+    if (!group) return;
+    var glosses = group.querySelectorAll('.gloss-text');
+    var toggles = group.querySelectorAll('.gloss-toggle');
+    var allHidden = Array.from(glosses).every(function(g){ return g.classList.contains('gloss-hidden'); });
+    glosses.forEach(function(g){ g.classList.toggle('gloss-hidden', !allHidden); });
+    toggles.forEach(function(t){ t.textContent = allHidden ? '▼ English' : '▶ English'; });
+    btn.textContent = allHidden ? 'Ocultar English' : 'Mostrar English';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn === currentBtn) { stopSpeech(); return; }
+    stopSpeech();
+
+    var spanishEl = btn.parentElement.querySelector('.spanish-text');
+    var text = spanishEl ? spanishEl.dataset.speak : '';
+    if (!text) return;
+
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang  = 'es-ES';
+    utter.rate  = parseFloat(speedSlider.value);
+    utter.pitch = 1;
+
+    var voice = getSelectedVoice();
+    if (voice) utter.voice = voice;
+
+    btn.classList.add('playing');
+    btn.innerHTML = '&#9632;';
+    currentBtn = btn;
+
+    /* Chrome keepalive: prevents silent cutoff of utterances > ~15 s */
+    var keepAlive = setInterval(function () {
+      if (!window.speechSynthesis.speaking) { clearInterval(keepAlive); return; }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, 10000);
+
+    utter.onend = function () {
+      clearInterval(keepAlive);
+      if (currentBtn === btn) {
+        btn.classList.remove('playing');
+        btn.innerHTML = '&#9654;';
+        currentBtn = null;
+      }
+    };
+    utter.onerror = utter.onend;
+
+    window.speechSynthesis.speak(utter);
+  });
+})();
+</script>
+<script>
+/* ── Dictionary lookup ── */
+(function () {
+
+  /* 1. Tokenize each .spanish-text into clickable word spans */
+  document.querySelectorAll('.spanish-text').forEach(function (el) {
+    var newHTML = el.innerHTML.replace(
+      /([A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+(?:['\u2019-][A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+)*)/g,
+      function (token) {
+        var lookup = token.replace(/^['\u2019-]+|['\u2019-]+$/g, '').toLowerCase();
+        if (!lookup) return token;
+        return '<span class="es-word" data-word="' + lookup + '">' + token + '</span>';
+      }
+    );
+    el.innerHTML = newHTML;
+  });
+
+  /* 2. Build popup */
+  var popup = document.createElement('div');
+  popup.id = 'dict-popup';
+  popup.innerHTML =
+    '<button id="dict-close" title="Cerrar">&#10005;</button>' +
+    '<span class="dp-word"></span>' +
+    '<div class="dp-body"></div>' +
+    '<hr class="dp-divider">' +
+    '<div class="dp-links"></div>';
+  document.body.appendChild(popup);
+
+  var dpWord  = popup.querySelector('.dp-word');
+  var dpBody  = popup.querySelector('.dp-body');
+  var dpLinks = popup.querySelector('.dp-links');
+  var dpClose = popup.querySelector('#dict-close');
+  var activeSpan = null;
+  var ES_LEMMAS = {"entrecerraba": "entrecerrar", "ellos": "él", "pasara": "pasar", "alejaba": "alejar", "ocurra": "ocurrir", "brillantes": "brillante", "continuara": "continuar", "botas": "bota", "da": "dar", "volví": "volver", "ésa": "ese", "eché": "echar", "llevé": "llevar", "inexpresiva": "inexpresivo", "diga": "decir", "cien": "ciar", "apoyé": "apoyar", "alguna": "alguno", "habló": "hablar", "musitó": "musitar", "llenaban": "llenar", "soy": "ser", "una": "uno", "amara": "amar", "habían": "haber", "sucedió": "suceder", "comenzado": "comenzar", "fuera": "ser", "disputamos": "disputar", "enrojecida": "enrojecer", "verdes": "verde", "te": "tú", "pisé": "pisar", "es": "ser", "cerraban": "cerrar", "fosas": "fosa", "sido": "ser", "debía": "deber", "peinaba": "peinar", "espacios": "espacio", "caras": "cara", "ves": "ver", "edificios": "edificio", "mezcladas": "mezclar", "cerró": "cerrar", "puso": "poner", "manos": "mano", "agregó": "agregar", "siguió": "seguir", "parecían": "parecer", "sentí": "sentir", "acercándose": "acercarse", "sensuales": "sensual", "podría": "poder", "muere": "morir", "tienes": "tener", "era": "ser", "caía": "caer", "le": "él", "quise": "querer", "uses": "usar", "comprendido": "comprender", "serenos": "sereno", "subido": "subir", "caminaba": "caminar", "volvió": "volver", "apoyada": "apoyar", "adoradores": "adorador", "diminutas": "diminuto", "están": "estar", "abandonara": "abandonar", "febriles": "febril", "rojas": "rojo", "puedo": "poder", "abiertos": "abrir", "prohibido": "prohibir", "rosadas": "rosada", "luces": "lucir", "tocó": "tocar", "resbalando": "resbalar", "miraban": "mirar", "separó": "separar", "rechaces": "rechace", "retenían": "retener", "marcas": "marca", "venas": "vena", "desesperada": "desesperado", "oídos": "oído", "niña": "niño", "escuchando": "escuchar", "años": "año", "llevó": "llevar", "eran": "ser", "propia": "propio", "huesos": "hueso", "luchado": "luchar", "iluminó": "iluminar", "rostros": "rostro", "había": "haber", "fragantes": "fragante", "extendieron": "extender", "volvieron": "volver", "ojos": "ojo", "ascuas": "ascua", "arriba": "arribar", "vean": "ver", "sintiendo": "sentir", "luchaba": "luchar", "fue": "ir", "comprendes": "comprender", "desangró": "desangrar", "otra": "otro", "los": "el", "rasgué": "rasgar", "cerrados": "cerrar", "habitaciones": "habitación", "mías": "mía", "seguí": "seguir", "lo": "él", "espantado": "espantar", "balcones": "balcón", "mejillas": "mejilla", "levantando": "levantar", "pequeñas": "pequeño", "raya": "rayar", "intrusa": "intrusar", "encima": "encimar", "mujeres": "mujer", "dejó": "dejar", "la": "el", "creo": "crear", "escapó": "escapar", "buscaban": "buscar", "muertos": "muerto", "contestó": "contestar", "amenazadora": "amenazador", "se": "él", "oscura": "oscuro", "sabía": "saber", "estaba": "estar", "recupero": "recuperar", "oscureciendo": "oscurecer", "piensa": "pensar", "mojadas": "mojada", "aprestaba": "aprestar", "pensaba": "pensar", "tanta": "tanto", "grandes": "grande", "puse": "poner", "elevaban": "elevar", "sólida": "sólido", "chispeantes": "chispeante", "darían": "dar", "hierbas": "hierba", "estuviera": "estar", "hacía": "hacer", "esas": "ese", "lados": "lado", "movimientos": "movimiento", "negras": "negro", "prosiguió": "proseguir", "un": "uno", "inmóviles": "inmóvil", "concentrados": "concentrado", "dijo": "decir", "quiero": "querer", "espejos": "espejo", "abierta": "abrir", "insistí": "insistir", "cámaras": "cámara", "sentía": "sentir", "espaldas": "espalda", "manchones": "manchón", "mis": "mi", "pasos": "paso", "encontré": "encontrar", "puestos": "puesto", "arranqué": "arrancar", "escapaban": "escapar", "debilitado": "debilitar", "posó": "posar", "guió": "guiar", "resonantes": "resonante", "rizos": "rizo", "vaciaron": "vaciar", "eso": "ese", "brazos": "brazo", "contemplando": "contemplar", "estás": "estar", "despidiendo": "despedir", "las": "el", "pequeños": "pequeño", "palpitaba": "palpitar", "hizo": "hacer", "hundidos": "hundir", "vete": "verse", "cualquier": "cualquiera", "derrotado": "derrotar", "parís": "parir", "trataba": "tratar", "rogaba": "rogar", "agarró": "agarrar", "globos": "globo", "lujosa": "lujoso", "palabras": "palabra", "di": "dar", "desafiaba": "desafiar", "tragaran": "tragar", "siéntate": "sentarse", "corría": "correr", "tenía": "tener", "mangas": "manga", "flores": "florar", "quedara": "quedar", "despeinado": "despeinar", "esa": "ese", "sonrió": "sonreír", "permití": "permitir", "vivos": "vivo", "parecía": "parecer", "centros": "centro", "matado": "matar", "miraba": "mirar", "inclinados": "inclinar", "estoy": "estar", "reí": "reír", "quisiera": "querer", "tus": "tu", "extendidas": "extender", "cedí": "ceder", "surgiendo": "surgir", "ella": "él", "sacados": "sacar", "mires": "mirar", "vayas": "vaya", "lleva": "llevar", "esos": "ese", "quedé": "quedar", "acerqué": "acercar", "rodeaban": "rodear", "aferró": "aferrar", "éstos": "este", "formaron": "formar", "rodillas": "rodilla", "oleadas": "oleada", "pinceladas": "pincelada", "brumas": "bruma", "llenas": "llena", "fuerzas": "fuerza", "tomasen": "tomar", "óleos": "óleo", "grises": "gris", "bajé": "bajar", "llegaban": "llegar", "estrechadas": "estrechar", "suaves": "suave", "escapé": "escapar", "dientes": "diente", "alcanzó": "alcanzar", "creciera": "crecer", "vi": "ver", "fríos": "frío", "apareció": "aparecer", "llenos": "lleno", "podía": "poder", "movía": "mover", "enfurecido": "enfurecer", "hablo": "hablar", "cálida": "cálido", "murmuré": "murmurar", "diminuta": "diminuto", "sorprendió": "sorprender", "calles": "calle", "rotas": "rota", "labios": "labio", "violetas": "violeta", "sentado": "sentar", "está": "estar", "oscuras": "oscuro", "hubiera": "haber", "daba": "dar", "superiores": "superior", "tengo": "tener", "latía": "latir", "clamó": "clamar", "escuché": "escuchar", "amontonados": "amontonar", "manchaban": "manchar", "telas": "tela", "caminó": "caminar", "dejé": "dejar", "oscuros": "oscuro", "otros": "otro", "volvería": "volverse", "dedos": "dedo", "colores": "colorar", "iluminadas": "iluminado", "señalando": "señalar", "algún": "alguno", "dijiste": "decir", "descansando": "descansar", "esta": "estar", "formaban": "formar", "vagos": "vago", "candelabros": "candelabro", "reflejadas": "reflejar", "todas": "todo", "alejé": "alejar", "dejando": "dejar", "eres": "ere", "contemplé": "contemplar", "avergonzaba": "avergonzar", "quería": "querer", "sus": "su", "ven": "ver", "mirando": "mirar", "pedía": "pedir", "llevado": "llevar", "aferraba": "aferrar", "crecía": "crecer", "dejase": "dejar", "temblando": "temblar", "sé": "ser", "gruñó": "gruñir", "podrás": "poder", "caminando": "caminar", "líneas": "línea", "pequeña": "pequeño", "hay": "haber", "ventanas": "ventana", "henchidos": "henchir", "humana": "humanar", "hombros": "hombro", "recordé": "recordar", "me": "yo", "tenebrosas": "tenebroso", "esperaba": "esperar", "levantó": "levantar", "aquellas": "aquel", "escalones": "escalonar", "transformó": "transformar", "lágrimas": "lágrima", "pétalos": "pétalo", "pinturas": "pintura", "muy": "mucho", "lámparas": "lámpara", "murió": "morir", "vampiros": "vampiro", "partes": "parte", "acercaba": "acercar", "cayó": "caer", "borrachos": "borracho", "pareció": "parecer", "miró": "mirar", "blancuzcas": "blancuzco", "captado": "captar", "tuve": "tener", "misma": "mismo", "usa": "usar", "puedas": "poder", "recogía": "recoger", "crucen": "cruzar", "susurré": "susurrar", "guiaba": "guiar", "propias": "propio", "abrí": "abrir", "rió": "reír", "pasé": "pasar", "pude": "poder", "respetas": "respetar", "esperada": "esperar", "angostos": "angosto"};
+  function toLemma(w) { return ES_LEMMAS[w.toLowerCase()] || w; }
+  var dictCache  = {};
+
+  /* 3. Fetch definition (Wiktionary, then MyMemory fallback) */
+  /* Extract base word from a "form of X" Wiktionary definition HTML string.
+     Returns the base word string, or null if not a form-of entry. */
+  function extractBaseForm(defHtml) {
+    var t = defHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    // "first/second/third-person ... of X"
+    var m = t.match(/(?:first|second|third)[- ]person.{0,60}of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "plural of X", "inflection of X", "feminine of X", etc.
+    m = t.match(/^(?:inflection|plural|singular|feminine|masculine|augmentative|diminutive|superlative|past\s+(?:tense|participle)|present\s+participle|gerund|form)\s+of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "X of Y" where X ends right before "of" and Y is at end
+    m = t.match(/of\s+([\wÀ-ɏ]+)\s*(?:[:,]|$)/i);
+    if (m) return m[1].toLowerCase();
+    return null;
+  }
+
+  /* Returns true if ALL definitions in all entries look like form-of entries */
+  function getFirstBase(entries) {
+    // Return the base form if the first definition looks like a form-of entry
+    var firstDef = ((entries[0] || {}).definitions || [])[0] || {};
+    return extractBaseForm(firstDef.definition || '');
+  }
+
+  function fetchWiktionary(word) {
+    return fetch(
+      'https://en.wiktionary.org/api/rest_v1/page/definition/' + encodeURIComponent(word),
+      { headers: { Accept: 'application/json' } }
+    ).then(function(r) {
+      if (!r.ok) throw new Error('wikt');
+      return r.json();
+    }).then(function(data) {
+      var es = data.es || data.Es;
+      if (es && es.length) return es;
+      throw new Error('no entry');
+    });
+  }
+
+  function fetchDefinition(rawWord) {
+    var word = toLemma(rawWord);
+    if (dictCache[word]) return Promise.resolve(dictCache[word]);
+    return fetchWiktionary(word).then(function(es) {
+      // If all definitions are "form of X", follow the link to the base form
+      var base = getFirstBase(es);
+      if (base && base !== word.toLowerCase()) {
+        return fetchWiktionary(base).then(function(baseEs) {
+          var result = { source: 'wiktionary', entries: baseEs, inflectedFrom: rawWord, baseForm: base };
+          dictCache[word] = result; return result;
+        }).catch(function() {
+          var result = { source: 'wiktionary', entries: es };
+          dictCache[word] = result; return result;
+        });
+      }
+      var result = { source: 'wiktionary', entries: es };
+      if (word.toLowerCase() !== rawWord.toLowerCase()) result.baseForm = word;
+      dictCache[word] = result; return result;
+    }).catch(function () {
+      return fetch(
+        'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=es|en'
+      ).then(function (r) { return r.json(); }).then(function (data) {
+        var trans = data.responseData && data.responseData.translatedText;
+        if (!trans || trans.toLowerCase() === word.toLowerCase()) throw new Error('no trans');
+        var alts = (data.matches || [])
+          .filter(function (m) {
+            return m.quality > 50 && m.translation &&
+              m.translation.toLowerCase() !== word.toLowerCase() &&
+              m.translation.toLowerCase() !== trans.toLowerCase();
+          })
+          .map(function (m) { return m.translation; })
+          .filter(function (v, i, a) { return a.indexOf(v) === i; })
+          .slice(0, 3);
+        var result = { source: 'mymemory', translation: trans, alts: alts };
+        dictCache[word] = result; return result;
+      });
+    }).catch(function () {
+      var result = { source: 'none' };
+      dictCache[word] = result; return result;
+    });
+  }
+
+  function strip(h) { return h.replace(/<[^>]+>/g, ''); }
+
+  function renderBody(r) {
+    if (r.source === 'wiktionary') {
+      var html = '';
+      // Show a small note when we resolved an inflected form to its base
+      if (r.baseForm) {
+        html += '<div class="dp-alts">form of <em>' + r.baseForm + '</em></div>';
+      }
+      r.entries.slice(0, 3).forEach(function (e) {
+        html += '<div class="dp-pos">' + (e.partOfSpeech || '') + '</div><ol class="dp-defs">';
+        (e.definitions || []).slice(0, 4).forEach(function (d) {
+          html += '<li>' + strip(d.definition || '') + '</li>';
+        });
+        html += '</ol>';
+      });
+      return html;
+    }
+    if (r.source === 'mymemory') {
+      var h = '<div class="dp-trans">' + r.translation + '</div>';
+      if (r.alts && r.alts.length) h += '<div class="dp-alts">also: ' + r.alts.join(', ') + '</div>';
+      return h;
+    }
+    return '<div class="dp-none">no definition found</div>';
+  }
+
+  /* 4. Show / position / hide */
+  function positionPopup(cx, cy) {
+    var pw = popup.offsetWidth || 220, ph = popup.offsetHeight || 130;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var left = cx + 14, top = cy + 14;
+    if (left + pw > vw - 8) left = cx - pw - 14;
+    if (top  + ph > vh - 8) top  = cy - ph - 14;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  }
+
+  function showPopup(word, cx, cy) {
+    dpWord.textContent = word;
+    dpBody.innerHTML = '<div class="dp-loading">buscando…</div>';
+    dpLinks.innerHTML =
+      '<a href="https://www.wordreference.com/es/en/translation.asp?spen=' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128214; WordReference &#8594;</a>' +
+      '<a href="https://www.spanishdict.com/translate/' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128216; SpanishDict &#8594;</a>';
+    popup.style.display = 'block';
+    positionPopup(cx, cy);
+    fetchDefinition(word).then(function (result) {
+      if (dpWord.textContent !== word) return;
+      dpBody.innerHTML = renderBody(result);
+      positionPopup(cx, cy);
+    });
+  }
+
+  function hidePopup() {
+    popup.style.display = 'none';
+    if (activeSpan) { activeSpan.classList.remove('dp-active'); activeSpan = null; }
+  }
+
+  /* 5. Events */
+  document.addEventListener('click', function (e) {
+    var wordEl = e.target.closest('.es-word');
+    if (wordEl) {
+      if (activeSpan) activeSpan.classList.remove('dp-active');
+      activeSpan = wordEl;
+      wordEl.classList.add('dp-active');
+      showPopup(wordEl.dataset.word, e.clientX, e.clientY);
+      return;
+    }
+    if (!e.target.closest('#dict-popup')) hidePopup();
+  });
+
+  dpClose.addEventListener('click', function (e) { e.stopPropagation(); hidePopup(); });
+})();
+</script>
+</body>
+</html>

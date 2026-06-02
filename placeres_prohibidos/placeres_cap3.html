@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Placeres Prohibidos — Capítulo 3 (Tres) · Lectura Glosada</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #e0e0e0;
+    --muted: #8892a4;
+    --spanish: #f5c518;
+    --gloss: #a8d8a8;
+    --vocab-bg: #0d1b2a;
+    --grammar-bg: #1b1228;
+    --tag: #533483;
+    --dialogue: #1e2d1e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; line-height: 1.7; padding: 2rem 1rem; }
+  header { max-width: 880px; margin: 0 auto 3rem; text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 1.5rem; }
+  header h1 { font-size: 2rem; color: var(--accent); letter-spacing: 1px; }
+  header h2 { font-size: 1.1rem; color: var(--muted); font-weight: normal; margin-top: .4rem; }
+  header p { font-size: .9rem; color: var(--muted); margin-top: .8rem; font-style: italic; }
+  .chapter-intro { max-width: 880px; margin: 0 auto 2.5rem; background: var(--accent2); border-left: 4px solid var(--accent); padding: 1rem 1.4rem; border-radius: 4px; font-size: .95rem; }
+  .chapter-intro h3 { color: var(--accent); margin-bottom: .4rem; }
+  .sentence-block { max-width: 880px; margin: 0 auto 2rem; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .sentence-num { display: inline-block; background: var(--accent); color: #fff; font-size: .75rem; font-family: monospace; padding: .2rem .5rem; border-radius: 3px; margin-bottom: .5rem; letter-spacing: 1px; }
+  .sentence-top { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .spanish-text { font-size: 1.2rem; color: var(--spanish); font-style: italic; margin-bottom: .6rem; line-height: 1.5; }
+  .gloss-text { font-size: 1rem; color: var(--gloss); margin-top: .35rem; }
+  .gloss-label, .vocab-label, .grammar-label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; margin-bottom: .3rem; font-family: sans-serif; }
+  /* ── Per-sentence gloss toggle ── */
+  .gloss-toggle { background: none; border: none; padding: .4rem 0; cursor: pointer; font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-family: sans-serif; margin-bottom: .3rem; display: block; touch-action: manipulation; min-height: 2.5rem; }
+  .gloss-toggle:hover { color: var(--gloss); }
+  .gloss-text { visibility: visible; }
+  .gloss-text.gloss-hidden { visibility: hidden; pointer-events: none; }
+
+  .breakdown { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px) { .breakdown { grid-template-columns: 1fr; } }
+  .vocab-section { background: var(--vocab-bg); padding: 1rem 1.4rem; border-right: 1px solid rgba(255,255,255,.05); }
+  .grammar-section { background: var(--grammar-bg); padding: 1rem 1.4rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+  td { padding: .3rem .4rem; vertical-align: top; }
+  td:first-child { color: var(--spanish); font-style: italic; white-space: nowrap; padding-right: .8rem; width: 42%; }
+  tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,.05); }
+  .grammar-section ul { list-style: none; font-size: .87rem; }
+  .grammar-section li { margin-bottom: .55rem; padding-left: .8rem; border-left: 2px solid var(--tag); }
+  .grammar-section li strong { color: var(--spanish); font-style: italic; }
+  .grammar-section li em { color: #c9b1ff; font-style: normal; }
+  .section-label { max-width: 880px; margin: 0 auto 1.2rem; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--tag); font-family: sans-serif; padding-left: .2rem; display: flex; align-items: center; gap: .8rem; }
+  .tag { display: inline-block; background: var(--tag); color: #ddd; font-size: .7rem; font-family: sans-serif; padding: .1rem .4rem; border-radius: 3px; margin-right: .3rem; }
+  .dialogue-marker { color: var(--muted); font-size: .8rem; font-family: sans-serif; margin-bottom: .3rem; display: block; }
+  footer { max-width: 880px; margin: 3rem auto 0; text-align: center; font-size: .8rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); }
+
+  /* ── Audio controls ── */
+  #audio-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,52,96,.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(233,69,96,.4);
+    padding: .6rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: sans-serif; font-size: .82rem;
+  }
+  #audio-bar .bar-label { color: var(--muted); white-space: nowrap; }
+  #audio-bar .voice-select {
+    background: #0d1b2a; color: var(--text); border: 1px solid var(--tag);
+    border-radius: 4px; padding: .25rem .5rem; font-size: .8rem; flex: 1; min-width: 160px; max-width: 280px;
+  }
+  #audio-bar .speed-wrap { display: flex; align-items: center; gap: .5rem; }
+  #audio-bar input[type=range] { width: 90px; accent-color: var(--accent); cursor: pointer; }
+  #speed-val { color: var(--accent); font-weight: bold; min-width: 2.5ch; }
+  #stop-btn, .section-gloss-btn, .shadow-btn {
+    border: none; border-radius: 4px;
+    padding: .25rem .8rem; cursor: pointer; font-size: .8rem; white-space: nowrap;
+  }
+  #stop-btn { background: var(--accent); color: #fff; }
+  #stop-btn:hover { opacity: .85; }
+  .section-gloss-btn { background: var(--accent2); color: var(--muted); border: 1px solid var(--tag); margin-left: auto; flex-shrink: 0; }
+  .section-gloss-btn:hover { background: #1a4a80; color: var(--text); }
+  .shadow-btn { background: #1e3a1e; color: #8db88d; border-color: #3a7a3a; }
+  .shadow-btn:hover { background: #2a5a2a; color: #c0e0c0; }
+  .voice-status { color: var(--muted); font-size: .75rem; font-style: italic; }
+
+  /* ── Play button on each card ── */
+  .spanish-row { display: flex; align-items: flex-start; gap: .6rem; }
+  .spanish-text { flex: 1; }
+  .play-btn {
+    flex-shrink: 0; margin-top: .15rem;
+    background: none; border: 1.5px solid var(--accent);
+    color: var(--accent); border-radius: 50%;
+    width: 2rem; height: 2rem; cursor: pointer;
+    font-size: .9rem; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s;
+  }
+  .play-btn:hover { background: var(--accent); color: #fff; }
+  .play-btn.playing {
+    background: var(--accent); color: #fff;
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(233,69,96,.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(233,69,96,0); }
+  }
+
+  /* ── Dictionary word spans ── */
+  .es-word {
+    cursor: pointer;
+    border-bottom: 1px dotted rgba(245,197,24,.35);
+    border-radius: 2px;
+    padding: 0 1px;
+    transition: background .1s;
+  }
+  .es-word:hover, .es-word.dp-active {
+    background: rgba(245,197,24,.18);
+    border-bottom-color: var(--spanish);
+  }
+
+  /* ── Dictionary popup ── */
+  #dict-popup {
+    position: fixed;
+    z-index: 500;
+    background: #0d1b2a;
+    border: 1px solid var(--tag);
+    border-radius: 8px;
+    padding: .75rem 1.1rem .85rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,.7);
+    min-width: 210px;
+    max-width: 310px;
+    font-family: sans-serif;
+    display: none;
+  }
+  #dict-popup .dp-word {
+    color: var(--spanish);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-family: Georgia, serif;
+    display: block;
+    margin-bottom: .4rem;
+    padding-right: 1.6rem;
+  }
+  .dp-loading { color: var(--muted); font-size: .8rem; font-style: italic; padding: .15rem 0 .3rem; }
+  .dp-pos {
+    color: var(--muted); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: 1px; margin: .45rem 0 .2rem; font-family: sans-serif;
+  }
+  .dp-defs {
+    font-size: .85rem; color: var(--text);
+    margin: 0; padding-left: 1.1rem; line-height: 1.45;
+  }
+  .dp-defs li { margin-bottom: .25rem; }
+  .dp-trans { font-size: .95rem; color: var(--text); margin: .25rem 0 .1rem; }
+  .dp-alts  { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: .1rem; }
+  .dp-none  { color: var(--muted); font-size: .8rem; font-style: italic; padding: .2rem 0 .3rem; }
+  .dp-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,.09);
+    margin: .6rem 0 .5rem;
+  }
+  #dict-popup .dp-links {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  #dict-popup .dp-links a {
+    color: var(--gloss);
+    text-decoration: none;
+    font-size: .8rem;
+    padding: .25rem .55rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,.06);
+    transition: background .12s;
+    display: block;
+  }
+  #dict-popup .dp-links a:hover { background: rgba(255,255,255,.14); }
+  #dict-close {
+    position: absolute;
+    top: .45rem; right: .6rem;
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: .9rem; line-height: 1;
+    padding: .1rem .2rem;
+  }
+  #dict-close:hover { color: var(--text); }
+
+</style>
+</head>
+<body>
+<div id="audio-bar">
+  <span class="bar-label">&#128266; Voz:</span>
+  <select id="voice-select" class="voice-select"><option>Cargando voces&hellip;</option></select>
+  <div class="speed-wrap">
+    <span class="bar-label">Velocidad:</span>
+    <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.05" value="0.85">
+    <span id="speed-val">0.85&times;</span>
+  </div>
+  <button id="stop-btn">&#9632; Parar</button>
+  <span class="voice-status" id="voice-status"></span>
+</div>
+<header>
+  <h1>Placeres Prohibidos</h1>
+  <h2>Laurell K. Hamilton &middot; Cap&iacute;tulo 3: <em>Tres</em></h2>
+  <p>Lectura glosada para el estudio del español — cada oración con glosa, vocabulario y notas gramaticales</p>
+</header>
+<div class="chapter-intro">
+  <h3>Contexto del capítulo</h3>
+  <p>Anita, Catherine y Mónica salen a la despedida de soltera. Mónica lleva una chapa que ya avanza adónde se dirigen: el <em>Placeres Prohibidos</em>, el único club de <em>boys</em> vampíricos del Distrito. En la puerta conocemos al vampiro portero Buzz y, dentro, al dueño del local: Jean-Claude, maestro vampiro de dos siglos de antigüedad que tiene una fascinación especial por Anita. Ella le entrega su crucifijo, queda desarmada, y comienza el espectáculo.</p>
+</div>
+<div class="section-group">
+<div class="section-label"><span>§ Las tres mujeres</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button><button class="shadow-btn" onclick="var g=this.closest(&#x27;.section-group&#x27;);var ss=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;)).map(function(e){return e.dataset.speak||e.textContent.trim();}).join(&#x27;\n&#x27;);window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">01</span>
+    <div class="spanish-text">Mónica Vespucci llevaba una chapa con la inscripción LOS VAMPIROS TAMBIÉN SON PERSONAS. No era un comienzo muy prometedor para la velada.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Monica Vespucci was wearing a button that said, &quot;Vampires are People, too.&quot; It was not a promising beginning to the evening.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>llevaba una chapa</td><td>was wearing a badge/button (<em>chapa</em> = pin badge)</td></tr>
+        <tr><td>la inscripción</td><td>the inscription, the text on it</td></tr>
+        <tr><td>prometedor</td><td>promising</td></tr>
+        <tr><td>la velada</td><td>the evening (social event)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>llevaba</strong> — <em>Imperfecto</em> for a state or appearance at a moment in the past. <em>Llevar</em> + clothing/accessory = to be wearing. More vivid than <em>tenía puesta</em> (had on). The imperfect sets the scene before the narrative action begins.</li>
+        <li><strong>No era un comienzo muy prometedor</strong> — Imperfect again for a background evaluation. <em>Ser</em> in imperfect describes a characteristic or quality, not a punctual event. Anita's dry assessment hangs over the whole chapter.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">02</span>
+    <div class="spanish-text">Llevaba una blusa blanca de seda, con cuello alto y volantes que le resaltaba el bronceado de salón de belleza. Tenía el pelo corto y con peinado de estilista, y su maquillaje era perfecto. La chapa debería haberme dado una pista sobre el tipo de despedida de soltera que había organizado. Pero hay días en los que, simplemente, estoy lela.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Her white blouse was silk with a high, flared collar framing a dark, health-club tan. Her hair was short and expertly cut; her makeup, perfect. The button should have tipped me off to what kind of bachelorette party she&#x27;d planned. Some days I&#x27;m just slow to catch on.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>volantes</td><td>ruffles, flounces (on clothing)</td></tr>
+        <tr><td>resaltar</td><td>to highlight, to set off, to enhance</td></tr>
+        <tr><td>el bronceado de salón de belleza</td><td>salon/health-club tan</td></tr>
+        <tr><td>peinado de estilista</td><td>professionally styled hairdo</td></tr>
+        <tr><td>debería haberme dado una pista</td><td>should have tipped me off / given me a clue</td></tr>
+        <tr><td>estoy lela</td><td>I'm slow / I'm out of it / I'm clueless (colloquial)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>que le resaltaba el bronceado</strong> — Relative clause: <em>que</em> refers to <em>cuello alto y volantes</em>. <em>Resaltar</em> works like <em>gustar</em>: the collar is the subject, and <em>le</em> is the dative (to her). 'The collar which highlighted her tan for her.'</li>
+        <li><strong>debería haberme dado</strong> — <em>Deber en condicional + infinitivo compuesto</em>: past moral obligation that was not fulfilled. 'Should have given me a clue' (but didn't). Same structure as <em>tendría que haber + participio</em>.</li>
+        <li><strong>estoy lela</strong> — <em>Lelo/a</em>: colloquial for dull-witted, slow, dazed. <em>Estar</em> (not <em>ser</em>) because it describes a temporary state. Related: <em>estar en las nubes</em> (to have one's head in the clouds).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">03</span>
+    <div class="spanish-text">Yo llevaba vaqueros negros, botas de caña alta y una blusa granate. Me había arreglado el pelo para que combinara con el atuendo; los rizos negros me caían justo por encima de los hombros. El color marrón oscuro, casi negro, de los ojos me hace juego con el pelo. La piel, demasiado pálida, germánica, contrasta con el moreno latino de todo lo demás.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">I was wearing black jeans, knee-high boots, and a crimson blouse. My hair was made to order for the outfit, black curling just over the shoulders of the red blouse. The solid, nearly black-brown of my eyes matches the hair. Only the skin stands out, too pale, Germanic against the Latin darkness.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>vaqueros</td><td>jeans (Spain; LatAm: <em>jeans</em> or <em>mezclilla</em>)</td></tr>
+        <tr><td>botas de caña alta</td><td>knee-high boots (<em>caña</em> = shaft of a boot)</td></tr>
+        <tr><td>granate</td><td>dark red, crimson, garnet-coloured</td></tr>
+        <tr><td>el atuendo</td><td>the outfit, attire</td></tr>
+        <tr><td>los rizos</td><td>curls</td></tr>
+        <tr><td>me hace juego con</td><td>matches, goes with (<em>hacer juego</em> = to match)</td></tr>
+        <tr><td>el moreno latino</td><td>the Latin darkness/olive colouring</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>me había arreglado el pelo para que combinara</strong> — <em>Para que + imperfecto de subjuntivo</em>: purpose clause with different subjects. She arranged her hair (she did it) so that it would match (the hair matches). <em>Combinar</em> → <em>combinara</em> (imperfect subjunctive).</li>
+        <li><strong>me caían justo por encima de los hombros</strong> — <em>Caer</em> for how hair or fabric falls/hangs. The reflexive dative <em>me</em> indicates on/over her. <em>Justo</em> = exactly/just.</li>
+        <li><strong>me hace juego con el pelo</strong> — <em>Hacer juego con</em>: fixed expression for matching/complementing. Like <em>gustar</em>, <em>juego</em> is the subject: the eye colour is what 'makes a match' with her hair.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">04</span>
+    <div class="spanish-text">Un ex, muy ex, me describió en una ocasión como una muñequita de porcelana. Creo que lo dijo como un cumplido, pero yo no lo interpreté así. Es uno de los muchos motivos por los que no salgo a menudo con hombres.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">A very ex-boyfriend once described me as a little china doll. He meant it as a compliment. I didn&#x27;t take it that way. There are reasons why I don&#x27;t date much.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>un ex, muy ex</td><td>a very ex-boyfriend / a long-gone ex</td></tr>
+        <tr><td>una muñequita de porcelana</td><td>a little china doll</td></tr>
+        <tr><td>un cumplido</td><td>a compliment</td></tr>
+        <tr><td>interpretar</td><td>to interpret, to take (a remark)</td></tr>
+        <tr><td>salir con</td><td>to date, to go out with</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>un ex, muy ex</strong> — Emphatic repetition with <em>muy</em> modifying the noun used as adjective. Colloquial intensification: not just an ex, but a very-much ex. The comma signals the pause/stress.</li>
+        <li><strong>lo dijo como un cumplido / lo interpreté así</strong> — <em>Lo</em> as neuter pronoun referring to the whole previous idea (describing her as a doll). <em>Así</em> = that way. The neuter pronoun absorbs the entire preceding clause.</li>
+        <li><strong>Es uno de los muchos motivos por los que</strong> — <em>Por los que</em>: relative pronoun after <em>por</em>. Anita reduces the anecdote to an entry in a running list. The understatement is the joke.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">05</span>
+    <div class="spanish-text">Me había puesto una blusa de manga larga, para ocultar la funda del cuchillo que llevaba en la muñeca derecha y las cicatrices que tengo en el brazo izquierdo. Había dejado la pistola en el maletero. No creía que la despedida fuera a desmadrarse tanto.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">The blouse was long-sleeved to hide the knife sheath on my right wrist and the scars on my left arm. I had left my gun locked in the trunk of my car. I didn&#x27;t think the bachelorette party would get that out of hand.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>manga larga</td><td>long sleeve</td></tr>
+        <tr><td>la funda del cuchillo</td><td>the knife sheath/holster</td></tr>
+        <tr><td>la muñeca</td><td>the wrist; also: doll</td></tr>
+        <tr><td>las cicatrices</td><td>the scars</td></tr>
+        <tr><td>el maletero</td><td>the (car) trunk/boot</td></tr>
+        <tr><td>desmadrarse</td><td>to get out of hand, to go wild (<em>desmadre</em> = chaos)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>para ocultar</strong> — <em>Para + infinitivo</em>: purpose. The long sleeves exist in order to hide. Notice she chose the blouse deliberately; the purpose is hers.</li>
+        <li><strong>No creía que… fuera a desmadrarse</strong> — <em>No creer que + subjuntivo</em>: negated belief triggers subjunctive. <em>Ir a + infinitivo</em> in imperfect subjunctive: <em>fuera a desmadrarse</em> = was going to get out of hand. A double structure: subjunctive mood + periphrastic future inside it.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ Calle abajo</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button><button class="shadow-btn" onclick="var g=this.closest(&#x27;.section-group&#x27;);var ss=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;)).map(function(e){return e.dataset.speak||e.textContent.trim();}).join(&#x27;\n&#x27;);window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">06</span>
+    <span class="dialogue-marker">💬 Mónica / Anita</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—Siento mucho haberlo organizado todo en el último momento, Catherine —dijo Mónica—. Por eso somos sólo tres. Las demás habían hecho planes. —Qué curioso que la gente tenga planes un viernes por la noche —dije.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I&#x27;m so sorry that I put off planning this to the last minute, Catherine. That&#x27;s why there&#x27;s only three of us. Everybody else had plans,&quot; Monica said. &quot;Imagine that, people having plans for Friday night,&quot; I said.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>siento mucho haberlo organizado en el último momento</td><td>I'm so sorry I left the planning to the last minute</td></tr>
+        <tr><td>las demás</td><td>the others, the rest (of the women)</td></tr>
+        <tr><td>habían hecho planes</td><td>had made plans (pluperfect)</td></tr>
+        <tr><td>qué curioso que</td><td>how strange that / imagine that (ironic)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>siento mucho haberlo organizado</strong> — <em>Sentir + infinitivo compuesto</em>: regretting a past action. Subject is the same (Monica) so infinitive is used, not subjunctive. Compare: <em>siento que lo hayas organizado así</em> (different subject → subjunctive).</li>
+        <li><strong>qué curioso que la gente tenga</strong> — <em>Qué + adjective + que + subjuntivo</em>: exclamatory with subjunctive. Anita's sarcasm is bone dry. The subjunctive here expresses the emotional reaction to a fact.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">07</span>
+    <div class="spanish-text">Mónica se quedó mirándome sin saber si bromeaba o no. Catherine me lanzó una mirada de advertencia. Les dediqué a ambas mi mejor sonrisa inocente. Mónica me la devolvió; Catherine no se dejó enredar.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Monica stared at me as if trying to decide whether I was joking or not. Catherine gave me a warning glare. I gave them both my best angelic smile. Monica smiled back. Catherine wasn&#x27;t fooled.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>se quedó mirándome</td><td>she stood there staring at me</td></tr>
+        <tr><td>sin saber si bromeaba</td><td>not knowing whether I was joking</td></tr>
+        <tr><td>una mirada de advertencia</td><td>a warning look/glare</td></tr>
+        <tr><td>les dediqué a ambas</td><td>I gave to both of them</td></tr>
+        <tr><td>me la devolvió</td><td>she returned it to me (the smile)</td></tr>
+        <tr><td>no se dejó enredar</td><td>she wasn't fooled / didn't take the bait</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>se quedó mirándome</strong> — <em>Quedarse + gerundio</em>: to remain doing something. More vivid than <em>me miró</em>; implies she stayed in that posture, frozen, staring.</li>
+        <li><strong>les dediqué a ambas mi mejor sonrisa</strong> — Double dative for emphasis: <em>les</em> (indirect object pronoun) + <em>a ambas</em> (explicit noun). Spanish often doubles the dative this way for clarity or stress. <em>Dedicar</em> here = to direct, to bestow.</li>
+        <li><strong>no se dejó enredar</strong> — <em>Dejarse + infinitivo</em>: to allow oneself to be done to. <em>Enredar</em> = to entangle, to trick. <em>No se dejó enredar</em> = she didn't let herself be taken in. Very idiomatic; compare <em>dejarse llevar</em> (to go with the flow).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">08</span>
+    <div class="spanish-text">Mónica echó a andar calle abajo, alegre como unas castañuelas borrachas. Y sólo se había tomado dos copas durante la cena. Mala señal.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Monica began dancing down the sidewalk, happy as a drunken clam. She had had only two drinks with dinner. It was a bad sign.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>echó a andar</td><td>set off walking, started walking</td></tr>
+        <tr><td>calle abajo</td><td>down the street</td></tr>
+        <tr><td>alegre como unas castañuelas borrachas</td><td>happy as a drunken clam (lit. drunk castanets)</td></tr>
+        <tr><td>las castañuelas</td><td>castanets (percussion instrument)</td></tr>
+        <tr><td>se había tomado dos copas</td><td>she had had two drinks</td></tr>
+        <tr><td>mala señal</td><td>bad sign</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>echó a andar</strong> — <em>Echar a + infinitivo</em>: inchoative — to suddenly start doing. <em>Echar a andar/correr/reír/llorar</em> are the most common. Abrupt, dynamic beginning of an action.</li>
+        <li><strong>alegre como unas castañuelas borrachas</strong> — Spanish simile (the English equivalent is 'happy as a clam'). Castanets are associated with festive, rhythmic joy; <em>borrachas</em> (drunk) is the translator's humorous addition. The simile structure: <em>adj. + como + noun phrase</em>.</li>
+        <li><strong>Mala señal.</strong> — Nominal sentence (no verb). The fragment pattern — subject/noun + no verb — recurs throughout for Anita's terse, deadpan interior commentary.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">09</span>
+    <span class="dialogue-marker">💬 Catherine / Anita</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—Sé amable —susurró Catherine. —¿Y ahora qué he hecho? —Anita… —me dijo con una voz que sonaba como la de mi padre cuando yo volvía a casa demasiado tarde.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Be nice,&quot; Catherine whispered. &quot;What did I say?&quot; &quot;Anita.&quot; Her voice sounded like my father&#x27;s used to sound when I&#x27;d stayed out too late.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>sé amable</td><td>be nice (imperative of <em>ser</em>)</td></tr>
+        <tr><td>susurró</td><td>whispered (pretérito of <em>susurrar</em>)</td></tr>
+        <tr><td>¿y ahora qué he hecho?</td><td>now what have I done? (exasperated)</td></tr>
+        <tr><td>sonaba como la de mi padre</td><td>sounded like my father's</td></tr>
+        <tr><td>cuando yo volvía a casa demasiado tarde</td><td>when I used to come home too late</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>sé amable</strong> — Irregular imperative of <em>ser</em> (tú): <em>sé</em>. Not to be confused with <em>sé</em> from <em>saber</em> (I know). Context distinguishes them.</li>
+        <li><strong>¿y ahora qué he hecho?</strong> — Rhetorical. <em>Y ahora</em> = 'now what'. Pasado compuesto (<em>he hecho</em>) for an action with present relevance: 'what have I (just) done?' The <em>y</em> at the start adds exasperation.</li>
+        <li><strong>cuando yo volvía a casa demasiado tarde</strong> — <em>Imperfecto</em> for a habitual past action: 'when I used to come home late'. The imperfect captures the repeated pattern, not a single occasion.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">10</span>
+    <span class="dialogue-marker">💬 Anita / Catherine</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—No se te ve muy animada esta noche —dije con un suspiro. —Pues tengo la intención de animarme mucho —repuso alzando los brazos. Iba todavía con el traje de oficina, lleno de arrugas. El viento le agitaba el pelo largo y cobrizo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;You&#x27;re just no fun tonight,&quot; I sighed. &quot;I plan to be a lot of fun tonight.&quot; She stretched her arms skyward. She still wore the crumpled remains of her business suit. The wind blew her long, copper-colored hair.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>no se te ve muy animada</td><td>you don't look very lively / you seem a bit flat</td></tr>
+        <tr><td>con un suspiro</td><td>with a sigh</td></tr>
+        <tr><td>tengo la intención de</td><td>I intend to, I plan to</td></tr>
+        <tr><td>animarme</td><td>to have fun, to liven up (reflexive)</td></tr>
+        <tr><td>repuso</td><td>she replied / retorted (pretérito of <em>reponer</em>)</td></tr>
+        <tr><td>alzando los brazos</td><td>raising her arms</td></tr>
+        <tr><td>el traje de oficina</td><td>office/business suit</td></tr>
+        <tr><td>lleno de arrugas</td><td>full of wrinkles, crumpled</td></tr>
+        <tr><td>cobrizo</td><td>copper-coloured</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>no se te ve muy animada</strong> — Impersonal passive with dative of interest: <em>se ve</em> (one can see / it shows) + <em>te</em> (dative, for you/on you). 'You don't look very animated tonight.' The <em>se</em> here is passivising, not reflexive.</li>
+        <li><strong>repuso</strong> — Literary synonym for <em>dijo</em> meaning to reply/retort. Preterite of <em>reponer</em>. Common in narrative prose; rarely used in everyday speech.</li>
+        <li><strong>alzando los brazos</strong> — <em>Gerundio</em> as simultaneous action: she raised her arms as she spoke. Equivalent to the English participial phrase 'stretching her arms skyward'.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">11</span>
+    <div class="spanish-text">Nunca he sabido si Catherine estaría más guapa si se cortara el pelo para que se le viera bien la cara, o si es el pelo lo que la hace tan atractiva.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">I&#x27;ve never been able to decide if Catherine would be prettier if she cut her hair, so you&#x27;d notice the face first, or if the hair was what made her pretty.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>nunca he sabido</td><td>I've never known / been able to decide</td></tr>
+        <tr><td>estaría más guapa</td><td>would be prettier (conditional)</td></tr>
+        <tr><td>se cortara el pelo</td><td>she cut her hair (imperfect subjunctive)</td></tr>
+        <tr><td>para que se le viera bien la cara</td><td>so that her face would be seen clearly</td></tr>
+        <tr><td>lo que la hace tan atractiva</td><td>what makes her so attractive</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>si se cortara… estaría</strong> — <em>Período hipotético tipo 2</em>: <em>si + imperfecto de subjuntivo, condicional simple</em>. Open hypothetical: if she were to cut her hair, she would be prettier. The situation is possible but not actual.</li>
+        <li><strong>para que se le viera bien la cara</strong> — <em>Para que + imperfecto de subjuntivo</em>: purpose. <em>Se le viera</em> = her face would be seen (passive <em>se</em> + dative <em>le</em>). This triple structure — purpose + passive se + dative — is dense but idiomatic.</li>
+        <li><strong>es el pelo lo que la hace tan atractiva</strong> — <em>Construcción enfática con lo que</em>: cleft sentence. 'It is the hair that makes her so attractive.' The <em>lo que</em> focuses attention on <em>el pelo</em> as the key element.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">12</span>
+    <span class="dialogue-marker">💬 Catherine / Anita</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—Si tengo que renunciar a una de mis pocas noches libres —añadió—, tengo intención de divertirme… un huevo. —Pronunció las dos últimas palabras como con rabia. Me quedé mirándola. —No pensarás ponerte ciega de alcohol, ¿verdad? —Tal vez —dijo. Parecía muy ufana.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;If I have to give up one of my few free nights, then I am going to enjoy myself—immensely,&quot; she said. There was a kind of fierceness to the last word. I stared up at her. &quot;You are not planning to get falling-down drunk, are you?&quot; &quot;Maybe.&quot; She looked smug.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>renunciar a</td><td>to give up, to forgo</td></tr>
+        <tr><td>un huevo</td><td>a lot / immensely (vulgar intensifier, lit. 'an egg')</td></tr>
+        <tr><td>como con rabia</td><td>with a kind of fierceness / as if angrily</td></tr>
+        <tr><td>ponerse ciega de alcohol</td><td>to get blind drunk</td></tr>
+        <tr><td>ufana</td><td>smug, self-satisfied, pleased with herself</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>si tengo que renunciar… tengo intención de divertirme</strong> — <em>Si + indicativo, indicativo</em>: real condition (not hypothetical — she does have to give up her night). Contrast with the subjunctive hypotheticals earlier in the chapter.</li>
+        <li><strong>un huevo</strong> — Vulgar Castilian intensifier equivalent to 'a lot / massively / immensely'. Functions as an adverb of quantity: <em>me duele un huevo</em> (it hurts like hell). Very informal; register-aware usage matters here.</li>
+        <li><strong>no pensarás ponerte ciega</strong> — <em>Pensar + infinitivo</em>: to plan to, to intend to. In question form with future (<em>pensarás</em>): expresses surprised disbelief. <em>Ponerse ciego/a de algo</em>: to gorge/overindulge on something.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">13</span>
+    <div class="spanish-text">Catherine sabía que yo no aprobaba o, mejor dicho, no comprendía que la gente bebiera. A mí no me hacía gracia desinhibirme; si quería desmadrarme, quería controlar hasta qué punto.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Catherine knew I didn&#x27;t approve of, or rather, didn&#x27;t understand drinking. I didn&#x27;t like having my inhibitions lowered. If I was going to cut loose, I wanted to be in control of just how loose I got.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>o, mejor dicho</td><td>or rather, or more precisely</td></tr>
+        <tr><td>que la gente bebiera</td><td>that people drank (imperfect subjunctive)</td></tr>
+        <tr><td>no me hacía gracia</td><td>I didn't like / it didn't appeal to me</td></tr>
+        <tr><td>desinhibirse</td><td>to lose one's inhibitions</td></tr>
+        <tr><td>desmadrarme</td><td>to cut loose, to go wild</td></tr>
+        <tr><td>controlar hasta qué punto</td><td>to control to what degree / how far</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>no aprobaba que la gente bebiera</strong> — <em>Verbo de emoción/valoración + que + subjuntivo</em>: <em>aprobar</em> here = to approve of. The subjunctive (<em>bebiera</em>) is required because the main verb expresses an attitude toward the subordinate action.</li>
+        <li><strong>o, mejor dicho</strong> — Reformulation marker. Very common in speech and writing when the speaker corrects or refines what they just said. Equivalent to 'or rather / to be more precise'.</li>
+        <li><strong>a mí no me hacía gracia</strong> — <em>Hacer gracia</em>: to appeal, to find funny/enjoyable. Like <em>gustar</em>: the thing is the subject, the person is dative. The <em>a mí</em> is emphatic (contrastive with others who might enjoy it).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ El Distrito</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button><button class="shadow-btn" onclick="var g=this.closest(&#x27;.section-group&#x27;);var ss=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;)).map(function(e){return e.dataset.speak||e.textContent.trim();}).join(&#x27;\n&#x27;);window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">14</span>
+    <div class="spanish-text">Habíamos dejado el coche a dos manzanas, en un aparcamiento. El que tiene alrededor una valla de hierro forjado. No había muchos sitios para aparcar cerca del río; las estrechas calles adoquinadas y las aceras anticuadas del casco antiguo estaban pensadas para caballos, no para automóviles.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">We had left my car in a parking lot two blocks back. The one with the wrought-iron fence around it. There wasn&#x27;t much parking down by the river. The narrow brick roads and ancient sidewalks had been designed for horses, not automobiles.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>a dos manzanas</td><td>two blocks away</td></tr>
+        <tr><td>un aparcamiento</td><td>a car park, parking lot</td></tr>
+        <tr><td>una valla de hierro forjado</td><td>a wrought-iron fence</td></tr>
+        <tr><td>calles adoquinadas</td><td>cobbled/brick streets</td></tr>
+        <tr><td>las aceras</td><td>the pavements, sidewalks</td></tr>
+        <tr><td>el casco antiguo</td><td>the old town, historic quarter</td></tr>
+        <tr><td>estaban pensadas para</td><td>were designed/meant for</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>El que tiene alrededor una valla</strong> — Relative clause as a standalone sentence fragment: 'The one with the fence around it.' Spanish allows this ellipsis; the antecedent (<em>el aparcamiento</em>) is clear from context. Gives a staccato, descriptive rhythm.</li>
+        <li><strong>estaban pensadas para</strong> — <em>Estar + participio</em>: resultant state. <em>Pensadas</em> (designed, intended) agrees with <em>calles y aceras</em> (fem. pl.). The streets don't just happen to accommodate horses — they were deliberately built for them.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">15</span>
+    <div class="spanish-text">Una tormenta de verano que había empezado y terminado mientras cenábamos había refrescado las calles. Las primeras estrellas brillaban por encima de nosotras como diamantes cosidos a un paño de terciopelo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">The streets had been fresh-washed by a summer thunderstorm that had come and gone while we ate dinner. The first stars glittered overhead, like diamonds trapped in velvet.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>había refrescado</td><td>had freshened / washed clean (pluperfect)</td></tr>
+        <tr><td>mientras cenábamos</td><td>while we were having dinner</td></tr>
+        <tr><td>brillaban</td><td>glittered, sparkled, shone</td></tr>
+        <tr><td>por encima de nosotras</td><td>above us, overhead</td></tr>
+        <tr><td>cosidos a</td><td>sewn onto</td></tr>
+        <tr><td>un paño de terciopelo</td><td>a cloth of velvet</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>que había empezado y terminado mientras cenábamos</strong> — Pluperfect in a relative clause. The storm started and ended (pluperfect — completed before the reference moment) while they were eating (imperfect — ongoing action). Three time layers in one clause: narration time, dinner time, storm time.</li>
+        <li><strong>como diamantes cosidos a un paño de terciopelo</strong> — Extended simile. <em>Cosidos</em> (sewn) is a past participle used as an adjective, modifying <em>diamantes</em>. The image of stars as sewn-on diamonds elevates Anita's narration into the literary register — a rare moment of beauty before she turns to pragmatics.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">16</span>
+    <span class="dialogue-marker">💬 Mónica / Anita</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—¡Más deprisa, tortugas! —gritó Mónica. Catherine me miró y sonrió. Antes de que me diera cuenta, había echado a correr hacia Mónica. —Oh, por el amor de Dios —murmuré.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Hurry up, slowpokes,&quot; Monica yelled. Catherine looked at me and grinned. The next thing I knew, she was running towards Monica. &quot;Oh, for heaven&#x27;s sake,&quot; I muttered.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>¡más deprisa!</td><td>faster! hurry up!</td></tr>
+        <tr><td>tortugas</td><td>tortoises (as an insult: slowpokes)</td></tr>
+        <tr><td>antes de que me diera cuenta</td><td>before I knew it / before I realised</td></tr>
+        <tr><td>había echado a correr</td><td>had started running (pluperfect)</td></tr>
+        <tr><td>por el amor de Dios</td><td>for heaven's sake / for the love of God</td></tr>
+        <tr><td>murmuré</td><td>I muttered (pretérito of <em>murmurar</em>)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>antes de que me diera cuenta</strong> — <em>Antes de que + subjuntivo</em>: temporal clause referring to the future relative to a past moment. Always subjunctive after <em>antes de que</em>. <em>Darse cuenta</em> = to realise, to notice.</li>
+        <li><strong>había echado a correr</strong> — Pluperfect of <em>echar a + infinitivo</em>: she had already started running (before Anita processed it). The pluperfect emphasises that the action was completed before Anita's <em>antes de que me diera cuenta</em>.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">17</span>
+    <span class="dialogue-marker">💬 Catherine / Anita</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">Quizá, si hubiera bebido en la cena, yo también habría echado a correr, aunque tenía serias dudas. —No seas quejica —me gritó Catherine. ¿Quejica? Les di alcance caminando.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Maybe if I&#x27;d had drinks with dinner, I&#x27;d have run, too, but I doubted it. &quot;Don&#x27;t be an old stick in the mud,&quot; Catherine called back. Stick in the mud? I caught up to them walking.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>si hubiera bebido… habría echado a correr</td><td>if I had drunk… I would have run (conditional past)</td></tr>
+        <tr><td>aunque tenía serias dudas</td><td>although I had serious doubts</td></tr>
+        <tr><td>quejica</td><td>whiner, moaner, stick-in-the-mud (colloquial)</td></tr>
+        <tr><td>les di alcance</td><td>I caught up to them</td></tr>
+        <tr><td>caminando</td><td>walking (gerundio — manner)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>si hubiera bebido… habría echado</strong> — <em>Período hipotético tipo 3</em>: past unreal condition. She didn't drink, so she didn't run. The pluperfect subjunctive + conditional perfect express what would have happened in an unrealised past scenario.</li>
+        <li><strong>¿Quejica?</strong> — Rhetorical echo question. Anita repeats the word in disbelief. No verb, pure ironic deflection. A classic Hamilton fragment.</li>
+        <li><strong>les di alcance caminando</strong> — <em>Dar alcance</em>: to catch up to. <em>Caminando</em> is a gerundio of manner — she caught up by walking (not running), underlining her refusal to join in.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">18</span>
+    <span class="dialogue-marker">💬 Mónica / Anita (narración)</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">Mónica se calmó lo suficiente para fingir un susurro teatral. —¿Sabéis qué hay al doblar la esquina? La verdad era que lo sabía. El último asesinato de un vampiro había sucedido a sólo cuatro manzanas de allí. Estábamos en la zona que los vampiros llamaban el Distrito.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Monica calmed enough to fake an ominous stage whisper. &quot;Do you know what lies around this corner?&quot; As a matter of fact, I did. The last vampire killing had been only four blocks from here. We were in what the vampires called &quot;the District.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>lo suficiente para</td><td>enough to</td></tr>
+        <tr><td>fingir</td><td>to fake, to pretend</td></tr>
+        <tr><td>un susurro teatral</td><td>a stage whisper, a theatrical whisper</td></tr>
+        <tr><td>al doblar la esquina</td><td>around the corner (lit. upon turning the corner)</td></tr>
+        <tr><td>el asesinato</td><td>the murder, killing</td></tr>
+        <tr><td>había sucedido</td><td>had occurred (pluperfect)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>lo suficiente para fingir</strong> — <em>Lo suficiente para + infinitivo</em>: enough to do something. <em>Lo</em> is a neuter article nominalising <em>suficiente</em>. Compare: <em>habló lo suficiente para convencerme</em>.</li>
+        <li><strong>al doblar la esquina</strong> — <em>Al + infinitivo</em>: upon doing. Temporal: 'upon turning / when you turn the corner'. The infinitive is the action simultaneous with the reference.</li>
+        <li><strong>La verdad era que lo sabía</strong> — <em>La verdad era que</em>: emphatic concessive opener. 'The truth of the matter was that I did know.' Signals Anita stepping back from the shared scene to share privileged information with the reader.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">19</span>
+    <span class="dialogue-marker">💬 Anita / Mónica / Catherine</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">Los humanos la llamaban la Orilla o Villasangre, según quisieran ser neutros o desagradables. —El Placeres Prohibidos —dije. —Vaya, has estropeado la sorpresa. —¿Qué es el Placeres Prohibidos? —preguntó Catherine. —Ah, estupendo, no se ha estropeado tanto —dijo Mónica con una risita.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Humans called it the Riverfront, or Blood Square, depending on if they were being rude or not. &quot;Guilty Pleasures,&quot; I said. &quot;Oh, pooh, you spoiled the surprise.&quot; &quot;What&#x27;s Guilty Pleasures?&quot; Catherine asked. Monica giggled. &quot;Oh, goodie, the surprise isn&#x27;t spoiled after all.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>según quisieran</td><td>depending on whether they wanted to (imperfect subjunctive)</td></tr>
+        <tr><td>neutros o desagradables</td><td>neutral or unpleasant/rude</td></tr>
+        <tr><td>has estropeado la sorpresa</td><td>you've spoiled the surprise</td></tr>
+        <tr><td>no se ha estropeado tanto</td><td>it hasn't been that spoiled after all</td></tr>
+        <tr><td>una risita</td><td>a little giggle, a titter</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>según quisieran</strong> — <em>Según + subjuntivo</em>: 'depending on whether/how'. The subjunctive after <em>según</em> expresses an unspecified or variable condition. Compare: <em>según dices</em> (according to what you're saying — indicative, specific claim).</li>
+        <li><strong>no se ha estropeado tanto</strong> — <em>Estropear</em>: to spoil, to ruin. Pasado compuesto (present perfect) because Mónica frames it as relevant to the current moment. <em>Tanto</em> = that much / so much — she's back-pedalling cheerfully.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ La entrada</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button><button class="shadow-btn" onclick="var g=this.closest(&#x27;.section-group&#x27;);var ss=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;)).map(function(e){return e.dataset.speak||e.textContent.trim();}).join(&#x27;\n&#x27;);window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">20</span>
+    <div class="spanish-text">El letrero era una espiral de neón rojo sangre. No se me escapó el simbolismo. Subimos los tres amplios escalones y vimos a un vampiro delante de la puerta abierta.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">The sign was a wonderful swirling neon the color of heart blood. The symbolism was not lost on me. We went up three broad steps, and there was a vampire standing in front of the propped-open door.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>el letrero</td><td>the sign</td></tr>
+        <tr><td>una espiral de neón</td><td>a swirl/spiral of neon</td></tr>
+        <tr><td>rojo sangre</td><td>blood-red (invariable colour compound)</td></tr>
+        <tr><td>no se me escapó el simbolismo</td><td>the symbolism was not lost on me</td></tr>
+        <tr><td>los escalones</td><td>the steps, stairs</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>no se me escapó el simbolismo</strong> — <em>Escapársele algo a alguien</em>: for something to escape/elude someone. Like <em>gustar</em>: the symbolism is the subject, Anita is the experiencer (<em>me</em>). 'The symbolism didn't escape me' = she caught it fully.</li>
+        <li><strong>vimos a un vampiro</strong> — <em>Personal a</em> with an indefinite animate object. Spanish uses the personal <em>a</em> before direct objects that are people (or personalised beings like vampires), even indefinite ones. 'We saw a vampire' → <em>vimos a un vampiro</em>, not *<em>vimos un vampiro</em>.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">21</span>
+    <div class="spanish-text">Llevaba el pelo negro muy corto, y tenía los ojos pequeños y claros. Los anchos hombros amenazaban con romperle la camiseta negra y ceñida. ¿No era un poco absurdo dedicarse a hacer pesas después de morir?</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He had a black crew cut and small, pale eyes. His massive shoulders threatened to rip the tight black t-shirt he wore. Wasn&#x27;t pumping iron redundant after you died?</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>el pelo muy corto</td><td>very short hair; crew cut</td></tr>
+        <tr><td>ojos claros</td><td>light-coloured eyes</td></tr>
+        <tr><td>los anchos hombros</td><td>the broad/wide shoulders</td></tr>
+        <tr><td>amenazaban con romper</td><td>threatened to rip / were about to rip</td></tr>
+        <tr><td>ceñida</td><td>tight-fitting, close-fitting</td></tr>
+        <tr><td>dedicarse a hacer pesas</td><td>to spend time lifting weights, to pump iron</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>amenazaban con romperle la camiseta</strong> — <em>Amenazar con + infinitivo</em>: to threaten to, to be on the verge of. The shoulders are the (comic) subject threatening action. <em>Le</em> is dative of interest — the shirt is 'his'. This construction gives inanimate subjects a sense of dangerous agency.</li>
+        <li><strong>¿No era un poco absurdo dedicarse a hacer pesas después de morir?</strong> — Rhetorical question. Imperfect (<em>era</em>) for a general assessment. <em>Dedicarse a</em> = to devote oneself to, to spend time doing. Anita's dark humour about vampire physiology in one compact sentence.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">22</span>
+    <div class="spanish-text">Desde el propio umbral era capaz de oír el murmullo de voces, risas y música. El rumor de muchas personas reunidas en un espacio pequeño y decididas a pasárselo bien. El vampiro estaba junto a la puerta, muy quieto. Había algo vivo en él, una sensación de movimiento, a falta de un término mejor. Como mucho, llevaría unos veinte años muerto.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Even standing on the threshold I could hear the busy hum of voices, laughter, music. That rich, murmurous sound of many people in a small space, determined to have a good time. The vampire stood beside the door, very still. There was still a movement to him, an aliveness, for lack of a better term. He couldn&#x27;t have been dead more than twenty years, if that.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>el umbral</td><td>the threshold, doorstep</td></tr>
+        <tr><td>era capaz de oír</td><td>was able to hear / could hear</td></tr>
+        <tr><td>el murmullo</td><td>the hum, murmur</td></tr>
+        <tr><td>el rumor</td><td>the buzz, the murmur (of a crowd)</td></tr>
+        <tr><td>muy quieto</td><td>very still</td></tr>
+        <tr><td>a falta de un término mejor</td><td>for lack of a better term</td></tr>
+        <tr><td>como mucho</td><td>at most</td></tr>
+        <tr><td>llevaría unos veinte años muerto</td><td>he couldn't have been dead more than twenty years</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>decididas a pasárselo bien</strong> — <em>Decidido/a a + infinitivo</em>: determined to. Participio as adjective modifying <em>personas</em> (fem. pl.) → <em>decididas</em>. <em>Pasárselo bien</em>: to have a good time (reflexive + neuter <em>lo</em>).</li>
+        <li><strong>llevaría unos veinte años muerto</strong> — <em>Condicional de probabilidad en el pasado</em>: the conditional expresses an estimate or supposition about a past state. 'He would have been dead about twenty years.' <em>Llevar + time + participio</em> = to have been in a state for a period.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">23</span>
+    <div class="spanish-text">En la oscuridad parecía casi humano, incluso a mis ojos. Aquella noche ya se había saciado; se le veía la piel sana y con buen color, y tenía las mejillas casi sonrosadas. Es lo que hace una ración de sangre fresca.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">In the dark he looked almost human, even to me. He had fed already tonight. His skin was flushed and healthy. He looked damn near rosy-cheeked. A meal of fresh blood will do that to you.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>incluso a mis ojos</td><td>even to my eyes (implying Anita's trained perception)</td></tr>
+        <tr><td>se había saciado</td><td>had fed, had satisfied himself</td></tr>
+        <tr><td>se le veía la piel sana</td><td>his skin looked healthy</td></tr>
+        <tr><td>con buen color</td><td>with good colour</td></tr>
+        <tr><td>las mejillas sonrosadas</td><td>rosy cheeks</td></tr>
+        <tr><td>una ración de sangre fresca</td><td>a meal / serving of fresh blood</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>se le veía la piel</strong> — Impersonal <em>se</em> + dative <em>le</em> + subject <em>la piel</em>: 'his skin could be seen / his skin showed'. Three elements working together: the passive-ish <em>se</em>, the possessive dative, and the noun as true subject. Common pattern in descriptions.</li>
+        <li><strong>Es lo que hace una ración de sangre fresca.</strong> — <em>Lo que</em> as nominalised relative: 'what fresh blood does'. Dry, clinical sign-off. The present tense makes it a general truth — a deadpan vampire physiology fact.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">24</span>
+    <span class="dialogue-marker">💬 Mónica / Buzz</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—Oh, palpad estos músculos —dijo Mónica apretándole el brazo. Él sonrió, mostrando los colmillos. Catherine jadeó. La sonrisa del vampiro se ensanchó. —Buzz y yo somos viejos amigos, ¿verdad, Buzz? ¿Buzz? No me podía creer que un vampiro se llamara Zumbido. Sin embargo, él asintió. —Adelante, Mónica. Tenéis una mesa reservada.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Ooo, feel that muscle,&quot; Monica said, squeezing his arm. He grinned, flashing fangs. Catherine gasped. He grinned wider. &quot;Buzz here is an old friend, aren&#x27;t you, Buzz?&quot; Buzz the vampire? Surely not. But he nodded. &quot;Go on in, Monica. Your table is waiting.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>palpad estos músculos</td><td>feel these muscles (vosotros imperative)</td></tr>
+        <tr><td>apretándole el brazo</td><td>squeezing his arm</td></tr>
+        <tr><td>los colmillos</td><td>the fangs</td></tr>
+        <tr><td>jadeó</td><td>gasped (pretérito of <em>jadear</em>)</td></tr>
+        <tr><td>se ensanchó</td><td>widened (pretérito of <em>ensancharse</em>)</td></tr>
+        <tr><td>somos viejos amigos</td><td>we're old friends</td></tr>
+        <tr><td>asintió</td><td>nodded, assented (pretérito of <em>asentir</em>)</td></tr>
+        <tr><td>tenéis una mesa reservada</td><td>you have a table reserved</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>palpad</strong> — <em>Vosotros</em> imperative of <em>palpar</em> (to touch, to feel). Spain-specific: drop the <em>-r</em> of the infinitive and add <em>-d</em>. LatAm uses <em>ustedes</em> + subjunctive instead: <em>palpen</em>.</li>
+        <li><strong>No me podía creer que… se llamara Zumbido</strong> — <em>No poder creer que + imperfecto de subjuntivo</em>: disbelief triggers subjunctive. <em>Llamarse</em> → <em>se llamara</em>. Anita's parenthetical (<em>Zumbido</em> = the Spanish translation of 'Buzz') is a wry aside.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">25</span>
+    <div class="spanish-text">En la puerta había un gran cartel en el que ponía: NO SE PERMITEN CRUCES, CRUCIFIJOS NI OTROS ARTÍCULOS SAGRADOS EN EL INTERIOR. Lo leí y pasé de largo. No tenía ninguna intención de desprenderme de mi crucifijo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">There was a large sign on the door. &quot;No crosses, crucifixes, or other holy items allowed inside.&quot; I read the sign and walked past it. I had no intention of getting rid of my cross.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>un cartel</td><td>a sign, a notice</td></tr>
+        <tr><td>en el que ponía</td><td>on which it said</td></tr>
+        <tr><td>no se permiten</td><td>are not allowed / not permitted (<em>se</em> passive)</td></tr>
+        <tr><td>artículos sagrados</td><td>holy items</td></tr>
+        <tr><td>pasé de largo</td><td>I walked past / went straight by</td></tr>
+        <tr><td>desprenderme de</td><td>to part with, to rid myself of</td></tr>
+        <tr><td>el crucifijo</td><td>the crucifix</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>no se permiten cruces</strong> — <em>Se</em> passive: the subject is <em>cruces</em> (plural → <em>permiten</em> is plural). 'Crosses are not permitted.' This is the official, impersonal register of a sign. Contrast with the active: <em>no permitimos cruces</em>.</li>
+        <li><strong>no tenía ninguna intención de desprenderme</strong> — Double negation (<em>no… ninguna</em>) for emphasis. Spanish doubles negatives for force, unlike English. <em>Tener intención de + infinitivo</em> = to intend to.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ Jean-Claude</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button><button class="shadow-btn" onclick="var g=this.closest(&#x27;.section-group&#x27;);var ss=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;)).map(function(e){return e.dataset.speak||e.textContent.trim();}).join(&#x27;\n&#x27;);window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">26</span>
+    <span class="dialogue-marker">💬 Jean-Claude</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—Anita, es un verdadero placer contar con tu presencia —dijo una voz grave y melodiosa que flotó a nuestro alrededor. Era la voz de Jean-Claude, propietario del local y maestro vampiro.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">A rich, melodious voice floated around us. &quot;Anita, how good of you to come.&quot; The voice belonged to Jean-Claude, club owner and master vampire.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>un verdadero placer</td><td>a true/real pleasure</td></tr>
+        <tr><td>contar con tu presencia</td><td>to have your presence / to count on you being here</td></tr>
+        <tr><td>grave</td><td>deep, low (of a voice)</td></tr>
+        <tr><td>melodiosa</td><td>melodious</td></tr>
+        <tr><td>flotó a nuestro alrededor</td><td>floated around us</td></tr>
+        <tr><td>el propietario</td><td>the owner</td></tr>
+        <tr><td>el maestro vampiro</td><td>the master vampire</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>es un verdadero placer contar con</strong> — <em>Ser + placer + infinitivo</em>: impersonal construction. <em>Contar con</em> = to count on, to have. <em>Verdadero</em> before a noun = 'real, genuine' (not truthful).</li>
+        <li><strong>Era la voz de Jean-Claude</strong> — Note the narrative technique: the voice is described and heard before the character is named. The imperfect <em>era</em> situates this as background identification, not dramatic revelation.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">27</span>
+    <div class="spanish-text">Tenía el aspecto que se supone que debe tener un vampiro, con el pelo suavemente ondulado que se enredaba en el cuello alto de encaje de una camisa antigua. El encaje le caía también sobre las manos, pálidas y de largos dedos. Llevaba la camisa abierta y mostraba el pecho lampiño y esbelto, enmarcado por más encaje. A prácticamente cualquier hombre le habría quedado fatal una camisa como aquella, pero el vampiro la hacía parecer de lo más masculina.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He looked like a vampire was supposed to look. Softly curling hair tangled with the high white lace of an antique shirt. Lace spilled over pale, long-fingered hands. The shirt hung open, giving a glimpse of lean bare chest framed by more frothy lace. Most men couldn&#x27;t have worn a shirt like that. The vampire made it seem utterly masculine.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>el aspecto que se supone que debe tener</td><td>the appearance he's supposed to have</td></tr>
+        <tr><td>suavemente ondulado</td><td>softly wavy</td></tr>
+        <tr><td>el cuello alto de encaje</td><td>the high lace collar</td></tr>
+        <tr><td>lampiño</td><td>smooth, hairless, beardless</td></tr>
+        <tr><td>esbelto</td><td>slender, lean</td></tr>
+        <tr><td>enmarcado por</td><td>framed by</td></tr>
+        <tr><td>le habría quedado fatal</td><td>would have looked terrible on him</td></tr>
+        <tr><td>de lo más masculina</td><td>utterly masculine / most masculine</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>que se supone que debe tener</strong> — Double subordination with <em>se supone</em> (impersonal: 'it is supposed'). <em>Se supone que + indicativo</em>: it is generally assumed that. The indicative here (not subjunctive) because it's a general, accepted belief.</li>
+        <li><strong>a prácticamente cualquier hombre le habría quedado fatal</strong> — <em>Quedar + adverb/adjective</em>: to look/suit (of clothing). Dative construction: the shirt is the subject, the man is the experiencer. <em>Fatal</em> = terrible (colloquial intensifier, not 'fatal' in English sense). Conditional perfect: 'would have looked'.</li>
+        <li><strong>de lo más masculina</strong> — <em>De lo más + adjective</em>: 'utterly / most / extremely'. Idiomatic superlative: <em>de lo más interesante</em> = utterly interesting. Very common in literary and spoken Spanish.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">28</span>
+    <span class="dialogue-marker">💬 Mónica / Jean-Claude / Anita</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—¿Os conocéis? —Mónica parecía sorprendida. —Desde luego —dijo Jean-Claude—. La señorita Blake y yo hemos coincidido en otras ocasiones. —He ayudado a la policía en algunos casos que han ocurrido en la Orilla. —Es su experta en vampiros. —Jean-Claude hizo que la última palabra sonara suave, cálida y vagamente obscena. Mónica soltó una risita.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;You two know each other?&quot; Monica sounded surprised. &quot;Oh, yes,&quot; Jean-Claude said. &quot;Ms. Blake and I have met before.&quot; &quot;I&#x27;ve been helping the police work cases on the Riverfront.&quot; &quot;She is their vampire expert.&quot; He made the last word soft and warm and vaguely obscene. Monica giggled.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>desde luego</td><td>of course, certainly</td></tr>
+        <tr><td>hemos coincidido</td><td>we have met / crossed paths (lit. coincided)</td></tr>
+        <tr><td>hizo que la última palabra sonara</td><td>he made the last word sound</td></tr>
+        <tr><td>vagamente obscena</td><td>vaguely obscene</td></tr>
+        <tr><td>soltó una risita</td><td>she let out a giggle</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>hizo que… sonara</strong> — <em>Hacer que + subjuntivo</em>: causative construction. 'He made/caused the word to sound.' When <em>hacer</em> expresses causation with a full subordinate clause, it takes <em>que + subjuntivo</em>. Simpler causative: <em>hizo sonar</em> (same subject doing the action directly).</li>
+        <li><strong>soltó una risita</strong> — <em>Soltar</em> (lit. to release) + sound noun: idiomatic for letting out a sound. <em>Soltar una carcajada</em> (to burst out laughing), <em>soltar un suspiro</em> (to heave a sigh). The diminutive <em>-ita</em> makes it a small, slightly nervous giggle.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">29</span>
+    <span class="dialogue-marker">💬 Anita</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">Catherine miraba fijamente a Jean-Claude con ingenuidad y los ojos muy abiertos. Le toqué el brazo, y ella se sobresaltó como si despertara de un sueño. —Un consejo importante para tu seguridad: no mires nunca a un vampiro a los ojos. —No me molesté en susurrar; él me habría oído de todos modos. Ella asintió, y hubo un asomo de miedo en su expresión.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Catherine was staring at Jean-Claude, eyes wide and innocent. I touched her arm, and she jerked as if waking from a dream. I didn&#x27;t bother to whisper because I knew he would have heard me anyway. &quot;Important safety tip—never look a vampire in the eye.&quot; She nodded. The first hint of fear showed in her face.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>miraba fijamente</td><td>was staring fixedly</td></tr>
+        <tr><td>con ingenuidad</td><td>with innocence / naively</td></tr>
+        <tr><td>se sobresaltó</td><td>she started, she jerked (pretérito of <em>sobresaltarse</em>)</td></tr>
+        <tr><td>como si despertara de un sueño</td><td>as if waking from a dream</td></tr>
+        <tr><td>no me molesté en susurrar</td><td>I didn't bother to whisper</td></tr>
+        <tr><td>de todos modos</td><td>anyway, regardless</td></tr>
+        <tr><td>un asomo de miedo</td><td>a hint / trace of fear</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>como si despertara de un sueño</strong> — <em>Como si + imperfecto de subjuntivo</em>: hypothetical comparison. She wasn't literally waking from a dream — it's a simile for her dazed state. Always imperfect subjunctive after <em>como si</em>.</li>
+        <li><strong>no me molesté en susurrar</strong> — <em>Molestarse en + infinitivo</em>: to bother doing something. Often negative: <em>no te molestes en llamar</em> (don't bother calling). Equivalent of English 'to go to the trouble of'.</li>
+        <li><strong>él me habría oído de todos modos</strong> — <em>Condicional compuesto</em> for a past hypothetical consequence: 'he would have heard me anyway' (even if she had whispered). The conditional perfect imagines the outcome of a counterfactual.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">30</span>
+    <span class="dialogue-marker">💬 Jean-Claude</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—Jamás le haría daño a una joven tan encantadora. —Jean-Claude tomó la mano de Catherine y se la llevó a los labios. Apenas la rozó, pero Catherine se sonrojó. También le besó la mano a Mónica. Luego me miró y se echó a reír.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I would never harm such a lovely young woman.&quot; He took Catherine&#x27;s hand and raised it to his mouth. A mere brush of lips. Catherine blushed. He kissed Monica&#x27;s hand as well. He looked at me and laughed.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>jamás</td><td>never (emphatic, more literary than <em>nunca</em>)</td></tr>
+        <tr><td>le haría daño</td><td>I would harm / hurt her</td></tr>
+        <tr><td>se la llevó a los labios</td><td>he raised it to his lips</td></tr>
+        <tr><td>apenas la rozó</td><td>he barely grazed / brushed it</td></tr>
+        <tr><td>se sonrojó</td><td>she blushed (pretérito of <em>sonrojarse</em>)</td></tr>
+        <tr><td>se echó a reír</td><td>he burst out laughing</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>jamás le haría daño a una joven</strong> — <em>Hacer daño a</em>: to harm, to hurt. Dative construction: <em>le</em> (to her). <em>Jamás</em> + conditional = strong, gallant denial. <em>Jamás</em> is more formal/literary than <em>nunca</em> and often fronted for emphasis.</li>
+        <li><strong>se la llevó a los labios</strong> — Double pronoun: <em>se</em> (dative, replacing <em>le</em> before <em>la</em>) + <em>la</em> (direct object, the hand). Spanish requires this <em>se</em>/<em>le</em> → <em>se</em> swap when two third-person pronouns occur together. 'He brought it [her hand] to his lips for her.'</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">31</span>
+    <span class="dialogue-marker">💬 Jean-Claude</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—No te preocupes, mi pequeña reanimadora. No voy a tocarte; sería hacer trampa. Se acercó a mí. Lo miré fijamente al pecho y vi la cicatriz de una quemadura, casi oculta por el encaje. Tenía forma de cruz. ¿Cuántos decenios habrían transcurrido desde que le pusieron una cruz en el pecho?</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Do not worry, my little animator. I will not touch you. That would be cheating.&quot; He moved to stand next to me. I stared fixedly at his chest. There was a burn scar almost hidden in the lace. The burn was in the shape of a cross. How many decades ago had someone shoved a cross into his flesh?</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>mi pequeña reanimadora</td><td>my little animator (Jean-Claude's nickname for Anita)</td></tr>
+        <tr><td>no voy a tocarte</td><td>I'm not going to touch you</td></tr>
+        <tr><td>sería hacer trampa</td><td>that would be cheating</td></tr>
+        <tr><td>la cicatriz de una quemadura</td><td>a burn scar</td></tr>
+        <tr><td>tenía forma de cruz</td><td>it was cross-shaped</td></tr>
+        <tr><td>los decenios</td><td>decades</td></tr>
+        <tr><td>habrían transcurrido</td><td>would have passed (conditional perfect)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>no voy a tocarte; sería hacer trampa</strong> — <em>Ir a + infinitivo</em>: near future decision. <em>Sería</em>: conditional for a consequence or evaluation. 'It would be cheating' — hypothetical assessment of an action he won't take.</li>
+        <li><strong>¿cuántos decenios habrían transcurrido?</strong> — <em>Condicional perfecto de probabilidad</em>: rhetorical question estimating a past duration. 'How many decades could have passed?' The conditional perfect replaces the pluperfect to express conjecture rather than fact.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">32</span>
+    <span class="dialogue-marker">💬 Jean-Claude / Anita (narración)</span>
+    <div class="spanish-text">—Por el mismo motivo, llevar una cruz te daría una ventaja injusta. ¿Qué podía decirle? En cierto modo, tenía razón. Era una lástima que no bastara con la forma de la cruz para hacerle daño a un vampiro; si así fuera, Jean-Claude habría tenido serios problemas. Por desgracia, tenía que ser una cruz bendecida y respaldada por la fe. Ver a un ateo blandir una cruz ante un vampiro era un espectáculo patético.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Just as you having a cross would be an unfair advantage.&quot; What could I say? In a way he was right. It was a shame that it wasn&#x27;t merely the shape of a cross that hurt a vampire. Jean-Claude would have been in deep shit. Unfortunately, the cross had to be blessed, and backed up by faith. An atheist waving a cross at a vampire was a truly pitiful sight.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>una ventaja injusta</td><td>an unfair advantage</td></tr>
+        <tr><td>en cierto modo</td><td>in a way, to some extent</td></tr>
+        <tr><td>era una lástima que</td><td>it was a shame that</td></tr>
+        <tr><td>no bastara con la forma</td><td>the shape alone weren't enough</td></tr>
+        <tr><td>si así fuera</td><td>if that were so / if that were the case</td></tr>
+        <tr><td>bendecida</td><td>blessed</td></tr>
+        <tr><td>respaldada por la fe</td><td>backed up by faith</td></tr>
+        <tr><td>blandir</td><td>to brandish, to wave</td></tr>
+        <tr><td>patético</td><td>pitiful, pathetic</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>era una lástima que no bastara</strong> — <em>Ser una lástima que + subjuntivo</em>: emotional evaluation triggers subjunctive. <em>Bastar</em> → <em>bastara</em> (imperfect subjunctive, because the main verb is in the past).</li>
+        <li><strong>si así fuera, Jean-Claude habría tenido</strong> — <em>Tipo 2 en pasado</em>: <em>si + imperfecto subj., condicional perfecto</em>. The condition is present/general (<em>si así fuera</em> = if that were how it works) but the consequence is placed in the past (<em>habría tenido</em> = would already have had).</li>
+        <li><strong>ver a un ateo blandir una cruz… era un espectáculo patético</strong> — <em>Infinitivo como sujeto</em>: the infinitive phrase functions as the subject of <em>era</em>. Note the personal <em>a</em> before <em>un ateo</em> (the atheist is the object of <em>ver</em>). <em>Blandir</em>: literary verb for to brandish/wave a weapon or object.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">33</span>
+    <span class="dialogue-marker">💬 Jean-Claude</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—Anita —pronunció mi nombre como un susurro que me erizó la piel—, ¿qué pretendes? Tenía una voz increíblemente relajante. Estaba deseando levantar la vista y ver la cara que acompañaba a aquellas palabras. A Jean-Claude lo intrigaban mi inmunidad parcial a sus trucos y la quemadura en forma de cruz de mi brazo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He breathed my name like a whisper against my skin. &quot;Anita, what are you thinking?&quot; The voice was so damn soothing. I wanted to look up and see what face went with such words. Jean-Claude had been intrigued by my partial immunity to him. That and the cross-shaped burn scar on my arm.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>me erizó la piel</td><td>it made my skin crawl / gave me goosebumps</td></tr>
+        <tr><td>¿qué pretendes?</td><td>what are you thinking? / what do you want?</td></tr>
+        <tr><td>relajante</td><td>soothing, relaxing</td></tr>
+        <tr><td>estaba deseando</td><td>I was dying to / I longed to</td></tr>
+        <tr><td>intrigar</td><td>to intrigue, to fascinate</td></tr>
+        <tr><td>la inmunidad parcial</td><td>the partial immunity</td></tr>
+        <tr><td>la quemadura en forma de cruz</td><td>the cross-shaped burn</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>que me erizó la piel</strong> — <em>Erizar</em>: to make stand on end (hair, skin). <em>Me erizó la piel</em> = it made my skin crawl / gave me goosebumps. Dative of interest <em>me</em> + body part subject: the skin is what bristled, on her.</li>
+        <li><strong>estaba deseando levantar la vista</strong> — <em>Estar deseando + infinitivo</em>: progressive construction expressing strong desire. More intense than <em>quería</em>; 'was dying to / was longing to look up'.</li>
+        <li><strong>a Jean-Claude lo intrigaban</strong> — Topicalisation with <em>a</em> + clitic doubling. Jean-Claude is moved to the front (topic) and the pronoun <em>lo</em> stands in for him in the predicate. The subject is <em>mi inmunidad parcial… y la quemadura</em> (plural → <em>intrigaban</em>).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">34</span>
+    <span class="dialogue-marker">💬 Anita / Jean-Claude</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—Nunca te habías opuesto a que llevara una cruz. —Porque venías por asuntos policiales; esta vez es distinto. Lo miré al pecho y me pregunté si el encaje sería tan suave como parecía; probablemente no. —¿Tan poco confías en tus habilidades, mi pequeña reanimadora? ¿De verdad crees que toda tu resistencia ante mí radica en el trozo de plata que llevas al cuello?</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;You never objected to me carrying a cross before.&quot; &quot;You were on police business then; now you are not.&quot; I stared at his chest and wondered if the lace was as soft as it looked; probably not. &quot;Are you so insecure in your own powers, little animator? Do you believe that all your resistance to me resides in that piece of silver around your neck?&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>nunca te habías opuesto a que</td><td>you had never objected to</td></tr>
+        <tr><td>venías por asuntos policiales</td><td>you were here on police business</td></tr>
+        <tr><td>me pregunté si… sería</td><td>I wondered if it might be (conditional of conjecture)</td></tr>
+        <tr><td>confiar en</td><td>to trust, to have confidence in</td></tr>
+        <tr><td>radicar en</td><td>to reside in, to lie in</td></tr>
+        <tr><td>el trozo de plata</td><td>the piece of silver</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>nunca te habías opuesto a que llevara</strong> — <em>Oponerse a que + subjuntivo</em>: to object to something happening. Pluperfect (<em>te habías opuesto</em>) + imperfect subjunctive (<em>llevara</em>): the objection never occurred in the past-before-this-moment.</li>
+        <li><strong>me pregunté si el encaje sería tan suave</strong> — <em>Condicional en estilo indirecto libre</em>: the conditional replaces future in past reported thought. 'I wondered whether the lace would be / might be as soft.' Her private musing is rendered without <em>que</em> or speech marks — free indirect discourse.</li>
+        <li><strong>¿tan poco confías?</strong> — Fronted <em>tan poco</em> for rhetorical effect. Anita isn't asking sincerely — Jean-Claude is needling her by framing her caution as insecurity.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">35</span>
+    <div class="spanish-text">No lo creía, pero sabía que algo contribuía. Jean-Claude afirmaba tener doscientos cinco años, y un vampiro adquiere mucho poder en dos siglos. Me estaba llamando cobarde veladamente. Y de eso nada. Levanté los brazos para desabrocharme la cadena. Él se apartó y me volvió la espalda.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">I didn&#x27;t believe that, but I knew it helped. Jean-Claude was a self-admitted two hundred and five years old. A vampire gains a lot of power in two centuries. He was suggesting I was a coward. I was not. I reached up to unfasten the chain. He stepped away from me and turned his back.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>afirmaba tener</td><td>claimed to be / said he was</td></tr>
+        <tr><td>adquiere</td><td>acquires, gains</td></tr>
+        <tr><td>me estaba llamando cobarde veladamente</td><td>was subtly calling me a coward</td></tr>
+        <tr><td>veladamente</td><td>subtly, veiled, obliquely</td></tr>
+        <tr><td>y de eso nada</td><td>and that's not happening / not a chance</td></tr>
+        <tr><td>desabrocharme la cadena</td><td>to unfasten my chain/necklace</td></tr>
+        <tr><td>se apartó</td><td>stepped aside, moved away</td></tr>
+        <tr><td>me volvió la espalda</td><td>turned his back on me</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>Y de eso nada.</strong> — Emphatic denial. <em>De eso nada</em> = absolutely not / no way. The fragment (<em>de + noun + nada</em>) is a very colloquial, firm refusal. Anita's backbone in three words.</li>
+        <li><strong>levanté los brazos para desabrocharme</strong> — <em>Para + infinitivo</em>: purpose. Reflexive <em>desabrocharme</em>: she unfastens it herself (from herself). Contrast: <em>desabrocharle la cadena a ella</em> (to unfasten someone else's chain).</li>
+        <li><strong>me volvió la espalda</strong> — <em>Volver la espalda a alguien</em>: to turn one's back on someone. Dative <em>me</em> = on me. A theatrical gesture of trust or disinterest from Jean-Claude.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">36</span>
+    <div class="spanish-text">La cruz me inundó las manos de un resplandor plateado. Una humana rubia apareció junto a mí; me entregó un resguardo y cogió el colgante. Qué monos, hasta tenían una consigna para objetos sagrados. Me sentí repentinamente desnuda sin el crucifijo. Dormía y me duchaba con él.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">The cross spilled silver into my hands. A blonde human woman appeared beside me. She handed me a check stub and took the cross. Nice, a holy item check girl. I felt suddenly underdressed without my cross. I slept and showered in it.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>me inundó las manos de un resplandor plateado</td><td>flooded my hands with a silver glow</td></tr>
+        <tr><td>el resplandor plateado</td><td>the silver glow/radiance</td></tr>
+        <tr><td>el resguardo</td><td>the receipt, the check stub</td></tr>
+        <tr><td>el colgante</td><td>the pendant, the necklace</td></tr>
+        <tr><td>qué monos</td><td>how cute / how adorable (ironic)</td></tr>
+        <tr><td>una consigna</td><td>a left-luggage / check-in facility; here: a check-in for holy items</td></tr>
+        <tr><td>me sentí repentinamente desnuda</td><td>I felt suddenly naked / exposed</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>me inundó las manos de un resplandor</strong> — <em>Inundar de</em>: to flood with. Dative of interest <em>me</em> + body part subject (hands). The silver light floods her hands — the cross is the grammatical subject and agent.</li>
+        <li><strong>qué monos</strong> — Ironic exclamatory. <em>Mono/a</em> = cute (Spain). <em>¡Qué mono!</em> = How cute! Anita's sarcasm is delivered deadpan. The club has a holy-item cloakroom — she finds this simultaneously impressive and alarming.</li>
+        <li><strong>dormía y me duchaba con él</strong> — Habitual imperfect: 'I used to sleep and shower with it.' Not a one-time event but her established practice. The imperfect captures the routine as now disrupted.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">37</span>
+    <span class="dialogue-marker">💬 Jean-Claude / Anita</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">Jean-Claude se acercó de nuevo. —No vas a resistir el espectáculo de esta noche, Anita. Alguien te va a hechizar. —Más quisieras —contesté. Pero es difícil hacerse la dura con alguien a quien se mira al pecho. Para imponer un poco hay que mirar a la otra persona a los ojos, y en aquella situación era impensable. Él rió. Era un sonido tangible, como la caricia de las pieles: cálido y con un levísimo deje de muerte.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Jean-Claude stepped close again. &quot;You will not resist the show tonight, Anita. Someone will enthrall you.&quot; &quot;No,&quot; I said. But it&#x27;s hard to be tough when you&#x27;re staring at someone&#x27;s chest. You really need eye contact to play tough, but that was a no-no. He laughed. The sound seemed to rub over my skin, like the brush of fur. Warm and feeling ever so slightly of death.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>no vas a resistir</td><td>you're not going to resist</td></tr>
+        <tr><td>hechizar</td><td>to enchant, to bewitch, to enthrall</td></tr>
+        <tr><td>más quisieras</td><td>in your dreams / you wish (lit. 'you'd like that more')</td></tr>
+        <tr><td>hacerse la dura</td><td>to act tough / play it cool (fem.)</td></tr>
+        <tr><td>imponer</td><td>to impose, to command respect</td></tr>
+        <tr><td>la caricia de las pieles</td><td>the caress of furs</td></tr>
+        <tr><td>un levísimo deje de muerte</td><td>the slightest hint of death (<em>leve</em> → <em>levísimo</em>)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>más quisieras</strong> — Fixed ironic expression: <em>más quisieras</em> = 'you'd like that / in your dreams'. Literally 'you'd want it more [than it'll happen]'. Imperfect subjunctive of <em>querer</em> in a fixed phrase. Anita's go-to comeback.</li>
+        <li><strong>hacerse la dura</strong> — <em>Hacerse el/la + adjective</em>: to pretend to be, to play the role of. <em>La dura</em> = the tough one (fem. to agree with Anita). Compare: <em>hacerse el tonto</em> (to play dumb), <em>hacerse el loco</em> (to act crazy/ignore).</li>
+        <li><strong>como la caricia de las pieles</strong> — Extended sensory simile. <em>La caricia</em> = the caress, the brush. Jean-Claude's laugh is made tactile — a classic vampire seduction technique in Hamilton's writing, and a grammatically dense comparison.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">38</span>
+    <span class="dialogue-marker">💬 Mónica / Jean-Claude / Anita</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—Te va a encantar, te lo prometo —dijo Mónica, cogiéndome del brazo. —Sí —dijo Jean-Claude—. Será una noche verdaderamente inolvidable. —¿Es una amenaza? Volvió a reír, con aquel sonido cálido y siniestro. —Este es un lugar dedicado al placer, no a la violencia. —Venga, que el espectáculo está a punto de empezar —dijo Mónica, tironeándome del brazo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;You&#x27;re going to love this, I promise you,&quot; Monica said, grabbing my arm. &quot;Yes,&quot; Jean-Claude said. &quot;It will be a night you will never forget.&quot; &quot;Is that a threat?&quot; He laughed again, that warm awful sound. &quot;This is a place of pleasure, Anita, not violence.&quot; Monica was pulling at my arm. &quot;Hurry, the entertainment&#x27;s about to begin.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>cogiéndome del brazo</td><td>grabbing / taking me by the arm</td></tr>
+        <tr><td>verdaderamente inolvidable</td><td>truly unforgettable</td></tr>
+        <tr><td>¿es una amenaza?</td><td>is that a threat?</td></tr>
+        <tr><td>siniestro</td><td>sinister, ominous</td></tr>
+        <tr><td>a punto de empezar</td><td>about to begin</td></tr>
+        <tr><td>tironeándome del brazo</td><td>tugging at my arm</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>te va a encantar</strong> — <em>Ir a + infinitivo</em> as near future + <em>encantar</em> (gustar-type). The subject of <em>encantar</em> is the implicit 'it' (the show); <em>te</em> is the dative experiencer.</li>
+        <li><strong>estar a punto de + infinitivo</strong> — Idiomatic periphrasis: to be about to do something. Very close equivalent to English 'about to'. <em>Estaba a punto de llorar</em> = she was about to cry.</li>
+        <li><strong>tironeándome del brazo</strong> — <em>Tironear</em>: to tug repeatedly (frequentative of <em>tirar</em>). The gerundio describes Monica's ongoing action as she speaks. <em>Del brazo</em> = by the arm (possession expressed with <em>de</em>, not a possessive adjective).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">39</span>
+    <span class="dialogue-marker">💬 Catherine / Anita</span>
+    <div style="margin-bottom:.4rem"><span class="tag">diálogo</span></div>
+    <div class="spanish-text">—¿El espectáculo? —preguntó Catherine. No tuve más remedio que sonreír. —Bienvenida al único local de boys vampíricos, Catherine. —Estás de guasa. —Por mis niños —dije.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Entertainment?&quot; Catherine asked. I had to smile. &quot;Welcome to the world&#x27;s only vampire strip club, Catherine.&quot; &quot;You are joking.&quot; &quot;Scout&#x27;s honor,&quot; I said.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>no tuve más remedio que sonreír</td><td>I couldn't help but smile / I had no choice but to smile</td></tr>
+        <tr><td>el único local de boys vampíricos</td><td>the only vampire male strip club</td></tr>
+        <tr><td>estás de guasa</td><td>you're joking / you're having me on (Spain, colloquial)</td></tr>
+        <tr><td>por mis niños</td><td>scout's honor (lit. 'by my children')</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>no tuve más remedio que sonreír</strong> — <em>No tener más remedio que + infinitivo</em>: to have no choice but to. Fixed expression. <em>Remedio</em> here = remedy/recourse, not medicine. 'There was nothing for it but to smile.'</li>
+        <li><strong>estás de guasa</strong> — <em>Estar de guasa</em>: to be joking, to be taking the mickey (Spain, colloquial). <em>Guasa</em> = joke, banter. Related: <em>de broma</em>, <em>en serio</em> (seriously).</li>
+        <li><strong>por mis niños</strong> — Colloquial oath formula equivalent to 'scout's honour / cross my heart'. Swearing by one's children is a strong informal guarantee in Spanish culture. The English 'scout's honor' is a free equivalent; the Spanish is more personal.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">40</span>
+    <div class="spanish-text">No sé por qué, volví a mirar a la puerta. Jean-Claude estaba inmóvil, sin proyectar ninguna sensación, casi como si no estuviera allí. Hasta que de pronto se movió: se llevó una mano pálida a los labios y me lanzó un beso a través de la sala. Empezaba el espectáculo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">I glanced back at the door; I don&#x27;t know why. Jean-Claude stood utterly still, no sense of anything, as if he were not there at all. Then he moved, one pale hand raised to his lips. He blew me a kiss across the room. The night&#x27;s entertainment had begun.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>inmóvil</td><td>motionless, utterly still</td></tr>
+        <tr><td>sin proyectar ninguna sensación</td><td>projecting no sensation / giving off nothing</td></tr>
+        <tr><td>casi como si no estuviera allí</td><td>almost as if he weren't there</td></tr>
+        <tr><td>hasta que de pronto</td><td>until suddenly</td></tr>
+        <tr><td>se llevó una mano a los labios</td><td>raised a hand to his lips</td></tr>
+        <tr><td>me lanzó un beso</td><td>blew me a kiss (lit. threw me a kiss)</td></tr>
+        <tr><td>empezaba el espectáculo</td><td>the show was beginning</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>como si no estuviera allí</strong> — <em>Como si + imperfecto de subjuntivo</em>: as if he weren't there. The <em>como si</em> construction always takes the imperfect (or pluperfect) subjunctive. The imperfect of <em>estar</em> is <em>estuviera/estuviese</em>.</li>
+        <li><strong>me lanzó un beso</strong> — <em>Lanzar un beso</em>: to blow a kiss (lit. to throw/launch a kiss). Dative <em>me</em> = at me / to me. The predatory playfulness of the gesture closes the chapter perfectly.</li>
+        <li><strong>empezaba el espectáculo</strong> — Imperfect for a beginning action, or as a literary present-becoming-past. The inverted order (verb before subject) gives it a theatrical, curtain-raising feel. Chapter-closing sentence with maximum atmosphere.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<footer>
+  <p><em>Placeres Prohibidos</em> &mdash; Laurell K. Hamilton</p>
+  <p style="margin-top:.5rem;">Lectura glosada para uso personal de estudio del espa&ntilde;ol &middot; Cap&iacute;tulo 3</p>
+</footer>
+
+<script>
+(function () {
+  /* ── 1. Wrap every .spanish-text in a flex row and prepend a play button ── */
+  document.querySelectorAll('.spanish-text').forEach(function (el, i) {
+    var text = el.textContent.trim();
+    el.dataset.speak = text;
+
+    var btn = document.createElement('button');
+    btn.className = 'play-btn';
+    btn.title = 'Reproducir';
+    btn.innerHTML = '&#9654;';
+    btn.dataset.idx = i;
+
+    var row = document.createElement('div');
+    row.className = 'spanish-row';
+    el.parentNode.insertBefore(row, el);
+    row.appendChild(btn);
+    row.appendChild(el);
+  });
+
+  /* ── 2. Voice loading ── */
+  var voiceSelect = document.getElementById('voice-select');
+  var statusEl    = document.getElementById('voice-status');
+  var spanishVoices = [];
+  var allVoices     = [];
+
+  function loadVoices() {
+    allVoices = window.speechSynthesis.getVoices();
+    if (!allVoices.length) return;
+    spanishVoices = allVoices.filter(function (v) {
+      return v.lang.toLowerCase().startsWith('es');
+    });
+    voiceSelect.innerHTML = '';
+    if (spanishVoices.length === 0) {
+      allVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i + '_all';
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u26a0 No Spanish voices found \u2014 showing all voices.';
+    } else {
+      spanishVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        if (v.lang.toLowerCase() === 'es-es') opt.selected = true;
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u2713 ' + spanishVoices.length + ' Spanish voice(s) found';
+    }
+  }
+
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  setTimeout(loadVoices, 500);
+
+  function getSelectedVoice() {
+    var val = voiceSelect.value;
+    if (!val) return null;
+    if (val.endsWith('_all')) return allVoices[parseInt(val)] || null;
+    return spanishVoices[parseInt(val)] || null;
+  }
+
+  /* ── 3. Speed slider ── */
+  var speedSlider = document.getElementById('speed-slider');
+  var speedVal    = document.getElementById('speed-val');
+  speedSlider.addEventListener('input', function () {
+    speedVal.textContent = parseFloat(this.value).toFixed(2) + '\u00d7';
+  });
+
+  /* ── 4. Speech playback ── */
+  var currentBtn = null;
+
+  function stopSpeech() {
+    window.speechSynthesis.cancel();
+    if (currentBtn) {
+      currentBtn.classList.remove('playing');
+      currentBtn.innerHTML = '&#9654;';
+      currentBtn = null;
+    }
+  }
+
+  document.getElementById('stop-btn').addEventListener('click', stopSpeech);
+
+  /* ── 4b. Per-section gloss toggle ── */
+  window.toggleSectionGloss = function(btn) {
+    var group = btn.closest('.section-group');
+    if (!group) return;
+    var glosses = group.querySelectorAll('.gloss-text');
+    var toggles = group.querySelectorAll('.gloss-toggle');
+    var allHidden = Array.from(glosses).every(function(g){ return g.classList.contains('gloss-hidden'); });
+    glosses.forEach(function(g){ g.classList.toggle('gloss-hidden', !allHidden); });
+    toggles.forEach(function(t){ t.textContent = allHidden ? '▼ English' : '▶ English'; });
+    btn.textContent = allHidden ? 'Ocultar English' : 'Mostrar English';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn === currentBtn) { stopSpeech(); return; }
+    stopSpeech();
+
+    var spanishEl = btn.parentElement.querySelector('.spanish-text');
+    var text = spanishEl ? spanishEl.dataset.speak : '';
+    if (!text) return;
+
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang  = 'es-ES';
+    utter.rate  = parseFloat(speedSlider.value);
+    utter.pitch = 1;
+
+    var voice = getSelectedVoice();
+    if (voice) utter.voice = voice;
+
+    btn.classList.add('playing');
+    btn.innerHTML = '&#9632;';
+    currentBtn = btn;
+
+    /* Chrome keepalive: prevents silent cutoff of utterances > ~15 s */
+    var keepAlive = setInterval(function () {
+      if (!window.speechSynthesis.speaking) { clearInterval(keepAlive); return; }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, 10000);
+
+    utter.onend = function () {
+      clearInterval(keepAlive);
+      if (currentBtn === btn) {
+        btn.classList.remove('playing');
+        btn.innerHTML = '&#9654;';
+        currentBtn = null;
+      }
+    };
+    utter.onerror = utter.onend;
+
+    window.speechSynthesis.speak(utter);
+  });
+})();
+</script>
+<script>
+/* ── Dictionary lookup ── */
+(function () {
+
+  /* 1. Tokenize each .spanish-text into clickable word spans */
+  document.querySelectorAll('.spanish-text').forEach(function (el) {
+    var newHTML = el.innerHTML.replace(
+      /([A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+(?:['\u2019-][A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+)*)/g,
+      function (token) {
+        var lookup = token.replace(/^['\u2019-]+|['\u2019-]+$/g, '').toLowerCase();
+        if (!lookup) return token;
+        return '<span class="es-word" data-word="' + lookup + '">' + token + '</span>';
+      }
+    );
+    el.innerHTML = newHTML;
+  });
+
+  /* 2. Build popup */
+  var popup = document.createElement('div');
+  popup.id = 'dict-popup';
+  popup.innerHTML =
+    '<button id="dict-close" title="Cerrar">&#10005;</button>' +
+    '<span class="dp-word"></span>' +
+    '<div class="dp-body"></div>' +
+    '<hr class="dp-divider">' +
+    '<div class="dp-links"></div>';
+  document.body.appendChild(popup);
+
+  var dpWord  = popup.querySelector('.dp-word');
+  var dpBody  = popup.querySelector('.dp-body');
+  var dpLinks = popup.querySelector('.dp-links');
+  var dpClose = popup.querySelector('#dict-close');
+  var activeSpan = null;
+  var ES_LEMMAS = {"estropeado": "estropear", "acompañaba": "acompañar", "cogió": "coger", "dedicado": "dedicar", "ufana": "ufanar", "rizos": "rizo", "una": "uno", "bastara": "bastar", "sonrosadas": "sonrosar", "encima": "encimar", "interpreté": "interpretar", "la": "el", "crucifijos": "crucifijo", "últimas": "último", "castañuelas": "castañuela", "venga": "vengar", "negra": "negro", "ha": "haber", "resaltaba": "resaltar", "saciado": "saciar", "soltera": "soltero", "sonrojó": "sonrojar", "aceras": "acera", "viera": "ver", "es": "ser", "enredaba": "enredar", "nosotras": "nosotros", "apartó": "apartar", "copas": "copa", "bebiera": "beber", "claros": "claro", "otras": "otro", "última": "último", "sé": "ser", "llamaban": "llamar", "ojos": "ojo", "combinara": "combinar", "cálida": "cálido", "caía": "caer", "contesté": "contestar", "me": "yo", "habilidades": "habilidad", "fuera": "ser", "esta": "estar", "ensanchó": "ensanchar", "sitios": "sitio", "estos": "este", "entregó": "entregar", "respaldada": "respaldar", "quería": "querer", "sobresaltó": "sobresaltar", "hombros": "hombro", "pieles": "piel", "despertara": "despertar", "vimos": "ver", "organizado": "organizar", "opuesto": "oponer", "repuso": "reponer", "automóviles": "automóvil", "era": "ser", "voces": "voz", "cuántos": "cuánto", "será": "ser", "atractiva": "atractivo", "iba": "ir", "objetos": "objeto", "músculos": "músculo", "algunos": "alguno", "niños": "niño", "libres": "libre", "brazos": "brazo", "tenían": "tener", "habías": "haber", "calmó": "calmar", "humana": "humanar", "toqué": "tocar", "hay": "haber", "lanzó": "lanzar", "acercó": "acercar", "amigos": "amigo", "conocéis": "conocer", "pregunté": "preguntar", "ciega": "ciego", "placeres": "placer", "le": "él", "tenido": "tener", "llevó": "llevar", "años": "año", "asintió": "asentir", "miró": "mirar", "tenga": "tener", "fresca": "fresco", "primeras": "primera", "subimos": "subir", "quisieran": "querer", "sorprendida": "sorprender", "murmuré": "murmurar", "ocasiones": "ocasionar", "diamantes": "diamante", "rió": "reír", "muchas": "mucho", "tortugas": "tortuga", "devolvió": "devolver", "describió": "describir", "tenéis": "tener", "monos": "mono", "adquiere": "adquirir", "aquellas": "aquel", "otros": "otro", "di": "dar", "mala": "malo", "encantadora": "encantador", "abiertos": "abrir", "hubo": "haber", "supone": "suponer", "caballos": "caballo", "duchaba": "duchar", "leí": "leer", "risas": "risa", "llevas": "llevar", "modos": "modo", "pronunció": "pronunciar", "negros": "negro", "arreglado": "arreglar", "hacía": "hacer", "tengo": "tener", "estrellas": "estrella", "casos": "caso", "dudas": "duda", "venías": "venir", "caían": "caer", "anticuadas": "anticuar", "asuntos": "asunto", "hubiera": "haber", "manzanas": "manzana", "ceñida": "ceñir", "hombres": "hombre", "toda": "todo", "días": "día", "decididas": "decidir", "mires": "mirar", "crees": "creer", "amplios": "amplio", "dejado": "dejar", "está": "estar", "coincidido": "coincidir", "lela": "lelo", "ondulado": "ondular", "diera": "dar", "dedos": "dedo", "aprobaba": "aprobar", "movió": "mover", "pálidas": "pálido", "podía": "poder", "inundó": "inundar", "sentí": "sentir", "debería": "deber", "pasé": "pasar", "sonrió": "sonreír", "erizó": "erizar", "estrechas": "estrechar", "sabéis": "saber", "tomó": "tomar", "había": "haber", "planes": "plan", "intrigaban": "intrigar", "comprendía": "comprender", "neutros": "neutro", "abierta": "abrir", "viejos": "viejo", "vi": "ver", "levanté": "levantar", "miré": "mirar", "contrasta": "contrastar", "aquella": "aquel", "motivos": "motivo", "trucos": "truco", "ambas": "ambos", "llamara": "llamar", "serias": "seriar", "agitaba": "agitar", "pusieron": "poner", "policiales": "policial", "preocupes": "preocupar", "vampiros": "vampiro", "prometo": "prometer", "voy": "ir", "cosidos": "cosido", "escapó": "escapar", "señorita": "señorito", "estuviera": "estar", "veía": "ver", "empezado": "empezar", "animada": "animar", "brillaban": "brillar", "sana": "sanar", "cortara": "cortar", "daría": "dar", "habían": "haber", "te": "tú", "has": "haber", "ocurrido": "ocurrir", "habíamos": "haber", "mostrando": "mostrar", "reservada": "reservar", "blanca": "blanco", "noches": "noche", "permiten": "permitir", "arrugas": "arruga", "jadeó": "jadear", "creo": "crear", "manos": "mano", "cenábamos": "cenar", "otra": "otro", "pocas": "poco", "molesté": "molestar", "confías": "confiar", "dediqué": "dedicar", "besó": "besar", "echó": "echar", "afirmaba": "afirmar", "labios": "labio", "refrescado": "refrescar", "bendecida": "bendecir", "palabras": "palabra", "hizo": "hacer", "sonaba": "sonar", "todos": "todo", "tomado": "tomar", "oculta": "ocultar", "volantes": "volante", "transcurrido": "transcurrir", "muchos": "mucho", "estoy": "estar", "cicatrices": "cicatrizar", "adelante": "adelantar", "muy": "mucho", "creía": "creer", "un": "uno", "masculina": "masculino", "miraba": "mirar", "buen": "bueno", "ponía": "poner", "caminando": "caminar", "humanos": "humano", "pesas": "pesa", "escalones": "escalonar", "sabía": "saber", "bebido": "beber", "quisieras": "querer", "estás": "estar", "germánica": "germánico", "las": "el", "va": "ir", "se": "él", "reunidas": "reunir", "habrían": "haber", "unos": "uno", "terminado": "terminar", "estaba": "estar", "largos": "largo", "reanimadora": "reanimador", "soltó": "soltar", "he": "haber", "flotó": "flotar", "colmillos": "colmillo", "problemas": "problema", "mostraba": "mostrar", "llevaba": "llevar", "estaría": "estar", "hace": "hacer", "personas": "persona", "estaban": "estar", "apareció": "aparecer", "cualquier": "cualquiera", "empezaba": "empezar", "hemos": "hemo", "borrachas": "borracho", "seas": "ser", "eso": "ese", "mis": "mi", "ninguna": "ninguno", "los": "el", "obscena": "obsceno", "mejillas": "mejilla", "experta": "experto", "siento": "sentar", "sabido": "saber", "dura": "durar", "tiene": "tener", "vaqueros": "vaquero", "llevara": "llevar", "antigua": "antiguar", "haría": "hacer", "botas": "bota", "desagradables": "desagradable", "prohibidos": "prohibir", "pequeña": "pequeño", "sonara": "sonar", "guapa": "guapo", "les": "él", "pensarás": "pensar", "sus": "su", "enmarcado": "enmarcar", "llamando": "llamar", "gritó": "gritar", "artículos": "artículo", "añadió": "añadir", "dijo": "decir", "llevaría": "llevar", "pálida": "pálido", "deseando": "desear", "quedado": "quedar", "serios": "serio", "pretendes": "pretender", "unas": "unir", "tus": "tu", "susurró": "susurrar", "calles": "calle", "salgo": "salgar", "lo": "él", "rozó": "rozar", "desnuda": "desnudar", "volvía": "volver", "abajo": "abajar", "dejó": "dejar", "palpad": "palpar", "han": "haber", "pequeños": "pequeño", "cruces": "cruce", "amenazaban": "amenazar", "melodiosa": "melodioso", "quedó": "quedar", "radica": "radicar", "injusta": "injusto", "anchos": "ancho", "somos": "ser", "estábamos": "estar", "tuve": "tener", "quedé": "quedar", "sagrados": "sagrado", "bromeaba": "bromear", "adoquinadas": "adoquinar", "contribuía": "contribuir", "parecía": "parecer", "volvió": "volver", "tenía": "tener", "preguntó": "preguntar", "ella": "él", "alzando": "alzar", "sería": "ser", "volví": "volver", "siglos": "siglo", "decenios": "decenio", "habría": "haber", "pensadas": "pensar", "dormía": "dormir"};
+  function toLemma(w) { return ES_LEMMAS[w.toLowerCase()] || w; }
+  var dictCache  = {};
+
+  /* 3. Fetch definition (Wiktionary, then MyMemory fallback) */
+  /* Extract base word from a "form of X" Wiktionary definition HTML string.
+     Returns the base word string, or null if not a form-of entry. */
+  function extractBaseForm(defHtml) {
+    var t = defHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    // "first/second/third-person ... of X"
+    var m = t.match(/(?:first|second|third)[- ]person.{0,60}of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "plural of X", "inflection of X", "feminine of X", etc.
+    m = t.match(/^(?:inflection|plural|singular|feminine|masculine|augmentative|diminutive|superlative|past\s+(?:tense|participle)|present\s+participle|gerund|form)\s+of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "X of Y" where X ends right before "of" and Y is at end
+    m = t.match(/of\s+([\wÀ-ɏ]+)\s*(?:[:,]|$)/i);
+    if (m) return m[1].toLowerCase();
+    return null;
+  }
+
+  /* Returns true if ALL definitions in all entries look like form-of entries */
+  function getFirstBase(entries) {
+    // Return the base form if the first definition looks like a form-of entry
+    var firstDef = ((entries[0] || {}).definitions || [])[0] || {};
+    return extractBaseForm(firstDef.definition || '');
+  }
+
+  function fetchWiktionary(word) {
+    return fetch(
+      'https://en.wiktionary.org/api/rest_v1/page/definition/' + encodeURIComponent(word),
+      { headers: { Accept: 'application/json' } }
+    ).then(function(r) {
+      if (!r.ok) throw new Error('wikt');
+      return r.json();
+    }).then(function(data) {
+      var es = data.es || data.Es;
+      if (es && es.length) return es;
+      throw new Error('no entry');
+    });
+  }
+
+  function fetchDefinition(rawWord) {
+    var word = toLemma(rawWord);
+    if (dictCache[word]) return Promise.resolve(dictCache[word]);
+    return fetchWiktionary(word).then(function(es) {
+      // If all definitions are "form of X", follow the link to the base form
+      var base = getFirstBase(es);
+      if (base && base !== word.toLowerCase()) {
+        return fetchWiktionary(base).then(function(baseEs) {
+          var result = { source: 'wiktionary', entries: baseEs, inflectedFrom: rawWord, baseForm: base };
+          dictCache[word] = result; return result;
+        }).catch(function() {
+          var result = { source: 'wiktionary', entries: es };
+          dictCache[word] = result; return result;
+        });
+      }
+      var result = { source: 'wiktionary', entries: es };
+      if (word.toLowerCase() !== rawWord.toLowerCase()) result.baseForm = word;
+      dictCache[word] = result; return result;
+    }).catch(function () {
+      return fetch(
+        'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=es|en'
+      ).then(function (r) { return r.json(); }).then(function (data) {
+        var trans = data.responseData && data.responseData.translatedText;
+        if (!trans || trans.toLowerCase() === word.toLowerCase()) throw new Error('no trans');
+        var alts = (data.matches || [])
+          .filter(function (m) {
+            return m.quality > 50 && m.translation &&
+              m.translation.toLowerCase() !== word.toLowerCase() &&
+              m.translation.toLowerCase() !== trans.toLowerCase();
+          })
+          .map(function (m) { return m.translation; })
+          .filter(function (v, i, a) { return a.indexOf(v) === i; })
+          .slice(0, 3);
+        var result = { source: 'mymemory', translation: trans, alts: alts };
+        dictCache[word] = result; return result;
+      });
+    }).catch(function () {
+      var result = { source: 'none' };
+      dictCache[word] = result; return result;
+    });
+  }
+
+  function strip(h) { return h.replace(/<[^>]+>/g, ''); }
+
+  function renderBody(r) {
+    if (r.source === 'wiktionary') {
+      var html = '';
+      // Show a small note when we resolved an inflected form to its base
+      if (r.baseForm) {
+        html += '<div class="dp-alts">form of <em>' + r.baseForm + '</em></div>';
+      }
+      r.entries.slice(0, 3).forEach(function (e) {
+        html += '<div class="dp-pos">' + (e.partOfSpeech || '') + '</div><ol class="dp-defs">';
+        (e.definitions || []).slice(0, 4).forEach(function (d) {
+          html += '<li>' + strip(d.definition || '') + '</li>';
+        });
+        html += '</ol>';
+      });
+      return html;
+    }
+    if (r.source === 'mymemory') {
+      var h = '<div class="dp-trans">' + r.translation + '</div>';
+      if (r.alts && r.alts.length) h += '<div class="dp-alts">also: ' + r.alts.join(', ') + '</div>';
+      return h;
+    }
+    return '<div class="dp-none">no definition found</div>';
+  }
+
+  /* 4. Show / position / hide */
+  function positionPopup(cx, cy) {
+    var pw = popup.offsetWidth || 220, ph = popup.offsetHeight || 130;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var left = cx + 14, top = cy + 14;
+    if (left + pw > vw - 8) left = cx - pw - 14;
+    if (top  + ph > vh - 8) top  = cy - ph - 14;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  }
+
+  function showPopup(word, cx, cy) {
+    dpWord.textContent = word;
+    dpBody.innerHTML = '<div class="dp-loading">buscando…</div>';
+    dpLinks.innerHTML =
+      '<a href="https://www.wordreference.com/es/en/translation.asp?spen=' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128214; WordReference &#8594;</a>' +
+      '<a href="https://www.spanishdict.com/translate/' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128216; SpanishDict &#8594;</a>';
+    popup.style.display = 'block';
+    positionPopup(cx, cy);
+    fetchDefinition(word).then(function (result) {
+      if (dpWord.textContent !== word) return;
+      dpBody.innerHTML = renderBody(result);
+      positionPopup(cx, cy);
+    });
+  }
+
+  function hidePopup() {
+    popup.style.display = 'none';
+    if (activeSpan) { activeSpan.classList.remove('dp-active'); activeSpan = null; }
+  }
+
+  /* 5. Events */
+  document.addEventListener('click', function (e) {
+    var wordEl = e.target.closest('.es-word');
+    if (wordEl) {
+      if (activeSpan) activeSpan.classList.remove('dp-active');
+      activeSpan = wordEl;
+      wordEl.classList.add('dp-active');
+      showPopup(wordEl.dataset.word, e.clientX, e.clientY);
+      return;
+    }
+    if (!e.target.closest('#dict-popup')) hidePopup();
+  });
+
+  dpClose.addEventListener('click', function (e) { e.stopPropagation(); hidePopup(); });
+})();
+</script>
+</body>
+</html>

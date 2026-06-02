@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrevista con el Vampiro — Capítulo 8 (Primera parte) · Lectura Glosada</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #e0e0e0;
+    --muted: #8892a4;
+    --spanish: #f5c518;
+    --gloss: #a8d8a8;
+    --vocab-bg: #0d1b2a;
+    --grammar-bg: #1b1228;
+    --tag: #533483;
+    --dialogue: #1e2d1e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; line-height: 1.7; padding: 2rem 1rem; }
+  header { max-width: 880px; margin: 0 auto 3rem; text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 1.5rem; }
+  header h1 { font-size: 2rem; color: var(--accent); letter-spacing: 1px; }
+  header h2 { font-size: 1.1rem; color: var(--muted); font-weight: normal; margin-top: .4rem; }
+  header p { font-size: .9rem; color: var(--muted); margin-top: .8rem; font-style: italic; }
+  .chapter-intro { max-width: 880px; margin: 0 auto 2.5rem; background: var(--accent2); border-left: 4px solid var(--accent); padding: 1rem 1.4rem; border-radius: 4px; font-size: .95rem; }
+  .chapter-intro h3 { color: var(--accent); margin-bottom: .4rem; }
+  .sentence-block { max-width: 880px; margin: 0 auto 2rem; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .sentence-num { display: inline-block; background: var(--accent); color: #fff; font-size: .75rem; font-family: monospace; padding: .2rem .5rem; border-radius: 3px; margin-bottom: .5rem; letter-spacing: 1px; }
+  .sentence-top { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .spanish-text { font-size: 1.2rem; color: var(--spanish); font-style: italic; margin-bottom: .6rem; line-height: 1.5; }
+  .gloss-text { font-size: 1rem; color: var(--gloss); margin-top: .35rem; }
+  .gloss-label, .vocab-label, .grammar-label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; margin-bottom: .3rem; font-family: sans-serif; }
+  /* ── Per-sentence gloss toggle ── */
+  .gloss-toggle { background: none; border: none; padding: .4rem 0; cursor: pointer; font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-family: sans-serif; margin-bottom: .3rem; display: block; touch-action: manipulation; min-height: 2.5rem; }
+  .gloss-toggle:hover { color: var(--gloss); }
+  .gloss-text { visibility: visible; }
+  .gloss-text.gloss-hidden { visibility: hidden; pointer-events: none; }
+
+  .breakdown { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px) { .breakdown { grid-template-columns: 1fr; } }
+  .vocab-section { background: var(--vocab-bg); padding: 1rem 1.4rem; border-right: 1px solid rgba(255,255,255,.05); }
+  .grammar-section { background: var(--grammar-bg); padding: 1rem 1.4rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+  td { padding: .3rem .4rem; vertical-align: top; }
+  td:first-child { color: var(--spanish); font-style: italic; white-space: nowrap; padding-right: .8rem; width: 42%; }
+  tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,.05); }
+  .grammar-section ul { list-style: none; font-size: .87rem; }
+  .grammar-section li { margin-bottom: .55rem; padding-left: .8rem; border-left: 2px solid var(--tag); }
+  .grammar-section li strong { color: var(--spanish); font-style: italic; }
+  .grammar-section li em { color: #c9b1ff; font-style: normal; }
+  .section-label { max-width: 880px; margin: 0 auto 1.2rem; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--tag); font-family: sans-serif; padding-left: .2rem; display: flex; align-items: center; gap: .8rem; }
+  .tag { display: inline-block; background: var(--tag); color: #ddd; font-size: .7rem; font-family: sans-serif; padding: .1rem .4rem; border-radius: 3px; margin-right: .3rem; }
+  .dialogue-marker { color: var(--muted); font-size: .8rem; font-family: sans-serif; margin-bottom: .3rem; display: block; }
+  footer { max-width: 880px; margin: 3rem auto 0; text-align: center; font-size: .8rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); }
+
+  /* ── Audio controls ── */
+  #audio-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,52,96,.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(233,69,96,.4);
+    padding: .6rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: sans-serif; font-size: .82rem;
+  }
+  #audio-bar .bar-label { color: var(--muted); white-space: nowrap; }
+  #audio-bar .voice-select {
+    background: #0d1b2a; color: var(--text); border: 1px solid var(--tag);
+    border-radius: 4px; padding: .25rem .5rem; font-size: .8rem; flex: 1; min-width: 160px; max-width: 280px;
+  }
+  #audio-bar .speed-wrap { display: flex; align-items: center; gap: .5rem; }
+  #audio-bar input[type=range] { width: 90px; accent-color: var(--accent); cursor: pointer; }
+  #speed-val { color: var(--accent); font-weight: bold; min-width: 2.5ch; }
+  #stop-btn, .section-gloss-btn {
+    border: none; border-radius: 4px;
+    padding: .25rem .8rem; cursor: pointer; font-size: .8rem; white-space: nowrap;
+  }
+  #stop-btn { background: var(--accent); color: #fff; }
+  #stop-btn:hover { opacity: .85; }
+  .section-gloss-btn { background: var(--accent2); color: var(--muted); border: 1px solid var(--tag); margin-left: auto; flex-shrink: 0; }
+  .section-gloss-btn:hover { background: #1a4a80; color: var(--text); }
+  .voice-status { color: var(--muted); font-size: .75rem; font-style: italic; }
+
+  /* ── Play button on each card ── */
+  .spanish-row { display: flex; align-items: flex-start; gap: .6rem; }
+  .spanish-text { flex: 1; }
+  .play-btn {
+    flex-shrink: 0; margin-top: .15rem;
+    background: none; border: 1.5px solid var(--accent);
+    color: var(--accent); border-radius: 50%;
+    width: 2rem; height: 2rem; cursor: pointer;
+    font-size: .9rem; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s;
+  }
+  .play-btn:hover { background: var(--accent); color: #fff; }
+  .play-btn.playing {
+    background: var(--accent); color: #fff;
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(233,69,96,.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(233,69,96,0); }
+  }
+
+  /* ── Dictionary word spans ── */
+  .es-word {
+    cursor: pointer;
+    border-bottom: 1px dotted rgba(245,197,24,.35);
+    border-radius: 2px;
+    padding: 0 1px;
+    transition: background .1s;
+  }
+  .es-word:hover, .es-word.dp-active {
+    background: rgba(245,197,24,.18);
+    border-bottom-color: var(--spanish);
+  }
+
+  /* ── Dictionary popup ── */
+  #dict-popup {
+    position: fixed;
+    z-index: 500;
+    background: #0d1b2a;
+    border: 1px solid var(--tag);
+    border-radius: 8px;
+    padding: .75rem 1.1rem .85rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,.7);
+    min-width: 210px;
+    max-width: 310px;
+    font-family: sans-serif;
+    display: none;
+  }
+  #dict-popup .dp-word {
+    color: var(--spanish);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-family: Georgia, serif;
+    display: block;
+    margin-bottom: .4rem;
+    padding-right: 1.6rem;
+  }
+  .dp-loading { color: var(--muted); font-size: .8rem; font-style: italic; padding: .15rem 0 .3rem; }
+  .dp-pos {
+    color: var(--muted); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: 1px; margin: .45rem 0 .2rem; font-family: sans-serif;
+  }
+  .dp-defs {
+    font-size: .85rem; color: var(--text);
+    margin: 0; padding-left: 1.1rem; line-height: 1.45;
+  }
+  .dp-defs li { margin-bottom: .25rem; }
+  .dp-trans { font-size: .95rem; color: var(--text); margin: .25rem 0 .1rem; }
+  .dp-alts  { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: .1rem; }
+  .dp-none  { color: var(--muted); font-size: .8rem; font-style: italic; padding: .2rem 0 .3rem; }
+  .dp-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,.09);
+    margin: .6rem 0 .5rem;
+  }
+  #dict-popup .dp-links {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  #dict-popup .dp-links a {
+    color: var(--gloss);
+    text-decoration: none;
+    font-size: .8rem;
+    padding: .25rem .55rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,.06);
+    transition: background .12s;
+    display: block;
+  }
+  #dict-popup .dp-links a:hover { background: rgba(255,255,255,.14); }
+  #dict-close {
+    position: absolute;
+    top: .45rem; right: .6rem;
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: .9rem; line-height: 1;
+    padding: .1rem .2rem;
+  }
+  #dict-close:hover { color: var(--text); }
+
+</style>
+</head>
+<body>
+<div id="audio-bar">
+  <span class="bar-label">&#128266; Voz:</span>
+  <select id="voice-select" class="voice-select"><option>Cargando voces&hellip;</option></select>
+  <div class="speed-wrap">
+    <span class="bar-label">Velocidad:</span>
+    <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.05" value="0.85">
+    <span id="speed-val">0.85&times;</span>
+  </div>
+  <button id="stop-btn">&#9632; Parar</button>
+  <span class="voice-status" id="voice-status"></span>
+</div>
+<header>
+  <h1>Entrevista con el Vampiro</h1>
+  <h2>Anne Rice &middot; Cap&iacute;tulo 8: <em>Primera parte</em></h2>
+  <p>Pasaje 8</p>
+</header>
+<div class="chapter-intro">
+  <h3>Primera parte — Pasaje 8</h3>
+  <p>Louis visita a Babette Freniere en la noche para advertirla. Se muestra a la luz de su vela. Le dice que ella puede dirigir la plantación. Babette se convierte en el escándalo del río — y en un éxito. En Pointe du Lac, los esclavos africanos descubren que Lestat y Louis no son humanos. Louis intenta convencer a Lestat de marcharse. El padre de Lestat agoniza. Lestat toca el espinete mientras el padre muere.</p>
+</div>
+<div class="section-group">
+<div class="section-label"><span>§ Babette — el consejo en la oscuridad</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">01</span>
+    <span class="dialogue-marker">💬 Vampiro / Louis</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">Pero te he hablado de las hermanas Freniere. Eran casi las cinco y media cuando llegué a su plantación. Me deslicé hasta la galería superior de su casa y los vi a todos reunidos en el salón; nunca se habían vestido para la cama. Las velas ardían bajas, y estaban sentadas ya como dolientes, esperando las noticias. Los rostros de las cinco aparecían como cinco suaves y relucientes apariciones, cada una de manera única triste, cada una de manera única valerosa. El rostro de Babette solo parecía resuelto. Era como si ya se hubiera decidido a cargar con las responsabilidades de Freniere si su hermano moría. Entonces hice algo que me causó gran riesgo. Me di a conocer a ella. Lo hice jugando con la luz. —Dile a tus hermanas que se retiren —le susurré—. He venido a contarte de tu hermano. Haz lo que te digo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">But I&#x27;ve spoken to you about the Freniere sisters. It was almost half past five when I reached their plantation. I slipped onto the upper gallery of their house and saw them all gathered in the parlor; they had never even dressed for bed. The candles burnt low, and they sat already as mourners, waiting for the word. The faces of the five appeared as five soft, shimmering apparitions, each uniquely sad, each uniquely courageous. Babette&#x27;s face alone appeared resolute. It was as if she had already made up her mind to take the burdens of Freniere if her brother died. Then I did something then which caused me great risk. I made myself known to her. I did this by playing with the light. Tell your sisters to go back, I whispered. I come to tell you of your brother. Do as I say.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>sentadas ya como dolientes</td><td>sat already as mourners — <em>doliente</em>: mourner, grieving person</td></tr>
+        <tr><td>suaves y relucientes apariciones</td><td>soft, shimmering apparitions — <em>aparición</em>: apparition, ghost</td></tr>
+        <tr><td>era como si ya se hubiera decidido</td><td>it was as if she had already made up her mind — <em>como si + pluscuamperfecto de subjuntivo</em></td></tr>
+        <tr><td>me di a conocer a ella</td><td>I made myself known to her — <em>darse a conocer</em>: to make oneself known</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>era como si ya se hubiera decidido a cargar con las responsabilidades</strong> — <em>Como si + pluscuamperfecto de subjuntivo</em>: as if she had already decided. The pluperfect signals the decision was already made before the moment described.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">02</span>
+    <span class="dialogue-marker">💬 Louis</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">—Sólo dispongo de unos minutos —le dije—. Pero lo que tengo que comunicarte es de la mayor importancia. Tu hermano luchó valientemente y ganó el duelo, pero espera... Debes saber ahora, está muerto. La muerte estaba en él como el ladrón en la noche del que toda su valentía o su valor no podía hacer nada. Pero esto no es lo principal que vine a decirte. Es esto. Tú puedes gobernar la plantación y puedes salvarla. Todo lo que se requiere es que no dejes que nadie te convenza de lo contrario. Debes asumir su lugar a pesar de cualquier clamor, cualquier conversación sobre la convención, cualquier conversación sobre la propiedad o el sentido común. No debes escuchar nada. La misma tierra está aquí ahora que estaba aquí ayer por la mañana cuando tu hermano dormía en el piso de arriba. Nada ha cambiado. Debes ocupar su lugar.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">I have only a few minutes, I told her. But what I have to tell you is of the greatest importance. Your brother fought bravely and won the duel, but wait — You must know now, he is dead. Death was proverbial with him, the thief in the night about which all his goodness or courage could do nothing. But this is not the principal thing which I came to tell you. It is this. You can rule the plantation and you can save it. All that is required is that you let no one convince you otherwise. You must assume his position despite any outcry, any talk of convention, any talk of propriety or common sense. You must listen to nothing. The same land is here now that was here yesterday morning when your brother slept above. Nothing is changed. You must take his place.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>la muerte estaba en él como el ladrón en la noche</td><td>death was with him like the thief in the night — biblical image</td></tr>
+        <tr><td>asumir su lugar</td><td>to assume his position — <em>asumir</em>: to assume, take on</td></tr>
+        <tr><td>a pesar de cualquier clamor</td><td>despite any outcry — <em>clamor</em>: outcry, clamor</td></tr>
+        <tr><td>cualquier conversación sobre la convención</td><td>any talk of convention — <em>convención</em>: social convention</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>todo lo que se requiere es que no dejes que nadie te convenza</strong> — <em>Lo que se requiere es que + subjuntivo</em>: what is required is that. The nominal subjunctive clause (<em>que no dejes</em>) functions as subject complement. <em>No dejar que + subjuntivo</em>: not allowing that — don't let anyone convince you.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">03</span>
+    <span class="dialogue-marker">💬 Muchacho / Vampiro</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">Pude ver, por la expresión de su cara, que escuchaba cada palabra mía. En toda la costa no se dijo nada acerca de una extraña aparición a Babette Freniere, pero después del primer luto y la triste conversación de las mujeres quedadas solas, ella se convirtió en el escándalo del vecindario porque eligió dirigir la plantación sola. Administró una inmensa dote para su hermana menor, y ella misma se casó al año siguiente. Y Lestat y yo casi nunca intercambiamos palabras. —¿Continuó viviendo en Pointe du Lac? —Así es. Yo no podía estar seguro de que Lestat ya me hubiera dicho todo lo que yo necesitaba saber. Y era necesaria mucha simulación. Mi hermana se casó en mi ausencia, por ejemplo, mientras yo tenía un escalofrío malárico, y algo similar me venció la mañana del funeral de mi madre.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">I could see by her face that she had heard every word. There was absolutely no talk on the river coast of any strange apparition to Babette Freniere, but after the first mourning and sad talk of the women left all alone, she became the scandal of the neighborhood because she chose to run the plantation on her own. She managed an immense dowry for her younger sister, and was married herself in another year. And Lestat and I almost never exchanged words. Did he go on living at Pointe du Lac? Yes. I could not be certain he&#x27;d told me all I needed to know. And great pretense was necessary. My sister was married in my absence, for example, while I had a malarial chill, and something similar overcame me the morning of my mother&#x27;s funeral.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>después del primer luto</td><td>after the first mourning — <em>luto</em>: mourning, grief</td></tr>
+        <tr><td>el escándalo del vecindario</td><td>the scandal of the neighborhood — <em>vecindario</em>: neighborhood, vicinity</td></tr>
+        <tr><td>era necesaria mucha simulación</td><td>great pretense was necessary — <em>simulación</em>: pretense, simulation</td></tr>
+        <tr><td>un escalofrío malárico</td><td>a malarial chill — <em>escalofrío</em>: chill, shiver; <em>malárico</em>: malarial</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>yo no podía estar seguro de que Lestat ya me hubiera dicho todo lo que yo necesitaba saber</strong> — <em>Estar seguro de que + pluscuamperfecto de subjuntivo</em>: to be certain that he had told me. Verbs of certainty/doubt in negative contexts trigger the subjunctive. The pluperfect subjunctive places the telling before the moment of uncertainty.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ Los esclavos lo saben — el peligro</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">04</span>
+    <span class="dialogue-marker">💬 Vampiro</span>
+    <div class="spanish-text">—Ahora, permíteme que te explique el carácter de esos esclavos. Corría el año 1797; hacía cuatro años que Lestat y yo vivíamos allí en relativa tranquilidad. Esos esclavos no tenían el carácter que has visto en las películas y novelas del Sur. No eran personas de piel morena, de voz suave, con harapos apagados que hablaban un dialecto inglés. Eran africanos. Y eran isleños; es decir, algunos habían venido de Santo Domingo. Eran muy negros y totalmente extranjeros; hablaban en sus lenguas africanas, y hablaban el patois francés; y cuando cantaban, cantaban canciones africanas que hacían los campos exóticos y extraños. Eran supersticiosos y tenían sus propios secretos y tradiciones. En suma, todavía no habían sido destruidos completamente como africanos. No hasta una noche de estío, cuando paseando entre las sombras, escuché por las puertas abiertas de la cabaña del capataz negro una conversación que me convenció de que Lestat y yo dormíamos en verdadero peligro.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Now, let me explain first the character of these slaves. It was only about seventeen ninety-five, Lestat and I having lived there for four years in relative quiet. These slaves did not have the character which you&#x27;ve seen in films and novels of the South. They were not soft-spoken, brown-skinned people in drab rags who spoke an English dialect. They were Africans. And they were islanders; that is, some had come from Santo Domingo. They were very black and totally foreign; they spoke in their African tongues, and they spoke the French patois; and when they sang, they sang African songs which made the fields exotic and strange. They were superstitious and had their own secrets and traditions. In short, they had not yet been destroyed as Africans completely. Not until one summer evening when, passing for a shadow, I heard through the open doors of the black foreman&#x27;s cottage a conversation which convinced me that Lestat and I slept in real danger.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>harapos apagados</td><td>drab rags — <em>harapo</em>: rag; <em>apagado</em>: dull, muted</td></tr>
+        <tr><td>el patois francés</td><td>the French patois — <em>patois</em>: regional dialect; Louisiana Creole</td></tr>
+        <tr><td>todavía no habían sido destruidos como africanos</td><td>had not yet been destroyed as Africans — Louis's historical awareness</td></tr>
+        <tr><td>paseando entre las sombras</td><td>passing for a shadow — <em>pasear entre las sombras</em>: moving among shadows</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>allí en la cabaña no había ninguna cama — duerme en el ataúd, lo sé</strong> — The quote that follows captures the slaves' indirect speech. Note the shift from past narration to present tense in the slaves' words (<em>duerme</em>), rendering their dialogue as if overheard directly — a narrative technique called <em>estilo directo libre</em>.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">05</span>
+    <span class="dialogue-marker">💬 Vampiro / Lestat / Louis / Lestat</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">—Esto significaba que los rumores se extenderían por toda la costa. Me apresuré a regresar a la casa de la plantación para decirle a Lestat que nuestro juego de hacernos pasar por plantadores había terminado. Tendría que renunciar a su látigo de esclavos y a su servilletero de oro y mudarse a la ciudad. Se resistió, naturalmente. Su padre estaba gravemente enfermo y quizá no sobreviviese mucho tiempo. No tenía intención de huir de esclavos estúpidos. —Los mataré a todos —dijo serenamente—, de a tres y de a cuatro. Algunos se escaparán y eso estará bien. —Estás diciendo disparates. El hecho es que quiero que te vayas de aquí. —¡Tú quieres que me vaya! ¡Tú! —se mofó—. Tú cobarde llorón de vampiro que ronda la noche matando gatos callejeros y ratas y se queda inmóvil horas mirando las velas como si fueran personas, parado bajo la lluvia como un zombi hasta que la ropa está empapada y hueles a viejos baúles en los áticos.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">This meant word would get to the entire coast. I hurried back to the plantation house to tell Lestat our game of playing planter was over. He&#x27;d have to give up his slave whip and golden napkin ring and move into town. He resisted, naturally. His father was gravely ill and might not live. He had no intention of running away from stupid slaves. I&#x27;ll kill them all, he said calmly, in threes and fours. Some will run away and that will be fine. You&#x27;re talking madness. The fact is I want you gone from here. You want me gone! You, he sneered. You whining coward of a vampire who prowls the night killing alley cats and rats and stands staring for hours at candles as if they were people, standing in the rain like a zombie until your clothes are drenched and you smell like old wardrobe trunks in attics.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>hacernos pasar por plantadores</td><td>playing planter — <em>hacerse pasar por</em>: to pass as, pretend to be</td></tr>
+        <tr><td>su látigo de esclavos</td><td>his slave whip — <em>látigo</em>: whip</td></tr>
+        <tr><td>su servilletero de oro</td><td>his golden napkin ring — <em>servilletero</em>: napkin ring</td></tr>
+        <tr><td>mirando las velas como si fueran personas</td><td>staring at candles as if they were people — <em>como si + subjuntivo</em></td></tr>
+        <tr><td>hueles a viejos baúles en los áticos</td><td>you smell like old wardrobe trunks in attics — Lestat's vicious mockery</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>quizá no sobreviviese mucho tiempo</strong> — <em>Quizá + imperfecto de subjuntivo</em>: perhaps he might not survive long. The imperfect subjunctive after <em>quizá</em> in a past context signals greater uncertainty than indicative would.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ El padre de Lestat — el espinete</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">06</span>
+    <span class="dialogue-marker">💬 Louis / Vampiro / Louis</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">—No tienes nada más que decirme —contesté—, y tu insistencia en el desorden nos ha puesto en peligro a los dos. Podría vivir en ese oratorio solo mientras esta casa cae en ruinas. ¡No me importa! Pero tú debes tener todas las cosas que nunca tuviste en la vida y hacer de la inmortalidad un bazar en el que los dos nos volvemos grotescos. Ahora, ve a ver a tu padre y dime cuánto tiempo le queda, porque éso es cuánto tiempo te quedas, ¡y sólo si los esclavos no se levantan contra nosotros! Entonces me dijo que fuera yo a ver a su padre, y lo hice. El anciano estaba verdaderamente muriendo. Yacía jadeando, con la frente caliente y mojada, la almohada alrededor de él manchada de sudor. Y mientras gemía y rezaba por la muerte, Lestat en la otra habitación empezó a tocar el espinete. Cerré de un golpe la tapa, casi aplastándole los dedos. —¡No tocarás mientras se muere tu padre! —dije.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">You&#x27;ve nothing more to tell me, and your insistence on recklessness has endangered us both. I might live in that oratory alone while this house fell to ruin. I don&#x27;t care about it! But you must have all the things you never had of life and make of immortality a junk shop in which both of us become grotesque. Now, go look at your father and tell me how long he has to live, for that&#x27;s how long you stay, and only if the slaves don&#x27;t rise up against us! He told me then to go look at his father myself, and I did. The old man was truly dying. He lay gasping, his forehead hot and wet, the pillow around him stained with sweat. And as he moaned and prayed for death, Lestat in the other room began to play the spinet. I slammed it shut, barely missing his fingers. You won&#x27;t play while he dies! I said.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>hacer de la inmortalidad un bazar</td><td>make of immortality a junk shop — <em>bazar</em>: bazaar, junk shop</td></tr>
+        <tr><td>grotescos</td><td>grotesque — <em>grotesco</em>: grotesque; what immortality becomes when wasted</td></tr>
+        <tr><td>jadeando</td><td>gasping — <em>jadear</em>: to gasp, pant</td></tr>
+        <tr><td>manchada de sudor</td><td>stained with sweat — <em>manchado</em>: stained</td></tr>
+        <tr><td>el espinete</td><td>the spinet — <em>espinete</em>: spinet (small harpsichord)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>tu insistencia en el desorden nos ha puesto en peligro a los dos</strong> — <em>Poner en peligro a</em>: to endanger. The indirect object pronoun <em>nos</em> + emphatic <em>a los dos</em> = both of us. Spanish often uses both the pronoun and the full noun phrase for emphasis.</li>
+        <li><strong>éso es cuánto tiempo te quedas, y sólo si los esclavos no se levantan</strong> — <em>Si + presente de indicativo</em>: real conditional. Unlike hypothetical conditions, real/open conditions use indicative in both clauses: <em>si no se levantan</em> (if they don't rise up) = real possibility.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">07</span>
+    <span class="dialogue-marker">💬 Lestat / Anciano / Lestat / Anciano / Lestat / Anciano / Lestat</span>
+    <div class="spanish-text">—¿Por qué debo ir? Me he ocupado de él todos estos años. ¿No es eso suficiente? Y sacó del bolsillo un cortaplumas y se empezó a limpiar las largas uñas. —Fue la escuela —decía el anciano—. Oh, yo sé que tú te acuerdas... ¿Qué te puedo decir...? —gemía. —Mejor será que lo digas —dijo Lestat—, porque estás al borde de la muerte. El anciano dejó escapar un ruido terrible, y sospecho que yo también emití un sonido. Positivamente lo detestaba. —Pues tú lo sabes, ¿no es así? Hasta un tonto como tú lo sabe —dijo Lestat. —Jamás me perdonarás, ¿verdad? No ahora, ni siquiera después de muerto —dijo el anciano. —¡No sé de qué estás hablando! —protestó Lestat.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Why should I go? I&#x27;ve cared for him all these years. Isn&#x27;t that enough? And he drew from his pocket a nail file and began to file his long nails. It was the school, the old man was saying. Oh, I know you remember — what can I say to you? he moaned. You&#x27;d better say it, Lestat said, because you&#x27;re about to die. The old man let out a terrible noise, and I suspect I made some sound of my own. I positively loathed Lestat. Well, you know that, don&#x27;t you? Even a fool like you knows that, Lestat said. You&#x27;ll never forgive me, will you? Not now, not even after I&#x27;m dead, said the old man. I don&#x27;t know what you&#x27;re talking about! Lestat protested.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>un cortaplumas</td><td>a nail file, pocketknife — <em>cortaplumas</em>: penknife</td></tr>
+        <tr><td>al borde de la muerte</td><td>about to die — <em>al borde de</em>: on the edge of, about to</td></tr>
+        <tr><td>ni siquiera después de muerto</td><td>not even after I'm dead — <em>ni siquiera</em>: not even</td></tr>
+        <tr><td>positivamente lo detestaba</td><td>I positively loathed Lestat — <em>detestar</em>: to loathe, detest</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>mejor será que lo digas</strong> — <em>Mejor será que + subjuntivo</em>: you had better say it. <em>Mejor será que</em> + subjunctive is an indirect command expressing strong recommendation or veiled threat. Compare: <em>mejor di</em> (imperative, more direct).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<footer>
+  <p><em>Entrevista con el Vampiro</em> &mdash; Anne Rice</p>
+  <p style="margin-top:.5rem;">Lectura glosada para uso personal de estudio del espa&ntilde;ol &middot; Cap&iacute;tulo 8</p>
+</footer>
+
+<script>
+(function () {
+  /* ── 1. Wrap every .spanish-text in a flex row and prepend a play button ── */
+  document.querySelectorAll('.spanish-text').forEach(function (el, i) {
+    var text = el.textContent.trim();
+    el.dataset.speak = text;
+
+    var btn = document.createElement('button');
+    btn.className = 'play-btn';
+    btn.title = 'Reproducir';
+    btn.innerHTML = '&#9654;';
+    btn.dataset.idx = i;
+
+    var row = document.createElement('div');
+    row.className = 'spanish-row';
+    el.parentNode.insertBefore(row, el);
+    row.appendChild(btn);
+    row.appendChild(el);
+  });
+
+  /* ── 2. Voice loading ── */
+  var voiceSelect = document.getElementById('voice-select');
+  var statusEl    = document.getElementById('voice-status');
+  var spanishVoices = [];
+  var allVoices     = [];
+
+  function loadVoices() {
+    allVoices = window.speechSynthesis.getVoices();
+    if (!allVoices.length) return;
+    spanishVoices = allVoices.filter(function (v) {
+      return v.lang.toLowerCase().startsWith('es');
+    });
+    voiceSelect.innerHTML = '';
+    if (spanishVoices.length === 0) {
+      allVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i + '_all';
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u26a0 No Spanish voices found \u2014 showing all voices.';
+    } else {
+      spanishVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        if (v.lang.toLowerCase() === 'es-es') opt.selected = true;
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u2713 ' + spanishVoices.length + ' Spanish voice(s) found';
+    }
+  }
+
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  setTimeout(loadVoices, 500);
+
+  function getSelectedVoice() {
+    var val = voiceSelect.value;
+    if (!val) return null;
+    if (val.endsWith('_all')) return allVoices[parseInt(val)] || null;
+    return spanishVoices[parseInt(val)] || null;
+  }
+
+  /* ── 3. Speed slider ── */
+  var speedSlider = document.getElementById('speed-slider');
+  var speedVal    = document.getElementById('speed-val');
+  speedSlider.addEventListener('input', function () {
+    speedVal.textContent = parseFloat(this.value).toFixed(2) + '\u00d7';
+  });
+
+  /* ── 4. Speech playback ── */
+  var currentBtn = null;
+
+  function stopSpeech() {
+    window.speechSynthesis.cancel();
+    if (currentBtn) {
+      currentBtn.classList.remove('playing');
+      currentBtn.innerHTML = '&#9654;';
+      currentBtn = null;
+    }
+  }
+
+  document.getElementById('stop-btn').addEventListener('click', stopSpeech);
+
+  /* ── 4b. Per-section gloss toggle ── */
+  window.toggleSectionGloss = function(btn) {
+    var group = btn.closest('.section-group');
+    if (!group) return;
+    var glosses = group.querySelectorAll('.gloss-text');
+    var toggles = group.querySelectorAll('.gloss-toggle');
+    var allHidden = Array.from(glosses).every(function(g){ return g.classList.contains('gloss-hidden'); });
+    glosses.forEach(function(g){ g.classList.toggle('gloss-hidden', !allHidden); });
+    toggles.forEach(function(t){ t.textContent = allHidden ? '▼ English' : '▶ English'; });
+    btn.textContent = allHidden ? 'Ocultar English' : 'Mostrar English';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn === currentBtn) { stopSpeech(); return; }
+    stopSpeech();
+
+    var spanishEl = btn.parentElement.querySelector('.spanish-text');
+    var text = spanishEl ? spanishEl.dataset.speak : '';
+    if (!text) return;
+
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang  = 'es-ES';
+    utter.rate  = parseFloat(speedSlider.value);
+    utter.pitch = 1;
+
+    var voice = getSelectedVoice();
+    if (voice) utter.voice = voice;
+
+    btn.classList.add('playing');
+    btn.innerHTML = '&#9632;';
+    currentBtn = btn;
+
+    /* Chrome keepalive: prevents silent cutoff of utterances > ~15 s */
+    var keepAlive = setInterval(function () {
+      if (!window.speechSynthesis.speaking) { clearInterval(keepAlive); return; }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, 10000);
+
+    utter.onend = function () {
+      clearInterval(keepAlive);
+      if (currentBtn === btn) {
+        btn.classList.remove('playing');
+        btn.innerHTML = '&#9654;';
+        currentBtn = null;
+      }
+    };
+    utter.onerror = utter.onend;
+
+    window.speechSynthesis.speak(utter);
+  });
+})();
+</script>
+<script>
+/* ── Dictionary lookup ── */
+(function () {
+
+  /* 1. Tokenize each .spanish-text into clickable word spans */
+  document.querySelectorAll('.spanish-text').forEach(function (el) {
+    var newHTML = el.innerHTML.replace(
+      /([A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+(?:['\u2019-][A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+)*)/g,
+      function (token) {
+        var lookup = token.replace(/^['\u2019-]+|['\u2019-]+$/g, '').toLowerCase();
+        if (!lookup) return token;
+        return '<span class="es-word" data-word="' + lookup + '">' + token + '</span>';
+      }
+    );
+    el.innerHTML = newHTML;
+  });
+
+  /* 2. Build popup */
+  var popup = document.createElement('div');
+  popup.id = 'dict-popup';
+  popup.innerHTML =
+    '<button id="dict-close" title="Cerrar">&#10005;</button>' +
+    '<span class="dp-word"></span>' +
+    '<div class="dp-body"></div>' +
+    '<hr class="dp-divider">' +
+    '<div class="dp-links"></div>';
+  document.body.appendChild(popup);
+
+  var dpWord  = popup.querySelector('.dp-word');
+  var dpBody  = popup.querySelector('.dp-body');
+  var dpLinks = popup.querySelector('.dp-links');
+  var dpClose = popup.querySelector('#dict-close');
+  var activeSpan = null;
+  var ES_LEMMAS = {"hermana": "hermanar", "venido": "venir", "yacía": "yacer", "aparecían": "aparecer", "sospecho": "sospechar", "sabe": "saber", "vivíamos": "vivir", "esos": "ese", "muy": "mucho", "gemía": "gemir", "sé": "ser", "la": "el", "decía": "decir", "minutos": "minuto", "sobreviviese": "sobrevivir", "ella": "él", "apresuré": "apresurar", "estás": "estar", "responsabilidades": "responsabilidad", "habían": "haber", "harapos": "harapo", "di": "dar", "tenían": "tener", "tradiciones": "tradición", "hueles": "oler", "abiertas": "abrir", "paseando": "pasear", "visto": "vestir", "destruidos": "destruir", "arriba": "arribar", "hablando": "hablar", "me": "yo", "dejó": "dejar", "cosas": "cosa", "relativa": "relativo", "quiero": "querer", "tienes": "tener", "lo": "él", "todos": "todo", "apagados": "apagado", "explique": "explicar", "requiere": "requerir", "mirando": "mirar", "suma": "sumo", "puertas": "puerta", "películas": "película", "rostros": "rostro", "casó": "casar", "estúpidos": "estúpido", "ardían": "arder", "administró": "administrar", "isleños": "isleño", "has": "haber", "los": "el", "empezó": "empezar", "eso": "ese", "áticos": "ático", "apariciones": "aparición", "hablaban": "hablar", "noticias": "noticia", "largas": "larga", "perdonarás": "perdonar", "luchó": "luchar", "plantadores": "plantador", "cantaban": "cantar", "hacían": "hacer", "digas": "decir", "rumores": "rumorar", "hacía": "hacer", "inmensa": "inmenso", "podía": "poder", "extranjeros": "extranjero", "he": "haber", "primer": "primero", "un": "uno", "extenderían": "extender", "esperando": "esperar", "quieres": "querer", "sabes": "saber", "gatos": "gato", "era": "ser", "otra": "otro", "dejes": "deje", "susurré": "susurrar", "rezaba": "rezar", "cae": "caer", "hablado": "hablar", "podría": "poder", "estaban": "estar", "escuchaba": "escuchar", "novelas": "novela", "tocarás": "tocar", "dispongo": "disponer", "puedes": "poder", "parecía": "parecer", "negros": "negro", "intercambiamos": "intercambiar", "horas": "hora", "fuera": "ser", "muriendo": "morir", "moría": "morir", "vi": "ver", "escuché": "escuchar", "esclavos": "esclavo", "años": "año", "ratas": "rata", "protestó": "protestar", "resistió": "resistir", "será": "ser", "escaparán": "escapar", "propios": "propio", "bajas": "baja", "suaves": "suave", "fue": "ir", "venció": "vencer", "ganó": "ganar", "relucientes": "reluciente", "muere": "morir", "misma": "mismo", "disparates": "disparate", "dormíamos": "dormir", "corría": "correr", "sacó": "sacar", "extraños": "extraño", "volvemos": "volver", "causó": "causar", "esto": "este", "campos": "campo", "debo": "deber", "vayas": "vaya", "le": "él", "canciones": "canción", "esta": "estar", "viejos": "viejo", "africanas": "africano", "acuerdas": "acordar", "las": "el", "única": "único", "mataré": "matar", "una": "uno", "dormía": "dormir", "algunos": "alguno", "convenció": "convencer", "fueran": "ser", "llegué": "llegar", "hermanas": "hermanar", "significaba": "significar", "quedadas": "quedada", "cambiado": "cambiar", "está": "estar", "quedas": "queda", "deslicé": "deslizar", "viviendo": "vivir", "es": "ser", "sentadas": "sentada", "ocupado": "ocupar", "secretos": "secreto", "extraña": "extrañar", "convenza": "convencer", "valerosa": "valeroso", "mofó": "mofar", "vine": "venir", "africanos": "africano", "diciendo": "decir", "pude": "poder", "importa": "importar", "decidido": "decidir", "uñas": "uña", "digo": "decir", "jugando": "jugar", "debes": "debe", "detestaba": "detestar", "tendría": "tener", "puedo": "poder", "mujeres": "mujer", "tenía": "tener", "necesitaba": "necesitar", "personas": "persona", "empapada": "empapar", "matando": "matar", "sido": "ser", "grotescos": "grotesco", "cualquier": "cualquiera", "baúles": "baúl", "hubiera": "haber", "convirtió": "convertir", "eran": "ser", "continuó": "continuar", "levantan": "levantar", "palabras": "palabra", "estaba": "estar", "había": "haber", "tus": "tu", "estos": "este", "reunidos": "reunir", "estará": "estar", "ruinas": "ruinar", "emití": "emitir", "retiren": "retirar", "unos": "uno", "contesté": "contestar", "supersticiosos": "supersticioso", "terminado": "terminar", "dedos": "dedo", "velas": "velar", "necesaria": "necesario", "tuviste": "tener", "cerré": "cerrar", "acerca": "acercar", "callejeros": "callejero", "ha": "haber", "eligió": "eligir", "solas": "solar", "sus": "su", "se": "él", "mucha": "mucho", "jadeando": "jadear", "todas": "todo", "hice": "hacer", "manchada": "manchar", "toda": "todo", "exóticos": "exótico", "sombras": "sombrar", "te": "tú", "dolientes": "doliente", "resuelto": "resolver", "lenguas": "lengua", "tengo": "tener", "sola": "solar", "dijo": "decir"};
+  function toLemma(w) { return ES_LEMMAS[w.toLowerCase()] || w; }
+  var dictCache  = {};
+
+  /* 3. Fetch definition (Wiktionary, then MyMemory fallback) */
+  /* Extract base word from a "form of X" Wiktionary definition HTML string.
+     Returns the base word string, or null if not a form-of entry. */
+  function extractBaseForm(defHtml) {
+    var t = defHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    // "first/second/third-person ... of X"
+    var m = t.match(/(?:first|second|third)[- ]person.{0,60}of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "plural of X", "inflection of X", "feminine of X", etc.
+    m = t.match(/^(?:inflection|plural|singular|feminine|masculine|augmentative|diminutive|superlative|past\s+(?:tense|participle)|present\s+participle|gerund|form)\s+of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "X of Y" where X ends right before "of" and Y is at end
+    m = t.match(/of\s+([\wÀ-ɏ]+)\s*(?:[:,]|$)/i);
+    if (m) return m[1].toLowerCase();
+    return null;
+  }
+
+  /* Returns true if ALL definitions in all entries look like form-of entries */
+  function getFirstBase(entries) {
+    // Return the base form if the first definition looks like a form-of entry
+    var firstDef = ((entries[0] || {}).definitions || [])[0] || {};
+    return extractBaseForm(firstDef.definition || '');
+  }
+
+  function fetchWiktionary(word) {
+    return fetch(
+      'https://en.wiktionary.org/api/rest_v1/page/definition/' + encodeURIComponent(word),
+      { headers: { Accept: 'application/json' } }
+    ).then(function(r) {
+      if (!r.ok) throw new Error('wikt');
+      return r.json();
+    }).then(function(data) {
+      var es = data.es || data.Es;
+      if (es && es.length) return es;
+      throw new Error('no entry');
+    });
+  }
+
+  function fetchDefinition(rawWord) {
+    var word = toLemma(rawWord);
+    if (dictCache[word]) return Promise.resolve(dictCache[word]);
+    return fetchWiktionary(word).then(function(es) {
+      // If all definitions are "form of X", follow the link to the base form
+      var base = getFirstBase(es);
+      if (base && base !== word.toLowerCase()) {
+        return fetchWiktionary(base).then(function(baseEs) {
+          var result = { source: 'wiktionary', entries: baseEs, inflectedFrom: rawWord, baseForm: base };
+          dictCache[word] = result; return result;
+        }).catch(function() {
+          var result = { source: 'wiktionary', entries: es };
+          dictCache[word] = result; return result;
+        });
+      }
+      var result = { source: 'wiktionary', entries: es };
+      if (word.toLowerCase() !== rawWord.toLowerCase()) result.baseForm = word;
+      dictCache[word] = result; return result;
+    }).catch(function () {
+      return fetch(
+        'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=es|en'
+      ).then(function (r) { return r.json(); }).then(function (data) {
+        var trans = data.responseData && data.responseData.translatedText;
+        if (!trans || trans.toLowerCase() === word.toLowerCase()) throw new Error('no trans');
+        var alts = (data.matches || [])
+          .filter(function (m) {
+            return m.quality > 50 && m.translation &&
+              m.translation.toLowerCase() !== word.toLowerCase() &&
+              m.translation.toLowerCase() !== trans.toLowerCase();
+          })
+          .map(function (m) { return m.translation; })
+          .filter(function (v, i, a) { return a.indexOf(v) === i; })
+          .slice(0, 3);
+        var result = { source: 'mymemory', translation: trans, alts: alts };
+        dictCache[word] = result; return result;
+      });
+    }).catch(function () {
+      var result = { source: 'none' };
+      dictCache[word] = result; return result;
+    });
+  }
+
+  function strip(h) { return h.replace(/<[^>]+>/g, ''); }
+
+  function renderBody(r) {
+    if (r.source === 'wiktionary') {
+      var html = '';
+      // Show a small note when we resolved an inflected form to its base
+      if (r.baseForm) {
+        html += '<div class="dp-alts">form of <em>' + r.baseForm + '</em></div>';
+      }
+      r.entries.slice(0, 3).forEach(function (e) {
+        html += '<div class="dp-pos">' + (e.partOfSpeech || '') + '</div><ol class="dp-defs">';
+        (e.definitions || []).slice(0, 4).forEach(function (d) {
+          html += '<li>' + strip(d.definition || '') + '</li>';
+        });
+        html += '</ol>';
+      });
+      return html;
+    }
+    if (r.source === 'mymemory') {
+      var h = '<div class="dp-trans">' + r.translation + '</div>';
+      if (r.alts && r.alts.length) h += '<div class="dp-alts">also: ' + r.alts.join(', ') + '</div>';
+      return h;
+    }
+    return '<div class="dp-none">no definition found</div>';
+  }
+
+  /* 4. Show / position / hide */
+  function positionPopup(cx, cy) {
+    var pw = popup.offsetWidth || 220, ph = popup.offsetHeight || 130;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var left = cx + 14, top = cy + 14;
+    if (left + pw > vw - 8) left = cx - pw - 14;
+    if (top  + ph > vh - 8) top  = cy - ph - 14;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  }
+
+  function showPopup(word, cx, cy) {
+    dpWord.textContent = word;
+    dpBody.innerHTML = '<div class="dp-loading">buscando…</div>';
+    dpLinks.innerHTML =
+      '<a href="https://www.wordreference.com/es/en/translation.asp?spen=' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128214; WordReference &#8594;</a>' +
+      '<a href="https://www.spanishdict.com/translate/' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128216; SpanishDict &#8594;</a>';
+    popup.style.display = 'block';
+    positionPopup(cx, cy);
+    fetchDefinition(word).then(function (result) {
+      if (dpWord.textContent !== word) return;
+      dpBody.innerHTML = renderBody(result);
+      positionPopup(cx, cy);
+    });
+  }
+
+  function hidePopup() {
+    popup.style.display = 'none';
+    if (activeSpan) { activeSpan.classList.remove('dp-active'); activeSpan = null; }
+  }
+
+  /* 5. Events */
+  document.addEventListener('click', function (e) {
+    var wordEl = e.target.closest('.es-word');
+    if (wordEl) {
+      if (activeSpan) activeSpan.classList.remove('dp-active');
+      activeSpan = wordEl;
+      wordEl.classList.add('dp-active');
+      showPopup(wordEl.dataset.word, e.clientX, e.clientY);
+      return;
+    }
+    if (!e.target.closest('#dict-popup')) hidePopup();
+  });
+
+  dpClose.addEventListener('click', function (e) { e.stopPropagation(); hidePopup(); });
+})();
+</script>
+</body>
+</html>

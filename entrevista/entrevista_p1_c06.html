@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrevista con el Vampiro — Capítulo 6 (Primera parte) · Lectura Glosada</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #e0e0e0;
+    --muted: #8892a4;
+    --spanish: #f5c518;
+    --gloss: #a8d8a8;
+    --vocab-bg: #0d1b2a;
+    --grammar-bg: #1b1228;
+    --tag: #533483;
+    --dialogue: #1e2d1e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; line-height: 1.7; padding: 2rem 1rem; }
+  header { max-width: 880px; margin: 0 auto 3rem; text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 1.5rem; }
+  header h1 { font-size: 2rem; color: var(--accent); letter-spacing: 1px; }
+  header h2 { font-size: 1.1rem; color: var(--muted); font-weight: normal; margin-top: .4rem; }
+  header p { font-size: .9rem; color: var(--muted); margin-top: .8rem; font-style: italic; }
+  .chapter-intro { max-width: 880px; margin: 0 auto 2.5rem; background: var(--accent2); border-left: 4px solid var(--accent); padding: 1rem 1.4rem; border-radius: 4px; font-size: .95rem; }
+  .chapter-intro h3 { color: var(--accent); margin-bottom: .4rem; }
+  .sentence-block { max-width: 880px; margin: 0 auto 2rem; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .sentence-num { display: inline-block; background: var(--accent); color: #fff; font-size: .75rem; font-family: monospace; padding: .2rem .5rem; border-radius: 3px; margin-bottom: .5rem; letter-spacing: 1px; }
+  .sentence-top { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .spanish-text { font-size: 1.2rem; color: var(--spanish); font-style: italic; margin-bottom: .6rem; line-height: 1.5; }
+  .gloss-text { font-size: 1rem; color: var(--gloss); margin-top: .35rem; }
+  .gloss-label, .vocab-label, .grammar-label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; margin-bottom: .3rem; font-family: sans-serif; }
+  /* ── Per-sentence gloss toggle ── */
+  .gloss-toggle { background: none; border: none; padding: .4rem 0; cursor: pointer; font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-family: sans-serif; margin-bottom: .3rem; display: block; touch-action: manipulation; min-height: 2.5rem; }
+  .gloss-toggle:hover { color: var(--gloss); }
+  .gloss-text { visibility: visible; }
+  .gloss-text.gloss-hidden { visibility: hidden; pointer-events: none; }
+
+  .breakdown { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px) { .breakdown { grid-template-columns: 1fr; } }
+  .vocab-section { background: var(--vocab-bg); padding: 1rem 1.4rem; border-right: 1px solid rgba(255,255,255,.05); }
+  .grammar-section { background: var(--grammar-bg); padding: 1rem 1.4rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+  td { padding: .3rem .4rem; vertical-align: top; }
+  td:first-child { color: var(--spanish); font-style: italic; white-space: nowrap; padding-right: .8rem; width: 42%; }
+  tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,.05); }
+  .grammar-section ul { list-style: none; font-size: .87rem; }
+  .grammar-section li { margin-bottom: .55rem; padding-left: .8rem; border-left: 2px solid var(--tag); }
+  .grammar-section li strong { color: var(--spanish); font-style: italic; }
+  .grammar-section li em { color: #c9b1ff; font-style: normal; }
+  .section-label { max-width: 880px; margin: 0 auto 1.2rem; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--tag); font-family: sans-serif; padding-left: .2rem; display: flex; align-items: center; gap: .8rem; }
+  .tag { display: inline-block; background: var(--tag); color: #ddd; font-size: .7rem; font-family: sans-serif; padding: .1rem .4rem; border-radius: 3px; margin-right: .3rem; }
+  .dialogue-marker { color: var(--muted); font-size: .8rem; font-family: sans-serif; margin-bottom: .3rem; display: block; }
+  footer { max-width: 880px; margin: 3rem auto 0; text-align: center; font-size: .8rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); }
+
+  /* ── Audio controls ── */
+  #audio-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,52,96,.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(233,69,96,.4);
+    padding: .6rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: sans-serif; font-size: .82rem;
+  }
+  #audio-bar .bar-label { color: var(--muted); white-space: nowrap; }
+  #audio-bar .voice-select {
+    background: #0d1b2a; color: var(--text); border: 1px solid var(--tag);
+    border-radius: 4px; padding: .25rem .5rem; font-size: .8rem; flex: 1; min-width: 160px; max-width: 280px;
+  }
+  #audio-bar .speed-wrap { display: flex; align-items: center; gap: .5rem; }
+  #audio-bar input[type=range] { width: 90px; accent-color: var(--accent); cursor: pointer; }
+  #speed-val { color: var(--accent); font-weight: bold; min-width: 2.5ch; }
+  #stop-btn, .section-gloss-btn {
+    border: none; border-radius: 4px;
+    padding: .25rem .8rem; cursor: pointer; font-size: .8rem; white-space: nowrap;
+  }
+  #stop-btn { background: var(--accent); color: #fff; }
+  #stop-btn:hover { opacity: .85; }
+  .section-gloss-btn { background: var(--accent2); color: var(--muted); border: 1px solid var(--tag); margin-left: auto; flex-shrink: 0; }
+  .section-gloss-btn:hover { background: #1a4a80; color: var(--text); }
+  .voice-status { color: var(--muted); font-size: .75rem; font-style: italic; }
+
+  /* ── Play button on each card ── */
+  .spanish-row { display: flex; align-items: flex-start; gap: .6rem; }
+  .spanish-text { flex: 1; }
+  .play-btn {
+    flex-shrink: 0; margin-top: .15rem;
+    background: none; border: 1.5px solid var(--accent);
+    color: var(--accent); border-radius: 50%;
+    width: 2rem; height: 2rem; cursor: pointer;
+    font-size: .9rem; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s;
+  }
+  .play-btn:hover { background: var(--accent); color: #fff; }
+  .play-btn.playing {
+    background: var(--accent); color: #fff;
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(233,69,96,.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(233,69,96,0); }
+  }
+
+  /* ── Dictionary word spans ── */
+  .es-word {
+    cursor: pointer;
+    border-bottom: 1px dotted rgba(245,197,24,.35);
+    border-radius: 2px;
+    padding: 0 1px;
+    transition: background .1s;
+  }
+  .es-word:hover, .es-word.dp-active {
+    background: rgba(245,197,24,.18);
+    border-bottom-color: var(--spanish);
+  }
+
+  /* ── Dictionary popup ── */
+  #dict-popup {
+    position: fixed;
+    z-index: 500;
+    background: #0d1b2a;
+    border: 1px solid var(--tag);
+    border-radius: 8px;
+    padding: .75rem 1.1rem .85rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,.7);
+    min-width: 210px;
+    max-width: 310px;
+    font-family: sans-serif;
+    display: none;
+  }
+  #dict-popup .dp-word {
+    color: var(--spanish);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-family: Georgia, serif;
+    display: block;
+    margin-bottom: .4rem;
+    padding-right: 1.6rem;
+  }
+  .dp-loading { color: var(--muted); font-size: .8rem; font-style: italic; padding: .15rem 0 .3rem; }
+  .dp-pos {
+    color: var(--muted); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: 1px; margin: .45rem 0 .2rem; font-family: sans-serif;
+  }
+  .dp-defs {
+    font-size: .85rem; color: var(--text);
+    margin: 0; padding-left: 1.1rem; line-height: 1.45;
+  }
+  .dp-defs li { margin-bottom: .25rem; }
+  .dp-trans { font-size: .95rem; color: var(--text); margin: .25rem 0 .1rem; }
+  .dp-alts  { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: .1rem; }
+  .dp-none  { color: var(--muted); font-size: .8rem; font-style: italic; padding: .2rem 0 .3rem; }
+  .dp-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,.09);
+    margin: .6rem 0 .5rem;
+  }
+  #dict-popup .dp-links {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  #dict-popup .dp-links a {
+    color: var(--gloss);
+    text-decoration: none;
+    font-size: .8rem;
+    padding: .25rem .55rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,.06);
+    transition: background .12s;
+    display: block;
+  }
+  #dict-popup .dp-links a:hover { background: rgba(255,255,255,.14); }
+  #dict-close {
+    position: absolute;
+    top: .45rem; right: .6rem;
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: .9rem; line-height: 1;
+    padding: .1rem .2rem;
+  }
+  #dict-close:hover { color: var(--text); }
+
+</style>
+</head>
+<body>
+<div id="audio-bar">
+  <span class="bar-label">&#128266; Voz:</span>
+  <select id="voice-select" class="voice-select"><option>Cargando voces&hellip;</option></select>
+  <div class="speed-wrap">
+    <span class="bar-label">Velocidad:</span>
+    <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.05" value="0.85">
+    <span id="speed-val">0.85&times;</span>
+  </div>
+  <button id="stop-btn">&#9632; Parar</button>
+  <span class="voice-status" id="voice-status"></span>
+</div>
+<header>
+  <h1>Entrevista con el Vampiro</h1>
+  <h2>Anne Rice &middot; Cap&iacute;tulo 6: <em>Primera parte</em></h2>
+  <p>Pasaje 6</p>
+</header>
+<div class="chapter-intro">
+  <h3>Primera parte — Pasaje 6</h3>
+  <p>Louis reflexiona sobre la diferencia entre él y Lestat. Mata al primer humano: la experiencia lo abruma. Lestat lo golpea cuando se aferra al cadáver. A medianoche en la galería, Louis decide vivir con reverencia. El muchacho lo compara con el amor. Lestat hace el truco de la rata — llenando una copa de cristal con sangre de rata. Descubren que pueden vivir de animales. Louis amenaza con echar a Lestat de la plantación. Louis duerme solo en el oratorio de su hermano. Por primera vez es vampiro de verdad.</p>
+</div>
+<div class="section-group">
+<div class="section-label"><span>§ La primera matanza — el estremecimiento</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">01</span>
+    <span class="dialogue-marker">💬 Lestat</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">—Me enfermas —me dijo cuando regresó a mi lado. Era como si fuésemos insectos negros totalmente camuflados en la noche, observando a los esclavos que se movían, ajenos a nosotros, descubriendo al hombre herido, arrastrándolo de vuelta, abriéndose en abanico por el follaje en busca del agresor. —Vamos, tenemos que capturar otro antes de que regresen al campamento.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;You make me sick,&quot; he said to me when he returned to my side. It was as if we were black insects totally camouflaged in the night, watching the slaves who moved about, unaware of us, discovering the wounded man, dragging him back, fanning out through the foliage in search of the attacker. &quot;Come on, we have to capture another before they return to camp.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>enfermar a alguien</td><td>to make someone sick — <em>me enfermas</em>: you disgust me, you make me ill; can be literal or (as here) expressing contempt/disgust</td></tr>
+        <tr><td>ajenos a nosotros</td><td>unaware of us, oblivious to us — <em>ajeno a</em> = foreign to, unaware of; <em>ajeno</em> can mean 'belonging to another' or 'oblivious'</td></tr>
+        <tr><td>abrirse en abanico</td><td>to fan out — <em>abanico</em> = a fan; <em>abrirse en abanico</em>: to spread out in a fan shape; used for people dispersing to search an area</td></tr>
+        <tr><td>en busca de</td><td>in search of — a fixed prepositional phrase: <em>salir en busca de, ir en busca de</em></td></tr>
+        <tr><td>arrastrar de vuelta</td><td>to drag back — <em>arrastrar</em> = to drag; <em>de vuelta</em> = back (to the starting point)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>como si fuésemos insectos</strong> — <em>Como si + imperfecto de subjuntivo</em>: <em>fuésemos</em> is the imperfect subjunctive of <em>ser</em> (alternate form of <em>fuéramos</em>). Both forms are correct; <em>-se</em> forms are more common in literary/formal Spanish.</li>
+        <li><strong>antes de que regresen al campamento</strong> — <em>Antes de que + subjuntivo</em>: 'before they return.' <em>Antes de que</em> always takes the subjunctive regardless of tense.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">02</span>
+    <div class="spanish-text">—Y rápidamente fuimos en busca de uno que se había separado de los otros. Yo estaba muy agitado, convencido de que no podría obligarme a atacar y sin sentir ningún deseo de hacerlo. Había muchas cosas que Lestat podría haber dicho o hecho. Podría haber hecho rica la experiencia en tantas maneras. Pero no lo hizo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">And quickly we went in search of one who had separated from the others. I was very agitated, convinced I couldn&#x27;t force myself to attack, and feeling no desire to do so. There were many things Lestat could have said or done. He could have enriched the experience in so many ways. But he didn&#x27;t.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>en busca de</td><td>in search of — see previous sentence; repeated here to show Louis and Lestat now hunting</td></tr>
+        <tr><td>separarse de los otros</td><td>to separate from the others, to stray from the group — <em>separarse de</em> = to move away from; used for straying from a herd, group, or path</td></tr>
+        <tr><td>obligarse a</td><td>to force oneself to — <em>obligar</em> = to force/compel; reflexive <em>obligarse a</em> = to make oneself do something</td></tr>
+        <tr><td>hacer rica la experiencia</td><td>to enrich the experience — <em>hacer + adjective + noun</em>: causative; to make the experience rich/meaningful</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>podría haber dicho o hecho... Podría haber hecho rica</strong> — <em>Condicional compuesto (irrealidad en el pasado)</em>: 'could have said/done.' Lestat had the capacity but didn't use it — an unrealized past possibility.</li>
+        <li><strong>Pero no lo hizo.</strong> — <em>Proforma verbal</em>: 'But he didn't.' <em>No lo hizo</em> = he did not do it; <em>lo</em> stands in for the enriching actions just described.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">03</span>
+    <span class="dialogue-marker">💬 Vampiro / Lestat</span>
+    <div class="spanish-text">—Matar no es una acción común —dijo el vampiro—. Uno no se sacia simplemente con sangre. Es la experiencia de la vida de otro con certeza, y a menudo la experiencia de la pérdida de esa vida a través de la sangre. Es nuevamente y nuevamente la celebración de esa experiencia; porque para los vampiros ésa es la experiencia última. No creo que Lestat apreciara nunca eso. —Hazlo —dijo—.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Killing is not a common act,&quot; said the vampire. &quot;One is not simply satiated with blood. It is the experience of another&#x27;s life with certainty, and often the experience of the loss of that life through the blood. It is again and again the celebration of that experience; because for vampires that is the ultimate experience. I don&#x27;t think Lestat ever appreciated that.&quot; &quot;Do it,&quot; he said.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>saciarse con</td><td>to be satiated with, to have one's fill of — <em>saciar</em> = to satisfy fully; <em>no se sacia simplemente con sangre</em>: blood alone is not enough</td></tr>
+        <tr><td>con certeza</td><td>with certainty, for certain — <em>certeza</em> = certainty; <em>con certeza</em> as an adverbial phrase meaning 'definitively'</td></tr>
+        <tr><td>nuevamente y nuevamente</td><td>again and again — emphatic repetition; more literary than <em>una y otra vez</em></td></tr>
+        <tr><td>la experiencia última</td><td>the ultimate experience — <em>último</em> here = ultimate/final in a superlative sense, not 'last in sequence'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>No creo que Lestat apreciara nunca eso</strong> — <em>No creer que + subjuntivo</em>: 'I don't think Lestat ever appreciated that.' <em>No creer que</em> triggers the subjunctive because it negates a belief. <em>Apreciara</em> is the imperfect subjunctive, used here for a general past state.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">04</span>
+    <div class="spanish-text">Ahora no puedes echarte atrás. Abrumado por la repulsión y débil de frustración, obedecí. Me arrodillé al lado del hombre agachado, que trataba de resistir, y, aferrándome a sus hombros con ambas manos, me clavé en su cuello. Mis dientes apenas habían empezado a cambiar, y tuve que desgarrar la carne, no perforarla; pero una vez que se hizo la herida, la sangre fluyó.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;You can&#x27;t back out now.&quot; Overwhelmed by revulsion and weak with frustration, I obeyed. I knelt beside the crouching man, who was trying to resist, and, gripping his shoulders with both hands, I sank into his neck. My teeth had barely begun to change, and I had to tear the flesh, not pierce it; but once the wound was made, the blood flowed.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>echarse atrás</td><td>to back out, to back down — <em>echarse atrás</em>: to withdraw, to renege on a commitment; an idiomatic phrasal verb</td></tr>
+        <tr><td>abrumado por</td><td>overwhelmed by — <em>abrumar</em> = to overwhelm; past participle used as adjective; common with emotions: <em>abrumado por la culpa, el dolor</em></td></tr>
+        <tr><td>débil de frustración</td><td>weak with frustration — <em>débil de</em> + emotion: 'weak from'; the emotion is expressed as the source of physical weakness</td></tr>
+        <tr><td>aferrarse a</td><td>to grip, to cling to — <em>aferrarse a</em>: to seize and hold tight; used literally and figuratively</td></tr>
+        <tr><td>desgarrar la carne</td><td>to tear the flesh — <em>desgarrar</em> = to tear, to rip apart; stronger and more violent than <em>rasgar</em></td></tr>
+        <tr><td>una vez que se hizo la herida</td><td>once the wound was made — <em>una vez que</em> + preterite: 'once X happened'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>aferrándome a sus hombros... me clavé en su cuello</strong> — <em>Gerundio de simultaneidad</em>: <em>aferrándome</em> describes the simultaneous gripping action while the main verb <em>me clavé</em> carries the narrative forward.</li>
+        <li><strong>tuve que desgarrar la carne, no perforarla</strong> — <em>Tener que + infinitivo</em>: concrete necessity. The negated infinitive <em>no perforarla</em> is a sharp contrast — his teeth aren't yet properly formed.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">05</span>
+    <div class="spanish-text">Y una vez que sucedió aquello, una vez que me aferré a ella, bebiendo... todo lo demás desapareció.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">And once that happened, once I clung to it, drinking... everything else disappeared.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>una vez que</td><td>once — temporal connector; takes indicative in past narration: <em>una vez que sucedió</em> = once it happened</td></tr>
+        <tr><td>todo lo demás</td><td>everything else — <em>lo demás</em> = the rest, everything else; a neuter construction</td></tr>
+        <tr><td>desaparecer</td><td>to disappear — the moment Louis starts drinking, consciousness of everything outside narrows to the act itself</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>una vez que sucedió aquello, una vez que me aferré...</strong> — <em>Repetición anafórica</em>: the double <em>una vez que</em> creates a rhythmic build-up before the climax ('everything else disappeared'). The repetition mimics the moment of surrender.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">06</span>
+    <span class="dialogue-marker">💬 Lestat</span>
+    <div class="spanish-text">—¡Está muerto, imbécil! —dijo con su encanto y tacto característicos—. ¡No puedes beber cuando ya están muertos! ¡Entiéndelo! Me puse frenético un instante, fuera de mí, e insistí en que el corazón del hombre aún latía, y estaba en agonía por aferrarme a él de nuevo. Le corrí las manos por el pecho, luego le cogí las muñecas. —Morirás si haces eso —dijo Lestat—.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;He&#x27;s dead, you idiot!&quot; he said with his characteristic charm and tact. &quot;You can&#x27;t drink when they&#x27;re already dead! Understand it!&quot; I went frantic for a moment, beside myself, and insisted that the man&#x27;s heart was still beating, and I was in agony to cling to him again. I ran my hands over his chest, then grabbed his wrists. &quot;You&#x27;ll die if you do that,&quot; said Lestat.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>con su encanto y tacto característicos</td><td>with his characteristic charm and tact — heavy irony; Lestat has neither</td></tr>
+        <tr><td>ponerse frenético</td><td>to go frantic, to become frenzied — <em>ponerse</em> + adjective: onset of state; <em>frenético</em> = frantic, frenzied</td></tr>
+        <tr><td>fuera de sí</td><td>beside oneself, out of one's mind — a fixed idiom: <em>estar fuera de sí</em> = to be beside oneself with emotion</td></tr>
+        <tr><td>correr las manos por</td><td>to run one's hands over — <em>correr las manos por</em>: to pass/sweep one's hands along a surface; a tactile searching gesture</td></tr>
+        <tr><td>estar en agonía por</td><td>to be in agony to — <em>agonía</em> = agony, but here used for intense longing/craving, not just pain</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>insistí en que el corazón aún latía</strong> — <em>Insistir en que + indicativo</em>: 'insisted that.' When <em>insistir en que</em> reports a claimed fact, it takes the indicative (he asserted it was true). If expressing a demand, it would take the subjunctive.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">07</span>
+    <div class="spanish-text">Te llevará a la muerte si te aferras a él en la muerte. Cuando nos sentamos en la sala, Lestat se puso a jugar un solitario sobre la madera pulida de la mesa. Vi mi vida como si estuviera aparte de ella. Por la mañana, me di cuenta de que era su completo superior y que había sido miserablemente burlado al tenerlo como maestro.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;It will lead you to death if you cling to him in death.&quot; When we sat in the parlor, Lestat began to play solitaire on the polished wood of the table. I saw my life as if I stood apart from it. By morning, I realized that I was his complete superior and that I had been miserably deceived in having him as a teacher.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>llevar a la muerte</td><td>to lead to death — <em>llevar a</em> + destination/outcome: to lead to, to bring to; <em>llevarle a</em> = to take someone to</td></tr>
+        <tr><td>ponerse a jugar un solitario</td><td>to begin playing solitaire — <em>ponerse a</em> + infinitive: sudden onset; <em>solitario</em> = solitaire (card game)</td></tr>
+        <tr><td>madera pulida</td><td>polished wood — <em>pulido</em> = polished, refined; from <em>pulir</em></td></tr>
+        <tr><td>ser el completo superior de</td><td>to be someone's complete superior — an unusual superlative construction; Louis measuring himself against Lestat</td></tr>
+        <tr><td>burlado</td><td>deceived, cheated, mocked — <em>burlar</em> = to deceive, to mock; <em>ser burlado</em> = to be duped</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>me di cuenta de que era su completo superior y que había sido burlado</strong> — <em>Darse cuenta de que + indicativo</em>: 'I realized that.' <em>Darse cuenta de que</em> always takes the indicative because it reports a perceived reality.</li>
+        <li><strong>al tenerlo como maestro</strong> — <em>Al + infinitivo</em>: 'in having him as a teacher.' Here <em>al</em> + infinitive expresses circumstance or condition — the means by which he was deceived.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">08</span>
+    <div class="spanish-text">Debía guiarme a través de las lecciones necesarias, y yo debía tolerar en él un estado mental que era una blasfemia contra la vida misma.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He was supposed to guide me through the necessary lessons, and I was supposed to tolerate in him a state of mind that was a blasphemy against life itself.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>guiar a través de</td><td>to guide through — <em>guiar a través de</em>: to lead someone through a process or experience</td></tr>
+        <tr><td>tolerar en alguien</td><td>to tolerate in someone — <em>tolerar en él</em>: to put up with a quality that exists in him</td></tr>
+        <tr><td>una blasfemia contra</td><td>a blasphemy against — <em>blasfemia contra</em>: an offense/affront to; used both literally (religion) and figuratively</td></tr>
+        <tr><td>la vida misma</td><td>life itself — <em>mismo/a</em> as a postpositive intensifier: <em>la vida misma, el hombre mismo, yo mismo</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>debía guiarme... yo debía tolerar</strong> — <em>Deber en imperfecto = obligación frustrada o expectativa</em>: 'was supposed to.' The imperfect of <em>deber</em> conveys an obligation that existed but may not have been fulfilled — here, the implicit contract Lestat violated.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ La galería a medianoche — como el amor</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">09</span>
+    <span class="dialogue-marker">💬 Vampiro</span>
+    <div class="spanish-text">Bien pasada la medianoche, me puse por último de pie y salí a la galería. La luna era grande sobre los cipreses, y la luz de las velas se derramaba por las puertas abiertas. Los gruesos pilares y paredes de yeso de la casa habían sido encalados recientemente, y una lluvia de verano había dejado la noche limpia y chispeante de gotas de agua.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Well past midnight, I finally rose to my feet and went out to the gallery. The moon was large over the cypresses, and the candlelight spilled through the open doors. The thick pillars and plaster walls of the house had been recently whitewashed, and a summer rain had left the night clean and sparkling with drops of water.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>bien pasada la medianoche</td><td>well past midnight — <em>bien</em> as an intensifier before a past participle: <em>bien pasada</em> = well past, long after; also <em>bien entrado el siglo</em></td></tr>
+        <tr><td>ponerse de pie</td><td>to rise to one's feet, to stand up — <em>ponerse de pie</em>: the standard expression for standing up from a seated/lying position</td></tr>
+        <tr><td>derramarse por</td><td>to spill through, to pour through — <em>derramarse</em> = to spill, to overflow; used for light, liquid, sound spreading through a space</td></tr>
+        <tr><td>encalado</td><td>whitewashed — <em>encalar</em> = to whitewash; lime-washed walls typical of colonial Louisiana architecture</td></tr>
+        <tr><td>chispeante de gotas de agua</td><td>sparkling with drops of water — <em>chispeante</em> = sparkling, glittering; from <em>chispa</em> (spark)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>habían sido encalados recientemente</strong> — <em>Pluscuamperfecto pasivo</em>: 'had been recently whitewashed.' The compound passive (<em>haber sido</em> + past participle) situates the whitewashing before the night being described.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">10</span>
+    <div class="spanish-text">Me apoyé en el último pilar de la galería, con la cabeza tocando los suaves zarcillos de un jazmín que crecía allí, y pensé en lo que yacía ante mí a través del mundo y a través del tiempo, y resolví abordar todo ello con delicadeza y reverencia, aprendiendo de cada cosa lo que mejor me llevaría a la siguiente.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">I leaned against the last pillar of the gallery, my head touching the soft tendrils of a jasmine that grew there, and I thought about what lay before me across the world and across time, and I resolved to approach all of it with delicacy and reverence, learning from each thing what would best lead me to the next.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>apoyarse en</td><td>to lean against — <em>apoyarse en</em> = to rest against/on; also to rely on: <em>apoyarse en un amigo</em></td></tr>
+        <tr><td>zarcillos de jazmín</td><td>jasmine tendrils — <em>zarcillo</em> = a tendril (of a plant) or an earring; here the soft curling shoots of jasmine</td></tr>
+        <tr><td>yacer ante mí</td><td>to lie before me — <em>yacer</em>: literary verb 'to lie'; <em>lo que yacía ante mí</em> = what lay ahead of him in time and space</td></tr>
+        <tr><td>resolver + infinitivo</td><td>to resolve to — <em>resolví abordar</em>: I resolved to approach; <em>resolver</em> = to resolve, to decide firmly</td></tr>
+        <tr><td>abordar con delicadeza</td><td>to approach with delicacy — <em>abordar</em> = to approach, to tackle; <em>con delicadeza</em> = gently, with care</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>aprendiendo de cada cosa lo que mejor me llevaría a la siguiente</strong> — <em>Gerundio de modo + relativa</em>: the gerund (<em>aprendiendo</em>) describes the manner of Louis's resolve. Inside it, <em>lo que mejor me llevaría</em> = 'what would best lead me' — a relative clause with conditional force.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">11</span>
+    <div class="spanish-text">¿Comprendes lo que quiero decir cuando digo que no deseaba lanzarme de cabeza a la experiencia, que lo que había sentido como vampiro era demasiado poderoso para desperdiciarlo?</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Do you understand what I mean when I say I did not want to throw myself headlong into experience, that what I had felt as a vampire was too powerful to waste?</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>lanzarse de cabeza a</td><td>to throw oneself headlong into — <em>lanzarse de cabeza</em>: to dive in head-first; implies reckless, unthinking immersion</td></tr>
+        <tr><td>demasiado... para</td><td>too... to — <em>demasiado poderoso para desperdiciarlo</em>: too powerful to waste; the standard structure for 'too X to do Y'</td></tr>
+        <tr><td>desperdiciar</td><td>to waste — <em>desperdiciar</em>: to throw away, to squander; used for wasting time, talent, opportunity, experience</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>lo que había sentido como vampiro era demasiado poderoso para desperdiciarlo</strong> — <em>Demasiado + adjetivo + para + infinitivo</em>: 'too powerful to waste it.' The <em>-lo</em> on the infinitive refers back to <em>lo que había sentido</em> — the experience itself.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">12</span>
+    <span class="dialogue-marker">💬 Muchacho / Vampiro</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">—Sí —dijo deprisa el joven—. Parece como si hubiera estado enamorado. Al vampiro le brillaron los ojos. —Exacto. Es como el amor —sonrió—. Y deja que te cuente mis pensamientos de esa noche para que puedas saber que hay profundas diferencias entre los vampiros, y cómo llegué a adoptar un enfoque diferente al de Lestat. Lestat nunca fue el vampiro que soy yo. Para nada.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Yes,&quot; the young man said quickly. &quot;It sounds as if you had been in love.&quot; The vampire&#x27;s eyes brightened. &quot;Exactly. It&#x27;s like love,&quot; he smiled. &quot;And let me tell you my thoughts of that night so that you can know that there are profound differences among vampires, and how I came to adopt a different approach from Lestat&#x27;s. Lestat was never the vampire that I am. Not at all.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>deprisa</td><td>quickly, fast — an adverb; also written <em>de prisa</em>; synonym of <em>rápidamente</em>; used here to show the boy's excited response</td></tr>
+        <tr><td>le brillaron los ojos</td><td>his eyes brightened/lit up — involuntary bodily reaction with dative: <em>brillarle los ojos a alguien</em> = for someone's eyes to light up</td></tr>
+        <tr><td>deja que te cuente</td><td>let me tell you — <em>dejar que</em> + subjunctive: 'let (someone) do'; <em>deja que te cuente</em> = allow me to tell you</td></tr>
+        <tr><td>adoptar un enfoque</td><td>to adopt an approach — <em>enfoque</em> = approach, focus, perspective; <em>adoptar un enfoque diferente</em>: to take a different tack</td></tr>
+        <tr><td>para nada</td><td>not at all — emphatic negation standing alone as a sentence; see also pasaje 3</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>parece como si hubiera estado enamorado</strong> — <em>Parecer como si + pluscuamperfecto de subjuntivo</em>: 'it sounds as if you had been in love.' The pluperfect marks the love as something that preceded and explains the current telling.</li>
+        <li><strong>para que puedas saber</strong> — <em>Para que + subjuntivo (finalidad)</em>: 'so that you can know.' Purpose clauses always take the subjunctive.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">13</span>
+    <div class="spanish-text">—Entonces hizo algo que me iba a mostrar un camino para aprender.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Then he did something that was going to show me a way to learn.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>ir a + infinitivo (en pasado)</td><td>was going to — <em>iba a mostrar</em>: the imperfect of <em>ir a</em> = was going to; marks a future-in-the-past, building narrative suspense</td></tr>
+        <tr><td>un camino para</td><td>a way to, a path for — <em>camino</em> = road/path; used figuratively: <em>un camino para aprender</em> = a way of learning</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>que me iba a mostrar un camino</strong> — <em>Ir a + infinitivo en imperfecto</em>: future-in-the-past. The relative clause describes the significance of the action before the action itself is revealed — classic suspense-building in narration.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ El truco de la rata — podemos vivir de animales</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">14</span>
+    <span class="dialogue-marker">💬 Lestat</span>
+    <div class="spanish-text">Tenía un respeto más que normal por las riquezas de Pointe du Lac. Y ahora tomó de uno de los armarios de porcelana una copa de cristal y dijo: —Me gustan los vasos. —Sólo que lo dijo con un deleite impío que me llevó a estudiarlo con ojos duros. ¡Lo detestaba intensamente! —Quiero enseñarte un pequeño truco —dijo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He had more than a normal respect for the riches of Pointe du Lac. And now he took a crystal glass from one of the porcelain cabinets and said: &quot;I like glasses.&quot; Except that he said it with an ungodly delight that led me to study him with hard eyes. I detested him intensely! &quot;I want to show you a little trick,&quot; he said.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>más que normal</td><td>more than normal, more than ordinary — a comparative collocation used to flag something as exceeding the expected degree</td></tr>
+        <tr><td>deleite impío</td><td>ungodly delight — <em>deleite</em> = delight, pleasure; <em>impío</em> = ungodly, impious; the combination captures Lestat's gleeful irreverence</td></tr>
+        <tr><td>estudiar con ojos duros</td><td>to study with hard eyes, to fix with a cold stare — <em>ojos duros</em>: eyes hardened by contempt; a loaded expression for hostile scrutiny</td></tr>
+        <tr><td>detestar</td><td>to detest, to loathe — stronger than <em>odiar</em> (hate); implies active, visceral aversion</td></tr>
+        <tr><td>un pequeño truco</td><td>a little trick — <em>truco</em> = trick, knack; <em>pequeño</em> here signals Lestat's casual dismissal of what is actually a revelation</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>sólo que lo dijo con un deleite impío</strong> — <em>Sólo que</em> as a corrective: 'except that.' <em>Sólo que</em> introduces a qualification that undercuts what has just been said — he said the words, but the spirit behind them was different.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">15</span>
+    <div class="spanish-text">Y después de poner la copa en la mesa de juego, salió a la galería y, en un instante, había saltado la barandilla y caído suavemente en la tierra, y luego se lanzó hacia la oscuridad para coger algo con ambas manos. Cuando se puso ante mí con ello, me quedé atónito al ver que era una rata. —No seas tan maldito idiota —dijo—. ¿Acaso nunca has visto una rata?</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">And after placing the glass on the gaming table, he went out to the gallery and, in an instant, had leaped over the railing and landed softly on the ground, and then launched himself into the darkness to catch something with both hands. When he stood before me with it, I was astonished to see it was a rat. &quot;Don&#x27;t be such a damned idiot,&quot; he said. &quot;Haven&#x27;t you ever seen a rat?&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>mesa de juego</td><td>gaming table — a card table or game table; the same table Lestat was playing solitaire on</td></tr>
+        <tr><td>saltar la barandilla</td><td>to leap over the railing — <em>saltar</em> = to jump/leap; <em>barandilla</em> = railing, balustrade</td></tr>
+        <tr><td>lanzarse hacia la oscuridad</td><td>to launch oneself into the darkness — <em>lanzarse</em>: to hurl oneself; marks Lestat's predatory speed</td></tr>
+        <tr><td>quedarse atónito</td><td>to be left astonished, to be stunned — <em>atónito</em> = astonished, dumbfounded; <em>quedarse</em> + adjective = resulting state</td></tr>
+        <tr><td>¿acaso nunca has visto?</td><td>haven't you ever seen? — <em>acaso</em> in rhetorical questions implies the answer is obvious; see also pasaje 4</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>en un instante, había saltado la barandilla y caído suavemente</strong> — <em>Pluscuamperfecto narrativo</em>: the pluperfect here captures a rapid sequence of actions completed within the blink of an eye, before the main narrative resumes with <em>se lanzó</em>.</li>
+        <li><strong>me quedé atónito al ver que era una rata</strong> — <em>Al + infinitivo (causa)</em>: 'upon seeing that it was a rat.' <em>Al ver</em> = on seeing, upon realizing.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">16</span>
+    <div class="spanish-text">Era una rata inmensa y con una cola larga. La tenía del pescuezo para que no pudiera morderle. —Las ratas pueden ser bastante buenas —dijo. Y llevó la rata hasta la copa de vino, le cortó el cuello, y llenó rápidamente la copa con sangre. La rata fue luego volando por encima de la barandilla de la galería, y Lestat sostuvo la copa de vino a la vela con aire de triunfo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">It was an enormous rat with a long tail. He held it by the scruff of the neck so it couldn&#x27;t bite him. &quot;Rats can be quite good,&quot; he said. And he brought the rat to the wine glass, cut its throat, and quickly filled the glass with blood. The rat then went flying over the gallery railing, and Lestat held the wine glass up to the candle with an air of triumph.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>tener del pescuezo</td><td>to hold by the scruff of the neck — <em>pescuezo</em> = scruff/nape of the neck (of an animal); <em>tener del pescuezo</em> = to hold by the scruff</td></tr>
+        <tr><td>para que no pudiera morderle</td><td>so it couldn't bite him — purpose clause with subjunctive; <em>para que</em> + subjunctive = so that</td></tr>
+        <tr><td>cortar el cuello</td><td>to cut the throat — <em>cuello</em> = neck/collar; <em>cortar el cuello</em> = to slit the throat</td></tr>
+        <tr><td>ir volando</td><td>to go flying — <em>ir</em> + gerund of motion verb; the rat is flung over the railing: it 'went flying'</td></tr>
+        <tr><td>con aire de triunfo</td><td>with an air of triumph — <em>aire de</em> + noun: 'an air of'; a literary expression for a person's bearing or manner</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>La tenía del pescuezo para que no pudiera morderle</strong> — <em>Para que + imperfecto de subjuntivo</em>: purpose in a past narrative context. <em>Pudiera</em> = imperfect subjunctive of <em>poder</em>, expressing the feared potential action being prevented.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">17</span>
+    <div class="spanish-text">—Puede que tengas que vivir de ratas de vez en cuando, así que quítate esa expresión de la cara —dijo—. Ratas, pollos, ganado.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;You may have to live on rats from time to time, so wipe that expression off your face,&quot; he said. &quot;Rats, chickens, cattle.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>puede que</td><td>it may be that, perhaps — <em>puede que</em> + subjunctive: expresses possibility; similar to <em>quizá(s)</em> or <em>tal vez</em></td></tr>
+        <tr><td>vivir de</td><td>to live on — <em>vivir de</em> + food/resource: to subsist on; <em>vivir de ratas</em> = to feed on rats</td></tr>
+        <tr><td>de vez en cuando</td><td>from time to time, occasionally — a key fixed phrase for intermittent frequency</td></tr>
+        <tr><td>quitarse una expresión de la cara</td><td>to wipe an expression off one's face — <em>quitarse de la cara</em>: to remove from one's face; used colloquially for controlling one's expression</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>puede que tengas que vivir de ratas</strong> — <em>Puede que + subjuntivo</em>: 'it may be that you'll have to.' <em>Puede que</em> always takes the subjunctive. Note the double obligation: <em>puede que</em> (possibility) + <em>tener que</em> (necessity).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">18</span>
+    <span class="dialogue-marker">💬 Louis / Lestat / Louis / Lestat / Louis / Lestat</span>
+    <div class="spanish-text">—¿Quieres decir que podemos vivir de los animales? —le pregunté. —Así es —dijo, y entonces arrojó la copa a la chimenea; yo miré los pedazos—. No te importa, ¿verdad? —Señaló el vaso roto con una sonrisa sarcástica. —Si me importa, te puedo sacar a ti y a tu padre de Pointe du Lac —dije; y creo que ésta fue mi primera muestra de temperamento. —¿Por qué habrías de hacerlo?</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Do you mean we can live on animals?&quot; I asked him. &quot;That&#x27;s right,&quot; he said, and then threw the glass into the fireplace; I looked at the pieces. &quot;You don&#x27;t mind, do you?&quot; He pointed to the broken glass with a sarcastic smile. &quot;If I mind, I can put you and your father out of Pointe du Lac,&quot; I said; and I think this was my first show of temper. &quot;Why would you do that?&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>así es</td><td>that's right, that's how it is — a confirmation; <em>así es</em> = exactly so, that's correct</td></tr>
+        <tr><td>arrojar</td><td>to throw, to hurl — <em>arrojar</em> is more forceful than <em>tirar</em>; suggests a deliberate, emphatic throw</td></tr>
+        <tr><td>los pedazos</td><td>the pieces, the shards — <em>pedazo</em> = piece, fragment; <em>mirar los pedazos</em>: the broken glass as a kind of punctuation</td></tr>
+        <tr><td>importar</td><td>to mind, to matter — <em>¿no te importa?</em> = you don't mind?; <em>si me importa</em> = if I care/mind</td></tr>
+        <tr><td>sacar a alguien de</td><td>to put someone out of, to remove someone from — <em>sacar de</em>: to take out of, to remove from; here a threat of eviction</td></tr>
+        <tr><td>muestra de temperamento</td><td>show of temper — <em>muestra</em> = sample, show, display; <em>temperamento</em> here = temper, spiritedness</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>¿por qué habrías de hacerlo?</strong> — <em>Condicional de obligación: haber de</em>: 'why would you do that?' / 'why should you do that?' <em>Haber de</em> + infinitive expresses obligation or expectation; in the conditional, it asks what grounds someone has for an action.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">19</span>
+    <div class="spanish-text">—me preguntó con falsa alarma—. Aún no sabes todo... ¿o sí? —Reía entonces y caminaba lentamente por la habitación—. ¿Sabes, por ejemplo, todas las maneras en que puedes morir? Y morir ahora sería semejante calamidad, ¿no es así? —Debe de haber alguien en el mundo que me pueda enseñar esas cosas —dije—. Por cierto, ¡no eres el único vampiro! Y tu padre tiene quizá setenta años.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He asked me with feigned alarm. &quot;You don&#x27;t know everything yet... or do you?&quot; He was laughing then and walking slowly around the room. &quot;Do you know, for example, all the ways in which you can die? And dying now would be such a calamity, wouldn&#x27;t it?&quot; &quot;There must be someone in the world who can teach me those things,&quot; I said. &quot;Incidentally, you&#x27;re not the only vampire! And your father is perhaps seventy years old.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>con falsa alarma</td><td>with feigned alarm — <em>falso</em> = false, feigned; Lestat performing concern he doesn't feel</td></tr>
+        <tr><td>¿o sí?</td><td>or do you? / or is it? — a tag question reversing the polarity of a negative statement; <em>¿o sí?</em> = 'or do you?' after a negative</td></tr>
+        <tr><td>semejante calamidad</td><td>such a calamity — <em>semejante</em> before a noun = such a; see also pasaje 4</td></tr>
+        <tr><td>debe de haber</td><td>there must be — <em>deber de</em> + infinitive = probability/deduction: 'there must be'; note <em>de</em> marks deduction vs. <em>debe haber</em> (obligation)</td></tr>
+        <tr><td>por cierto</td><td>incidentally, by the way — a discourse marker flagging an aside or a relevant addition: <em>por cierto</em> = 'by the way'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>¿sabes todas las maneras en que puedes morir?</strong> — <em>Relativa especificativa con indicativo</em>: 'all the ways in which you can die.' The relative clause specifies a real set of existing ways — indicative because they are factual, not hypothetical.</li>
+        <li><strong>morir ahora sería semejante calamidad</strong> — <em>Condicional de hipótesis</em>: 'dying now would be such a calamity.' <em>Sería</em> sets up a hypothetical; the infinitive <em>morir</em> is the grammatical subject.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">20</span>
+    <div class="spanish-text">No puedes haber sido vampiro por mucho tiempo, así que alguien tuvo que enseñarte. —¿Y piensas que puedes encontrar vampiros tú solo? Te podrán ver llegar, pero tú no los verás. No creo que tengas mucha elección en las cosas en este momento, amigo. Soy tu maestro y me necesitas, y no hay mucho que puedas hacer al respecto.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;You can&#x27;t have been a vampire for long, so someone had to teach you.&quot; &quot;And you think you can find vampires on your own? They will be able to see you coming, but you won&#x27;t see them. I don&#x27;t think you have much of a choice in things at this moment, friend. I&#x27;m your teacher and you need me, and there&#x27;s not much you can do about it.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>no puedes haber sido</td><td>you can't have been — <em>poder</em> + perfect infinitive: deduction about the past; 'it's impossible that you have been'</td></tr>
+        <tr><td>tú solo</td><td>on your own, by yourself — <em>solo</em> (without accent) = alone; <em>tú solo</em>: you alone, without help</td></tr>
+        <tr><td>ver llegar</td><td>to see (someone) coming — <em>ver</em> + infinitive: perception verb + infinitive for a witnessed action in progress</td></tr>
+        <tr><td>no hay mucho que puedas hacer al respecto</td><td>there's not much you can do about it — <em>al respecto</em>: about it, regarding it; a fixed phrase</td></tr>
+        <tr><td>elección</td><td>choice — <em>elección</em> = choice, option; <em>no tener mucha elección</em>: not to have much of a choice</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>no creo que tengas mucha elección</strong> — <em>No creer que + subjuntivo</em>: 'I don't think you have much choice.' Negated belief verb triggers subjunctive. Compare: <em>creo que tienes</em> (affirmative = indicative).</li>
+        <li><strong>no hay mucho que puedas hacer</strong> — <em>Subjuntivo en relativa con antecedente negado</em>: 'not much that you can do.' The antecedent (<em>mucho</em>) is effectively null/negative, triggering the subjunctive <em>puedas</em>.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ Duermo solo — el oratorio</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">21</span>
+    <span class="dialogue-marker">💬 Louis / Lestat / Louis / Louis</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">—No, tú búscate un dormitorio —dije—. No tengo la menor intención de compartir la misma habitación contigo. Se puso furioso. —No hagas esa imbecilidad. Louis. Te lo advierto. No hay nada que puedas hacer para defenderte una vez que sale el sol, nada. —Luego dijo un montón de cosas para asustarme y obligarme a hacer lo que él quería, pero era como si le hablara a las paredes.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;No, find yourself a bedroom,&quot; I said. &quot;I have no intention whatsoever of sharing the same room with you.&quot; He became furious. &quot;Don&#x27;t do that foolish thing, Louis. I&#x27;m warning you. There is nothing you can do to defend yourself once the sun rises, nothing.&quot; Then he said a great many things to frighten me and force me to do what he wanted, but it was as if I were speaking to the walls.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>búscate un dormitorio</td><td>find yourself a bedroom — reflexive imperative with dative of interest: <em>búscate</em> = find yourself; the <em>-te</em> marks that the action benefits the subject</td></tr>
+        <tr><td>no tener la menor intención de</td><td>to have no intention whatsoever of — <em>la menor intención</em>: not the slightest intention; <em>menor</em> as 'least/slightest' in negative contexts</td></tr>
+        <tr><td>te lo advierto</td><td>I'm warning you — <em>advertir</em> = to warn; <em>te lo advierto</em>: a direct threat/warning formula</td></tr>
+        <tr><td>un montón de cosas</td><td>a great many things, a heap of things — <em>un montón de</em>: a colloquial intensifier = a lot of, loads of</td></tr>
+        <tr><td>era como si le hablara a las paredes</td><td>it was as if I were speaking to the walls — fixed metaphor for being ignored: <em>hablarle a las paredes</em> = to talk to a brick wall</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>no hay nada que puedas hacer</strong> — <em>Subjuntivo en relativa con antecedente negado</em>: 'there is nothing you can do.' <em>Nada</em> as a null antecedent triggers the subjunctive.</li>
+        <li><strong>era como si le hablara a las paredes</strong> — <em>Como si + imperfecto de subjuntivo</em>: hypothetical comparison. Louis wasn't literally talking to walls — the subjunctive marks this as a simile, not a fact.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">22</span>
+    <div class="spanish-text">—Duerme solo —dije, y apagué las velas una a una. —Entonces, enciérrate —dije, y levanté mi ataúd y bajé las escaleras de ladrillos. Podía oír los cerrojos crujiendo en las puertas vidrieras de arriba, el frufrú de las cortinas. El cielo estaba pálido pero todavía salpicado de estrellas. Abrí la puerta del oratorio de mi hermano y puse el ataúd en el piso de piedra ante el reclinatorio.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Sleep alone,&quot; I said, and extinguished the candles one by one. &quot;Then lock yourself in,&quot; I said, and I lifted my coffin and went down the brick stairs. I could hear the bolts clicking in the French doors above, the rustle of the curtains. The sky was pale but still flecked with stars. I opened the door of my brother&#x27;s oratory and placed the coffin on the stone floor before the kneeler.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>apagar las velas una a una</td><td>to extinguish the candles one by one — <em>una a una</em>: one by one; the deliberate, methodical act signals Louis's calm authority over Lestat</td></tr>
+        <tr><td>encerrarse</td><td>to lock oneself in — reflexive of <em>encerrar</em>; <em>enciérrate</em>: lock yourself in</td></tr>
+        <tr><td>cerrojos crujiendo</td><td>bolts clicking/creaking — <em>cerrojo</em> = bolt; <em>crujir</em> = to creak, to groan; the sound of Lestat reluctantly obeying</td></tr>
+        <tr><td>salpicado de estrellas</td><td>flecked with stars — <em>salpicar</em> = to splash, to speckle; <em>salpicado de</em> = dotted/flecked with</td></tr>
+        <tr><td>reclinatorio</td><td>kneeler, prie-dieu — a piece of furniture for kneeling in prayer; the oratory's key furnishing, reminding us of Louis's Catholic past</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>apagué las velas una a una</strong> — <em>Distributivo una a una</em>: 'one by one.' Spanish distributive phrases repeat the noun: <em>uno a uno, paso a paso, poco a poco</em>.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">23</span>
+    <div class="spanish-text">Casi podía distinguir las imágenes de los santos en las paredes.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">I could almost make out the images of the saints on the walls.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>distinguir</td><td>to make out, to discern — <em>distinguir</em> = to distinguish, to make out; in low light it means to barely perceive</td></tr>
+        <tr><td>imágenes de los santos</td><td>images of the saints — <em>imagen</em> = image, holy picture, statue; the saints watching over Louis in his brother's oratory</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>casi podía distinguir</strong> — <em>Casi + imperfecto</em>: 'could almost make out.' <em>Casi</em> with the imperfect signals a marginal capability — he was at the edge of being able to see them, but not quite.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">24</span>
+    <span class="dialogue-marker">💬 Vampiro</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">—Paul —dije en voz baja, dirigiéndome a mi hermano—, por primera vez en mi vida, no siento nada por ti, nada por tu muerte; y por primera vez lo siento todo por ti, siento el dolor de tu pérdida como si nunca antes hubiera sabido lo que era sentir. —El vampiro se dirigió al muchacho—. Por primera vez yo era plena y cabalmente un vampiro.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Paul,&quot; I said softly, addressing my brother, &quot;for the first time in my life, I feel nothing for you, nothing for your death; and for the first time I feel everything for you, I feel the pain of your loss as if I had never before known what it was to feel.&quot; The vampire addressed the boy. &quot;For the first time I was fully and completely a vampire.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>en voz baja</td><td>softly, in a low voice — <em>en voz baja</em>: in a low voice; opposite of <em>en voz alta</em> (aloud)</td></tr>
+        <tr><td>dirigirse a</td><td>to address, to speak to — <em>dirigirse a alguien</em>: to turn to and speak to someone; <em>dirigiéndome a mi hermano</em>: addressing my brother</td></tr>
+        <tr><td>no siento nada... lo siento todo</td><td>I feel nothing... I feel everything — the paradox at the heart of Louis's vampirism: emotional numbness and overwhelming feeling coexisting</td></tr>
+        <tr><td>plena y cabalmente</td><td>fully and completely — <em>plenamente</em> = fully; <em>cabalmente</em> = exactly, completely; a pair of literary intensifiers used together for emphasis</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>como si nunca antes hubiera sabido lo que era sentir</strong> — <em>Como si + pluscuamperfecto de subjuntivo</em>: 'as if he had never before known what it was to feel.' The pluperfect marks the not-knowing as preceding the moment of speaking — a lifetime of not truly feeling, now suddenly reversed.</li>
+        <li><strong>lo que era sentir</strong> — <em>Lo que + ser + infinitivo nominalizado</em>: 'what it was to feel.' <em>Lo que era</em> = 'what it was'; the infinitive <em>sentir</em> as the subject of the nominalized expression.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">25</span>
+    <div class="spanish-text">Cerré las persianas de madera sobre las pequeñas ventanas enrejadas y eché el cerrojo a la puerta. Luego me metí en el ataúd forrado de satén, incapaz de ver apenas el brillo de la tela en la oscuridad, y me encerré en él. Así es como me convertí en vampiro.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">I closed the wooden shutters over the small barred windows and bolted the door. Then I got into the satin-lined coffin, barely able to make out the gleam of the fabric in the darkness, and locked myself in it. That is how I became a vampire.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>persianas de madera</td><td>wooden shutters — <em>persiana</em> = shutter, blind; <em>de madera</em> = wooden; shutters over barred windows = layered protection from daylight</td></tr>
+        <tr><td>ventanas enrejadas</td><td>barred windows — <em>enrejado</em> = barred, latticed; from <em>reja</em> (iron grille/bar)</td></tr>
+        <tr><td>echar el cerrojo</td><td>to bolt the door — <em>echar el cerrojo</em>: a key collocation meaning to shoot/slide the bolt; <em>echar</em> has many colloquial uses</td></tr>
+        <tr><td>forrado de satén</td><td>satin-lined — <em>forrado de</em> = lined with; <em>satén</em> = satin; the coffin's interior — an intimate detail</td></tr>
+        <tr><td>así es como</td><td>that is how — <em>así es como</em>: a cleft phrase for summing up a process; 'and that is the way in which'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>así es como me convertí en vampiro</strong> — <em>Así es como (oración hendida de modo)</em>: 'that is how.' A cleft sentence isolating the manner. The chapter ends by answering the interview's core question — the weight of the simple preterite <em>me convertí</em> is everything.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<footer>
+  <p><em>Entrevista con el Vampiro</em> &mdash; Anne Rice</p>
+  <p style="margin-top:.5rem;">Lectura glosada para uso personal de estudio del espa&ntilde;ol &middot; Cap&iacute;tulo 6</p>
+</footer>
+
+<script>
+(function () {
+  /* ── 1. Wrap every .spanish-text in a flex row and prepend a play button ── */
+  document.querySelectorAll('.spanish-text').forEach(function (el, i) {
+    var text = el.textContent.trim();
+    el.dataset.speak = text;
+
+    var btn = document.createElement('button');
+    btn.className = 'play-btn';
+    btn.title = 'Reproducir';
+    btn.innerHTML = '&#9654;';
+    btn.dataset.idx = i;
+
+    var row = document.createElement('div');
+    row.className = 'spanish-row';
+    el.parentNode.insertBefore(row, el);
+    row.appendChild(btn);
+    row.appendChild(el);
+  });
+
+  /* ── 2. Voice loading ── */
+  var voiceSelect = document.getElementById('voice-select');
+  var statusEl    = document.getElementById('voice-status');
+  var spanishVoices = [];
+  var allVoices     = [];
+
+  function loadVoices() {
+    allVoices = window.speechSynthesis.getVoices();
+    if (!allVoices.length) return;
+    spanishVoices = allVoices.filter(function (v) {
+      return v.lang.toLowerCase().startsWith('es');
+    });
+    voiceSelect.innerHTML = '';
+    if (spanishVoices.length === 0) {
+      allVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i + '_all';
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u26a0 No Spanish voices found \u2014 showing all voices.';
+    } else {
+      spanishVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        if (v.lang.toLowerCase() === 'es-es') opt.selected = true;
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u2713 ' + spanishVoices.length + ' Spanish voice(s) found';
+    }
+  }
+
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  setTimeout(loadVoices, 500);
+
+  function getSelectedVoice() {
+    var val = voiceSelect.value;
+    if (!val) return null;
+    if (val.endsWith('_all')) return allVoices[parseInt(val)] || null;
+    return spanishVoices[parseInt(val)] || null;
+  }
+
+  /* ── 3. Speed slider ── */
+  var speedSlider = document.getElementById('speed-slider');
+  var speedVal    = document.getElementById('speed-val');
+  speedSlider.addEventListener('input', function () {
+    speedVal.textContent = parseFloat(this.value).toFixed(2) + '\u00d7';
+  });
+
+  /* ── 4. Speech playback ── */
+  var currentBtn = null;
+
+  function stopSpeech() {
+    window.speechSynthesis.cancel();
+    if (currentBtn) {
+      currentBtn.classList.remove('playing');
+      currentBtn.innerHTML = '&#9654;';
+      currentBtn = null;
+    }
+  }
+
+  document.getElementById('stop-btn').addEventListener('click', stopSpeech);
+
+  /* ── 4b. Per-section gloss toggle ── */
+  window.toggleSectionGloss = function(btn) {
+    var group = btn.closest('.section-group');
+    if (!group) return;
+    var glosses = group.querySelectorAll('.gloss-text');
+    var toggles = group.querySelectorAll('.gloss-toggle');
+    var allHidden = Array.from(glosses).every(function(g){ return g.classList.contains('gloss-hidden'); });
+    glosses.forEach(function(g){ g.classList.toggle('gloss-hidden', !allHidden); });
+    toggles.forEach(function(t){ t.textContent = allHidden ? '▼ English' : '▶ English'; });
+    btn.textContent = allHidden ? 'Ocultar English' : 'Mostrar English';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn === currentBtn) { stopSpeech(); return; }
+    stopSpeech();
+
+    var spanishEl = btn.parentElement.querySelector('.spanish-text');
+    var text = spanishEl ? spanishEl.dataset.speak : '';
+    if (!text) return;
+
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang  = 'es-ES';
+    utter.rate  = parseFloat(speedSlider.value);
+    utter.pitch = 1;
+
+    var voice = getSelectedVoice();
+    if (voice) utter.voice = voice;
+
+    btn.classList.add('playing');
+    btn.innerHTML = '&#9632;';
+    currentBtn = btn;
+
+    /* Chrome keepalive: prevents silent cutoff of utterances > ~15 s */
+    var keepAlive = setInterval(function () {
+      if (!window.speechSynthesis.speaking) { clearInterval(keepAlive); return; }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, 10000);
+
+    utter.onend = function () {
+      clearInterval(keepAlive);
+      if (currentBtn === btn) {
+        btn.classList.remove('playing');
+        btn.innerHTML = '&#9654;';
+        currentBtn = null;
+      }
+    };
+    utter.onerror = utter.onend;
+
+    window.speechSynthesis.speak(utter);
+  });
+})();
+</script>
+<script>
+/* ── Dictionary lookup ── */
+(function () {
+
+  /* 1. Tokenize each .spanish-text into clickable word spans */
+  document.querySelectorAll('.spanish-text').forEach(function (el) {
+    var newHTML = el.innerHTML.replace(
+      /([A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+(?:['\u2019-][A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+)*)/g,
+      function (token) {
+        var lookup = token.replace(/^['\u2019-]+|['\u2019-]+$/g, '').toLowerCase();
+        if (!lookup) return token;
+        return '<span class="es-word" data-word="' + lookup + '">' + token + '</span>';
+      }
+    );
+    el.innerHTML = newHTML;
+  });
+
+  /* 2. Build popup */
+  var popup = document.createElement('div');
+  popup.id = 'dict-popup';
+  popup.innerHTML =
+    '<button id="dict-close" title="Cerrar">&#10005;</button>' +
+    '<span class="dp-word"></span>' +
+    '<div class="dp-body"></div>' +
+    '<hr class="dp-divider">' +
+    '<div class="dp-links"></div>';
+  document.body.appendChild(popup);
+
+  var dpWord  = popup.querySelector('.dp-word');
+  var dpBody  = popup.querySelector('.dp-body');
+  var dpLinks = popup.querySelector('.dp-links');
+  var dpClose = popup.querySelector('#dict-close');
+  var activeSpan = null;
+  var ES_LEMMAS = {"descubriendo": "descubrir", "sacia": "saciar", "maneras": "manera", "te": "tú", "convencido": "convencer", "estaba": "estar", "soy": "ser", "encalados": "encalado", "sucedió": "suceder", "tiene": "tener", "ella": "él", "mucha": "mucho", "agitado": "agitar", "separado": "separar", "santos": "santo", "arrojó": "arrojar", "suaves": "suave", "verás": "ver", "vampiros": "vampiro", "tenía": "tener", "siento": "sentar", "fuera": "ser", "eché": "echar", "quedé": "quedar", "pensé": "pensar", "característicos": "característico", "burlado": "burlar", "debía": "deber", "esas": "ese", "pequeñas": "pequeño", "habían": "haber", "una": "uno", "duerme": "dormir", "buenas": "bueno", "dirigió": "dirigir", "aprendiendo": "aprender", "di": "dar", "arriba": "arribar", "cipreses": "ciprés", "cosas": "cosa", "quería": "querer", "fuésemos": "ser", "desapareció": "desaparecer", "mis": "mi", "podría": "poder", "has": "haber", "enrejadas": "enrejar", "cuente": "contar", "vasos": "vaso", "necesarias": "necesario", "importa": "importar", "sentamos": "sentar", "aferré": "aferrar", "armarios": "armario", "encerré": "encerrar", "muertos": "muerto", "muy": "mucho", "abrí": "abrir", "tuvo": "tener", "profundas": "profundar", "muñecas": "muñeca", "están": "estar", "puertas": "puerta", "camuflados": "camuflar", "cogí": "coger", "apreciara": "apreciar", "inmensa": "inmenso", "sarcástica": "sarcástico", "está": "estar", "dejado": "dejar", "dijo": "decir", "tengas": "tener", "haces": "hacer", "otros": "otro", "gustan": "gustar", "falsa": "falsar", "ladrillos": "ladrillo", "encima": "encimar", "corrí": "correr", "hagas": "hacer", "tomó": "tomar", "obedecí": "obedecer", "velas": "velar", "imágenes": "imagen", "habrías": "haber", "seas": "ser", "aquello": "aquel", "se": "él", "metí": "meter", "podía": "poder", "abriéndose": "abrirse", "derramaba": "derramar", "regresen": "regresar", "lo": "él", "brillaron": "brillar", "ojos": "ojo", "sale": "salar", "insectos": "insecto", "forrado": "forrar", "llegué": "llegar", "miré": "mirar", "eres": "ere", "tantas": "tanto", "un": "uno", "cortinas": "cortina", "sus": "su", "tuve": "tener", "hubiera": "haber", "manos": "mano", "última": "último", "parece": "parecer", "abiertas": "abrir", "persianas": "persiana", "me": "yo", "es": "ser", "cerrojos": "cerrojo", "puedes": "poder", "gotas": "gota", "podrán": "poder", "cortó": "cortar", "lecciones": "lección", "rica": "rico", "estrellas": "estrella", "pregunté": "preguntar", "puede": "poder", "observando": "observar", "quiero": "querer", "pollos": "pollo", "reía": "reír", "sabido": "saber", "ambas": "ambos", "las": "el", "esclavos": "esclavo", "muchas": "mucho", "bebiendo": "beber", "trataba": "tratar", "negros": "negro", "la": "el", "apoyé": "apoyar", "zarcillos": "zarcillo", "ratas": "rata", "tengo": "tener", "había": "haber", "señaló": "señalar", "aferras": "aferrar", "hizo": "hacer", "fluyó": "fluir", "pensamientos": "pensamiento", "puso": "poner", "todas": "todo", "pueda": "poder", "sería": "ser", "años": "año", "detestaba": "detestar", "pudiera": "poder", "diferencias": "diferencia", "sabes": "saber", "yacía": "yacer", "hablara": "hablar", "ésa": "ese", "bajé": "bajar", "sonrió": "sonreír", "ésta": "este", "caminaba": "caminar", "esa": "ese", "movían": "mover", "salí": "salir", "crecía": "crecer", "pueden": "poder", "llevó": "llevar", "ningún": "ninguno", "digo": "decir", "crujiendo": "crujir", "lanzó": "lanzar", "tenemos": "tener", "vidrieras": "vidriera", "hombros": "hombro", "apagué": "apagar", "levanté": "levantar", "puse": "poner", "morirás": "morir", "creo": "crear", "salpicado": "salpicar", "fuimos": "ir", "preguntó": "preguntar", "deseaba": "desear", "iba": "ir", "pulida": "pulir", "le": "él", "ventanas": "ventana", "piensas": "pensar", "visto": "vestir", "empezado": "empezar", "comprendes": "comprender", "puedo": "poder", "llevaría": "llevar", "agachado": "agachar", "regresó": "regresar", "fue": "ir", "insistí": "insistir", "vamos": "ir", "estuviera": "estar", "era": "ser", "animales": "animal", "plena": "pleno", "sido": "ser", "llevará": "llevar", "advierto": "advertir", "convertí": "convertir", "riquezas": "riqueza", "escaleras": "escalera", "los": "el", "gruesos": "grueso", "saltado": "saltar", "misma": "mismo", "arrodillé": "arrodillar", "hay": "haber", "quieres": "querer", "duros": "duro", "tocando": "tocar", "eso": "ese", "cerré": "cerrar", "necesitas": "necesitar", "pedazos": "pedazo", "dientes": "diente", "salió": "salir", "abrumado": "abrumar", "ajenos": "ajeno", "enfermas": "enfermar", "resolví": "resolver", "clavé": "clavar", "latía": "latir", "llenó": "llenar", "podemos": "poder", "paredes": "pared", "puedas": "poder", "volando": "volar", "pilares": "pilar", "sostuvo": "sostener", "vi": "ver"};
+  function toLemma(w) { return ES_LEMMAS[w.toLowerCase()] || w; }
+  var dictCache  = {};
+
+  /* 3. Fetch definition (Wiktionary, then MyMemory fallback) */
+  /* Extract base word from a "form of X" Wiktionary definition HTML string.
+     Returns the base word string, or null if not a form-of entry. */
+  function extractBaseForm(defHtml) {
+    var t = defHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    // "first/second/third-person ... of X"
+    var m = t.match(/(?:first|second|third)[- ]person.{0,60}of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "plural of X", "inflection of X", "feminine of X", etc.
+    m = t.match(/^(?:inflection|plural|singular|feminine|masculine|augmentative|diminutive|superlative|past\s+(?:tense|participle)|present\s+participle|gerund|form)\s+of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "X of Y" where X ends right before "of" and Y is at end
+    m = t.match(/of\s+([\wÀ-ɏ]+)\s*(?:[:,]|$)/i);
+    if (m) return m[1].toLowerCase();
+    return null;
+  }
+
+  /* Returns true if ALL definitions in all entries look like form-of entries */
+  function getFirstBase(entries) {
+    // Return the base form if the first definition looks like a form-of entry
+    var firstDef = ((entries[0] || {}).definitions || [])[0] || {};
+    return extractBaseForm(firstDef.definition || '');
+  }
+
+  function fetchWiktionary(word) {
+    return fetch(
+      'https://en.wiktionary.org/api/rest_v1/page/definition/' + encodeURIComponent(word),
+      { headers: { Accept: 'application/json' } }
+    ).then(function(r) {
+      if (!r.ok) throw new Error('wikt');
+      return r.json();
+    }).then(function(data) {
+      var es = data.es || data.Es;
+      if (es && es.length) return es;
+      throw new Error('no entry');
+    });
+  }
+
+  function fetchDefinition(rawWord) {
+    var word = toLemma(rawWord);
+    if (dictCache[word]) return Promise.resolve(dictCache[word]);
+    return fetchWiktionary(word).then(function(es) {
+      // If all definitions are "form of X", follow the link to the base form
+      var base = getFirstBase(es);
+      if (base && base !== word.toLowerCase()) {
+        return fetchWiktionary(base).then(function(baseEs) {
+          var result = { source: 'wiktionary', entries: baseEs, inflectedFrom: rawWord, baseForm: base };
+          dictCache[word] = result; return result;
+        }).catch(function() {
+          var result = { source: 'wiktionary', entries: es };
+          dictCache[word] = result; return result;
+        });
+      }
+      var result = { source: 'wiktionary', entries: es };
+      if (word.toLowerCase() !== rawWord.toLowerCase()) result.baseForm = word;
+      dictCache[word] = result; return result;
+    }).catch(function () {
+      return fetch(
+        'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=es|en'
+      ).then(function (r) { return r.json(); }).then(function (data) {
+        var trans = data.responseData && data.responseData.translatedText;
+        if (!trans || trans.toLowerCase() === word.toLowerCase()) throw new Error('no trans');
+        var alts = (data.matches || [])
+          .filter(function (m) {
+            return m.quality > 50 && m.translation &&
+              m.translation.toLowerCase() !== word.toLowerCase() &&
+              m.translation.toLowerCase() !== trans.toLowerCase();
+          })
+          .map(function (m) { return m.translation; })
+          .filter(function (v, i, a) { return a.indexOf(v) === i; })
+          .slice(0, 3);
+        var result = { source: 'mymemory', translation: trans, alts: alts };
+        dictCache[word] = result; return result;
+      });
+    }).catch(function () {
+      var result = { source: 'none' };
+      dictCache[word] = result; return result;
+    });
+  }
+
+  function strip(h) { return h.replace(/<[^>]+>/g, ''); }
+
+  function renderBody(r) {
+    if (r.source === 'wiktionary') {
+      var html = '';
+      // Show a small note when we resolved an inflected form to its base
+      if (r.baseForm) {
+        html += '<div class="dp-alts">form of <em>' + r.baseForm + '</em></div>';
+      }
+      r.entries.slice(0, 3).forEach(function (e) {
+        html += '<div class="dp-pos">' + (e.partOfSpeech || '') + '</div><ol class="dp-defs">';
+        (e.definitions || []).slice(0, 4).forEach(function (d) {
+          html += '<li>' + strip(d.definition || '') + '</li>';
+        });
+        html += '</ol>';
+      });
+      return html;
+    }
+    if (r.source === 'mymemory') {
+      var h = '<div class="dp-trans">' + r.translation + '</div>';
+      if (r.alts && r.alts.length) h += '<div class="dp-alts">also: ' + r.alts.join(', ') + '</div>';
+      return h;
+    }
+    return '<div class="dp-none">no definition found</div>';
+  }
+
+  /* 4. Show / position / hide */
+  function positionPopup(cx, cy) {
+    var pw = popup.offsetWidth || 220, ph = popup.offsetHeight || 130;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var left = cx + 14, top = cy + 14;
+    if (left + pw > vw - 8) left = cx - pw - 14;
+    if (top  + ph > vh - 8) top  = cy - ph - 14;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  }
+
+  function showPopup(word, cx, cy) {
+    dpWord.textContent = word;
+    dpBody.innerHTML = '<div class="dp-loading">buscando…</div>';
+    dpLinks.innerHTML =
+      '<a href="https://www.wordreference.com/es/en/translation.asp?spen=' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128214; WordReference &#8594;</a>' +
+      '<a href="https://www.spanishdict.com/translate/' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128216; SpanishDict &#8594;</a>';
+    popup.style.display = 'block';
+    positionPopup(cx, cy);
+    fetchDefinition(word).then(function (result) {
+      if (dpWord.textContent !== word) return;
+      dpBody.innerHTML = renderBody(result);
+      positionPopup(cx, cy);
+    });
+  }
+
+  function hidePopup() {
+    popup.style.display = 'none';
+    if (activeSpan) { activeSpan.classList.remove('dp-active'); activeSpan = null; }
+  }
+
+  /* 5. Events */
+  document.addEventListener('click', function (e) {
+    var wordEl = e.target.closest('.es-word');
+    if (wordEl) {
+      if (activeSpan) activeSpan.classList.remove('dp-active');
+      activeSpan = wordEl;
+      wordEl.classList.add('dp-active');
+      showPopup(wordEl.dataset.word, e.clientX, e.clientY);
+      return;
+    }
+    if (!e.target.closest('#dict-popup')) hidePopup();
+  });
+
+  dpClose.addEventListener('click', function (e) { e.stopPropagation(); hidePopup(); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrevista con el Vampiro — Capítulo 2 (Primera parte) · Lectura Glosada</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #e0e0e0;
+    --muted: #8892a4;
+    --spanish: #f5c518;
+    --gloss: #a8d8a8;
+    --vocab-bg: #0d1b2a;
+    --grammar-bg: #1b1228;
+    --tag: #533483;
+    --dialogue: #1e2d1e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; line-height: 1.7; padding: 2rem 1rem; }
+  header { max-width: 880px; margin: 0 auto 3rem; text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 1.5rem; }
+  header h1 { font-size: 2rem; color: var(--accent); letter-spacing: 1px; }
+  header h2 { font-size: 1.1rem; color: var(--muted); font-weight: normal; margin-top: .4rem; }
+  header p { font-size: .9rem; color: var(--muted); margin-top: .8rem; font-style: italic; }
+  .chapter-intro { max-width: 880px; margin: 0 auto 2.5rem; background: var(--accent2); border-left: 4px solid var(--accent); padding: 1rem 1.4rem; border-radius: 4px; font-size: .95rem; }
+  .chapter-intro h3 { color: var(--accent); margin-bottom: .4rem; }
+  .sentence-block { max-width: 880px; margin: 0 auto 2rem; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .sentence-num { display: inline-block; background: var(--accent); color: #fff; font-size: .75rem; font-family: monospace; padding: .2rem .5rem; border-radius: 3px; margin-bottom: .5rem; letter-spacing: 1px; }
+  .sentence-top { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .spanish-text { font-size: 1.2rem; color: var(--spanish); font-style: italic; margin-bottom: .6rem; line-height: 1.5; }
+  .gloss-text { font-size: 1rem; color: var(--gloss); margin-top: .35rem; }
+  .gloss-label, .vocab-label, .grammar-label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; margin-bottom: .3rem; font-family: sans-serif; }
+  /* ── Per-sentence gloss toggle ── */
+  .gloss-toggle { background: none; border: none; padding: .4rem 0; cursor: pointer; font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-family: sans-serif; margin-bottom: .3rem; display: block; touch-action: manipulation; min-height: 2.5rem; }
+  .gloss-toggle:hover { color: var(--gloss); }
+  .gloss-text { visibility: visible; }
+  .gloss-text.gloss-hidden { visibility: hidden; pointer-events: none; }
+
+  .breakdown { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px) { .breakdown { grid-template-columns: 1fr; } }
+  .vocab-section { background: var(--vocab-bg); padding: 1rem 1.4rem; border-right: 1px solid rgba(255,255,255,.05); }
+  .grammar-section { background: var(--grammar-bg); padding: 1rem 1.4rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+  td { padding: .3rem .4rem; vertical-align: top; }
+  td:first-child { color: var(--spanish); font-style: italic; white-space: nowrap; padding-right: .8rem; width: 42%; }
+  tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,.05); }
+  .grammar-section ul { list-style: none; font-size: .87rem; }
+  .grammar-section li { margin-bottom: .55rem; padding-left: .8rem; border-left: 2px solid var(--tag); }
+  .grammar-section li strong { color: var(--spanish); font-style: italic; }
+  .grammar-section li em { color: #c9b1ff; font-style: normal; }
+  .section-label { max-width: 880px; margin: 0 auto 1.2rem; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--tag); font-family: sans-serif; padding-left: .2rem; display: flex; align-items: center; gap: .8rem; }
+  .tag { display: inline-block; background: var(--tag); color: #ddd; font-size: .7rem; font-family: sans-serif; padding: .1rem .4rem; border-radius: 3px; margin-right: .3rem; }
+  .dialogue-marker { color: var(--muted); font-size: .8rem; font-family: sans-serif; margin-bottom: .3rem; display: block; }
+  footer { max-width: 880px; margin: 3rem auto 0; text-align: center; font-size: .8rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); }
+
+  /* ── Audio controls ── */
+  #audio-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,52,96,.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(233,69,96,.4);
+    padding: .6rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: sans-serif; font-size: .82rem;
+  }
+  #audio-bar .bar-label { color: var(--muted); white-space: nowrap; }
+  #audio-bar .voice-select {
+    background: #0d1b2a; color: var(--text); border: 1px solid var(--tag);
+    border-radius: 4px; padding: .25rem .5rem; font-size: .8rem; flex: 1; min-width: 160px; max-width: 280px;
+  }
+  #audio-bar .speed-wrap { display: flex; align-items: center; gap: .5rem; }
+  #audio-bar input[type=range] { width: 90px; accent-color: var(--accent); cursor: pointer; }
+  #speed-val { color: var(--accent); font-weight: bold; min-width: 2.5ch; }
+  #stop-btn, .section-gloss-btn {
+    border: none; border-radius: 4px;
+    padding: .25rem .8rem; cursor: pointer; font-size: .8rem; white-space: nowrap;
+  }
+  #stop-btn { background: var(--accent); color: #fff; }
+  #stop-btn:hover { opacity: .85; }
+  .section-gloss-btn { background: var(--accent2); color: var(--muted); border: 1px solid var(--tag); margin-left: auto; flex-shrink: 0; }
+  .section-gloss-btn:hover { background: #1a4a80; color: var(--text); }
+  .voice-status { color: var(--muted); font-size: .75rem; font-style: italic; }
+
+  /* ── Play button on each card ── */
+  .spanish-row { display: flex; align-items: flex-start; gap: .6rem; }
+  .spanish-text { flex: 1; }
+  .play-btn {
+    flex-shrink: 0; margin-top: .15rem;
+    background: none; border: 1.5px solid var(--accent);
+    color: var(--accent); border-radius: 50%;
+    width: 2rem; height: 2rem; cursor: pointer;
+    font-size: .9rem; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s;
+  }
+  .play-btn:hover { background: var(--accent); color: #fff; }
+  .play-btn.playing {
+    background: var(--accent); color: #fff;
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(233,69,96,.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(233,69,96,0); }
+  }
+
+  /* ── Dictionary word spans ── */
+  .es-word {
+    cursor: pointer;
+    border-bottom: 1px dotted rgba(245,197,24,.35);
+    border-radius: 2px;
+    padding: 0 1px;
+    transition: background .1s;
+  }
+  .es-word:hover, .es-word.dp-active {
+    background: rgba(245,197,24,.18);
+    border-bottom-color: var(--spanish);
+  }
+
+  /* ── Dictionary popup ── */
+  #dict-popup {
+    position: fixed;
+    z-index: 500;
+    background: #0d1b2a;
+    border: 1px solid var(--tag);
+    border-radius: 8px;
+    padding: .75rem 1.1rem .85rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,.7);
+    min-width: 210px;
+    max-width: 310px;
+    font-family: sans-serif;
+    display: none;
+  }
+  #dict-popup .dp-word {
+    color: var(--spanish);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-family: Georgia, serif;
+    display: block;
+    margin-bottom: .4rem;
+    padding-right: 1.6rem;
+  }
+  .dp-loading { color: var(--muted); font-size: .8rem; font-style: italic; padding: .15rem 0 .3rem; }
+  .dp-pos {
+    color: var(--muted); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: 1px; margin: .45rem 0 .2rem; font-family: sans-serif;
+  }
+  .dp-defs {
+    font-size: .85rem; color: var(--text);
+    margin: 0; padding-left: 1.1rem; line-height: 1.45;
+  }
+  .dp-defs li { margin-bottom: .25rem; }
+  .dp-trans { font-size: .95rem; color: var(--text); margin: .25rem 0 .1rem; }
+  .dp-alts  { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: .1rem; }
+  .dp-none  { color: var(--muted); font-size: .8rem; font-style: italic; padding: .2rem 0 .3rem; }
+  .dp-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,.09);
+    margin: .6rem 0 .5rem;
+  }
+  #dict-popup .dp-links {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  #dict-popup .dp-links a {
+    color: var(--gloss);
+    text-decoration: none;
+    font-size: .8rem;
+    padding: .25rem .55rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,.06);
+    transition: background .12s;
+    display: block;
+  }
+  #dict-popup .dp-links a:hover { background: rgba(255,255,255,.14); }
+  #dict-close {
+    position: absolute;
+    top: .45rem; right: .6rem;
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: .9rem; line-height: 1;
+    padding: .1rem .2rem;
+  }
+  #dict-close:hover { color: var(--text); }
+
+</style>
+</head>
+<body>
+<div id="audio-bar">
+  <span class="bar-label">&#128266; Voz:</span>
+  <select id="voice-select" class="voice-select"><option>Cargando voces&hellip;</option></select>
+  <div class="speed-wrap">
+    <span class="bar-label">Velocidad:</span>
+    <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.05" value="0.85">
+    <span id="speed-val">0.85&times;</span>
+  </div>
+  <button id="stop-btn">&#9632; Parar</button>
+  <span class="voice-status" id="voice-status"></span>
+</div>
+<header>
+  <h1>Entrevista con el Vampiro</h1>
+  <h2>Anne Rice &middot; Cap&iacute;tulo 2: <em>Primera parte</em></h2>
+  <p>Pasaje 2</p>
+</header>
+<div class="chapter-intro">
+  <h3>Primera parte — Pasaje 2</h3>
+  <p>El vampiro construye un oratorio para su hermano y confía en él sus problemas cotidianos. El hermano empieza a tener visiones: la Virgen le ordena que venda las plantaciones. El vampiro se ríe de él. El hermano cae por la escalera y muere. El vampiro se siente culpable. Se hunde en el alcohol y la autodestrucción en Nueva Orleans, hasta que un vampiro lo ataca y casi lo desangra. Un sacerdote lo visita y atribuye todo al diablo — el vampiro, furioso, casi lo mata.</p>
+</div>
+<div class="section-group">
+<div class="section-label"><span>§ El oratorio — el hermano diferente</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">01</span>
+    <span class="dialogue-marker">💬 Vampiro</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">Por último, le construí un oratorio alejado de la casa y él empezó a pasar allí casi todo el día, y a menudo los atardeceres. Era algo irónico, en realidad. Él era tan diferente de nosotros, tan diferente de todos, ¡y yo era tan normal! No había nada extraordinario en mí. —El vampiro sonrió—. A veces, por las tardes, yo salía a verlo y lo encontraba en el jardín junto al oratorio, sentado, absolutamente sereno, en un banco de piedra, y yo le contaba mis problemas, las dificultades que tenía con los esclavos, la desconfianza que me inspiraban el capataz, el tiempo o mis corredores de bolsa... todos los problemas que constituían lo largo y lo ancho de mi existencia. Y él escuchaba, haciendo sólo unos pocos comentarios, siempre comprensivo, de modo que cuando lo dejaba tenía la nítida impresión de que me había resuelto todos los problemas. No creía que pudiera negarle nada y prometí que, por mucho que me destrozara el corazón perderlo, cuando llegara el momento podría ingresar en el sacerdocio. Naturalmente, estaba equivocado.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Finally I built him an oratory removed from the house, and he began to spend most of every day there and often the early evening. It was ironic, really. He was so different from us, so different from everyone, and I was so regular! There was nothing extraordinary about me whatsoever. Sometimes in the evening I would go out to him and find him in the garden near the oratory, sitting absolutely composed on a stone bench there, and I&#x27;d tell him my troubles, the difficulties I had with the slaves, how I distrusted the overseer or the weather or my brokers — all the problems that made up the length and breadth of my existence. And he would listen, making only a few comments, always sympathetic, so that when I left him I had the distinct impression he had solved everything for me. I didn&#x27;t think I could deny him anything, and I vowed that no matter how it would break my heart to lose him, he could enter the priesthood when the time came. Of course, I was wrong.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>por último</td><td>finally, in the end — <em>por último</em>: last of all; marks the final action in a series</td></tr>
+        <tr><td>absolutamente sereno</td><td>absolutely composed — <em>sereno</em>: calm, unruffled</td></tr>
+        <tr><td>la nítida impresión</td><td>the distinct impression — <em>nítido</em>: clear, sharp, distinct</td></tr>
+        <tr><td>lo largo y lo ancho de mi existencia</td><td>the length and breadth of my existence — idiomatic: the full extent</td></tr>
+        <tr><td>el capataz</td><td>the overseer — <em>capataz</em>: foreman, overseer of slaves or laborers</td></tr>
+        <tr><td>ingresar en el sacerdocio</td><td>to enter the priesthood — <em>ingresar en</em>: to enter, join an institution</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>no creía que pudiera negarle nada</strong> — <em>No creer que + imperfecto de subjuntivo</em>: I didn't think I could deny him anything. <em>Pudiera</em> is the imperfect subjunctive of <em>poder</em>. Verbs of believing/thinking in the negative trigger subjunctive in the subordinate clause.</li>
+        <li><strong>prometí que podría ingresar cuando llegara el momento</strong> — Two dependent clauses: <em>prometí que + condicional</em> (reported speech in the past) and <em>cuando + llegara</em> (future event in past narration). When <em>cuando</em> refers to a future event in a past narrative, the imperfect subjunctive is used.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ Las visiones</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">02</span>
+    <span class="dialogue-marker">💬 Muchacho / Vampiro / Muchacho</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">El vampiro se detuvo en su relato. Por un momento, el chico siguió mirándolo y luego se sobresaltó como si acabara de despertar de un pensamiento profundo, y vaciló como si no pudiera encontrar las palabras adecuadas. —Ah..., ¿no quería ser sacerdote? —preguntó. El vampiro lo estudió como tratando de discernir el significado de su expresión. Luego dijo: —Quiero decir que yo estaba equivocado con respecto a mí mismo, con no negarle nada. —Sus ojos se movieron hacia la pared lejana y se fijaron en los cristales de la ventana—. Empezó a tener visiones. —¿Visiones de verdad? —preguntó el muchacho, pero nuevamente su voz vaciló como si estuviera pensando en otra cosa.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">The vampire stopped. For a moment the boy only gazed at him and then he started as if awakened from deep thought, and he floundered, as if he could not find the right words. He didn&#x27;t want to be a priest? the boy asked. The vampire studied him as if trying to discern the meaning of his expression. Then he said: I meant that I was wrong about myself, about my not denying him anything. His eyes moved over the far wall and fixed on the panes of the window. He began to see visions. Real visions? the boy asked, but again there was hesitation, as if he were thinking of something else.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>se detuvo en su relato</td><td>stopped in his story — <em>detenerse</em>: to stop, pause</td></tr>
+        <tr><td>se sobresaltó</td><td>started, was startled — <em>sobresaltarse</em>: to start with surprise</td></tr>
+        <tr><td>vaciló</td><td>faltered, hesitated — <em>vacilar</em>: to hesitate, waver</td></tr>
+        <tr><td>discernir el significado de su expresión</td><td>discern the meaning of his expression — <em>discernir</em>: elevated register</td></tr>
+        <tr><td>se fijaron en los cristales de la ventana</td><td>fixed on the window panes — <em>fijarse en</em>: to fix on, settle on</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>se sobresaltó como si acabara de despertar de un pensamiento profundo</strong> — <em>Como si + imperfecto de subjuntivo</em>: as if he had just woken from deep thought. <em>Acabar de + infinitivo</em> in the imperfect subjunctive gives the sense of having just done something. The boy's body betrays a deeper engagement than his words.</li>
+        <li><strong>vaciló como si no pudiera encontrar las palabras adecuadas</strong> — Note how the narrator uses <em>como si + subjuntivo</em> twice in rapid succession to describe the boy's uncertain physical reactions. This pattern recurs throughout the chapter as a signature of his hidden emotions.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">03</span>
+    <span class="dialogue-marker">💬 Vampiro</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">—No lo pensé así —contestó el vampiro—. Sucedió cuando tenía quince años. Entonces él ya era muy hermoso. Tenía la piel más suave y los ojos azules más grandes. Era robusto, no delgado como yo soy ahora y era entonces... pero sus ojos... era como si cuando miraba sus ojos estuviese solo en el borde del mundo... en una playa de océano batida por el viento. No había nada salvo el suave rugido de las olas. Pues bien —dijo, con sus ojos todavía fijos en los cristales de la ventana—, empezó a tener visiones. Al principio, sólo lo insinuaba, y dejó de comer completamente. Vivía en el oratorio. A cualquier hora, de día o de noche, podía encontrarlo en los desnudos lajares arrodillado frente al altar. Y el propio oratorio estaba descuidado. Dejó de atender las velas, de cambiar los manteles del altar o incluso de barrer las hojas. Una noche me alarmé de verdad cuando lo observé en el cenador de rosas durante una hora entera sin que se moviera de sus rodillas ni bajara ni una sola vez los brazos, que sostenía extendidos en forma de cruz. Todos los esclavos creían que estaba loco. —El vampiro arqueó las cejas con perplejidad—. Yo estaba convencido de que era simplemente demasiado celoso. Que en su amor a Dios había ido quizá demasiado lejos. Entonces me contó las visiones. Tanto Santo Domingo como la Santísima Virgen María se le habían aparecido en el oratorio. Le habían dicho que debía vender todas las propiedades que teníamos en Luisiana, todo lo que poseíamos, y usar el dinero para hacer la obra de Dios en Francia. Mi hermano iba a ser un gran líder religioso, retornar el país a su antiguo fervor, cambiar el rumbo contra el ateísmo y la Revolución. Por supuesto, no tenía dinero propio. Yo debía vender las plantaciones y nuestras casas particulares en Nueva Orleans y darle el dinero a él.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">I didn&#x27;t think so, the vampire answered. It happened when he was fifteen. He was very handsome then. He had the smoothest skin and the largest blue eyes. He was robust, not thin as I am now and was then — but his eyes — it was as if when I looked into his eyes I was standing alone on the edge of the world, on a windswept ocean beach. There was nothing but the soft roar of the waves. He began to see visions. He only hinted at this at first, and he stopped taking his meals altogether. He lived in the oratory. At any hour of day or night, I could find him on the bare flagstones kneeling before the altar. And the oratory itself was neglected. He stopped tending the candles or changing the altar cloths or even sweeping out the leaves. One night I became really alarmed when I stood in the rose arbor watching him for one solid hour, during which he never moved from his knees and never once lowered his arms, which he held outstretched in the form of a cross. The slaves all thought he was mad. I was convinced that he was only overzealous. That in his love for God, he had perhaps gone too far. Then he told me about the visions. Both St. Dominic and the Blessed Virgin Mary had come to him in the oratory. They had told him he was to sell all our property in Louisiana, everything we owned, and use the money to do God&#x27;s work in France. My brother was to be a great religious leader, to return the country to its former fervor, to turn the tide against atheism and the Revolution. Of course, he had no money of his own. I was to sell the plantations and our town houses in New Orleans and give the money to him.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>robusto</td><td>robust, sturdy — <em>robusto</em>: well-built; contrasts with the vampire's thinness</td></tr>
+        <tr><td>los desnudos lajares</td><td>the bare flagstones — <em>lajar</em>: flagstone, stone slab</td></tr>
+        <tr><td>el cenador de rosas</td><td>the rose arbor — <em>cenador</em>: garden arbor, bower</td></tr>
+        <tr><td>arqueó las cejas con perplejidad</td><td>raised his eyebrows in wonder — <em>arquear las cejas</em>: to arch the eyebrows</td></tr>
+        <tr><td>demasiado celoso</td><td>overzealous — <em>celoso</em>: zealous, fervent (religious sense); also jealous</td></tr>
+        <tr><td>cambiar el rumbo contra</td><td>to turn the tide against — <em>cambiar el rumbo</em>: to change course; nautical image</td></tr>
+        <tr><td>casas particulares</td><td>town houses — <em>casa particular</em>: private house, townhouse</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>era como si cuando miraba sus ojos estuviese solo en el borde del mundo</strong> — Nested <em>como si + imperfecto de subjuntivo</em> inside a temporal <em>cuando + indicativo</em>. The outer <em>como si</em> frames the experience as a likeness; the inner <em>cuando</em> uses indicative because it describes a real habitual situation.</li>
+        <li><strong>tanto Santo Domingo como la Santísima Virgen María se le habían aparecido</strong> — <em>Tanto... como</em>: both... and. <em>Aparecerse a alguien</em> = to appear to someone as a vision or ghost. Compare <em>aparecer</em> (to appear, intransitive) vs <em>aparecerse</em> (reflexive, used for supernatural appearances to a person).</li>
+        <li><strong>le habían dicho que debía vender... y usar el dinero</strong> — <em>Decir que + imperfecto de indicativo</em>: reported command in indirect speech in a past narrative. The imperfect <em>debía</em> reports the Virgin's instruction as an established fact in the past. Compare: <em>le dijo que vendiera</em> (subjunctive, more strongly command-like).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ La risa — la caída</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">04</span>
+    <span class="dialogue-marker">💬 Muchacho</span>
+    <div class="spanish-text">Una vez más el vampiro hizo una pausa. Y el muchacho quedó inmóvil, mirándolo, perplejo. —Ah..., perdóneme —susurró—. ¿Qué hizo? ¿Vendió las plantaciones?</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Again the vampire stopped. And the boy sat motionless regarding him, astonished. Excuse me, he whispered. What did you say? Did you sell the plantations?</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>quedó inmóvil</td><td>sat motionless — <em>quedar + adjective</em>: to remain in a state</td></tr>
+        <tr><td>perplejo</td><td>astonished, perplexed — <em>perplejo</em>: bewildered</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">05</span>
+    <span class="dialogue-marker">💬 Vampiro</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">—No —dijo el vampiro, y su rostro estaba sereno como desde el principio—. Me reí de él. Y él se encolerizó. Insistía en que su mandato provenía de la propia Virgen. ¿Quién era yo para desacatarlo? ¿Quién? —preguntó en voz queda, como si volviera a pensarlo—. ¿Quién, en efecto? Y cuanto más trataba de convencerme, más me reía. Eran tonterías, le dije; el producto de una mente inmadura e incluso mórbida. El oratorio era un error; lo haría demoler de inmediato. Él iría a la escuela en Nueva Orleans y se le quitarían esas insensateces de la cabeza. No recuerdo todo lo que le dije. Pero sí recuerdo la sensación. Detrás de todo ese desprecio mío había una ira latente y una decepción. Estaba amargamente decepcionado. No le creía en absoluto.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">No, said the vampire, his face calm as it had been from the start. I laughed at him. And he became incensed. He insisted his command came from the Virgin herself. Who was I to disregard it? Who indeed? And the more he tried to convince me, the more I laughed. It was nonsense, I told him, the product of an immature and even morbid mind. The oratory was a mistake; I would have it torn down at once. He would go to school in New Orleans and get such inane notions out of his head. I don&#x27;t remember all that I said. But I remember the feeling. Behind all this contemptuous dismissal on my part was a smoldering anger and a disappointment. I was bitterly disappointed. I didn&#x27;t believe him at all.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>se encolerizó</td><td>became incensed — <em>encolerizar</em>: to enrage; <em>cólera</em>: rage, wrath</td></tr>
+        <tr><td>su mandato provenía de la propia Virgen</td><td>his command came from the Virgin herself — <em>provenía de</em>: came from; <em>propio/a</em>: himself/herself (emphatic)</td></tr>
+        <tr><td>desacatarlo</td><td>to disregard it — <em>desacatar</em>: to defy, show disrespect for a command</td></tr>
+        <tr><td>insensateces</td><td>inane notions — <em>insensatez</em>: foolishness, senseless idea</td></tr>
+        <tr><td>una ira latente</td><td>a smoldering anger — <em>latente</em>: latent, smoldering</td></tr>
+        <tr><td>amargamente decepcionado</td><td>bitterly disappointed — <em>amargamente</em>: bitterly</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>cuanto más trataba de convencerme, más me reía</strong> — <em>Cuanto más... más...</em>: the more... the more. Both verbs in imperfect for ongoing past dynamic.</li>
+        <li><strong>lo haría demoler de inmediato</strong> — <em>Hacer + infinitivo (causativo)</em>: I would have it torn down. <em>Haría demoler</em> = I would cause it to be demolished. The causative <em>hacer</em> + infinitive does not require the subject to act directly.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">06</span>
+    <span class="dialogue-marker">💬 Muchacho / Vampiro</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span> <span class="tag">condicional</span></div>
+    <div class="spanish-text">—Pero eso es comprensible —dijo rápidamente el muchacho cuando el vampiro hizo una pausa—. Quiero decir, ¿alguien le habría creído? —¿Es tan comprensible? —el vampiro miró al entrevistador—. Pienso que tal vez haya sido un egoísmo vicioso. Déjame explicarte. Amaba a mi hermano y a veces creía que era un santo viviente. Lo alentaba en sus rezos y meditaciones y estaba dispuesto a perderlo para que ingresara en el sacerdocio. Y si alguien me hubiera hablado de un santo en Arlés o en Lourdes que veía visiones, le habría creído. Era católico; creía en los santos. Encendía velas ante sus estatuas de mármol en las iglesias; conocía sus imágenes, sus símbolos, sus nombres. Pero no podía creerle a mi hermano. No sólo no creía que viera visiones, era incapaz de entretener la noción ni por un instante. ¿Ahora bien, por qué? Porque era mi hermano. Santo podía ser, peculiar sin ninguna duda; pero ¿Francisco de Asís? No. No mi hermano. No podía ser así ningún hermano mío. Eso es egoísmo. ¿Lo ves?</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">But that&#x27;s understandable, said the boy quickly when the vampire paused. I mean, would anyone have believed him? Is it so understandable? The vampire looked at the boy. I think perhaps it was vicious egotism. Let me explain. I loved my brother, and at times I believed him to be a living saint. I encouraged him in his prayer and meditations and was willing to give him up to the priesthood. And if someone had told me of a saint in Arles or Lourdes who saw visions, I would have believed it. I was a Catholic; I believed in saints. I lit tapers before their marble statues in churches; I knew their pictures, their symbols, their names. But I didn&#x27;t, couldn&#x27;t believe my brother. Not only did I not believe he saw visions, I couldn&#x27;t entertain the notion for a moment. Now, why? Because he was my brother. Holy he might be, peculiar most definitely; but Francis of Assisi, no. Not my brother. That is egotism. Do you see?</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>un egoísmo vicioso</td><td>vicious egotism — <em>egoísmo</em>: egotism; <em>vicioso</em>: deeply flawed</td></tr>
+        <tr><td>entretener la noción</td><td>to entertain the notion — to hold an idea in the mind; anglicism in usage</td></tr>
+        <tr><td>peculiar sin ninguna duda</td><td>peculiar most definitely — <em>sin ninguna duda</em>: without any doubt</td></tr>
+        <tr><td>estatuas de mármol</td><td>marble statues — <em>mármol</em>: marble</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>si alguien me hubiera hablado de un santo... le habría creído</strong> — <em>Si + pluscuamperfecto de subjuntivo, condicional perfecto</em>: counterfactual past. If someone HAD told me... I WOULD HAVE believed. The vampire would have believed any other saint — just not his own brother. This reveals the egotism he is confessing.</li>
+        <li><strong>pienso que tal vez haya sido un egoísmo vicioso</strong> — <em>Tal vez + presente de subjuntivo</em>: perhaps it was. When <em>tal vez/quizás</em> precede the verb, subjunctive expresses greater uncertainty. <em>Haya sido</em> (present perfect subjunctive) refers to a past event whose truth the speaker questions about himself.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">07</span>
+    <span class="dialogue-marker">💬 Vampiro / Muchacho / Vampiro</span>
+    <div class="spanish-text">El entrevistador lo pensó antes de contestar y entonces asintió con la cabeza y dijo que sí, que creía que sí. —Quizá tenía visiones —dijo el vampiro. —¿Entonces usted no afirma saber... ahora... si las tenía o no? —No, pero sé muy bien que jamás vaciló un segundo en sus convicciones. Eso lo sé y lo sabía entonces la noche que salió de mi cuarto enloquecido y apesadumbrado. No vaciló ni por un instante. Y en cuestión de minutos estaba muerto.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">The boy thought about it before he answered and then he nodded and said that yes, he thought that he did. Perhaps he saw the visions, said the vampire. Then you don&#x27;t claim to know now whether he did not? No, but I do know that he never wavered in his conviction for a second. That I know now and knew then the night he left my room crazed and grieved. He never wavered for an instant. And within minutes, he was dead.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>vaciló en sus convicciones</td><td>wavered in his convictions — <em>vacilar</em>: to waver</td></tr>
+        <tr><td>enloquecido y apesadumbrado</td><td>crazed and grieved — <em>enloquecido</em>: driven mad; <em>apesadumbrado</em>: grief-stricken</td></tr>
+        <tr><td>en cuestión de minutos</td><td>within minutes — <em>en cuestión de</em>: in a matter of</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>eso lo sé y lo sabía entonces</strong> — <em>Dislocación a la izquierda</em>: the direct object <em>eso</em> is fronted for emphasis, then resumed as <em>lo</em>. That — THAT I know and knew then. This creates emotional weight on <em>eso</em> and contrasts knowing with not-knowing (he doesn't know if his brother had real visions, but he knows the brother never doubted).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">08</span>
+    <span class="dialogue-marker">💬 Muchacho / Vampiro / Muchacho / Vampiro</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">—¿Cómo? —preguntó el entrevistador. —Simplemente traspasó las puertas vidrieras, salió a la galería y se quedó un momento en lo alto de la escalera de ladrillos. Y entonces cayó. Ya estaba muerto cuando llegué abajo, con el cuello roto. —El vampiro sacudió la cabeza con consternación, pero su cara seguía serena. —¿Usted lo vio caer? ¿Perdió pie? —No, pero dos de los sirvientes lo vieron. Dijeron que había levantado los ojos como si acabara de ver algo en el aire. Luego todo su cuerpo se movió hacia adelante como si fuera barrido por un viento. Uno de ellos dijo que estaba a punto de decir algo cuando cayó. Yo también creí que estaba a punto de decir algo, pero fue en ese momento cuando me aparté de la ventana. Tenía la espalda vuelta cuando oí el ruido.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">How? the boy asked. He simply walked out of the French doors onto the gallery and stood for a moment at the head of the brick stairs. And then he fell. He was dead when I reached the bottom, his neck broken. The vampire shook his head in consternation, but his face was still serene. Did you see him fall? Did he lose his footing? No, but two of the servants saw it happen. They said that he had looked up as if he had just seen something in the air. Then his entire body moved forward as if being swept by a wind. One of them said he was about to say something when he fell. I thought so too, but it was at that moment I turned away from the window. My back was turned when I heard the noise.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>traspasó las puertas vidrieras</td><td>walked out of the French doors — <em>traspasar</em>: to pass through; <em>puertas vidrieras</em>: glass French doors</td></tr>
+        <tr><td>la galería</td><td>the gallery, verandah — <em>galería</em>: covered outdoor walkway</td></tr>
+        <tr><td>con consternación</td><td>in consternation — <em>consternación</em>: dismay</td></tr>
+        <tr><td>perdió pie</td><td>lost his footing — <em>perder pie</em>: to lose one's footing</td></tr>
+        <tr><td>tenía la espalda vuelta</td><td>my back was turned — <em>tener la espalda vuelta</em>: to have one's back turned</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>como si acabara de ver algo en el aire</strong> — <em>Como si + imperfecto de subjuntivo</em>: as if he had just seen something. The servants can only describe his gesture with <em>como si</em> — they cannot know what he saw.</li>
+        <li><strong>como si fuera barrido por un viento</strong> — <em>Como si + pasiva (ser + participio) en subjuntivo</em>: as if being swept by a wind. Passive voice inside a <em>como si</em> construction.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ La culpa — la caída en el vicio</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">09</span>
+    <span class="dialogue-marker">💬 Muchacho / Vampiro</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">—Pero, ¿cómo pudieron pensarlo? Usted dijo que hubo gente que lo vio caer. —No fue una acusación directa. Simplemente, sabían que algo desagradable había sucedido entre nosotros. Que habíamos discutido minutos antes de la caída. Los sirvientes nos habían oído, mi madre nos había oído. Mi madre no dejaba de preguntarme qué había pasado y por qué mi hermano, que era tan tranquilo, había estado gritando. Luego se unió mi hermana y, por supuesto, me negué a decirlo. Estaba tan amargamente sorprendido y afligido que no tuve paciencia con nadie, sólo la vaga determinación de que no sabrían lo de sus visiones. No sabrían que él había llegado a ser, finalmente, no un santo, sino sólo un fanático. Mi hermana se fue a la cama en lugar de enfrentarse al funeral, y mi madre le dijo a todo el mundo de la parroquia que algo horrible había pasado en mi habitación que yo no quería revelar; y hasta la policía me interrogó por orden de mi propia madre. Por fin vino a verme el cura y exigió saber lo que había ocurrido. No se lo conté a nadie. Sólo habían discutido, dije; yo no estaba en la galería cuando cayó, protesté, y todos me miraban como si lo hubiera matado. Y yo sentía que lo había matado. Me senté en el salón junto a su ataúd durante dos días pensando: lo he matado. Le miraba la cara hasta que me aparecían manchas ante los ojos y casi me desmayaba.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">But how could they? You said they saw him fall. It wasn&#x27;t a direct accusation. They simply knew that something unpleasant had passed between us. That we had argued minutes before the fall. The servants had heard us, my mother had heard us. My mother would not stop asking me what had happened and why my brother, who was so quiet, had been shouting. Then my sister joined in, and of course I refused to say. I was so bitterly shocked and miserable that I had no patience with anyone, only the vague determination they would not know about his visions. They would not know that he had become, finally, not a saint, but only a fanatic. My sister went to bed rather than face the funeral, and my mother told everyone in the parish that something horrible had happened in my room which I would not reveal; and even the police questioned me, on the word of my own mother. Finally the priest came to see me and demanded to know what had gone on. I told no one. It was only a discussion, I said; I was not on the gallery when he fell, I protested, and they all stared at me as if I&#x27;d killed him. And I felt that I&#x27;d killed him. I sat in the parlor beside his coffin for two days thinking, I have killed him. I stared at his face until spots appeared before my eyes and I nearly fainted.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>no dejaba de preguntarme</td><td>would not stop asking me — <em>no dejar de</em>: to not stop doing</td></tr>
+        <tr><td>afligido</td><td>miserable, grief-stricken — <em>afligido</em>: afflicted, sorrowful</td></tr>
+        <tr><td>en lugar de enfrentarse al funeral</td><td>rather than face the funeral — <em>en lugar de + infinitivo</em>: instead of</td></tr>
+        <tr><td>exigió saber</td><td>demanded to know — <em>exigir + infinitivo</em>: to demand to</td></tr>
+        <tr><td>me aparecían manchas ante los ojos</td><td>spots appeared before my eyes — <em>aparecer ante los ojos</em>: to appear before one's eyes</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>todos me miraban como si lo hubiera matado</strong> — <em>Como si + pluscuamperfecto de subjuntivo</em>: as if I had killed him. The pluperfect subjunctive signals that the likeness refers to a completed past event. Compare <em>como si lo matara</em> (imperfect) which would be present/ongoing.</li>
+        <li><strong>me negué a decirlo</strong> — <em>Negarse a + infinitivo</em>: to refuse to do. Key reflexive construction: <em>me niego a creerlo</em> (I refuse to believe it), <em>se negó a salir</em> (he refused to leave). Compare <em>rechazar</em> (to reject an offer) vs <em>negarse a</em> (to refuse an action).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">10</span>
+    <span class="dialogue-marker">💬 Muchacho / Vampiro / Muchacho / Vampiro / Muchacho</span>
+    <div class="spanish-text">—Todo eso sucedió, ¿verdad? —susurró el muchacho—. Me está contando algo que es verdad. —Sí —dijo el vampiro, mirándolo con sorpresa—. Quiero seguir contándotelo —aseguró, pero, mientras sus ojos pasaban por encima del chico y volvían a la ventana, sólo mostraba un leve interés en él, que parecía enzarzado en alguna silenciosa lucha interior. —Pero usted dijo que no sabía de sus visiones; que usted, un vampiro, no podía saber con certeza si... —Quiero hacer las cosas en orden. Quiero contarte las cosas tal como fueron sucediendo. No sé nada de sus visiones. Hasta el día de hoy. —Y nuevamente esperó hasta que el chico dijo: —Sí, por favor, continúe...</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">This really happened, didn&#x27;t it? the boy whispered. You&#x27;re telling me something that&#x27;s true. Yes, said the vampire, looking at him without surprise. I want to go on telling you. But as his eyes passed over the boy and returned to the window, he showed only faint interest in the boy, who seemed engaged in some silent inner struggle. But you said you didn&#x27;t know about the visions, that you, a vampire, didn&#x27;t know for certain whether — I want to take things in order. I want to go on telling you things as they happened. No, I don&#x27;t know about the visions. To this day. And again he waited until the boy said, Yes, please, please go on.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>enzarzado en alguna silenciosa lucha interior</td><td>engaged in some silent inner struggle — <em>enzarzado</em>: entangled, caught up in</td></tr>
+        <tr><td>con certeza</td><td>with certainty — <em>certeza</em>: certainty</td></tr>
+        <tr><td>tal como fueron sucediendo</td><td>as they happened — <em>tal como</em>: just as; <em>ir + gerundio</em>: gradual unfolding</td></tr>
+        <tr><td>hasta el día de hoy</td><td>to this day — right up to the present</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>tal como fueron sucediendo</strong> — <em>Ir + gerundio</em>: progressive/gradual action. <em>Fueron sucediendo</em> (preterite of <em>ir</em> + gerundio) = as they unfolded one by one. Emphasizes gradual sequential progression rather than a single completed event.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="section-group">
+<div class="section-label"><span>§ El autodestructivo — el vampiro ataca</span><button class="section-gloss-btn" onclick="toggleSectionGloss(this)">Mostrar glosas</button></div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">11</span>
+    <span class="dialogue-marker">💬 Vampiro</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">—Pues entonces quise vender las plantaciones. No quise volver a ver jamás esa casa ni el oratorio. Al final, las arrendé a una agencia que las explotaría por mí y gestionaría las cosas para que yo no tuviera que ir nunca más, y trasladé a mi madre y hermana a una de las casas particulares de Nueva Orleans. Desde luego, no me liberé de mi hermano ni por un momento. No podía pensar en nada salvo en su cuerpo pudriéndose en la tierra. Estaba enterrado en el cementerio San Luis de Nueva Orleans, y hacía todo lo posible por evitar pasar ante esas verjas; pero aun así pensaba en él constantemente. Borracho o sobrio, veía su cuerpo pudriéndose en el ataúd, y no podía soportarlo. Una y otra vez soñaba que él estaba en lo alto de la escalera y yo le cogía del brazo, hablándole con amabilidad, instándolo a volver al dormitorio, diciéndole con suavidad que sí le creía, que debía rezar para que yo tuviera fe. Mientras tanto, los esclavos de Pointe du Lac habían empezado a decir que veían su fantasma en la galería, y el capataz no podía mantener el orden. La gente de la sociedad le hacía a mi hermana preguntas ofensivas sobre todo el incidente, y ella se convirtió en una histérica. En realidad no era histérica. Simplemente pensaba que debía reaccionar de esa manera, así que lo hizo. Yo bebía todo el tiempo y estaba en casa lo menos posible. Vivía como un hombre que quería morir pero que no tenía el valor de hacerlo él mismo. Paseaba solo por calles y callejones oscuros; me desmayaba en cabarés. Rehusé dos duelos más por apatía que por cobardía y en verdad deseaba que me asesinasen. Y entonces me atacaron.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Well, I wanted to sell the plantations. I never wanted to see the house or the oratory again. I leased them finally to an agency which would work them for me and manage things so I need never go there, and I moved my mother and sister to one of the town houses in New Orleans. Of course, I did not escape my brother for a moment. I could think of nothing but his body rotting in the ground. He was buried in the St. Louis cemetery in New Orleans, and I did everything to avoid passing those gates; but still I thought of him constantly. Drunk or sober, I saw his body rotting in the coffin, and I couldn&#x27;t bear it. Over and over I dreamed that he was at the head of the steps and I was holding his arm, talking kindly to him, urging him back into the bedroom, telling him gently that I did believe him, that he must pray for me to have faith. Meantime, the slaves on Pointe du Lac had begun to talk of seeing his ghost on the gallery, and the overseer couldn&#x27;t keep order. People in society asked my sister offensive questions about the whole incident, and she became a hysteric. She wasn&#x27;t really a hysteric. She simply thought she ought to react that way, so she did. I drank all the time and was at home as little as possible. I lived like a man who wanted to die but who had no courage to do it himself. I walked black streets and alleys alone; I passed out in cabarets. I backed out of two duels more from apathy than cowardice and truly wished to be murdered. And then I was attacked.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>arrendé a una agencia que las explotaría</td><td>leased them to an agency that would work them — <em>arrendar</em>: to lease; <em>explotar</em>: to work land</td></tr>
+        <tr><td>pudriéndose en la tierra</td><td>rotting in the ground — <em>pudrirse</em>: to rot</td></tr>
+        <tr><td>las verjas</td><td>the gates — <em>verja</em>: iron gate or railing</td></tr>
+        <tr><td>instándolo a volver</td><td>urging him back — <em>instar a</em>: to urge, press</td></tr>
+        <tr><td>rehusé dos duelos</td><td>backed out of two duels — <em>rehusar</em>: to refuse, back out of</td></tr>
+        <tr><td>más por apatía que por cobardía</td><td>more from apathy than cowardice — <em>apatía</em>: apathy; <em>cobardía</em>: cowardice</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>gestionaría las cosas para que yo no tuviera que ir nunca más</strong> — <em>Para que + imperfecto de subjuntivo</em>: so that I would never have to go. The conditional <em>gestionaría</em> in the main clause triggers the imperfect subjunctive in the purpose clause.</li>
+        <li><strong>deseaba que me asesinasen</strong> — <em>Desear que + subjuntivo</em>: to wish that. The imperfect subjunctive <em>asesinasen</em> follows a verb of desire with a different subject. Note the stark contrast between the formality of <em>asesinar</em> (to murder) and the casualness of the surrounding sentence.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">12</span>
+    <span class="dialogue-marker">💬 Muchacho / Vampiro / Muchacho / Vampiro</span>
+    <div class="spanish-text">—¿Quiere decir... que le chupó la sangre? —preguntó el muchacho. —Sí —se rió el vampiro—. Me chupó la sangre. Así se hace. —Pero usted vivió. Usted dijo que lo dejó dándolo por muerto. —Bueno, me desangró casi hasta el punto de la muerte, lo que para él era suficiente. Me pusieron en cama tan pronto como me encontraron, confundido y realmente sin saber lo que me había pasado.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">You mean he sucked your blood? the boy asked. Yes, the vampire laughed. He sucked my blood. That is the way it&#x27;s done. But you lived. You said he left you for dead. Well, he drained me almost to the point of death, which was for him sufficient. I was put to bed as soon as I was found, confused and really unaware of what had happened to me.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>le chupó la sangre</td><td>sucked his blood — <em>chupar</em>: to suck; unglamorous directness</td></tr>
+        <tr><td>así se hace</td><td>that is the way it's done — impersonal <em>se</em> construction</td></tr>
+        <tr><td>dándolo por muerto</td><td>leaving him for dead — <em>dar por muerto</em>: to consider someone dead</td></tr>
+        <tr><td>me desangró</td><td>drained me — <em>desangrar</em>: to bleed, drain of blood</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>así se hace</strong> — <em>Se impersonal</em>: that is how it is done. The reflexive <em>se</em> with an active verb creates an impersonal construction. Compare <em>se habla español</em> (Spanish is spoken) and <em>se dice que</em> (it is said that).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">13</span>
+    <span class="dialogue-marker">💬 Vampiro</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span> <span class="tag">condicional</span></div>
+    <div class="spanish-text">—Eso es ridículo —me contestó—. Por supuesto, usted puede vivir. Usted no tiene nada de malo más que autocomplacencia. Su madre lo necesita, sin mencionar a su hermana. Y en cuanto a su hermano, estaba poseído por el demonio. Me quedé tan perplejo cuando dijo esto que no pude protestar. El demonio había producido las visiones, continuó explicando. El demonio campaba por sus respetos. El país entero de Francia estaba bajo la influencia del demonio, y la Revolución había sido su mayor triunfo. Nada hubiera podido salvar a mi hermano salvo el exorcismo, la oración y el ayuno, hombres que lo sujetaran mientras el demonio se retorcía en su cuerpo y trataba de arrojarlo. El demonio lo empujó por la escalera; es algo perfectamente evidente, declaró. Usted no estaba hablando con su hermano en ese cuarto; estaba hablando con el demonio. Pues bien, eso me enfureció. Antes yo creía que había llegado a un límite, pero no era así. Siguió hablando del demonio, del vudú entre los esclavos y de casos de posesión en otras partes del mundo. Y me volví loco. Destrocé el cuarto en el proceso de casi matarlo. Cuando por fin pude ser controlado y estaba exhausto casi hasta el punto de la muerte, me sangraron. Los idiotas. Pero iba a decir otra cosa. Fue entonces cuando concebí mi propio egoísmo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">That&#x27;s ridiculous, he answered me. Of course you can live. There&#x27;s nothing wrong with you but self-indulgence. Your mother needs you, not to mention your sister. And as for this brother of yours, he was possessed of the devil. I was so stunned when he said this I couldn&#x27;t protest. The devil made the visions, he went on to explain. The devil was rampant. The entire country of France was under the influence of the devil, and the Revolution had been his greatest triumph. Nothing would have saved my brother but exorcism, prayer, and fasting, men to hold him down while the devil raged in his body and tried to throw him about. The devil threw him down the steps; it&#x27;s perfectly obvious, he declared. You weren&#x27;t talking to your brother in that room; you were talking to the devil. Well, this enraged me. I believed before that I had been pushed to my limits, but I had not. He went on talking about the devil, about voodoo amongst the slaves and cases of possession in other parts of the world. And I went wild. I wrecked the room in the process of nearly killing him. When I was subdued finally, exhausted almost to the point of death, they bled me. The fools. But I was going to say something else. It was then that I conceived of my own egotism.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>autocomplacencia</td><td>self-indulgence — <em>autocomplacencia</em>: self-satisfaction</td></tr>
+        <tr><td>campaba por sus respetos</td><td>was rampant — <em>campar por sus respetos</em>: to run rampant, do as one pleases</td></tr>
+        <tr><td>el exorcismo, la oración y el ayuno</td><td>exorcism, prayer, and fasting — the three remedies for possession</td></tr>
+        <tr><td>me sangraron</td><td>they bled me — <em>sangrar</em>: to bleed as a medical treatment</td></tr>
+        <tr><td>concebí mi propio egoísmo</td><td>I conceived of my own egotism — <em>concebir</em>: to grasp, conceive of</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>nada hubiera podido salvar a mi hermano salvo el exorcismo</strong> — <em>Pluscuamperfecto de subjuntivo con valor condicional</em>: nothing could have saved my brother. Implicit counterfactual: IF exorcism had been performed, the brother might have been saved. <em>Hubiera podido</em> = could have.</li>
+        <li><strong>me quedé tan perplejo... que no pude protestar</strong> — <em>Tan... que...</em>: I was SO stunned THAT I couldn't protest. Consecutive construction expressing degree and result.</li>
+        <li><strong>siguió hablando del demonio</strong> — <em>Seguir + gerundio</em>: to keep doing, continue doing. Compare the aspectual series in this chunk: <em>empezó a tener visiones</em>, <em>dejó de comer</em>, <em>siguió hablando</em> — all mark changes in the state of an ongoing action.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<footer>
+  <p><em>Entrevista con el Vampiro</em> &mdash; Anne Rice</p>
+  <p style="margin-top:.5rem;">Lectura glosada para uso personal de estudio del espa&ntilde;ol &middot; Cap&iacute;tulo 2</p>
+</footer>
+
+<script>
+(function () {
+  /* ── 1. Wrap every .spanish-text in a flex row and prepend a play button ── */
+  document.querySelectorAll('.spanish-text').forEach(function (el, i) {
+    var text = el.textContent.trim();
+    el.dataset.speak = text;
+
+    var btn = document.createElement('button');
+    btn.className = 'play-btn';
+    btn.title = 'Reproducir';
+    btn.innerHTML = '&#9654;';
+    btn.dataset.idx = i;
+
+    var row = document.createElement('div');
+    row.className = 'spanish-row';
+    el.parentNode.insertBefore(row, el);
+    row.appendChild(btn);
+    row.appendChild(el);
+  });
+
+  /* ── 2. Voice loading ── */
+  var voiceSelect = document.getElementById('voice-select');
+  var statusEl    = document.getElementById('voice-status');
+  var spanishVoices = [];
+  var allVoices     = [];
+
+  function loadVoices() {
+    allVoices = window.speechSynthesis.getVoices();
+    if (!allVoices.length) return;
+    spanishVoices = allVoices.filter(function (v) {
+      return v.lang.toLowerCase().startsWith('es');
+    });
+    voiceSelect.innerHTML = '';
+    if (spanishVoices.length === 0) {
+      allVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i + '_all';
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u26a0 No Spanish voices found \u2014 showing all voices.';
+    } else {
+      spanishVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        if (v.lang.toLowerCase() === 'es-es') opt.selected = true;
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u2713 ' + spanishVoices.length + ' Spanish voice(s) found';
+    }
+  }
+
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  setTimeout(loadVoices, 500);
+
+  function getSelectedVoice() {
+    var val = voiceSelect.value;
+    if (!val) return null;
+    if (val.endsWith('_all')) return allVoices[parseInt(val)] || null;
+    return spanishVoices[parseInt(val)] || null;
+  }
+
+  /* ── 3. Speed slider ── */
+  var speedSlider = document.getElementById('speed-slider');
+  var speedVal    = document.getElementById('speed-val');
+  speedSlider.addEventListener('input', function () {
+    speedVal.textContent = parseFloat(this.value).toFixed(2) + '\u00d7';
+  });
+
+  /* ── 4. Speech playback ── */
+  var currentBtn = null;
+
+  function stopSpeech() {
+    window.speechSynthesis.cancel();
+    if (currentBtn) {
+      currentBtn.classList.remove('playing');
+      currentBtn.innerHTML = '&#9654;';
+      currentBtn = null;
+    }
+  }
+
+  document.getElementById('stop-btn').addEventListener('click', stopSpeech);
+
+  /* ── 4b. Per-section gloss toggle ── */
+  window.toggleSectionGloss = function(btn) {
+    var group = btn.closest('.section-group');
+    if (!group) return;
+    var glosses = group.querySelectorAll('.gloss-text');
+    var toggles = group.querySelectorAll('.gloss-toggle');
+    var allHidden = Array.from(glosses).every(function(g){ return g.classList.contains('gloss-hidden'); });
+    glosses.forEach(function(g){ g.classList.toggle('gloss-hidden', !allHidden); });
+    toggles.forEach(function(t){ t.textContent = allHidden ? '▼ English' : '▶ English'; });
+    btn.textContent = allHidden ? 'Ocultar English' : 'Mostrar English';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn === currentBtn) { stopSpeech(); return; }
+    stopSpeech();
+
+    var spanishEl = btn.parentElement.querySelector('.spanish-text');
+    var text = spanishEl ? spanishEl.dataset.speak : '';
+    if (!text) return;
+
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang  = 'es-ES';
+    utter.rate  = parseFloat(speedSlider.value);
+    utter.pitch = 1;
+
+    var voice = getSelectedVoice();
+    if (voice) utter.voice = voice;
+
+    btn.classList.add('playing');
+    btn.innerHTML = '&#9632;';
+    currentBtn = btn;
+
+    /* Chrome keepalive: prevents silent cutoff of utterances > ~15 s */
+    var keepAlive = setInterval(function () {
+      if (!window.speechSynthesis.speaking) { clearInterval(keepAlive); return; }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, 10000);
+
+    utter.onend = function () {
+      clearInterval(keepAlive);
+      if (currentBtn === btn) {
+        btn.classList.remove('playing');
+        btn.innerHTML = '&#9654;';
+        currentBtn = null;
+      }
+    };
+    utter.onerror = utter.onend;
+
+    window.speechSynthesis.speak(utter);
+  });
+})();
+</script>
+<script>
+/* ── Dictionary lookup ── */
+(function () {
+
+  /* 1. Tokenize each .spanish-text into clickable word spans */
+  document.querySelectorAll('.spanish-text').forEach(function (el) {
+    var newHTML = el.innerHTML.replace(
+      /([A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+(?:['\u2019-][A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+)*)/g,
+      function (token) {
+        var lookup = token.replace(/^['\u2019-]+|['\u2019-]+$/g, '').toLowerCase();
+        if (!lookup) return token;
+        return '<span class="es-word" data-word="' + lookup + '">' + token + '</span>';
+      }
+    );
+    el.innerHTML = newHTML;
+  });
+
+  /* 2. Build popup */
+  var popup = document.createElement('div');
+  popup.id = 'dict-popup';
+  popup.innerHTML =
+    '<button id="dict-close" title="Cerrar">&#10005;</button>' +
+    '<span class="dp-word"></span>' +
+    '<div class="dp-body"></div>' +
+    '<hr class="dp-divider">' +
+    '<div class="dp-links"></div>';
+  document.body.appendChild(popup);
+
+  var dpWord  = popup.querySelector('.dp-word');
+  var dpBody  = popup.querySelector('.dp-body');
+  var dpLinks = popup.querySelector('.dp-links');
+  var dpClose = popup.querySelector('#dict-close');
+  var activeSpan = null;
+  var ES_LEMMAS = {"cualquier": "cualquiera", "encolerizó": "encolerizar", "visiones": "visionar", "ninguna": "ninguno", "continuó": "continuar", "fuera": "ser", "verjas": "verja", "mis": "mi", "empujó": "empujar", "muy": "mucho", "quise": "querer", "años": "año", "los": "el", "callejones": "callejón", "llegara": "llegar", "mostraba": "mostrar", "propiedades": "propiedad", "sonrió": "sonreír", "directa": "directo", "ningún": "ninguno", "atacaron": "atacar", "hablado": "hablar", "vieron": "ver", "podía": "poder", "eso": "ese", "empezó": "empezar", "contaba": "contar", "conocía": "conocer", "sabían": "saber", "enloquecido": "enloquecer", "encendía": "encender", "rezos": "rezo", "moviera": "mover", "quería": "querer", "hombres": "hombre", "deseaba": "desear", "explotaría": "explotar", "soy": "ser", "respetos": "respeto", "detuvo": "detener", "ingresara": "ingresar", "rosas": "rosa", "campaba": "campar", "sola": "solar", "gestionaría": "gestionar", "sobresaltó": "sobresaltar", "cristales": "cristal", "llegado": "llegar", "pude": "poder", "esclavos": "esclavo", "haciendo": "hacendar", "convirtió": "convertir", "meditaciones": "meditación", "fijaron": "fijar", "rodillas": "rodilla", "convencido": "convencer", "dificultades": "dificultad", "lo": "él", "preguntas": "pregunta", "era": "ser", "construí": "construir", "vaga": "vagar", "alguna": "alguno", "dispuesto": "disponer", "traspasó": "traspasar", "otra": "otro", "aseguró": "asegurar", "cogía": "coger", "ofensivas": "ofensiva", "pudiera": "poder", "tuviera": "tener", "veía": "ver", "destrocé": "destrocar", "vio": "ver", "hace": "hacer", "manchas": "mancha", "calles": "calle", "bebía": "beber", "vaciló": "vacilar", "hubo": "haber", "hacía": "hacer", "salía": "salir", "equivocado": "equivocar", "estuviese": "estar", "asesinasen": "asesinar", "concebí": "concebir", "trasladé": "trasladar", "creído": "creer", "cosas": "cosa", "tonterías": "tontería", "histérica": "histérico", "vidrieras": "vidriera", "explicando": "explicar", "todas": "todo", "un": "uno", "salió": "salir", "perdió": "perder", "cayó": "caer", "sujetaran": "sujetar", "le": "él", "continúe": "continuar", "enfureció": "enfurecer", "hablando": "hablar", "miró": "mirar", "fijos": "fijo", "tardes": "tarde", "quitarían": "quitar", "llegué": "llegar", "pensaba": "pensar", "declaró": "declarar", "nuestras": "nuestro", "corredores": "corredor", "pocos": "poco", "sé": "ser", "oscuros": "oscuro", "encontraba": "encontrar", "podido": "poder", "levantado": "levantar", "fue": "ir", "sentía": "sentir", "aparecían": "aparecer", "enzarzado": "enzarzar", "podría": "poder", "fueron": "ser", "ocurrido": "ocurrir", "vivió": "vivir", "rió": "reír", "producido": "producir", "idiotas": "idiota", "hermana": "hermanar", "hojas": "hoja", "asís": "asir", "plantaciones": "plantación", "nombres": "nombre", "está": "estar", "gritando": "gritar", "sus": "su", "comentarios": "comentario", "símbolos": "símbolo", "iría": "ir", "puede": "poder", "afligido": "afligir", "esto": "este", "quedó": "quedar", "manteles": "mantel", "minutos": "minuto", "discutido": "discutir", "olas": "ola", "pensó": "pensar", "estuviera": "estar", "atardeceres": "atardecer", "iglesias": "iglesia", "ella": "él", "casas": "casa", "creía": "creer", "volviera": "volver", "habíamos": "haber", "liberé": "liberar", "sabía": "saber", "cejas": "ceja", "sucedió": "suceder", "aparté": "apartar", "días": "día", "tenía": "tener", "retorcía": "retorcer", "siguió": "seguir", "puertas": "puerta", "abajo": "abajar", "ves": "ver", "es": "ser", "susurró": "susurrar", "insinuaba": "insinuar", "arrendé": "arrendar", "adecuadas": "adecuar", "alejado": "alejar", "mórbida": "mórbido", "partes": "parte", "particulares": "particular", "santos": "santo", "nítida": "nítido", "bajara": "bajar", "desnudos": "desnudo", "las": "el", "volvían": "volver", "preguntó": "preguntar", "estaba": "estar", "chupó": "chupar", "había": "haber", "veces": "vez", "reí": "reír", "resuelto": "resolver", "se": "él", "movió": "mover", "entera": "enterar", "unió": "unir", "palabras": "palabra", "unos": "uno", "ojos": "ojo", "inspiraban": "inspirar", "parecía": "parecer", "arrodillado": "arrodillar", "pensé": "pensar", "propia": "propio", "una": "uno", "teníamos": "tener", "esperó": "esperar", "me": "yo", "ladrillos": "ladrillo", "hubiera": "haber", "exigió": "exigir", "confundido": "confundir", "todos": "todo", "tratando": "tratar", "pusieron": "poner", "veían": "ver", "provenía": "provenir", "observé": "observar", "sentado": "sentar", "enterrado": "enterrar", "seguía": "seguir", "habría": "haber", "contando": "contar", "ido": "ir", "poseíamos": "poseer", "azules": "azular", "la": "el", "pasaban": "pasar", "grandes": "grande", "encontraron": "encontrar", "ellos": "él", "contó": "contar", "conté": "contar", "decepcionado": "decepcionar", "acabara": "acabar", "amaba": "amar", "movieron": "mover", "aun": "aún", "prometí": "prometer", "destrozara": "destrozar", "inmadura": "inmaduro", "esa": "ese", "vendió": "vender", "alentaba": "alentar", "habían": "haber", "arqueó": "arquear", "viera": "ver", "interrogó": "interrogar", "quedé": "quedar", "silenciosa": "silencioso", "sirvientes": "sirviente", "duelos": "duelo", "haría": "hacer", "insensateces": "insensatez", "tiene": "tener", "extendidos": "extender", "oí": "oír", "hizo": "hacer", "afirma": "afirmar", "velas": "velar", "negué": "negar", "he": "haber", "sorprendido": "sorprender", "constituían": "constituir", "asintió": "asentir", "creí": "creer", "pensando": "pensar", "esas": "ese", "eran": "ser", "quiere": "querer", "convicciones": "convicción", "dijeron": "decir", "empezado": "empezar", "desangró": "desangrar", "controlado": "controlar", "tuve": "tener", "estudió": "estudiar", "miraban": "mirar", "trataba": "tratar", "casos": "caso", "contestó": "contestar", "problemas": "problema", "dejaba": "dejar", "sostenía": "sostener", "necesita": "necesitar", "volví": "volver", "sangraron": "sangrar", "otras": "otro", "apesadumbrado": "apesadumbrar", "iba": "ir", "miraba": "mirar", "soñaba": "soñar", "reía": "reír", "senté": "sentar", "encima": "encimar", "imágenes": "imagen", "matado": "matar", "alarmé": "alarmar", "santísima": "santísimo", "protesté": "protestar", "paseaba": "pasear", "insistía": "insistir", "desmayaba": "desmayar", "lejana": "lejano", "brazos": "brazo", "pudieron": "poder", "estatuas": "estatua", "rehusé": "rehusar", "debía": "deber", "creían": "creer", "sucediendo": "suceder", "dejó": "dejar", "vivía": "vivir", "dijo": "decir", "adelante": "adelantar", "escuchaba": "escuchar", "sido": "ser", "sacudió": "sacudir", "serena": "sereno", "sabrían": "saber", "quiero": "querer"};
+  function toLemma(w) { return ES_LEMMAS[w.toLowerCase()] || w; }
+  var dictCache  = {};
+
+  /* 3. Fetch definition (Wiktionary, then MyMemory fallback) */
+  /* Extract base word from a "form of X" Wiktionary definition HTML string.
+     Returns the base word string, or null if not a form-of entry. */
+  function extractBaseForm(defHtml) {
+    var t = defHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    // "first/second/third-person ... of X"
+    var m = t.match(/(?:first|second|third)[- ]person.{0,60}of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "plural of X", "inflection of X", "feminine of X", etc.
+    m = t.match(/^(?:inflection|plural|singular|feminine|masculine|augmentative|diminutive|superlative|past\s+(?:tense|participle)|present\s+participle|gerund|form)\s+of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "X of Y" where X ends right before "of" and Y is at end
+    m = t.match(/of\s+([\wÀ-ɏ]+)\s*(?:[:,]|$)/i);
+    if (m) return m[1].toLowerCase();
+    return null;
+  }
+
+  /* Returns true if ALL definitions in all entries look like form-of entries */
+  function getFirstBase(entries) {
+    // Return the base form if the first definition looks like a form-of entry
+    var firstDef = ((entries[0] || {}).definitions || [])[0] || {};
+    return extractBaseForm(firstDef.definition || '');
+  }
+
+  function fetchWiktionary(word) {
+    return fetch(
+      'https://en.wiktionary.org/api/rest_v1/page/definition/' + encodeURIComponent(word),
+      { headers: { Accept: 'application/json' } }
+    ).then(function(r) {
+      if (!r.ok) throw new Error('wikt');
+      return r.json();
+    }).then(function(data) {
+      var es = data.es || data.Es;
+      if (es && es.length) return es;
+      throw new Error('no entry');
+    });
+  }
+
+  function fetchDefinition(rawWord) {
+    var word = toLemma(rawWord);
+    if (dictCache[word]) return Promise.resolve(dictCache[word]);
+    return fetchWiktionary(word).then(function(es) {
+      // If all definitions are "form of X", follow the link to the base form
+      var base = getFirstBase(es);
+      if (base && base !== word.toLowerCase()) {
+        return fetchWiktionary(base).then(function(baseEs) {
+          var result = { source: 'wiktionary', entries: baseEs, inflectedFrom: rawWord, baseForm: base };
+          dictCache[word] = result; return result;
+        }).catch(function() {
+          var result = { source: 'wiktionary', entries: es };
+          dictCache[word] = result; return result;
+        });
+      }
+      var result = { source: 'wiktionary', entries: es };
+      if (word.toLowerCase() !== rawWord.toLowerCase()) result.baseForm = word;
+      dictCache[word] = result; return result;
+    }).catch(function () {
+      return fetch(
+        'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=es|en'
+      ).then(function (r) { return r.json(); }).then(function (data) {
+        var trans = data.responseData && data.responseData.translatedText;
+        if (!trans || trans.toLowerCase() === word.toLowerCase()) throw new Error('no trans');
+        var alts = (data.matches || [])
+          .filter(function (m) {
+            return m.quality > 50 && m.translation &&
+              m.translation.toLowerCase() !== word.toLowerCase() &&
+              m.translation.toLowerCase() !== trans.toLowerCase();
+          })
+          .map(function (m) { return m.translation; })
+          .filter(function (v, i, a) { return a.indexOf(v) === i; })
+          .slice(0, 3);
+        var result = { source: 'mymemory', translation: trans, alts: alts };
+        dictCache[word] = result; return result;
+      });
+    }).catch(function () {
+      var result = { source: 'none' };
+      dictCache[word] = result; return result;
+    });
+  }
+
+  function strip(h) { return h.replace(/<[^>]+>/g, ''); }
+
+  function renderBody(r) {
+    if (r.source === 'wiktionary') {
+      var html = '';
+      // Show a small note when we resolved an inflected form to its base
+      if (r.baseForm) {
+        html += '<div class="dp-alts">form of <em>' + r.baseForm + '</em></div>';
+      }
+      r.entries.slice(0, 3).forEach(function (e) {
+        html += '<div class="dp-pos">' + (e.partOfSpeech || '') + '</div><ol class="dp-defs">';
+        (e.definitions || []).slice(0, 4).forEach(function (d) {
+          html += '<li>' + strip(d.definition || '') + '</li>';
+        });
+        html += '</ol>';
+      });
+      return html;
+    }
+    if (r.source === 'mymemory') {
+      var h = '<div class="dp-trans">' + r.translation + '</div>';
+      if (r.alts && r.alts.length) h += '<div class="dp-alts">also: ' + r.alts.join(', ') + '</div>';
+      return h;
+    }
+    return '<div class="dp-none">no definition found</div>';
+  }
+
+  /* 4. Show / position / hide */
+  function positionPopup(cx, cy) {
+    var pw = popup.offsetWidth || 220, ph = popup.offsetHeight || 130;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var left = cx + 14, top = cy + 14;
+    if (left + pw > vw - 8) left = cx - pw - 14;
+    if (top  + ph > vh - 8) top  = cy - ph - 14;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  }
+
+  function showPopup(word, cx, cy) {
+    dpWord.textContent = word;
+    dpBody.innerHTML = '<div class="dp-loading">buscando…</div>';
+    dpLinks.innerHTML =
+      '<a href="https://www.wordreference.com/es/en/translation.asp?spen=' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128214; WordReference &#8594;</a>' +
+      '<a href="https://www.spanishdict.com/translate/' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128216; SpanishDict &#8594;</a>';
+    popup.style.display = 'block';
+    positionPopup(cx, cy);
+    fetchDefinition(word).then(function (result) {
+      if (dpWord.textContent !== word) return;
+      dpBody.innerHTML = renderBody(result);
+      positionPopup(cx, cy);
+    });
+  }
+
+  function hidePopup() {
+    popup.style.display = 'none';
+    if (activeSpan) { activeSpan.classList.remove('dp-active'); activeSpan = null; }
+  }
+
+  /* 5. Events */
+  document.addEventListener('click', function (e) {
+    var wordEl = e.target.closest('.es-word');
+    if (wordEl) {
+      if (activeSpan) activeSpan.classList.remove('dp-active');
+      activeSpan = wordEl;
+      wordEl.classList.add('dp-active');
+      showPopup(wordEl.dataset.word, e.clientX, e.clientY);
+      return;
+    }
+    if (!e.target.closest('#dict-popup')) hidePopup();
+  });
+
+  dpClose.addEventListener('click', function (e) { e.stopPropagation(); hidePopup(); });
+})();
+</script>
+</body>
+</html>

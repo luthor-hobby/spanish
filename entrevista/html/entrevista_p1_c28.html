@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrevista con el Vampiro — Capítulo 28 (Primera parte) · Lectura Glosada</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #e0e0e0;
+    --muted: #8892a4;
+    --spanish: #f5c518;
+    --gloss: #a8d8a8;
+    --vocab-bg: #0d1b2a;
+    --grammar-bg: #1b1228;
+    --tag: #533483;
+    --dialogue: #1e2d1e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; line-height: 1.7; padding: 2rem 1rem; }
+  header { max-width: 880px; margin: 0 auto 3rem; text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 1.5rem; }
+  header h1 { font-size: 2rem; color: var(--accent); letter-spacing: 1px; }
+  header h2 { font-size: 1.1rem; color: var(--muted); font-weight: normal; margin-top: .4rem; }
+  header p { font-size: .9rem; color: var(--muted); margin-top: .8rem; font-style: italic; }
+  .chapter-intro { max-width: 880px; margin: 0 auto 2.5rem; background: var(--accent2); border-left: 4px solid var(--accent); padding: 1rem 1.4rem; border-radius: 4px; font-size: .95rem; }
+  .chapter-intro h3 { color: var(--accent); margin-bottom: .4rem; }
+  .sentence-block { max-width: 880px; margin: 0 auto 2rem; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .sentence-num { display: inline-block; background: var(--accent); color: #fff; font-size: .75rem; font-family: monospace; padding: .2rem .5rem; border-radius: 3px; margin-bottom: .5rem; letter-spacing: 1px; }
+  .sentence-top { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .spanish-text { font-size: 1.2rem; color: var(--spanish); font-style: italic; margin-bottom: .6rem; line-height: 1.5; }
+  .gloss-text { font-size: 1rem; color: var(--gloss); margin-top: .35rem; }
+  .gloss-label, .vocab-label, .grammar-label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; margin-bottom: .3rem; font-family: sans-serif; }
+  /* ── Per-sentence gloss toggle ── */
+  .gloss-toggle { background: none; border: none; padding: .4rem 0; cursor: pointer; font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-family: sans-serif; margin-bottom: .3rem; display: block; touch-action: manipulation; min-height: 2.5rem; }
+  .gloss-toggle:hover { color: var(--gloss); }
+  .gloss-text { visibility: visible; }
+  .gloss-text.gloss-hidden { visibility: hidden; pointer-events: none; }
+
+  .breakdown { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px) { .breakdown { grid-template-columns: 1fr; } }
+  .vocab-section { background: var(--vocab-bg); padding: 1rem 1.4rem; border-right: 1px solid rgba(255,255,255,.05); }
+  .grammar-section { background: var(--grammar-bg); padding: 1rem 1.4rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+  td { padding: .3rem .4rem; vertical-align: top; }
+  td:first-child { color: var(--spanish); font-style: italic; white-space: nowrap; padding-right: .8rem; width: 42%; }
+  tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,.05); }
+  .grammar-section ul { list-style: none; font-size: .87rem; }
+  .grammar-section li { margin-bottom: .55rem; padding-left: .8rem; border-left: 2px solid var(--tag); }
+  .grammar-section li strong { color: var(--spanish); font-style: italic; }
+  .grammar-section li em { color: #c9b1ff; font-style: normal; }
+  .section-label { max-width: 880px; margin: 0 auto 1.2rem; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--tag); font-family: sans-serif; padding-left: .2rem; display: flex; align-items: center; gap: .8rem; }
+  .tag { display: inline-block; background: var(--tag); color: #ddd; font-size: .7rem; font-family: sans-serif; padding: .1rem .4rem; border-radius: 3px; margin-right: .3rem; }
+  .dialogue-marker { color: var(--muted); font-size: .8rem; font-family: sans-serif; margin-bottom: .3rem; display: block; }
+  footer { max-width: 880px; margin: 3rem auto 0; text-align: center; font-size: .8rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); }
+
+  /* ── Audio controls ── */
+  #audio-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,52,96,.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(233,69,96,.4);
+    padding: .6rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: sans-serif; font-size: .82rem;
+  }
+  #audio-bar .bar-label { color: var(--muted); white-space: nowrap; }
+  #audio-bar .voice-select {
+    background: #0d1b2a; color: var(--text); border: 1px solid var(--tag);
+    border-radius: 4px; padding: .25rem .5rem; font-size: .8rem; flex: 1; min-width: 160px; max-width: 280px;
+  }
+  #audio-bar .speed-wrap { display: flex; align-items: center; gap: .5rem; }
+  #audio-bar input[type=range] { width: 90px; accent-color: var(--accent); cursor: pointer; }
+  #speed-val { color: var(--accent); font-weight: bold; min-width: 2.5ch; }
+  #stop-btn, .section-gloss-btn {
+    border: none; border-radius: 4px;
+    padding: .25rem .8rem; cursor: pointer; font-size: .8rem; white-space: nowrap;
+  }
+  #stop-btn { background: var(--accent); color: #fff; }
+  #stop-btn:hover { opacity: .85; }
+  .section-gloss-btn { background: var(--accent2); color: var(--muted); border: 1px solid var(--tag); margin-left: auto; flex-shrink: 0; }
+  .section-gloss-btn:hover { background: #1a4a80; color: var(--text); }
+  .voice-status { color: var(--muted); font-size: .75rem; font-style: italic; }
+
+  /* ── Play button on each card ── */
+  .spanish-row { display: flex; align-items: flex-start; gap: .6rem; }
+  .spanish-text { flex: 1; }
+  .play-btn {
+    flex-shrink: 0; margin-top: .15rem;
+    background: none; border: 1.5px solid var(--accent);
+    color: var(--accent); border-radius: 50%;
+    width: 2rem; height: 2rem; cursor: pointer;
+    font-size: .9rem; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s;
+  }
+  .play-btn:hover { background: var(--accent); color: #fff; }
+  .play-btn.playing {
+    background: var(--accent); color: #fff;
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(233,69,96,.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(233,69,96,0); }
+  }
+
+  /* ── Dictionary word spans ── */
+  .es-word {
+    cursor: pointer;
+    border-bottom: 1px dotted rgba(245,197,24,.35);
+    border-radius: 2px;
+    padding: 0 1px;
+    transition: background .1s;
+  }
+  .es-word:hover, .es-word.dp-active {
+    background: rgba(245,197,24,.18);
+    border-bottom-color: var(--spanish);
+  }
+
+  /* ── Dictionary popup ── */
+  #dict-popup {
+    position: fixed;
+    z-index: 500;
+    background: #0d1b2a;
+    border: 1px solid var(--tag);
+    border-radius: 8px;
+    padding: .75rem 1.1rem .85rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,.7);
+    min-width: 210px;
+    max-width: 310px;
+    font-family: sans-serif;
+    display: none;
+  }
+  #dict-popup .dp-word {
+    color: var(--spanish);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-family: Georgia, serif;
+    display: block;
+    margin-bottom: .4rem;
+    padding-right: 1.6rem;
+  }
+  .dp-loading { color: var(--muted); font-size: .8rem; font-style: italic; padding: .15rem 0 .3rem; }
+  .dp-pos {
+    color: var(--muted); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: 1px; margin: .45rem 0 .2rem; font-family: sans-serif;
+  }
+  .dp-defs {
+    font-size: .85rem; color: var(--text);
+    margin: 0; padding-left: 1.1rem; line-height: 1.45;
+  }
+  .dp-defs li { margin-bottom: .25rem; }
+  .dp-trans { font-size: .95rem; color: var(--text); margin: .25rem 0 .1rem; }
+  .dp-alts  { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: .1rem; }
+  .dp-none  { color: var(--muted); font-size: .8rem; font-style: italic; padding: .2rem 0 .3rem; }
+  .dp-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,.09);
+    margin: .6rem 0 .5rem;
+  }
+  #dict-popup .dp-links {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  #dict-popup .dp-links a {
+    color: var(--gloss);
+    text-decoration: none;
+    font-size: .8rem;
+    padding: .25rem .55rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,.06);
+    transition: background .12s;
+    display: block;
+  }
+  #dict-popup .dp-links a:hover { background: rgba(255,255,255,.14); }
+  #dict-close {
+    position: absolute;
+    top: .45rem; right: .6rem;
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: .9rem; line-height: 1;
+    padding: .1rem .2rem;
+  }
+  #dict-close:hover { color: var(--text); }
+
+</style>
+</head>
+<body>
+<div id="audio-bar">
+  <span class="bar-label">&#128266; Voz:</span>
+  <select id="voice-select" class="voice-select"><option>Cargando voces&hellip;</option></select>
+  <div class="speed-wrap">
+    <span class="bar-label">Velocidad:</span>
+    <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.05" value="0.85">
+    <span id="speed-val">0.85&times;</span>
+  </div>
+  <button id="stop-btn">&#9632; Parar</button>
+  <span class="voice-status" id="voice-status"></span>
+</div>
+<header>
+  <h1>Entrevista con el Vampiro</h1>
+  <h2>Anne Rice &middot; Cap&iacute;tulo 28: <em>Primera parte</em></h2>
+  <p>Pasaje 28 de 29</p>
+</header>
+<div class="section-group">
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">01</span>
+    <div class="spanish-text">Me hizo sentir el abismo que nos separaba. En los primeros años de nuestra vida en común, yo había pensado que ella era como Lestat, empeñada en su instinto de matar, aunque compartiera mis gustos en todo lo demás. Ahora sabía que ella era más inhumana de lo que jamás podríamos haber soñado ni Lestat ni yo. Ni la más remota concepción la vinculaba con la simpatía por la existencia humana. Quizás esto explica por qué —pese a todo lo que yo había hecho o dejado de hacer—, ella se aferraba a mí. Yo no era de su especie. Simplemente, lo más cercano a ella.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;It began to penetrate for the first time that I might see the world if I wanted. That I was, as Claudia said, free. &quot;Meantime, she made a plan. It was her idea most definitely that we must go first to central Europe, where the vampire seemed most prevalent. She was certain we could find something there that would instruct us, explain our origins. But she seemed anxious for more than answers: a communion with her own kind. She mentioned this over and over, `My own kind,&#x27; and she said it with a different intonation than I might have used. She made me feel the gulf that separated us. In the first years of our life together, I had thought her like Lestat, imbibing his instinct to kill, though she shared my tastes in everything else. Now I knew her to be less human than either of us, less human than either of us might have dreamed. Not the faintest conception bound her to the sympathies of human existence. Perhaps this explained why-despite everything I had done or failed to do-she clung to me. I was not her own kind. Merely the closest thing to it.&quot; &quot;But wouldn&#x27;t it have been possible,&quot; asked the boy suddenly, &quot;to instruct her in the ways of the human heart the way you&#x27;d instructed her in everything else?&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">02</span>
+    <div class="spanish-text">—Pero, ¿no era posible —preguntó el muchacho de repente— enseñarle los resortes del corazón humano del mismo modo que usted le enseñó todo lo demás? —¿Para qué? —preguntó francamente el vampiro—. ¿Para que sufriera como yo? Oh, te aseguro que debería haberle enseñado algo para impedir que matara a Lestat. Lo tendría que haber hecho por mi propio bien. Pero, ¿ves?, yo había perdido confianza en todo. Una vez caído en desgracia, no tenía confianza en nada.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;It began to penetrate for the first time that I might see the world if I wanted. That I was, as Claudia said, free. &quot;Meantime, she made a plan. It was her idea most definitely that we must go first to central Europe, where the vampire seemed most prevalent. She was certain we could find something there that would instruct us, explain our origins. But she seemed anxious for more than answers: a communion with her own kind. She mentioned this over and over, `My own kind,&#x27; and she said it with a different intonation than I might have used. She made me feel the gulf that separated us. In the first years of our life together, I had thought her like Lestat, imbibing his instinct to kill, though she shared my tastes in everything else. Now I knew her to be less human than either of us, less human than either of us might have dreamed. Not the faintest conception bound her to the sympathies of human existence. Perhaps this explained why-despite everything I had done or failed to do-she clung to me. I was not her own kind. Merely the closest thing to it.&quot; &quot;But wouldn&#x27;t it have been possible,&quot; asked the boy suddenly, &quot;to instruct her in the ways of the human heart the way you&#x27;d instructed her in everything else?&quot; &quot;To what avail?&quot; asked the vampire frankly. &quot;So she night suffer as I did? Oh, I&#x27;ll grant you I should have taught her something to prevail against her desire to kill Lestat. For my own sake, I should have done that. But you see, I had no confidence in anything else. Once fallen from grace, I had confidence in nothing.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">03</span>
+    <div class="spanish-text">El muchacho asintió con la cabeza. —No era mi intención interrumpirle. Usted estaba por llegar a algo —dijo. —Únicamente a que me fue posible olvidarme de lo que le había sucedido a Lestat concentrándome en Europa. Y la idea de que hubiera otros vampiros también me inspiraba. Ni por un instante había sido cínico acerca de la existencia de Dios. Simplemente estaba alejado de ella. Era un sobrenatural andando por el mundo natural.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Meantime, she made a plan. It was her idea most definitely that we must go first to central Europe, where the vampire seemed most prevalent. She was certain we could find something there that would instruct us, explain our origins. But she seemed anxious for more than answers: a communion with her own kind. She mentioned this over and over, `My own kind,&#x27; and she said it with a different intonation than I might have used. She made me feel the gulf that separated us. In the first years of our life together, I had thought her like Lestat, imbibing his instinct to kill, though she shared my tastes in everything else. Now I knew her to be less human than either of us, less human than either of us might have dreamed. Not the faintest conception bound her to the sympathies of human existence. Perhaps this explained why-despite everything I had done or failed to do-she clung to me. I was not her own kind. Merely the closest thing to it.&quot; &quot;But wouldn&#x27;t it have been possible,&quot; asked the boy suddenly, &quot;to instruct her in the ways of the human heart the way you&#x27;d instructed her in everything else?&quot; &quot;To what avail?&quot; asked the vampire frankly. &quot;So she night suffer as I did? Oh, I&#x27;ll grant you I should have taught her something to prevail against her desire to kill Lestat. For my own sake, I should have done that. But you see, I had no confidence in anything else. Once fallen from grace, I had confidence in nothing.&quot; The boy nodded. &quot;I didn&#x27;t mean to interrupt you. You were coming to something,&quot; he.. said. &quot;Only to the point that it was possible to forget what had happened to Lestat by turning my mind to Europe. And the thought of the other vampires inspired me also. I had not been cynical for one moment about the existence of God. Only lost from it. Drifting, preternatural, through the natural world.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">04</span>
+    <div class="spanish-text">Pero teníamos otro asunto importante antes de partir a Europa. Oh, por cierto, sucedió algo importante. Empezó con el músico. Vino la tarde en que yo estaba en la catedral y volvería a la noche siguiente. Yo había despedido a los criados y le fui a abrir en persona. Su aspecto me sorprendió de inmediato. Estaba mucho más delgado de lo que recordaba. Y muy pálido, con un brillo húmedo en el rostro que sugería la fiebre. Y tenía un aspecto absolutamente miserable. Cuando le dije que Lestat se había ido, al principio se negó a creerme y empezó a insistir en que Lestat le tenía que haber dejado algún mensaje, algo. Y luego subió por la rué Royale, hablando solo como si apenas se diera cuenta de que había gente a su alrededor. Lo seguí hasta un farol de gas.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;To what avail?&quot; asked the vampire frankly. &quot;So she night suffer as I did? Oh, I&#x27;ll grant you I should have taught her something to prevail against her desire to kill Lestat. For my own sake, I should have done that. But you see, I had no confidence in anything else. Once fallen from grace, I had confidence in nothing.&quot; The boy nodded. &quot;I didn&#x27;t mean to interrupt you. You were coming to something,&quot; he.. said. &quot;Only to the point that it was possible to forget what had happened to Lestat by turning my mind to Europe. And the thought of the other vampires inspired me also. I had not been cynical for one moment about the existence of God. Only lost from it. Drifting, preternatural, through the natural world. &quot;But we had another matter before we left for Europe. Oh, a great deal happened indeed. It began with the musician. He had called while I was gone that evening to the cathedral, and the next night he was to come again. I had dismissed the servants and went down to him myself. And his appearance startled me at once.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">05</span>
+    <div class="spanish-text">—Te dejó algo —dije, y rápidamente busqué mi cartera en el bolsillo. No sabía cuánto tenía, pero pensé dárselo a él. Eran varios centenares de dólares. Se los puse en las manos. Eran tan flacas que le pude ver las venas azules pulsando bajo la piel acuosa. Entonces se entusiasmó, y sentí que el asunto era algo más que el dinero. —Entonces, él habló de mí. ¡Le dijo a usted que me diera esto! —dijo, aferrado al dinero como si fuera una reliquia—. ¡Le debe haber dicho algo más!</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Only to the point that it was possible to forget what had happened to Lestat by turning my mind to Europe. And the thought of the other vampires inspired me also. I had not been cynical for one moment about the existence of God. Only lost from it. Drifting, preternatural, through the natural world. &quot;But we had another matter before we left for Europe. Oh, a great deal happened indeed. It began with the musician. He had called while I was gone that evening to the cathedral, and the next night he was to come again. I had dismissed the servants and went down to him myself. And his appearance startled me at once. &quot;He was much thinner than rd remembered him and very pale, with a moist gleam about his face that suggested fever. And he was perfectly miserable. When I told him Lestat had gone away, he refused at first to believe me and began insisting Lestat would have left him some message, something. And then he went off up the Rue Royale, talking to himself about it, as if he had little awareness of anyone around him. I caught up with him under a gas lamp. `He did leave you something,&#x27; I said, quickly feeling for my wallet. I didn&#x27;t know how much I had in it, but I planned to give it to him. It was several hundred dollars. I put it into his hands. They were so thin I could see the blue veins pulsing beneath the watery skin. Now he became exultant, and I sensed at once that the matter went beyond the money. `Then he spoke of me, he told you to give this to me!&#x27; he said, holding onto it as though it were a relic. `He must have said something else to you!&#x27; He stared at me with bulging, tortured eyes. I didn&#x27;t answer him at once, because during these moments I had seen the puncture wounds in his neck. Two red scratch-like marks to the right, just above his soiled collar. The money flapped in his hand; he was oblivious to the evening traffic of the street, the people who pushed close around us. `Put it away,&#x27; I whispered. `He did speak of you, that it was important you go &#x27;on with your music.&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">06</span>
+    <div class="spanish-text">Me miró con sus ojos hinchados, atormentados. No le contesté de inmediato porque, en ese instante, vi las heridas en su cuello. Dos marcas rojas como rasguños a la derecha, justo encima del cuello sucio de la camisa. El dinero temblaba en su mano; estaba ajeno al tránsito de la tarde, a la gente que pasaba a nuestro lado. —Guárdalo —susurré—. Él habló de ti; dijo que era importante que continuaras con tu música.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;But we had another matter before we left for Europe. Oh, a great deal happened indeed. It began with the musician. He had called while I was gone that evening to the cathedral, and the next night he was to come again. I had dismissed the servants and went down to him myself. And his appearance startled me at once. &quot;He was much thinner than rd remembered him and very pale, with a moist gleam about his face that suggested fever. And he was perfectly miserable. When I told him Lestat had gone away, he refused at first to believe me and began insisting Lestat would have left him some message, something. And then he went off up the Rue Royale, talking to himself about it, as if he had little awareness of anyone around him. I caught up with him under a gas lamp. `He did leave you something,&#x27; I said, quickly feeling for my wallet. I didn&#x27;t know how much I had in it, but I planned to give it to him. It was several hundred dollars. I put it into his hands. They were so thin I could see the blue veins pulsing beneath the watery skin. Now he became exultant, and I sensed at once that the matter went beyond the money. `Then he spoke of me, he told you to give this to me!&#x27; he said, holding onto it as though it were a relic. `He must have said something else to you!&#x27; He stared at me with bulging, tortured eyes. I didn&#x27;t answer him at once, because during these moments I had seen the puncture wounds in his neck. Two red scratch-like marks to the right, just above his soiled collar. The money flapped in his hand; he was oblivious to the evening traffic of the street, the people who pushed close around us. `Put it away,&#x27; I whispered. `He did speak of you, that it was important you go &#x27;on with your music.&#x27; &quot;He stared at me as if anticipating something else. `Yes? Did he say anything else?&#x27; he asked me. I didn&#x27;t know what to tell him. I would have made up anything if it would have given him comfort, and also kept him away. It was painful for me to speak of Lestat; the words evaporated on my lips. And the puncture wounds amazed me. I couldn&#x27;t fathom this. I was saying nonsense to the boy finally-that Lestat wished him well, that he had to take a steamboat up to St. Louis, that he would be back, that war was imminent and he had business there . . . the boy hungering after every word, as if he couldn&#x27;t possibly get enough and was pushing on with it for the thing he wanted. He was trembling; the sweat broke out fresh on his forehead as he stood there pressing me, and suddenly he bit his lip hard and said, `But why did he go!&#x27; as if nothing had sufficed.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">07</span>
+    <div class="spanish-text">Me miró como anticipando algo más. —¿De verdad? ¿Y dijo algo más? —me preguntó. No supe qué decirle. Hubiera inventado algo que lo podría haber aliviado y mantenido alejado de mí. Me resultó doloroso hablar de Lestat; las palabras se me evaporaban en los labios. Y las heridas del cuello me dejaron perplejo. Al final, le dije tonterías al muchacho: que Lestat le deseaba un buen porvenir, que regresaría, que la guerra parecía inminente, que tenía negocios allí pendientes... El joven se aferraba a cada palabra mía como si no pudiera tener suficiente y me empujara a hablar para oír lo que él quería escuchar. Estaba temblando; el sudor le salía por la frente y, como pidiendo más, súbitamente se mordió el labio y me habló:</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;He was much thinner than rd remembered him and very pale, with a moist gleam about his face that suggested fever. And he was perfectly miserable. When I told him Lestat had gone away, he refused at first to believe me and began insisting Lestat would have left him some message, something. And then he went off up the Rue Royale, talking to himself about it, as if he had little awareness of anyone around him. I caught up with him under a gas lamp. `He did leave you something,&#x27; I said, quickly feeling for my wallet. I didn&#x27;t know how much I had in it, but I planned to give it to him. It was several hundred dollars. I put it into his hands. They were so thin I could see the blue veins pulsing beneath the watery skin. Now he became exultant, and I sensed at once that the matter went beyond the money. `Then he spoke of me, he told you to give this to me!&#x27; he said, holding onto it as though it were a relic. `He must have said something else to you!&#x27; He stared at me with bulging, tortured eyes. I didn&#x27;t answer him at once, because during these moments I had seen the puncture wounds in his neck. Two red scratch-like marks to the right, just above his soiled collar. The money flapped in his hand; he was oblivious to the evening traffic of the street, the people who pushed close around us. `Put it away,&#x27; I whispered. `He did speak of you, that it was important you go &#x27;on with your music.&#x27; &quot;He stared at me as if anticipating something else. `Yes? Did he say anything else?&#x27; he asked me. I didn&#x27;t know what to tell him. I would have made up anything if it would have given him comfort, and also kept him away. It was painful for me to speak of Lestat; the words evaporated on my lips. And the puncture wounds amazed me. I couldn&#x27;t fathom this. I was saying nonsense to the boy finally-that Lestat wished him well, that he had to take a steamboat up to St. Louis, that he would be back, that war was imminent and he had business there . . . the boy hungering after every word, as if he couldn&#x27;t possibly get enough and was pushing on with it for the thing he wanted. He was trembling; the sweat broke out fresh on his forehead as he stood there pressing me, and suddenly he bit his lip hard and said, `But why did he go!&#x27; as if nothing had sufficed. &quot; `What is it?&#x27; I asked him. `What did you need from him? I&#x27;m sure he would want me to . . &quot; `He was my friend!&#x27; He turned on me suddenly, his voice dropping with repressed outrage.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">08</span>
+    <div class="spanish-text">—Pero ¿por qué se fue? —preguntó, como si nada de lo dicho fuera suficiente. —¿Qué pasa? —le pregunté—. ¿Qué necesitabas de él? Estoy seguro de que él me habría... —¡Él era mi amigo! —me dijo de improviso, y subió el volumen de su voz con indignación reprimida. —Tú no te sientes bien —le dije—. Necesitas descansar. Hay algo... —y entonces le señalé, atento a cada movimiento suyo, las heridas del cuello— en tu cuello.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `What is it?&#x27; I asked him. `What did you need from him? I&#x27;m sure he would want me to . . &quot; `He was my friend!&#x27; He turned on me suddenly, his voice dropping with repressed outrage. &quot; `You&#x27;re not well,&#x27; I said to him. `You need rest. There&#x27;s something . . .&#x27; and now I pointed to it, attentive to his every move `. . . on your throat.&#x27; He didn&#x27;t even know what I meant. His fingers searched for the place, found it., rubbed it. &quot;&#x27;What does it matter? I don&#x27;t know. The insects, they&#x27;re everywhere,&#x27; he said, turning away from me. `Did he say anything else?&#x27; &quot;For a long while I watched him move up the Rue Royale, a frantic, lanky figure in rusty black, for whom the bulk of the traffic made way.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">09</span>
+    <div class="spanish-text">Ni siquiera sabía lo que le estaba diciendo. Sus dedos encontraron el lugar, lo frotaron. —¿Qué importancia tiene? No sé. Los insectos están en todas partes —dijo, desviando la mirada—. ¿Le dijo algo más? Durante largo rato lo vi alejarse por la rué Royale: una figura frenética, delgada, vestida de negro, a quien abría paso la masa que circulaba por allí.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;&#x27;What does it matter? I don&#x27;t know. The insects, they&#x27;re everywhere,&#x27; he said, turning away from me. `Did he say anything else?&#x27; &quot;For a long while I watched him move up the Rue Royale, a frantic, lanky figure in rusty black, for whom the bulk of the traffic made way. &quot;I told Claudia at once about the wound on his throat. &quot;It was our last night in New Orleans. We&#x27;d board the ship just before midnight tomorrow for an earlymorning departure. We had agreed to walk out together. She was being solicitous, and there was something remarkably sad in her face, something which had not left after she had cried. `What could the marks mean?&#x27; she asked me now. `That he fed on the boy when the boy slept, that the boy allowed it? I can&#x27;t imagine . . .&#x27; she said.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">10</span>
+    <div class="spanish-text">De inmediato le conté a Claudia de sus heridas en el cuello. Fue nuestra última noche en Nueva Orleans. Subiríamos a bordo del barco justo antes de medianoche del día siguiente y partiríamos de madrugada. Habíamos acordado caminar juntos hasta allí. Ella se mostraba muy solícita y había algo especialmente triste en su rostro, algo que no la había dejado desde que llorara.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;For a long while I watched him move up the Rue Royale, a frantic, lanky figure in rusty black, for whom the bulk of the traffic made way. &quot;I told Claudia at once about the wound on his throat. &quot;It was our last night in New Orleans. We&#x27;d board the ship just before midnight tomorrow for an earlymorning departure. We had agreed to walk out together. She was being solicitous, and there was something remarkably sad in her face, something which had not left after she had cried. `What could the marks mean?&#x27; she asked me now. `That he fed on the boy when the boy slept, that the boy allowed it? I can&#x27;t imagine . . .&#x27; she said. &quot; `Yes, that must be what it is.&#x27; But I was uncertain. I remembered now Lestat&#x27;s remark to Claudia that he knew a boy who would make a better vampire than she. Had he planned to do that? Planned to make another one of us?</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">11</span>
+    <div class="spanish-text">—¿Qué pueden significar esas marcas? —me preguntó entonces—. ¿Que se alimentó del muchacho cuando éste dormía? ¿Que éste se lo permitió? No me lo puedo imaginar... —Sí, debe de tratarse de eso —dije, pero sin estar convencido. Entonces recordé unas palabras que Lestat le dijera a Claudia acerca de que conocía a un joven que podría ser un vampiro mucho mejor que ella. ¿Había pensado hacer eso? ¿Había pensado crear otro más de nosotros?</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;It was our last night in New Orleans. We&#x27;d board the ship just before midnight tomorrow for an earlymorning departure. We had agreed to walk out together. She was being solicitous, and there was something remarkably sad in her face, something which had not left after she had cried. `What could the marks mean?&#x27; she asked me now. `That he fed on the boy when the boy slept, that the boy allowed it? I can&#x27;t imagine . . .&#x27; she said. &quot; `Yes, that must be what it is.&#x27; But I was uncertain. I remembered now Lestat&#x27;s remark to Claudia that he knew a boy who would make a better vampire than she. Had he planned to do that? Planned to make another one of us? &quot; `It doesn&#x27;t matter now, Louis,&#x27; she reminded me. We had to say our farewell to New Orleans. We were walking away from the crowds of the Rue Royale. My senses were keen to all around me, holding it close, reluctant to say this was the last night.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">12</span>
+    <div class="spanish-text">—Ahora ya no tiene importancia —me recordó ella. Teníamos que despedirnos de Nueva Orleans. Nos alejamos de las multitudes de la rué Royale. Mis sentidos estaban bien alerta, negándose a decir que ésta era nuestra última noche. La vieja ciudad francesa había sido quemada en gran parte hacía ya mucho tiempo, y la arquitectura de esos días era como la actual, española, lo que significaba que a medida que caminábamos lentamente por la misma calle angosta donde un coche tenía que detenerse para dejar paso a otro, pasábamos ante paredes blanqueadas y grandes entradas que revelaban distantes patios iluminados como paraísos parecidos al nuestro, y cada uno parecía ofrecer una promesa, un misterio sensual. Grandes bananeros cubrían las galerías de los patios interiores y las masas de helechos y flores se amontonaban a la entrada. Arriba, en la oscuridad, había figuras sentadas en los balcones, de espaldas a las puertas abiertas, y sus voces bajas y el rumor de sus abanicos eran apenas audibles por encima de la brisa del río; y sobre los muros crecía la visteria y las enredaderas, tan espesas que nos podíamos cepillar contra ellas cuando pasábamos y nos deteníamos ocasionalmente en este o aquel lugar para recoger una rosa luminosa o un tallo de madreselva. A través de los altos ventanales veíamos una y otra vez el juego de las luces de las lámparas contra los techos de yeso ricamente ornamentados, y a menudo la iridiscencia de un candelabro de cristal. De vez en cuando, una figura vestida de gala aparecía en las barandillas, y veíamos el brillo de las joyas en su cuello, su perfume agregaba un aroma lujurioso a las flores.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `Yes, that must be what it is.&#x27; But I was uncertain. I remembered now Lestat&#x27;s remark to Claudia that he knew a boy who would make a better vampire than she. Had he planned to do that? Planned to make another one of us? &quot; `It doesn&#x27;t matter now, Louis,&#x27; she reminded me. We had to say our farewell to New Orleans. We were walking away from the crowds of the Rue Royale. My senses were keen to all around me, holding it close, reluctant to say this was the last night. &quot;The old French city had been for the most part burned a long time ago, and the architecture of these days was as it is now, Spanish, which meant that, as we walked slowly through the very narrow street where one cabriolet had to stop for another, we passed whitewashed walls and great courtyard gates that revealed distant lamplit courtyard paradises like our own, only each seemed to hold such promise, such sensual mystery. Great banana trees stroked the galleries of the inner courts, and masses of fern and flower crowded the mouth of the passage. Above, in the dark, figures sat on the balconies, their backs to the open doors, their hushed voices and the flapping of their fans barely audible above the soft river breeze; and over the walls grew wisteria and passiflora so thick that we could brush against it as we passed and stop occasionally at this place or that to pluck a luminescent rose or tendrils of honeysuckle. Through the high windows we saw again and again the play of candlelight on richly embossed plaster ceilings and often the bright iridescent wreath of a crystal chandelier. Occasionally a figure dressed for evening appeared at the railings, the glitter of jewels at her throat, her perfume adding a lush evanescent spice to the flowers in the air. &quot;We had our favorite streets, gardens, corners, but inevitably we reached the outskirts of the old city and saw the rise of swamp. Carriage after carriage passed us coming in from the Bayou Road bound for the theater or the opera. But now the lights of the city lay behind us, and its mingled scents were drowned in the thick odor of swamp decay. The very sight of the tall, wavering trees, their limbs hung with moss, had sickened me, made me think of Lestat. I was thinking of him as I&#x27;d thought of my brother&#x27;s body. I was seeing him sunk deep among the roots of cypress and oak, that hideous withered form folded in the white sheet. I wondered if the creatures of the dark shunned him, knowing instinctively the parched, crackling thing there was virulent, or whether they swarmed about him in the reeking water, picking his ancient dried flesh from the bones.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">13</span>
+    <div class="spanish-text">Nosotros teníamos nuestras esquinas, jardines y calles favoritos, pero inevitablemente alcanzábamos las afueras de la ciudad vieja y veíamos el pantano. Vehículo tras vehículo nos pasaban viniendo del Bayou Road en dirección al teatro o la ópera. Pero ahora las luces ciudadanas estaban detrás y sus olores mezclados estaban ahogados por el espeso hedor de la descomposición del pantano. La mera visión de los árboles altos, movedizos, con sus miembros ahítos de musgo, me hacía pensar en Lestat. Pensaba en él como había pensado en el cuerpo de mi hermano. Lo veía hundirse profundamente entre las raíces de los cipreses y los robles, esa horrible forma marchita envuelta en la sábana blanca. Me pregunté si las criaturas de los abismos lo rechazaban, sabiendo instintivamente lo que era aquella cosa emparchada, agrietada y virulenta; o si se arrastraban encima en el agua enlodada, pinchando su antigua carne seca de los huesos.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `It doesn&#x27;t matter now, Louis,&#x27; she reminded me. We had to say our farewell to New Orleans. We were walking away from the crowds of the Rue Royale. My senses were keen to all around me, holding it close, reluctant to say this was the last night. &quot;The old French city had been for the most part burned a long time ago, and the architecture of these days was as it is now, Spanish, which meant that, as we walked slowly through the very narrow street where one cabriolet had to stop for another, we passed whitewashed walls and great courtyard gates that revealed distant lamplit courtyard paradises like our own, only each seemed to hold such promise, such sensual mystery. Great banana trees stroked the galleries of the inner courts, and masses of fern and flower crowded the mouth of the passage. Above, in the dark, figures sat on the balconies, their backs to the open doors, their hushed voices and the flapping of their fans barely audible above the soft river breeze; and over the walls grew wisteria and passiflora so thick that we could brush against it as we passed and stop occasionally at this place or that to pluck a luminescent rose or tendrils of honeysuckle. Through the high windows we saw again and again the play of candlelight on richly embossed plaster ceilings and often the bright iridescent wreath of a crystal chandelier. Occasionally a figure dressed for evening appeared at the railings, the glitter of jewels at her throat, her perfume adding a lush evanescent spice to the flowers in the air. &quot;We had our favorite streets, gardens, corners, but inevitably we reached the outskirts of the old city and saw the rise of swamp. Carriage after carriage passed us coming in from the Bayou Road bound for the theater or the opera. But now the lights of the city lay behind us, and its mingled scents were drowned in the thick odor of swamp decay. The very sight of the tall, wavering trees, their limbs hung with moss, had sickened me, made me think of Lestat. I was thinking of him as I&#x27;d thought of my brother&#x27;s body. I was seeing him sunk deep among the roots of cypress and oak, that hideous withered form folded in the white sheet. I wondered if the creatures of the dark shunned him, knowing instinctively the parched, crackling thing there was virulent, or whether they swarmed about him in the reeking water, picking his ancient dried flesh from the bones.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">14</span>
+    <div class="spanish-text">Me alejé de los pantanos, volví al corazón de la ciudad vieja, y el suave apretón de la mano de Claudia me reconfortó. Ella había hecho un ramo de lo recogido en todos los muros de los jardines, y lo tenía contra la pechera de su vestido amarillo, con su rostro enterrado en aquel perfumado recuerdo. Entonces me dijo, con un susurro tal que tuve que agacharme para oírlo:</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;The old French city had been for the most part burned a long time ago, and the architecture of these days was as it is now, Spanish, which meant that, as we walked slowly through the very narrow street where one cabriolet had to stop for another, we passed whitewashed walls and great courtyard gates that revealed distant lamplit courtyard paradises like our own, only each seemed to hold such promise, such sensual mystery. Great banana trees stroked the galleries of the inner courts, and masses of fern and flower crowded the mouth of the passage. Above, in the dark, figures sat on the balconies, their backs to the open doors, their hushed voices and the flapping of their fans barely audible above the soft river breeze; and over the walls grew wisteria and passiflora so thick that we could brush against it as we passed and stop occasionally at this place or that to pluck a luminescent rose or tendrils of honeysuckle. Through the high windows we saw again and again the play of candlelight on richly embossed plaster ceilings and often the bright iridescent wreath of a crystal chandelier. Occasionally a figure dressed for evening appeared at the railings, the glitter of jewels at her throat, her perfume adding a lush evanescent spice to the flowers in the air. &quot;We had our favorite streets, gardens, corners, but inevitably we reached the outskirts of the old city and saw the rise of swamp. Carriage after carriage passed us coming in from the Bayou Road bound for the theater or the opera. But now the lights of the city lay behind us, and its mingled scents were drowned in the thick odor of swamp decay. The very sight of the tall, wavering trees, their limbs hung with moss, had sickened me, made me think of Lestat. I was thinking of him as I&#x27;d thought of my brother&#x27;s body. I was seeing him sunk deep among the roots of cypress and oak, that hideous withered form folded in the white sheet. I wondered if the creatures of the dark shunned him, knowing instinctively the parched, crackling thing there was virulent, or whether they swarmed about him in the reeking water, picking his ancient dried flesh from the bones. &quot;I turned away from the swamps, back to the heart of the old city, and felt the gentle press of Claudia&#x27;s hand comforting. She had gathered a natural bouquet from all the garden walls, and she held it crushed to the bosom of her yellow dress, her face buried in its perfume. Now she said to me in such a whisper that I bent my ear to her, &#x27;Louis, it troubles you. You know the remedy. Let the flesh . . . let the flesh instruct the mind.&#x27; She let my hand go, and I watched her move away from me, turning once to whisper the same command. &#x27;Forget him. Let the flesh instruct the mind. . .</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">15</span>
+    <div class="spanish-text">—Louis, estás preocupado. Tú conoces el remedio. Deja que la carne... que la carne instruya a la mente. Me dejó la mano y la miré alejarse, dándose vuelta una vez para susurrarme la misma orden. —Olvídalo. Deja que la carne instruya a la mente... Me hizo recordar aquel libro de poemas que yo tenía en las manos cuando ella me dijo esas palabras por primera vez, y vi el verso escrito sobre la página:</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;The old French city had been for the most part burned a long time ago, and the architecture of these days was as it is now, Spanish, which meant that, as we walked slowly through the very narrow street where one cabriolet had to stop for another, we passed whitewashed walls and great courtyard gates that revealed distant lamplit courtyard paradises like our own, only each seemed to hold such promise, such sensual mystery. Great banana trees stroked the galleries of the inner courts, and masses of fern and flower crowded the mouth of the passage. Above, in the dark, figures sat on the balconies, their backs to the open doors, their hushed voices and the flapping of their fans barely audible above the soft river breeze; and over the walls grew wisteria and passiflora so thick that we could brush against it as we passed and stop occasionally at this place or that to pluck a luminescent rose or tendrils of honeysuckle. Through the high windows we saw again and again the play of candlelight on richly embossed plaster ceilings and often the bright iridescent wreath of a crystal chandelier. Occasionally a figure dressed for evening appeared at the railings, the glitter of jewels at her throat, her perfume adding a lush evanescent spice to the flowers in the air. &quot;We had our favorite streets, gardens, corners, but inevitably we reached the outskirts of the old city and saw the rise of swamp. Carriage after carriage passed us coming in from the Bayou Road bound for the theater or the opera. But now the lights of the city lay behind us, and its mingled scents were drowned in the thick odor of swamp decay. The very sight of the tall, wavering trees, their limbs hung with moss, had sickened me, made me think of Lestat. I was thinking of him as I&#x27;d thought of my brother&#x27;s body. I was seeing him sunk deep among the roots of cypress and oak, that hideous withered form folded in the white sheet. I wondered if the creatures of the dark shunned him, knowing instinctively the parched, crackling thing there was virulent, or whether they swarmed about him in the reeking water, picking his ancient dried flesh from the bones. &quot;I turned away from the swamps, back to the heart of the old city, and felt the gentle press of Claudia&#x27;s hand comforting. She had gathered a natural bouquet from all the garden walls, and she held it crushed to the bosom of her yellow dress, her face buried in its perfume. Now she said to me in such a whisper that I bent my ear to her, &#x27;Louis, it troubles you. You know the remedy. Let the flesh . . . let the flesh instruct the mind.&#x27; She let my hand go, and I watched her move away from me, turning once to whisper the same command. &#x27;Forget him. Let the flesh instruct the mind. . . It brought back to me that book of poems I&#x27;d held in my hand when she first spoke these words to me, and I save the verse upon the page: Her lips were red, her looks were free, Her locks were yellow as gold: Her skin was as white as leprosy, The Night-mare LIFE-IN-DEATH was she, Who thicks man&#x27;s blood with cold.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">16</span>
+    <div class="spanish-text">Sus labios eran rojos, su aspecto era libre, sus rizos eran tan amarillos como el oro, su piel era tan blanca como la lepra. Ella era la pesadilla, la-muerte-en-vida que espesa la sangre del hombre con el frío. Ella me sonrió desde una esquina distante, una pizca de seda amarilla visible un momento en la angosta oscuridad; luego desapareció. Mi compañera, para siempre...</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">It brought back to me that book of poems I&#x27;d held in my hand when she first spoke these words to me, and I save the verse upon the page: Her lips were red, her looks were free, Her locks were yellow as gold: Her skin was as white as leprosy, The Night-mare LIFE-IN-DEATH was she, Who thicks man&#x27;s blood with cold. &quot;She was smiling from the far corner, a bit of yellow silk visible for a moment in the narrowing dark, then gone. My companion, my companion forever. &quot;I was turning into the Rue Dumaine, moving past darkened windows. A lamp died very slowly behind a broad scrim of heavy lace, the shadow of the pattern on the brick expanding, growing fainter, then vanishing into blackness. I moved on, nearing the house of Madame LeClair, hearing faint but shrill the violins from the upstairs parlor and then the thin metallic laughter of the guests. I stood across from the house in the shadows, seeing a small handful of them moving in the lighted room; from window to window to window moved one guest, a pale lemon-colored wine in his stem glass, his face turned towards the moon as if he sought something from a better vantage and found it finally at the last window, his hand on the dark drape.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">17</span>
+    <div class="spanish-text">Me fui entonces a la rué Domaine y pasé rápidamente ante las ventanas a oscuras. Una lámpara se extinguió muy lentamente detrás de una gruesa pantalla de lazo, y la sombra del diseño se expandió sobre el ladrillo, se debilitó y luego terminó en la oscuridad. Continué adelante, acercándome a la casa de Madame Le Clair, oyendo los violines chillones pero distantes de la sala de arriba y luego la aguda risa metálica de los invitados. Me quedé frente a la casa, en las sombras, viendo a un puñado de ellos moviéndose en las habitaciones iluminadas; de ventana a ventana caminaba un huésped, con un vino en la copa pálido como el limón, y su cara miraba la luna como si buscara algo desde una mejor posición, y finalmente la encontró en la última ventana, con su mano sobre el oscuro cortinado.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Her lips were red, her looks were free, Her locks were yellow as gold: Her skin was as white as leprosy, The Night-mare LIFE-IN-DEATH was she, Who thicks man&#x27;s blood with cold. &quot;She was smiling from the far corner, a bit of yellow silk visible for a moment in the narrowing dark, then gone. My companion, my companion forever. &quot;I was turning into the Rue Dumaine, moving past darkened windows. A lamp died very slowly behind a broad scrim of heavy lace, the shadow of the pattern on the brick expanding, growing fainter, then vanishing into blackness. I moved on, nearing the house of Madame LeClair, hearing faint but shrill the violins from the upstairs parlor and then the thin metallic laughter of the guests. I stood across from the house in the shadows, seeing a small handful of them moving in the lighted room; from window to window to window moved one guest, a pale lemon-colored wine in his stem glass, his face turned towards the moon as if he sought something from a better vantage and found it finally at the last window, his hand on the dark drape. &quot;Across from me a door stood open in the brick wall, and a light fell on the passage at the far end. I moved silently over the narrow street and met the thick aromas of the kitchen rising on the air past the gate. The slightly nauseating smell of cooking meat. I stepped into the passage. Someone had just walked fast across the courtyard and shut a rear door. But then I saw another figure. She stood by the kitchen fire, a lean black woman with a brilliant tignon around her head, her features delicately chiseled and gleaming in the light like a figure in diorite. She stirred the mixture in the kettle. I caught the sweet smell of the spices and the fresh green of marjoram and bay; and then in a wave came the horrid smell of the cooking meat, the blood and flesh decaying in the boiling fluids. I drew near and saw her set down her long iron spoon and stand with her hands on her generous, tapered hips, the white of her apron sash outlining her small, fine waist. The juices of the pot foamed on the lip and spit in the glowing coals below. Her dark odor came to me, her dusky spiced perfume, stronger than the curious mixture from the pot, tantalizing as I drew nearer and rested back against a wall of matted vine. Upstairs the thin violins began a waltz, and the floorboards groaned with the dancing couples. The jasmine of the wall enclosed me and then receded like water leaving the clean-swept beach; and again I sensed her salt perfume. She had moved to the kitchen door, her long black neck gracefully bent as she peered into the shadows beneath the lighted window. &#x27;Monsieur!&#x27; she said, and stepped out now into the shaft of yellow light. It fell on her great round breasts and long sleek silken arms and now on the long cold beauty of her face. &#x27;You&#x27;re looking for the party, Monsieur?&#x27; she asked. &#x27;The party&#x27;s upstairs. . .</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">18</span>
+    <div class="spanish-text">Delante había una puerta abierta en el muro de ladrillos y una luz caía sobre el pasillo al que daba acceso. Me moví en silencio por la calleja angosta y me encontré con los espesos aromas de la cocina que subían por el aire más allá de la puerta. El olor, apenas nauseabundo para un vampiro, de la comida hecha. Entré. Alguien acababa de cruzar el patio y la puerta trasera. Pero entonces vi otra figura. Estaba al lado del fuego de la cocina: una negra delgada con un pañuelo brillante en la cabeza; sus facciones estaban como talladas de una manera exquisita y brillaba a la luz como una figura esculpida en diorita. Revolvió la comida en la olla. Atrapé el perfume dulce de las especies y el verde frescor de la mejorana y del laurel, y luego en una oleada, vino el hedor horrible de la carne cocinada, la sangre y la carne descomponiéndose en los fluidos hirvientes. Me acerqué y la vi bajar su larga cuchara de hierro y se quedó con las manos sobre sus caderas generosas; la blancura de su delantal acentuaba su talle pequeño y fino. Los jugos de la olla hacían espuma y escupían sobre los carbones encendidos de abajo. El oscuro olor de la mujer me llegó; su perfume picante, más fuerte que el de la mezcla de la olla, me pareció casi prohibido cuando me apoyé en las paredes de las enredaderas. Arriba los violines agudos empezaron un vals y los pisos de madera crujieron con las parejas de bailarines. El jazmín del muro me rodeó y luego se alejó como el agua que deja la playa impecable y limpia. Y nuevamente sentí su perfume salado. Se había ido a la puerta de la cocina y tenía su largo cuello graciosamente inclinado mientras miraba debajo de la ventana iluminada.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I was turning into the Rue Dumaine, moving past darkened windows. A lamp died very slowly behind a broad scrim of heavy lace, the shadow of the pattern on the brick expanding, growing fainter, then vanishing into blackness. I moved on, nearing the house of Madame LeClair, hearing faint but shrill the violins from the upstairs parlor and then the thin metallic laughter of the guests. I stood across from the house in the shadows, seeing a small handful of them moving in the lighted room; from window to window to window moved one guest, a pale lemon-colored wine in his stem glass, his face turned towards the moon as if he sought something from a better vantage and found it finally at the last window, his hand on the dark drape. &quot;Across from me a door stood open in the brick wall, and a light fell on the passage at the far end. I moved silently over the narrow street and met the thick aromas of the kitchen rising on the air past the gate. The slightly nauseating smell of cooking meat. I stepped into the passage. Someone had just walked fast across the courtyard and shut a rear door. But then I saw another figure. She stood by the kitchen fire, a lean black woman with a brilliant tignon around her head, her features delicately chiseled and gleaming in the light like a figure in diorite. She stirred the mixture in the kettle. I caught the sweet smell of the spices and the fresh green of marjoram and bay; and then in a wave came the horrid smell of the cooking meat, the blood and flesh decaying in the boiling fluids. I drew near and saw her set down her long iron spoon and stand with her hands on her generous, tapered hips, the white of her apron sash outlining her small, fine waist. The juices of the pot foamed on the lip and spit in the glowing coals below. Her dark odor came to me, her dusky spiced perfume, stronger than the curious mixture from the pot, tantalizing as I drew nearer and rested back against a wall of matted vine. Upstairs the thin violins began a waltz, and the floorboards groaned with the dancing couples. The jasmine of the wall enclosed me and then receded like water leaving the clean-swept beach; and again I sensed her salt perfume. She had moved to the kitchen door, her long black neck gracefully bent as she peered into the shadows beneath the lighted window. &#x27;Monsieur!&#x27; she said, and stepped out now into the shaft of yellow light. It fell on her great round breasts and long sleek silken arms and now on the long cold beauty of her face. &#x27;You&#x27;re looking for the party, Monsieur?&#x27; she asked. &#x27;The party&#x27;s upstairs. . . &quot; &#x27;No, my dear, I wasn&#x27;t looking for the party,&#x27; I said to her, moving forward out of the shadows. &#x27;I was looking for you.&quot;&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">19</span>
+    <div class="spanish-text">—¡Monsieur! —me dijo, y salió entonces al rayo de luz amarilla. Ésta cayó sobre sus grandes pechos redondos y sus largos brazos sedosos, y sobre la larga y fría belleza de su cara—. ¿Está buscando la fiesta, señor? —preguntó ella—. La fiesta es arriba...</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I was turning into the Rue Dumaine, moving past darkened windows. A lamp died very slowly behind a broad scrim of heavy lace, the shadow of the pattern on the brick expanding, growing fainter, then vanishing into blackness. I moved on, nearing the house of Madame LeClair, hearing faint but shrill the violins from the upstairs parlor and then the thin metallic laughter of the guests. I stood across from the house in the shadows, seeing a small handful of them moving in the lighted room; from window to window to window moved one guest, a pale lemon-colored wine in his stem glass, his face turned towards the moon as if he sought something from a better vantage and found it finally at the last window, his hand on the dark drape. &quot;Across from me a door stood open in the brick wall, and a light fell on the passage at the far end. I moved silently over the narrow street and met the thick aromas of the kitchen rising on the air past the gate. The slightly nauseating smell of cooking meat. I stepped into the passage. Someone had just walked fast across the courtyard and shut a rear door. But then I saw another figure. She stood by the kitchen fire, a lean black woman with a brilliant tignon around her head, her features delicately chiseled and gleaming in the light like a figure in diorite. She stirred the mixture in the kettle. I caught the sweet smell of the spices and the fresh green of marjoram and bay; and then in a wave came the horrid smell of the cooking meat, the blood and flesh decaying in the boiling fluids. I drew near and saw her set down her long iron spoon and stand with her hands on her generous, tapered hips, the white of her apron sash outlining her small, fine waist. The juices of the pot foamed on the lip and spit in the glowing coals below. Her dark odor came to me, her dusky spiced perfume, stronger than the curious mixture from the pot, tantalizing as I drew nearer and rested back against a wall of matted vine. Upstairs the thin violins began a waltz, and the floorboards groaned with the dancing couples. The jasmine of the wall enclosed me and then receded like water leaving the clean-swept beach; and again I sensed her salt perfume. She had moved to the kitchen door, her long black neck gracefully bent as she peered into the shadows beneath the lighted window. &#x27;Monsieur!&#x27; she said, and stepped out now into the shaft of yellow light. It fell on her great round breasts and long sleek silken arms and now on the long cold beauty of her face. &#x27;You&#x27;re looking for the party, Monsieur?&#x27; she asked. &#x27;The party&#x27;s upstairs. . . &quot; &#x27;No, my dear, I wasn&#x27;t looking for the party,&#x27; I said to her, moving forward out of the shadows. &#x27;I was looking for you.&quot;&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<footer>
+  <p><em>Entrevista con el Vampiro</em> &mdash; Anne Rice</p>
+  <p style="margin-top:.5rem;">Lectura glosada para uso personal de estudio del espa&ntilde;ol &middot; Cap&iacute;tulo 28</p>
+</footer>
+
+<script>
+(function () {
+  /* ── 1. Wrap every .spanish-text in a flex row and prepend a play button ── */
+  document.querySelectorAll('.spanish-text').forEach(function (el, i) {
+    var text = el.textContent.trim();
+    el.dataset.speak = text;
+
+    var btn = document.createElement('button');
+    btn.className = 'play-btn';
+    btn.title = 'Reproducir';
+    btn.innerHTML = '&#9654;';
+    btn.dataset.idx = i;
+
+    var row = document.createElement('div');
+    row.className = 'spanish-row';
+    el.parentNode.insertBefore(row, el);
+    row.appendChild(btn);
+    row.appendChild(el);
+  });
+
+  /* ── 2. Voice loading ── */
+  var voiceSelect = document.getElementById('voice-select');
+  var statusEl    = document.getElementById('voice-status');
+  var spanishVoices = [];
+  var allVoices     = [];
+
+  function loadVoices() {
+    allVoices = window.speechSynthesis.getVoices();
+    if (!allVoices.length) return;
+    spanishVoices = allVoices.filter(function (v) {
+      return v.lang.toLowerCase().startsWith('es');
+    });
+    voiceSelect.innerHTML = '';
+    if (spanishVoices.length === 0) {
+      allVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i + '_all';
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u26a0 No Spanish voices found \u2014 showing all voices.';
+    } else {
+      spanishVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        if (v.lang.toLowerCase() === 'es-es') opt.selected = true;
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u2713 ' + spanishVoices.length + ' Spanish voice(s) found';
+    }
+  }
+
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  setTimeout(loadVoices, 500);
+
+  function getSelectedVoice() {
+    var val = voiceSelect.value;
+    if (!val) return null;
+    if (val.endsWith('_all')) return allVoices[parseInt(val)] || null;
+    return spanishVoices[parseInt(val)] || null;
+  }
+
+  /* ── 3. Speed slider ── */
+  var speedSlider = document.getElementById('speed-slider');
+  var speedVal    = document.getElementById('speed-val');
+  speedSlider.addEventListener('input', function () {
+    speedVal.textContent = parseFloat(this.value).toFixed(2) + '\u00d7';
+  });
+
+  /* ── 4. Speech playback ── */
+  var currentBtn = null;
+
+  function stopSpeech() {
+    window.speechSynthesis.cancel();
+    if (currentBtn) {
+      currentBtn.classList.remove('playing');
+      currentBtn.innerHTML = '&#9654;';
+      currentBtn = null;
+    }
+  }
+
+  document.getElementById('stop-btn').addEventListener('click', stopSpeech);
+
+  /* ── 4b. Per-section gloss toggle ── */
+  window.toggleSectionGloss = function(btn) {
+    var group = btn.closest('.section-group');
+    if (!group) return;
+    var glosses = group.querySelectorAll('.gloss-text');
+    var toggles = group.querySelectorAll('.gloss-toggle');
+    var allHidden = Array.from(glosses).every(function(g){ return g.classList.contains('gloss-hidden'); });
+    glosses.forEach(function(g){ g.classList.toggle('gloss-hidden', !allHidden); });
+    toggles.forEach(function(t){ t.textContent = allHidden ? '▼ English' : '▶ English'; });
+    btn.textContent = allHidden ? 'Ocultar English' : 'Mostrar English';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn === currentBtn) { stopSpeech(); return; }
+    stopSpeech();
+
+    var spanishEl = btn.parentElement.querySelector('.spanish-text');
+    var text = spanishEl ? spanishEl.dataset.speak : '';
+    if (!text) return;
+
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang  = 'es-ES';
+    utter.rate  = parseFloat(speedSlider.value);
+    utter.pitch = 1;
+
+    var voice = getSelectedVoice();
+    if (voice) utter.voice = voice;
+
+    btn.classList.add('playing');
+    btn.innerHTML = '&#9632;';
+    currentBtn = btn;
+
+    /* Chrome keepalive: prevents silent cutoff of utterances > ~15 s */
+    var keepAlive = setInterval(function () {
+      if (!window.speechSynthesis.speaking) { clearInterval(keepAlive); return; }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, 10000);
+
+    utter.onend = function () {
+      clearInterval(keepAlive);
+      if (currentBtn === btn) {
+        btn.classList.remove('playing');
+        btn.innerHTML = '&#9654;';
+        currentBtn = null;
+      }
+    };
+    utter.onerror = utter.onend;
+
+    window.speechSynthesis.speak(utter);
+  });
+})();
+</script>
+<script>
+/* ── Dictionary lookup ── */
+(function () {
+
+  /* 1. Tokenize each .spanish-text into clickable word spans */
+  document.querySelectorAll('.spanish-text').forEach(function (el) {
+    var newHTML = el.innerHTML.replace(
+      /([A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+(?:['\u2019-][A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+)*)/g,
+      function (token) {
+        var lookup = token.replace(/^['\u2019-]+|['\u2019-]+$/g, '').toLowerCase();
+        if (!lookup) return token;
+        return '<span class="es-word" data-word="' + lookup + '">' + token + '</span>';
+      }
+    );
+    el.innerHTML = newHTML;
+  });
+
+  /* 2. Build popup */
+  var popup = document.createElement('div');
+  popup.id = 'dict-popup';
+  popup.innerHTML =
+    '<button id="dict-close" title="Cerrar">&#10005;</button>' +
+    '<span class="dp-word"></span>' +
+    '<div class="dp-body"></div>' +
+    '<hr class="dp-divider">' +
+    '<div class="dp-links"></div>';
+  document.body.appendChild(popup);
+
+  var dpWord  = popup.querySelector('.dp-word');
+  var dpBody  = popup.querySelector('.dp-body');
+  var dpLinks = popup.querySelector('.dp-links');
+  var dpClose = popup.querySelector('#dict-close');
+  var activeSpan = null;
+  var ES_LEMMAS = {"vieja": "viejo", "sombras": "sombrar", "ellos": "él", "veíamos": "ver", "espesos": "espeso", "parejas": "pareja", "ahogados": "ahogado", "pidiendo": "pedir", "cubrían": "cubrir", "circulaba": "circular", "necesitas": "necesitar", "volví": "volver", "invitados": "invitado", "frotaron": "frotar", "violines": "violín", "bailarines": "bailarín", "matara": "matar", "apoyé": "apoyar", "habló": "hablar", "pulsando": "pulsar", "todos": "todo", "una": "uno", "sucedió": "suceder", "rojos": "rojo", "diera": "dar", "fuera": "ser", "envuelta": "envolver", "fría": "frío", "pantanos": "pantano", "jardines": "jardín", "techos": "techo", "te": "tú", "nuestras": "nuestro", "es": "ser", "compartiera": "compartir", "iluminados": "iluminado", "sido": "ser", "puertas": "puerta", "llegó": "llegar", "ves": "ver", "largos": "largo", "vinculaba": "vincular", "compañera": "compañero", "moví": "mover", "temblaba": "temblar", "manos": "mano", "espesas": "espesar", "sentí": "sentir", "conocía": "conocer", "podría": "poder", "separaba": "separar", "insectos": "insecto", "significaba": "significar", "continuaras": "continuar", "deseaba": "desear", "pregunté": "preguntar", "dijera": "decir", "era": "ser", "caía": "caer", "le": "él", "pese": "pesar", "negra": "negro", "caminaba": "caminar", "altos": "alto", "ahítos": "ahíto", "regresaría": "regresar", "delgada": "delgado", "sentadas": "sentada", "mera": "merar", "están": "estar", "rasguños": "rasguño", "asintió": "asentir", "tonterías": "tontería", "habría": "haber", "rojas": "rojo", "subió": "subir", "puedo": "poder", "espesa": "espesar", "prohibido": "prohibir", "luces": "lucir", "contesté": "contestar", "veía": "ver", "figuras": "figura", "abismos": "abismo", "oyendo": "oír", "partiríamos": "partir", "marcas": "marca", "venas": "vena", "éste": "este", "años": "año", "ventanales": "ventanal", "barandillas": "barandilla", "hirvientes": "hirviente", "eran": "ser", "huesos": "hueso", "pasábamos": "pasar", "había": "haber", "multitudes": "multitud", "entradas": "entrada", "abiertas": "abrir", "ojos": "ojo", "última": "último", "francesa": "francés", "conoces": "conocer", "pinchando": "pinchar", "vestida": "vestir", "empezó": "empezar", "arriba": "arribar", "quedó": "quedar", "ésta": "este", "fue": "ir", "otra": "otro", "los": "el", "pasaba": "pasar", "despedido": "despedir", "podíamos": "poder", "habitaciones": "habitación", "seguí": "seguir", "lo": "él", "anticipando": "anticipar", "balcones": "balcón", "encima": "encimar", "iluminada": "iluminado", "continué": "continuar", "árboles": "árbol", "acuosa": "acuoso", "dejó": "dejar", "la": "el", "agrietada": "agrietar", "señalé": "señalar", "días": "día", "generosas": "generoso", "mordió": "morder", "helechos": "helecho", "seca": "seco", "entusiasmó": "entusiasmar", "dormía": "dormir", "bananeros": "bananero", "se": "él", "voces": "voz", "sabía": "saber", "estaba": "estar", "tendría": "tener", "terminó": "terminar", "miembros": "miembro", "emparchada": "emparchar", "pensaba": "pensar", "grandes": "grande", "puse": "poner", "esto": "este", "inspiraba": "inspirar", "empezaron": "empezar", "amontonaban": "amontonar", "unas": "unir", "hacía": "hacer", "atrapé": "atrapar", "revelaban": "revelar", "esas": "ese", "evaporaban": "evaporar", "resultó": "resultar", "joyas": "joya", "revolvió": "revolver", "convencido": "convencer", "distantes": "distante", "expandió": "expandir", "acordado": "acordar", "agudos": "agudo", "un": "uno", "española": "españolar", "dijo": "decir", "tiene": "tener", "robles": "roble", "abierta": "abrir", "heridas": "herida", "fluidos": "fluido", "espaldas": "espalda", "agregaba": "agregar", "hacían": "hacer", "buscara": "buscar", "mis": "mi", "encontré": "encontrar", "encendidos": "encendido", "buscando": "buscar", "juntos": "junto", "paraísos": "paraíso", "brillaba": "brillar", "rizos": "rizo", "eso": "ese", "brazos": "brazo", "amarilla": "amarillo", "estás": "estar", "flacas": "flaco", "adelante": "adelantar", "ido": "ir", "las": "el", "remota": "remoto", "caminábamos": "caminar", "hinchados": "hinchar", "crujieron": "crujir", "hizo": "hacer", "rechazaban": "rechazar", "desapareció": "desaparecer", "parecidos": "parecido", "abanicos": "abanico", "inclinado": "inclinar", "palabras": "palabra", "diciendo": "decir", "subían": "subir", "tenía": "tener", "mantenido": "mantener", "jugos": "jugo", "negocios": "negocio", "alejamos": "alejar", "interiores": "interior", "sedosos": "sedoso", "azules": "azular", "inventado": "inventar", "aparecía": "aparecer", "salió": "salir", "recogido": "recoger", "mezclados": "mezclar", "flores": "florar", "esa": "ese", "empujara": "empujar", "sonrió": "sonreír", "antigua": "antiguar", "amarillos": "amarillo", "parecía": "parecer", "alejó": "alejar", "fui": "ir", "miraba": "mirar", "esculpida": "esculpir", "estoy": "estar", "marchita": "marchitar", "aliviado": "aliviar", "enseñó": "enseñar", "mostraba": "mostrar", "ellas": "él", "resortes": "resorte", "facciones": "facción", "blanqueadas": "blanquear", "pendientes": "pendiente", "sabiendo": "saber", "ella": "él", "esos": "ese", "sientes": "sentar", "solícita": "solícito", "masas": "masa", "quedé": "quedar", "pueden": "poder", "esquinas": "esquina", "acerqué": "acercar", "paredes": "pared", "recordaba": "recordar", "salía": "salir", "miré": "mirar", "caderas": "cadera", "negó": "negar", "muros": "muro", "preocupado": "preocupar", "sufriera": "sufrir", "aseguro": "asegurar", "gustos": "gusto", "debería": "deber", "especies": "especie", "nuestra": "nuestro", "viendo": "ver", "viniendo": "venir", "aguda": "agudo", "cocinada": "cocinar", "sentidos": "sentido", "carbones": "carbonar", "hablando": "hablar", "quemada": "quemar", "reprimida": "reprimir", "vi": "ver", "necesitabas": "necesitar", "criaturas": "criatura", "centenares": "centenar", "sugería": "sugerir", "ciudadanas": "ciudadano", "instruya": "instruir", "metálica": "metálico", "blanca": "blanco", "sorprendió": "sorprender", "abría": "abrir", "deteníamos": "detener", "calles": "calle", "labios": "labio", "encontró": "encontrar", "está": "estar", "moviéndose": "moverse", "talladas": "tallar", "aromas": "aroma", "alimentó": "alimentar", "hubiera": "haber", "pudiera": "poder", "oscuras": "oscuro", "daba": "dar", "enlodada": "enlodar", "galerías": "galería", "enseñado": "enseñar", "teníamos": "tener", "pisos": "piso", "patios": "patio", "buen": "bueno", "alcanzábamos": "alcanzar", "extinguió": "extinguir", "permitió": "permitir", "abajo": "abajar", "redondos": "redondo", "entré": "entrar", "enredaderas": "enredadera", "salado": "salar", "llorara": "llorar", "conté": "contar", "inhumana": "inhumano", "otros": "otro", "volvería": "volverse", "dedos": "dedo", "iluminadas": "iluminado", "exquisita": "exquisito", "algún": "alguno", "habíamos": "haber", "enterrado": "enterrar", "aquella": "aquel", "subiríamos": "subir", "debilitó": "debilitar", "virulenta": "virulento", "rodeó": "rodear", "pechos": "pecho", "todas": "todo", "alejé": "alejar", "escupían": "escupir", "alejado": "alejar", "olores": "olor", "quería": "querer", "frenética": "frenético", "dejaron": "dejar", "sus": "su", "estaban": "estar", "cipreses": "ciprés", "aferraba": "aferrar", "acerca": "acercar", "luminosa": "luminoso", "crecía": "crecer", "soñado": "soñar", "preguntó": "preguntar", "temblando": "temblar", "andando": "andar", "sé": "ser", "empeñada": "empeñar", "encontraron": "encontrar", "hay": "haber", "ventanas": "ventana", "pasaban": "pasar", "angosta": "angostar", "humana": "humanar", "recordé": "recordar", "favoritos": "favorito", "chillones": "chillón", "me": "yo", "ladrillos": "ladrillo", "reconfortó": "reconfortar", "atormentados": "atormentar", "movedizos": "movedizo", "perfumado": "perfumar", "poemas": "poema", "muy": "mucho", "hecha": "hacer", "explica": "explicar", "lámparas": "lámpara", "acababa": "acabar", "busqué": "buscar", "desviando": "desviar", "audibles": "audible", "partes": "parte", "vampiros": "vampiro", "dejado": "dejar", "cayó": "caer", "miró": "mirar", "pareció": "parecer", "dólares": "dólar", "bajas": "baja", "arrastraban": "arrastrar", "aferrado": "aferrar", "tuve": "tener", "misma": "mismo", "podríamos": "poder", "acentuaba": "acentuar", "pensado": "pensar", "criados": "criado", "susurré": "susurrar", "recordó": "recordar", "ornamentados": "ornamentar", "pasé": "pasar", "primeros": "primero", "pude": "poder", "raíces": "raíz", "pensé": "pensar"};
+  function toLemma(w) { return ES_LEMMAS[w.toLowerCase()] || w; }
+  var dictCache  = {};
+
+  /* 3. Fetch definition (Wiktionary, then MyMemory fallback) */
+  /* Extract base word from a "form of X" Wiktionary definition HTML string.
+     Returns the base word string, or null if not a form-of entry. */
+  function extractBaseForm(defHtml) {
+    var t = defHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    // "first/second/third-person ... of X"
+    var m = t.match(/(?:first|second|third)[- ]person.{0,60}of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "plural of X", "inflection of X", "feminine of X", etc.
+    m = t.match(/^(?:inflection|plural|singular|feminine|masculine|augmentative|diminutive|superlative|past\s+(?:tense|participle)|present\s+participle|gerund|form)\s+of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "X of Y" where X ends right before "of" and Y is at end
+    m = t.match(/of\s+([\wÀ-ɏ]+)\s*(?:[:,]|$)/i);
+    if (m) return m[1].toLowerCase();
+    return null;
+  }
+
+  /* Returns true if ALL definitions in all entries look like form-of entries */
+  function getFirstBase(entries) {
+    // Return the base form if the first definition looks like a form-of entry
+    var firstDef = ((entries[0] || {}).definitions || [])[0] || {};
+    return extractBaseForm(firstDef.definition || '');
+  }
+
+  function fetchWiktionary(word) {
+    return fetch(
+      'https://en.wiktionary.org/api/rest_v1/page/definition/' + encodeURIComponent(word),
+      { headers: { Accept: 'application/json' } }
+    ).then(function(r) {
+      if (!r.ok) throw new Error('wikt');
+      return r.json();
+    }).then(function(data) {
+      var es = data.es || data.Es;
+      if (es && es.length) return es;
+      throw new Error('no entry');
+    });
+  }
+
+  function fetchDefinition(rawWord) {
+    var word = toLemma(rawWord);
+    if (dictCache[word]) return Promise.resolve(dictCache[word]);
+    return fetchWiktionary(word).then(function(es) {
+      // If all definitions are "form of X", follow the link to the base form
+      var base = getFirstBase(es);
+      if (base && base !== word.toLowerCase()) {
+        return fetchWiktionary(base).then(function(baseEs) {
+          var result = { source: 'wiktionary', entries: baseEs, inflectedFrom: rawWord, baseForm: base };
+          dictCache[word] = result; return result;
+        }).catch(function() {
+          var result = { source: 'wiktionary', entries: es };
+          dictCache[word] = result; return result;
+        });
+      }
+      var result = { source: 'wiktionary', entries: es };
+      if (word.toLowerCase() !== rawWord.toLowerCase()) result.baseForm = word;
+      dictCache[word] = result; return result;
+    }).catch(function () {
+      return fetch(
+        'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=es|en'
+      ).then(function (r) { return r.json(); }).then(function (data) {
+        var trans = data.responseData && data.responseData.translatedText;
+        if (!trans || trans.toLowerCase() === word.toLowerCase()) throw new Error('no trans');
+        var alts = (data.matches || [])
+          .filter(function (m) {
+            return m.quality > 50 && m.translation &&
+              m.translation.toLowerCase() !== word.toLowerCase() &&
+              m.translation.toLowerCase() !== trans.toLowerCase();
+          })
+          .map(function (m) { return m.translation; })
+          .filter(function (v, i, a) { return a.indexOf(v) === i; })
+          .slice(0, 3);
+        var result = { source: 'mymemory', translation: trans, alts: alts };
+        dictCache[word] = result; return result;
+      });
+    }).catch(function () {
+      var result = { source: 'none' };
+      dictCache[word] = result; return result;
+    });
+  }
+
+  function strip(h) { return h.replace(/<[^>]+>/g, ''); }
+
+  function renderBody(r) {
+    if (r.source === 'wiktionary') {
+      var html = '';
+      // Show a small note when we resolved an inflected form to its base
+      if (r.baseForm) {
+        html += '<div class="dp-alts">form of <em>' + r.baseForm + '</em></div>';
+      }
+      r.entries.slice(0, 3).forEach(function (e) {
+        html += '<div class="dp-pos">' + (e.partOfSpeech || '') + '</div><ol class="dp-defs">';
+        (e.definitions || []).slice(0, 4).forEach(function (d) {
+          html += '<li>' + strip(d.definition || '') + '</li>';
+        });
+        html += '</ol>';
+      });
+      return html;
+    }
+    if (r.source === 'mymemory') {
+      var h = '<div class="dp-trans">' + r.translation + '</div>';
+      if (r.alts && r.alts.length) h += '<div class="dp-alts">also: ' + r.alts.join(', ') + '</div>';
+      return h;
+    }
+    return '<div class="dp-none">no definition found</div>';
+  }
+
+  /* 4. Show / position / hide */
+  function positionPopup(cx, cy) {
+    var pw = popup.offsetWidth || 220, ph = popup.offsetHeight || 130;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var left = cx + 14, top = cy + 14;
+    if (left + pw > vw - 8) left = cx - pw - 14;
+    if (top  + ph > vh - 8) top  = cy - ph - 14;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  }
+
+  function showPopup(word, cx, cy) {
+    dpWord.textContent = word;
+    dpBody.innerHTML = '<div class="dp-loading">buscando…</div>';
+    dpLinks.innerHTML =
+      '<a href="https://www.wordreference.com/es/en/translation.asp?spen=' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128214; WordReference &#8594;</a>' +
+      '<a href="https://www.spanishdict.com/translate/' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128216; SpanishDict &#8594;</a>';
+    popup.style.display = 'block';
+    positionPopup(cx, cy);
+    fetchDefinition(word).then(function (result) {
+      if (dpWord.textContent !== word) return;
+      dpBody.innerHTML = renderBody(result);
+      positionPopup(cx, cy);
+    });
+  }
+
+  function hidePopup() {
+    popup.style.display = 'none';
+    if (activeSpan) { activeSpan.classList.remove('dp-active'); activeSpan = null; }
+  }
+
+  /* 5. Events */
+  document.addEventListener('click', function (e) {
+    var wordEl = e.target.closest('.es-word');
+    if (wordEl) {
+      if (activeSpan) activeSpan.classList.remove('dp-active');
+      activeSpan = wordEl;
+      wordEl.classList.add('dp-active');
+      showPopup(wordEl.dataset.word, e.clientX, e.clientY);
+      return;
+    }
+    if (!e.target.closest('#dict-popup')) hidePopup();
+  });
+
+  dpClose.addEventListener('click', function (e) { e.stopPropagation(); hidePopup(); });
+})();
+</script>
+</body>
+</html>

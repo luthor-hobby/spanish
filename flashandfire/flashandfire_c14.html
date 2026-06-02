@@ -1,0 +1,2355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flash and Fire — Capítulo 14 (Capítulo 14) · Lectura Glosada</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #e0e0e0;
+    --muted: #8892a4;
+    --spanish: #f5c518;
+    --gloss: #a8d8a8;
+    --vocab-bg: #0d1b2a;
+    --grammar-bg: #1b1228;
+    --tag: #533483;
+    --dialogue: #1e2d1e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; line-height: 1.7; padding: 2rem 1rem; }
+  header { max-width: 880px; margin: 0 auto 3rem; text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 1.5rem; }
+  header h1 { font-size: 2rem; color: var(--accent); letter-spacing: 1px; }
+  header h2 { font-size: 1.1rem; color: var(--muted); font-weight: normal; margin-top: .4rem; }
+  header p { font-size: .9rem; color: var(--muted); margin-top: .8rem; font-style: italic; }
+  .chapter-intro { max-width: 880px; margin: 0 auto 2.5rem; background: var(--accent2); border-left: 4px solid var(--accent); padding: 1rem 1.4rem; border-radius: 4px; font-size: .95rem; }
+  .chapter-intro h3 { color: var(--accent); margin-bottom: .4rem; }
+  .sentence-block { max-width: 880px; margin: 0 auto 2rem; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .sentence-num { display: inline-block; background: var(--accent); color: #fff; font-size: .75rem; font-family: monospace; padding: .2rem .5rem; border-radius: 3px; margin-bottom: .5rem; letter-spacing: 1px; }
+  .sentence-top { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .spanish-text { font-size: 1.2rem; color: var(--spanish); font-style: italic; margin-bottom: .6rem; line-height: 1.5; }
+  .gloss-text { font-size: 1rem; color: var(--gloss); margin-top: .35rem; }
+  .gloss-label, .vocab-label, .grammar-label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; margin-bottom: .3rem; font-family: sans-serif; }
+  /* ── Per-sentence gloss toggle ── */
+  .gloss-toggle { background: none; border: none; padding: .4rem 0; cursor: pointer; font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-family: sans-serif; margin-bottom: .3rem; display: block; touch-action: manipulation; min-height: 2.5rem; }
+  .gloss-toggle:hover { color: var(--gloss); }
+  .gloss-text { visibility: visible; }
+  .gloss-text.gloss-hidden { visibility: hidden; pointer-events: none; }
+
+  .breakdown { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px) { .breakdown { grid-template-columns: 1fr; } }
+  .vocab-section { background: var(--vocab-bg); padding: 1rem 1.4rem; border-right: 1px solid rgba(255,255,255,.05); }
+  .grammar-section { background: var(--grammar-bg); padding: 1rem 1.4rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+  td { padding: .3rem .4rem; vertical-align: top; }
+  td:first-child { color: var(--spanish); font-style: italic; white-space: nowrap; padding-right: .8rem; width: 42%; }
+  tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,.05); }
+  .grammar-section ul { list-style: none; font-size: .87rem; }
+  .grammar-section li { margin-bottom: .55rem; padding-left: .8rem; border-left: 2px solid var(--tag); }
+  .grammar-section li strong { color: var(--spanish); font-style: italic; }
+  .grammar-section li em { color: #c9b1ff; font-style: normal; }
+  .section-label { max-width: 880px; margin: 0 auto 1.2rem; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--tag); font-family: sans-serif; padding-left: .2rem; display: flex; align-items: center; gap: .8rem; }
+  .tag { display: inline-block; background: var(--tag); color: #ddd; font-size: .7rem; font-family: sans-serif; padding: .1rem .4rem; border-radius: 3px; margin-right: .3rem; }
+  .dialogue-marker { color: var(--muted); font-size: .8rem; font-family: sans-serif; margin-bottom: .3rem; display: block; }
+  footer { max-width: 880px; margin: 3rem auto 0; text-align: center; font-size: .8rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); }
+
+  /* ── Audio controls ── */
+  #audio-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,52,96,.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(233,69,96,.4);
+    padding: .6rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: sans-serif; font-size: .82rem;
+  }
+  #audio-bar .bar-label { color: var(--muted); white-space: nowrap; }
+  #audio-bar .voice-select {
+    background: #0d1b2a; color: var(--text); border: 1px solid var(--tag);
+    border-radius: 4px; padding: .25rem .5rem; font-size: .8rem; flex: 1; min-width: 160px; max-width: 280px;
+  }
+  #audio-bar .speed-wrap { display: flex; align-items: center; gap: .5rem; }
+  #audio-bar input[type=range] { width: 90px; accent-color: var(--accent); cursor: pointer; }
+  #speed-val { color: var(--accent); font-weight: bold; min-width: 2.5ch; }
+  #stop-btn, .section-gloss-btn, .shadow-btn {
+    border: none; border-radius: 4px;
+    padding: .25rem .8rem; cursor: pointer; font-size: .8rem; white-space: nowrap;
+  }
+  #stop-btn { background: var(--accent); color: #fff; }
+  #stop-btn:hover { opacity: .85; }
+  .section-gloss-btn { background: var(--accent2); color: var(--muted); border: 1px solid var(--tag); margin-left: auto; flex-shrink: 0; }
+  .section-gloss-btn:hover { background: #1a4a80; color: var(--text); }
+  .shadow-btn { background: #1e3a1e; color: #8db88d; border-color: #3a7a3a; }
+  .shadow-btn:hover { background: #2a5a2a; color: #c0e0c0; }
+  .voice-status { color: var(--muted); font-size: .75rem; font-style: italic; }
+
+  /* ── Play button on each card ── */
+  .spanish-row { display: flex; align-items: flex-start; gap: .6rem; }
+  .spanish-text { flex: 1; }
+  .play-btn {
+    flex-shrink: 0; margin-top: .15rem;
+    background: none; border: 1.5px solid var(--accent);
+    color: var(--accent); border-radius: 50%;
+    width: 2rem; height: 2rem; cursor: pointer;
+    font-size: .9rem; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s;
+  }
+  .play-btn:hover { background: var(--accent); color: #fff; }
+  .play-btn.playing {
+    background: var(--accent); color: #fff;
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(233,69,96,.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(233,69,96,0); }
+  }
+
+  /* ── Dictionary word spans ── */
+  .es-word {
+    cursor: pointer;
+    border-bottom: 1px dotted rgba(245,197,24,.35);
+    border-radius: 2px;
+    padding: 0 1px;
+    transition: background .1s;
+  }
+  .es-word:hover, .es-word.dp-active {
+    background: rgba(245,197,24,.18);
+    border-bottom-color: var(--spanish);
+  }
+
+  /* ── Dictionary popup ── */
+  #dict-popup {
+    position: fixed;
+    z-index: 500;
+    background: #0d1b2a;
+    border: 1px solid var(--tag);
+    border-radius: 8px;
+    padding: .75rem 1.1rem .85rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,.7);
+    min-width: 210px;
+    max-width: 310px;
+    font-family: sans-serif;
+    display: none;
+  }
+  #dict-popup .dp-word {
+    color: var(--spanish);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-family: Georgia, serif;
+    display: block;
+    margin-bottom: .4rem;
+    padding-right: 1.6rem;
+  }
+  .dp-loading { color: var(--muted); font-size: .8rem; font-style: italic; padding: .15rem 0 .3rem; }
+  .dp-pos {
+    color: var(--muted); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: 1px; margin: .45rem 0 .2rem; font-family: sans-serif;
+  }
+  .dp-defs {
+    font-size: .85rem; color: var(--text);
+    margin: 0; padding-left: 1.1rem; line-height: 1.45;
+  }
+  .dp-defs li { margin-bottom: .25rem; }
+  .dp-trans { font-size: .95rem; color: var(--text); margin: .25rem 0 .1rem; }
+  .dp-alts  { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: .1rem; }
+  .dp-none  { color: var(--muted); font-size: .8rem; font-style: italic; padding: .2rem 0 .3rem; }
+  .dp-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,.09);
+    margin: .6rem 0 .5rem;
+  }
+  #dict-popup .dp-links {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  #dict-popup .dp-links a {
+    color: var(--gloss);
+    text-decoration: none;
+    font-size: .8rem;
+    padding: .25rem .55rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,.06);
+    transition: background .12s;
+    display: block;
+  }
+  #dict-popup .dp-links a:hover { background: rgba(255,255,255,.14); }
+  #dict-close {
+    position: absolute;
+    top: .45rem; right: .6rem;
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: .9rem; line-height: 1;
+    padding: .1rem .2rem;
+  }
+  #dict-close:hover { color: var(--text); }
+
+</style>
+</head>
+<body>
+<div id="audio-bar">
+  <span class="bar-label">&#128266; Voz:</span>
+  <select id="voice-select" class="voice-select"><option>Cargando voces&hellip;</option></select>
+  <div class="speed-wrap">
+    <span class="bar-label">Velocidad:</span>
+    <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.05" value="0.85">
+    <span id="speed-val">0.85&times;</span>
+  </div>
+  <button id="stop-btn">&#9632; Parar</button>
+  <span class="voice-status" id="voice-status"></span>
+</div>
+<header>
+  <h1>Flash and Fire</h1>
+  <h2>Sheikh &amp; Lex &middot; Cap&iacute;tulo 14: <em>Capítulo 14</em></h2>
+  <p>Lectura glosada para el estudio del español — cada oración con glosa, vocabulario y notas gramaticales</p>
+</header>
+<div class="section-group"><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">01</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar no lo lleva a un Airbnb. Lo lleva a un complejo de apartamentos, más cerca del centro. Tiene un aspecto un tanto dudoso y es aproximadamente del tamaño de una caja de zapatos, pero se ve habitado, de una manera que ninguno de los hoteles o alquileres que frecuentaba cuando era vampiro tenía. Sus cosas están en él: un televisor, unos videojuegos, una estantería con cómics y una biografía de Harry Houdini. Incluso hay varios marcos con fotos de él junto a Dyris, Akaji y otras personas que Bodhi no reconoce.
+
+Hay una cocina, un dormitorio, un baño y un hueco con lavadora y secadora apiladas. Thessalar abre la puerta de par en par, enciende una lámpara y hace un gesto amplio. «Por humilde que sea», dice, con una sonrisa ligeramente irónica.
+
+Y a pesar de su compostura, Bodhi puede ver que Thessalar odia estar aquí. El tamaño del apartamento no es el problema; Thessalar odia vivir solo y pasa el menor tiempo posible en él. Hasta arriesgar la vida en las calles cazando vampiros le resulta preferible a sentarse aquí y estar consigo mismo con sus pensamientos. Arrastra su baúl y lo coloca junto al televisor, y pasa a la cocina a recoger.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar doesn&#x27;t take him to an AirBnB.  He takes him to an apartment complex, closer to downtown.  It&#x27;s a little disreputable looking, and approximately the size of a shoebox, but it looks lived in, in a way none of the hotel rooms or rentals he frequented as a vampire did.  His things are in it--a television, some video games, a bookshelf with comics and a biography about Harry Houdini.  There are even some picture frames around of him with Dyris and Akaji and some other people that Bodhi doesn&#x27;t recognize.
+
+There&#x27;s a kitchen and one bedroom and a bathroom, and an alcove with a stacked washer and dryer unit.  Thessalar sweeps the door open, turns on a lamp, and gestures expansively.  &quot;Be it ever so humble,&quot;  he says, mouth a bit wry.
+
+And despite his composure, Bodhi can see Thessalar hates it here.  The apartment&#x27;s size isn&#x27;t the problem; Thessalar hates living alone, and spends as little time in it as possible.  Even risking his life on the streets hunting vampires is preferable, to him, to sitting here and being by himself with his thoughts.  He drags his trunk in and sets it next to the TV, and moves into the kitchen to tidy up.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>complejo de apartamentos</td><td>apartment complex — <em>complejo</em> = complex/development</td></tr>
+        <tr><td>de aspecto dudoso</td><td>disreputable-looking — <em>dudoso</em> = dubious/questionable; used of appearance or trustworthiness</td></tr>
+        <tr><td>caja de zapatos</td><td>shoebox — common simile for a tiny space</td></tr>
+        <tr><td>hueco</td><td>alcove, nook — <em>hueco</em> lit. 'hollow/gap'; used for small recessed spaces</td></tr>
+        <tr><td>de par en par</td><td>wide open — fixed expression: <em>abrir de par en par</em> = to throw wide open</td></tr>
+        <tr><td>recoger</td><td>to tidy up, to put things away — one of its many meanings; also 'to pick up'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>ninguno de los hoteles… tenía</strong> — <em>Ninguno de + plural noun + singular verb</em>: 'none of the hotels had'. <em>Ninguno</em> takes a singular verb even when followed by a plural noun.</li>
+        <li><strong>Por humilde que sea</strong> — <em>Por + adjective + que + subjunctive</em>: concessive construction meaning 'however humble it may be / be it ever so humble'. Requires subjunctive.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">02</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">—Gracias, vendría bien. —Una sonrisa irónica—. ¿Puedo poner una lavada?</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Yeah, thanks. That&#x27;d be good.&quot; A smile, wry. &quot;Can I run a load of wash?&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>vendría bien</td><td>would be good, would come in handy — <em>venir bien</em> = to suit, to be convenient; conditional for polite softening</td></tr>
+        <tr><td>poner una lavada</td><td>to run a load of wash — <em>poner</em> is used idiomatically for starting appliances; also <em>poner la lavadora</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>vendría bien</strong> — <em>Condicional de cortesía</em>: conditional tense used to soften a statement, equivalent to English 'that'd be good'.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">03</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">—Claro, haz un reset completo, te tengo cubierto —dice Thessalar, guardando los últimos platos viejos en el lavavajillas.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Yeah sure, do a whole reset, I gotcha covered,&quot; Thessalar says, putting the last of some old dishes in the dishwasher.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>te tengo cubierto</td><td>I've got you covered — calque of the English idiom; used in colloquial Spanish</td></tr>
+        <tr><td>lavavajillas</td><td>dishwasher — lit. 'dish-washer'; compound noun</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">04</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Se quita la mochila del hombro. —Ya vas ganando estrellas —dice, y de repente sonríe. Desaliñado y encantador y, por un momento, llamativamente guapo, como algo esculpido.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Bag unshouldered. &quot;Already earning those stars,&quot; he says, and grins suddenly. Scruffy and winsome and--for a moment--strikingly pretty, like something crafted.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>se quita la mochila del hombro</td><td>unshoulds the bag — lit. 'takes the backpack off his shoulder'; <em>quitarse</em> = reflexive removal</td></tr>
+        <tr><td>desaliñado</td><td>scruffy, disheveled — from <em>aliño</em> (tidiness); the prefix <em>des-</em> negates it</td></tr>
+        <tr><td>encantador</td><td>winsome, charming — from <em>encantar</em>; very common adjective</td></tr>
+        <tr><td>llamativamente</td><td>strikingly — adverb from <em>llamativo</em> (eye-catching); from <em>llamar la atención</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">05</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar traga saliva y se pasa la mano por la nuca. —Bueno, mira, tengo mis momentos —dice, evidentemente desconcertado.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar swallows, running a hand along the back of his head.  &quot;Well, hey, I have my moments,&quot; he says, obviously flustered.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>traga saliva</td><td>swallows — lit. 'swallows saliva'; idiomatic for nervousness or being affected</td></tr>
+        <tr><td>la nuca</td><td>the nape of the neck — specific anatomical term, back of the neck</td></tr>
+        <tr><td>desconcertado</td><td>flustered, flustered/disconcerted — from <em>desconcertar</em>, to disconcert</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">06</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">En realidad no tiene suficiente ropa para llenar una lavadora. Un par de pantalones de faena. Unas camisetas. Considera lavar la sudadera, pero eso abriría toda una conversación sobre la pistola.
+5:29 PM
+Se quita las botas para poder lavar todos los calcetines de una vez.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He doesn&#x27;t have a full load of wash worth of clothes, actually. Couple pairs of BDUs. Couple tee-shirts. He considers washing the hoodie, but that invites a whole conversation about the gun.
+5:29 PM
+Boots off so he can wash all his socks at once.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>pantalones de faena</td><td>BDUs, work/combat trousers — <em>faena</em> = task/work; <em>ropa de faena</em> = work clothes; military contexts use <em>traje de faena</em></td></tr>
+        <tr><td>sudadera</td><td>hoodie, sweatshirt — <em>sudadera con capucha</em> = hoodie specifically; <em>sudar</em> = to sweat</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>abriría toda una conversación</strong> — <em>Condicional</em>: 'that would open up a whole conversation'. The conditional here expresses a hypothetical consequence.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">07</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar entra al dormitorio y cierra la puerta casi del todo. Le va a llevar unos minutos quitarse el traje de mago y guardar las armas que lleva escondidas encima; ese es el verdadero motivo por el que se ha comportado bien hasta ahora. Un cuchillo en la bota, una estaca de madera oculta en una manga. La pistola de alarma. Un paquete de papel de destello. Se cambia a unos pantalones de chándal y una camiseta de franela con botones, que deja abierta. También guarda su sombrero y deja las botas en el armario del dormitorio junto con todo lo demás. Lo cierra: no tiene sentido dejar que Bodhi pregunte por qué va armado hasta los dientes.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar steps into the bedroom, closing the door most of the way.  It&#x27;s going to take him a few minutes to change out of his magician&#x27;s outfit and put away the weapons hidden on his person; the real reason he&#x27;s behaved himself this far.  A knife in his boot, a wooden stake hidden up one sleeve. The alarm gun.  A packet of flash paper.  He changes into some sweatpants and a flannel buttoned T-shirt, which he leaves open.  He puts away his hat as well, and sets his boots in the bedroom closet with everything else.  He shuts it--no sense in letting Bodhi ask why he runs around armed to the teeth.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>traje de mago</td><td>magician's outfit — <em>traje</em> = suit/outfit; <em>mago</em> = magician</td></tr>
+        <tr><td>estaca de madera</td><td>wooden stake — <em>estaca</em> = stake/post; classic vampire-hunting weapon</td></tr>
+        <tr><td>papel de destello</td><td>flash paper — <em>destello</em> = flash/sparkle; used by stage magicians</td></tr>
+        <tr><td>pantalones de chándal</td><td>sweatpants — <em>chándal</em> = tracksuit; from French <em>chandail</em></td></tr>
+        <tr><td>armado hasta los dientes</td><td>armed to the teeth — exact calque of the English idiom; very common in Spanish</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>Le va a llevar unos minutos</strong> — <em>Perífrasis ir a + infinitivo</em>: near future. <em>Le</em> is an indirect object (dative of interest), 'it's going to take him a few minutes'.</li>
+        <li><strong>no tiene sentido dejar que</strong> — <em>dejar que + subjunctive</em>: 'no sense in letting [someone do something]'. <em>Dejar que</em> requires subjunctive in the subordinate clause.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">08</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Para cuando Thess ha salido, la ducha ya está en marcha. No es la ducha más larga, pero tampoco la más corta; se ha llevado todo lo que no está en la lavadora al baño con él.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">By the time Thess has emerged, the shower is running. It&#x27;s not the longest shower, but it&#x27;s not the shortest either; he&#x27;s taken everything that isn&#x27;t in the washer in the bathroom with him.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>para cuando</td><td>by the time — temporal conjunction; note it takes indicative here (completed state)</td></tr>
+        <tr><td>está en marcha</td><td>is running/underway — <em>poner en marcha</em> = to start up; <em>en marcha</em> = running, in motion</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>Para cuando Thess ha salido</strong> — <em>Para cuando + indicativo</em>: 'by the time Thess has emerged'. <em>Para cuando</em> can take indicative (completed fact) or subjunctive (hypothetical future).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">09</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar se sienta en el sofá del salón y navega por el teléfono. Le escribe a Akaji, solo para asegurarse de que no está lo bastante loco para enfrentarse solo a un nido de cuatro vampiros. No hay respuesta, pero tampoco le preocupa especialmente.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar takes a seat on the couch in the living room and scrolls on his phone.  Texts Akaji, just to make sure he&#x27;s not crazy enough to take on a four vampire nest on his own.  There&#x27;s no reply but he&#x27;s not especially concerned.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>navega por el teléfono</td><td>scrolls on his phone — <em>navegar</em> = to browse/scroll; used for devices as well as the internet</td></tr>
+        <tr><td>nido</td><td>nest — here used metaphorically for a vampire den; lit. 'nest'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>solo para asegurarse de que no está lo bastante loco</strong> — <em>Asegurarse de que + indicativo</em>: 'to make sure that'. With <em>asegurarse</em>, the subordinate clause takes indicative (checking a fact) vs. subjunctive (ensuring something happens).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">10</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">Mientras está en la ducha, piensa en el hecho de que Thess tiene un hogar. Se pregunta si Akaji lo habrá vaciado cuando él murió. Lo duda. Akaji no parece importarle gran cosa.
+
+1
+5:41 PM
+Y poco después sale. Limpio, vestido excepto por calcetines y zapatos, con los dientes lavados. Deja sus zapatos y la mochila junto a la puerta principal y se seca el pelo húmedo con la toalla distraídamente.
+5:41 PM
+—Gracias —dice—. Me siento como hombre nuevo. —La toalla colgada sobre la puerta.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He thinks, while he&#x27;s in there, about the fact that Thess has a home. Wonders if Akaji cleaned it out, when he died. He doubts it. Akaji doesn&#x27;t seem to care about much.
+ 
+
+ 
+1
+5:41 PM
+And not long after--emerges. Clean, dressed except for socks and shoes, teeth brushed. He sets his shoes and bag by the front door, towel dries his damp hair absently.
+5:41 PM
+&quot;Thanks,&quot; he says. &quot;Feel like a whole new man.&quot; The towel draped over the door.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>lo habrá vaciado</td><td>will have emptied it — future perfect expressing probability/speculation about the past</td></tr>
+        <tr><td>no le importarle gran cosa</td><td>doesn't seem to care about much — <em>importar</em> = to matter; <em>gran cosa</em> = much/anything significant</td></tr>
+        <tr><td>con los dientes lavados</td><td>teeth brushed — lit. 'with washed teeth'; <em>lavarse los dientes</em> = to brush one's teeth</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>se pregunta si Akaji lo habrá vaciado</strong> — <em>Futuro perfecto de probabilidad</em>: 'wonders if Akaji has perhaps emptied it'. The future perfect expresses conjecture about a past event.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">11</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar levanta la vista, apaga la pantalla del teléfono y lo deja en la mesita. Sus cejas se alzan mientras deja que los ojos se paseen por Bodhi. —Vaya —dice sin pretender en ningún momento expresar ese pensamiento en voz alta.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar looks up, turns off the screen on his phone, sets it on an end table.  His eyebrows raise as he lets his eyes wander over Bodhi.  &quot;Damn,&quot; he says without intending to voice that particular thought out loud.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>mesita</td><td>end table, side table — diminutive of <em>mesa</em>; <em>mesita de noche</em> = nightstand</td></tr>
+        <tr><td>pasearse</td><td>to wander, to roam — reflexive; <em>dejar que los ojos se paseen</em> = to let one's eyes wander</td></tr>
+        <tr><td>vaya</td><td>damn, wow — exclamation; can express surprise, admiration, or mild exasperation</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>sin pretender en ningún momento expresar</strong> — <em>Sin + infinitivo</em>: 'without intending'. <em>Sin</em> + infinitive forms a negative adverbial; <em>en ningún momento</em> intensifies the negation.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">12</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">—¿Está ocupado este sitio? —Una mirada al asiento junto a Thess.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;This seat taken?&quot; A glance at the seat beside Thess.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>¿Está ocupado?</td><td>Is it taken? — standard phrase for asking if a seat is free; <em>ocupado</em> = occupied/taken</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">13</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">—Es todo tuyo —dice Thessalar, haciendo un gesto con una mano. Sin guantes ya. — Mi casa, su casa.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;All yours,&quot; Thessalar says, gesturing with one hand.  No gloves, now.  &quot;Mi casa su casa.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>es todo tuyo</td><td>it's all yours — idiomatic expression of welcome or offering</td></tr>
+        <tr><td>mi casa su casa</td><td>my home is your home — the well-known Spanish hospitality expression; note the use of <em>su</em> (formal) even in casual speech here, as a set phrase</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">14</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Por un momento le cuesta recordar que Thess no puede oír los latidos de su corazón mientras se acomoda en el sofá junto a él.
+«Tranquilo, cariño, nunca debí traerte aquí.»
+Un recuerdo repentino y muy físico del brazo de Thess deslizándose a su alrededor.
+5:56 PM
+Se queda en silencio un momento, intentando dar con algo ingenioso y desenfadado que decir. El corazón latiendo fuerte.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">It is hard to remember for a second that Thess can&#x27;t hear his heartbeat as he settles to the couch beside him.
+Easy, baby, I should never have brought you here.
+ A sudden and very physical memory of Thess&#x27;s arm sliding around him.
+5:56 PM
+It leaves him silent for a moment, trying to think of something pithy and casual to say. Heart beating hard.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>latidos del corazón</td><td>heartbeat — <em>latido</em> = beat/throb; from <em>latir</em></td></tr>
+        <tr><td>se acomoda</td><td>settles, makes himself comfortable — <em>acomodarse</em> = to settle in, get comfortable</td></tr>
+        <tr><td>ingenioso</td><td>pithy, clever, witty — from <em>ingenio</em> (wit/ingenuity)</td></tr>
+        <tr><td>desenfadado</td><td>casual, carefree — see Chapter 1 notes; opposite of stiff or formal</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>Le cuesta recordar</strong> — <em>Costar + infinitivo</em>: 'it is hard for him to remember'. <em>Costar</em> functions like <em>gustar</em> — the subject is the action, <em>le</em> is the experiencer.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">15</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">—Seguro que te lo dicen mucho —dice Thessalar, maravillado ante lo azules que son sus ojos mientras se acerca, le sube la mano por el muslo—. Pero Dios mío, qué injustamente guapo eres.
+5:57 PM
+Su tacto, cálido esta vez.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;You probably get this a lot,&quot; Thessalar says, marveling at how blue his eyes are as he leans closer, runs a hand up Bodhi&#x27;s thigh.  &quot;But Jesus Christ, you&#x27;re unfairly pretty.&quot;
+5:57 PM
+His touch, warm this time.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>maravillado ante</td><td>marveling at — <em>maravillarse ante/con</em> = to marvel at; <em>maravillado</em> = full of wonder</td></tr>
+        <tr><td>injustamente guapo</td><td>unfairly pretty — <em>injustamente</em> = unfairly/unjustly; the construction is playfully hyperbolic</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>maravillado ante lo azules que son sus ojos</strong> — <em>Lo + adjective + que</em>: exclamatory/intensifying construction. 'How blue his eyes are.' <em>Lo</em> here functions as a neuter intensifier.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">16</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Se ríe, baja la vista un momento. —Es justo repartirlo, ¿no? —ofrece, y su voz tiembla un poco. No llega a quebrarse del todo. Y vuelve el rostro hacia el de Thess, los dedos subiendo para inclinarle la barbilla y besarle.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He laughs, looks down for a moment. &quot;Fair if I share it around, isn&#x27;t it,&quot; he offers, and his voice is a little thready for a moment. Not quite cracking. And he turns his face into Thess&#x27;s, fingers up to tilt his chin to kiss.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>repartirlo</td><td>to share it around — <em>repartir</em> = to distribute, share out</td></tr>
+        <tr><td>tiembla</td><td>trembles, is unsteady — <em>temblar</em>; here used of a voice about to crack</td></tr>
+        <tr><td>quebrarse</td><td>to crack, to break — <em>quebrarse la voz</em> = for the voice to crack</td></tr>
+        <tr><td>barbilla</td><td>chin — <em>mentón</em> is a more clinical synonym</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">17</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar le besa, y la alegría y el deseo brillan intensos en su mente. Su boca se curva en una sonrisa contra la de Bodhi, y le sube la mano del muslo para hundirla en su cabello húmedo y sedoso.
+«Sí, le gusto. ¡Punto para Thessalar!»</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar kisses him, delight and desire sparking bright in his mind.  His mouth curves in a smile against Bodhi&#x27;s, and he lifts his hand from his thigh to slide up into damp silken hair.
+Fuck yeah he&#x27;s into me.  Point Thessalar!</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>brillan intensos</td><td>sparking bright — adjective used predicatively; <em>brillar</em> = to shine/sparkle</td></tr>
+        <tr><td>se curva</td><td>curves — <em>curvarse</em> = to curve/bend</td></tr>
+        <tr><td>hundirla en</td><td>to sink/slide into — <em>hundir</em> lit. to sink; used for plunging hands into hair</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">18</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Le pasa el brazo por los hombros. Profundizando el beso, para no tener que hablar. Es tan parecido y tan diferente al otro Thess.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He slides his arm over Thess&#x27;s shoulders.  Deepening the kiss, so he doesn&#x27;t have to talk. He&#x27;s so like and unlike his the other Thess.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>profundizando el beso</td><td>deepening the kiss — <em>profundizar</em> = to deepen; works for kisses, discussions, etc.</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>para no tener que hablar</strong> — <em>Para no + infinitivo</em>: 'so as not to have to talk'. Negative purpose clause using infinitive (same subject).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">19</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">No sabe a monedas, pero besa de manera muy parecida, presionándose todo lo que se atreve cuando Bodhi profundiza el beso. Lo interrumpe cuando el aliento lo exige, para besar un ardiente rastro a lo largo de su mandíbula hasta el cuello.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He doesn&#x27;t taste like pennies but he kisses much the same, pressing in as close as he dares when Bodhi deepens the kiss.  Breaking it when breath demands, to kiss a hot trail down his jawline to his neck.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>sabe a monedas</td><td>tastes like pennies/coins — metallic taste; <em>saber a</em> = to taste of/like</td></tr>
+        <tr><td>mandíbula</td><td>jawline, jaw — the mandible; <em>línea de la mandíbula</em> = jawline</td></tr>
+        <tr><td>ardiente rastro</td><td>hot trail — <em>ardiente</em> = burning, blazing; <em>rastro</em> = trace/trail</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">20</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Emite un pequeño sonido, profundo en la garganta. Siente un pulso vivo de excitación ante eso, y un escalofrío caliente y frío a la vez, de vergüenza y miedo. La mandíbula se le levanta, pero sus dedos se enredan también en el cabello de Thess para devolver su boca adonde Bodhi pueda alcanzarla, para besarle ahora con calor real.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He makes a small sound, deep in his throat. Feeling a live wire pulse of arousal at that, and a hot/cold wash of shame and fear. His jaw tilts up, but his fingers tangle in Thess&#x27;s hair also to tilt his mouth back where Bodhi can reach, to kiss him now with real heat.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>pulso vivo</td><td>live wire pulse — <em>pulso</em> = pulse/throb; <em>vivo</em> = live/vivid</td></tr>
+        <tr><td>escalofrío</td><td>a shiver, a wash of cold — <em>escalofrío</em> = shiver/chill; often used for fear or sudden sensation</td></tr>
+        <tr><td>se enredan</td><td>tangle — <em>enredarse</em> = to get tangled; <em>enredar</em> = to tangle/entangle</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>para devolver su boca adonde Bodhi pueda alcanzarla</strong> — <em>Adonde + subjuntivo</em>: 'to where Bodhi can reach it'. <em>Adonde</em> (whither/to where) triggers subjunctive when the destination is indefinite or purposive.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">21</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">El beso ahoga su gemido cuando Bodhi tirándole del pelo provoca en él una oleada de calor que siente hasta en los dedos de los pies. Piensa en Bodhi haciéndolo mientras le folla la boca, usando su pelo como agarre firme para usarle, y el modo en que se estremece ante esa imagen mental es incontrolable.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">The kiss muffles his groan as Bodhi pulling his hair results in a wave of heat he can feel all the way to his toes.  He thinks of Bodhi doing that while fucking his mouth, using his hair as a steady grip to use him, and the way he shudders over that mental image is helpless.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>ahoga su gemido</td><td>muffles his groan — <em>ahogar</em> = to muffle/stifle; lit. to drown; <em>gemido</em> = groan/moan</td></tr>
+        <tr><td>oleada de calor</td><td>wave of heat — <em>oleada</em> = wave/surge; from <em>ola</em></td></tr>
+        <tr><td>incontrolable</td><td>helpless, uncontrolled — <em>incontrolable</em> = uncontrollable; here captures 'helpless' in the sense of having no control over the reaction</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>Bodhi tirándole del pelo provoca</strong> — <em>Gerundio como sujeto nominal</em>: the gerund phrase 'Bodhi pulling his hair' functions as the subject of <em>provoca</em>. Spanish can use gerunds this way in literary contexts.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">22</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Emite otro pequeño sonido. La mano que no está en torno a los hombros de Thess y enredada en su pelo se posa en su muslo.
+6:30 PM
+Separándose del beso. —¿Eres versátil?</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He makes another small noise. The hand that isn&#x27;t around Thess&#x27;s shoulders and tangled in his hair settles on his thigh.
+6:30 PM
+Separating from the kiss. &quot;You vers?&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>versátil</td><td>vers (versatile) — in gay slang, refers to someone who is both top and bottom; direct use of the Spanish adjective</td></tr>
+        <tr><td>se posa en</td><td>settles on — <em>posarse</em> = to alight on, to rest gently on</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">23</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar jadea un poco, con las pupilas muy dilatadas de excitación. —¿Eh? Ah —la pregunta le arranca una sonrisa ligeramente tensa—. Sí, absolutamente, ¿quieres follarme?</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar pants a little, pupils blown wide with arousal.  &quot;Huh?  Oh,&quot; the question wins a bit of a strained smile from him.  &quot;Yeah, absolutely, did you wanna fuck me?&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>jadea</td><td>pants — <em>jadear</em> = to pant, to be out of breath; also used for heavy breathing from exertion or arousal</td></tr>
+        <tr><td>dilatadas de excitación</td><td>blown wide with arousal — <em>dilatado</em> = dilated; <em>excitación</em> = arousal/excitement</td></tr>
+        <tr><td>le arranca una sonrisa</td><td>wins/draws a smile from him — <em>arrancar</em> = to wrest/pull; idiomatic for drawing out a reaction</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">24</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">—Prefiero esa boca —dice, en voz baja—. Estás tremendamente bueno.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Rather get that mouth,&quot; he says, low. &quot;You&#x27;re fucking hot.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>prefiero esa boca</td><td>I'd rather have that mouth — <em>preferir</em> = to prefer</td></tr>
+        <tr><td>tremendamente bueno</td><td>fucking hot — <em>bueno/a</em> in colloquial Spanish = hot/attractive; <em>tremendamente</em> intensifies it; <em>estar bueno</em> (not <em>ser</em>) = to be physically attractive</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>estar bueno/a</strong> — <em>Ser vs. estar con adjetivos</em>: <em>estar bueno</em> = to be hot/attractive (physical appearance, temporary state). <em>Ser bueno</em> = to be good/kind (essential quality). The distinction is crucial and commonly tested.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">25</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Esa sonrisa florece en una sonrisa plena. —Cariño, solo tenías que decir la maldita palabra —ronronea, y besa a Bodhi de nuevo, febril, desordenado, antes de apartarse y ponerse de rodillas.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">That smile blossoms into a full grin.  &quot;Babe you only ever had to say the damn word,&quot; he purrs, and he kisses Bodhi again, feverish, messy, before pulling away to get on his knees.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>florece en</td><td>blossoms into — <em>florecer</em> = to flower/bloom; used metaphorically</td></tr>
+        <tr><td>ronronea</td><td>purrs — <em>ronronear</em> = to purr; also used of a person's voice</td></tr>
+        <tr><td>la maldita palabra</td><td>the damn word — <em>maldito/a</em> = damned/bloody; common intensifier</td></tr>
+        <tr><td>ponerse de rodillas</td><td>to get on one's knees — <em>ponerse de rodillas</em> = to kneel down</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">26</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Baja la vista hacia Thess, con los ojos oscurecidos por la excitación. Ojos azules y pestañas oscuras, y se humedece los labios, carnosos y sensuales. —¿Cuál es la palabra, &#x27;abracadabra&#x27;?
+6:46 PM
+Una mano frotándose la mandíbula.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He gazes down at Thess, eyes dark with arousal. Blue eyes and dark lashes and he wets his lips, full and sensuous. &quot;What&#x27;s the word, &#x27;abracadabra&#x27;?&quot;
+6:46 PM
+A hand rubbed over his jaw.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>oscurecidos</td><td>darkened — <em>oscurecer</em> = to darken; <em>oscurecido</em> = darkened</td></tr>
+        <tr><td>se humedece los labios</td><td>wets his lips — <em>humedecer</em> = to moisten; reflexive for doing it to oneself</td></tr>
+        <tr><td>carnosos</td><td>full, fleshy — <em>carnoso</em> = fleshy/full; of lips, fruit, etc.</td></tr>
+        <tr><td>sensuales</td><td>sensuous — <em>sensual</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">27</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar engancha los dedos en la cinturilla de Bodhi y la baja. —Claro —dice con una sonrisa burlona—. Mira, tengo un truco de desaparición para eso. —Y agacha la cabeza para envolver sus labios alrededor de la cabeza del miembro de Bodhi y hundirse.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar hooks his fingers in Bodhi&#x27;s waistband, draws it down.  &quot;Sure,&quot; he says with a smirk.  &quot;Here, watch, I got a disappearing trick for that.&quot; And he dips his head, to wrap his lips around the head of Bodhi&#x27;s cock and sink down.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>cinturilla</td><td>waistband — <em>cinturilla</em> = waistband; <em>cinturón</em> = belt; <em>cintura</em> = waist</td></tr>
+        <tr><td>sonrisa burlona</td><td>smirk — <em>burlón/a</em> = mocking, smirking; from <em>burla</em> (mockery)</td></tr>
+        <tr><td>truco de desaparición</td><td>disappearing trick — <em>truco</em> = trick; <em>desaparición</em> = disappearance</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">28</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Levanta las caderas para ayudar a Thess a bajarle los pantalones, y luego echa la cabeza hacia atrás en el sofá cuando Thess se lo mete en la boca, con un gemido.
+6:51 PM
+Las manos enredadas, un momento después, en el pelo de Thess.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He raises his hips, to help Thess get his pants down--and then rolls his head back into the couch when Thess takes him in his mouth, with a groan.
+6:51 PM
+Hands wrapping, after a moment, in Thess&#x27;s hair.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>levanta las caderas</td><td>raises his hips — <em>caderas</em> = hips</td></tr>
+        <tr><td>echa la cabeza hacia atrás</td><td>rolls/throws his head back — <em>echar</em> = to throw; <em>hacia atrás</em> = backward</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">29</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Su boca es tan ardiente como un hierro candente, y Thessalar se entrega a su tarea con un entusiasmo sin igual. Los labios deslizándose hacia abajo, la lengua trabajando para atraer a Bodhi más adentro de su boca. Otro gemido se le escapa cuando siente las manos de Bodhi en su pelo, y un estremecimiento lo recorre. Sus manos se posan en los muslos de Bodhi, al menos hasta que una se desliza más abajo para juguetear.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">His mouth is as hot as a brand, and Thessalar sets to his task with unmatched enthusiasm.  Lips sliding down, tongue working to draw Bodhi deeper into his mouth.  Another moan escapes him when he feels Bodhi&#x27;s hands in his hair, and a shudder runs through him.  His hands alight on Bodhi&#x27;s thighs, at least til one slips lower to play with his balls.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>hierro candente</td><td>a brand, a red-hot iron — <em>hierro</em> = iron; <em>candente</em> = red-hot, glowing</td></tr>
+        <tr><td>sin igual</td><td>unmatched, unequaled — fixed expression: <em>sin igual</em> = without equal</td></tr>
+        <tr><td>se le escapa</td><td>escapes him — <em>escapársele a alguien</em> = to escape involuntarily; used for sounds, sighs, words</td></tr>
+        <tr><td>se posan en</td><td>alight on — <em>posarse</em> = to rest/alight; see earlier note</td></tr>
+        <tr><td>juguetear</td><td>to play, to fondle — <em>juguetear</em> = to play/toy with; diminutive quality of <em>jugar</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">30</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Otro gemido y empieza, despacio, a follarse la boca ardiente de Thess. Sus ojos se abren de nuevo y su cabeza se levanta para poder mirarle hacia abajo, el espectáculo que ofrece. Las manos en su pelo, para mantenerle la cara ahí.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Another groan and he begins, slowly, to fuck Thess&#x27;s hot mouth. His eyes open again and his head lifts so he can look down at him, the sight he presents. Hands in his hair, to hold his face there for it.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>el espectáculo que ofrece</td><td>the sight he presents — <em>espectáculo</em> = spectacle/sight; <em>ofrecer</em> = to present/offer</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">31</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">La mandíbula de Thessalar se relaja como si estuviera preparado para ello, como si ya estuviera acostumbrado. Sus labios forman una O perfecta alrededor de Bodhi, y su mirada se alza para cruzar sus ojos de color verde azulado con los azules de Bodhi. Por un momento, el sabor, la vista y la sensación le resultan tan familiares de algún modo que le producen un mareante déjà vu que Bodhi puede observar en tiempo real.
+
+Pero Thessalar no se recrea en ello, y en cambio centra su atención en bañar con la lengua la carne rígida en su boca, tragándoselo con cada embestida. La mano que tiene en el muslo de Bodhi se curva un poco, apretando con suavidad.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar&#x27;s jaw relaxes like he&#x27;s ready for it, like he&#x27;s used to this already.  His lips form a perfect O around Bodhi, and his gaze lifts to lock teal eyes with blue ones.  For a moment, the taste and the view and the sensation seems so familiar somehow, giving him a reeling sense of deja vu that Bodhi can watch in real time.
+
+But Thessalar doesn&#x27;t dwell on it, instead focusing his attention on laving the stiff flesh in his mouth with his tongue, sucking him down with every stroke.  His hand that is on Bodhi&#x27;s thigh curls a little, squeezing gently.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>como si estuviera acostumbrado</td><td>as if he were used to this — <em>estar acostumbrado a</em> = to be used to</td></tr>
+        <tr><td>verde azulado</td><td>teal — lit. 'blue-green'; <em>verde azulado</em> or <em>azul verdoso</em></td></tr>
+        <tr><td>mareante</td><td>reeling, dizzying — from <em>marear</em> = to make dizzy; <em>mareo</em> = dizziness</td></tr>
+        <tr><td>bañar con la lengua</td><td>to lave with the tongue — <em>bañar</em> = to bathe; used figuratively for tongue movement</td></tr>
+        <tr><td>embestida</td><td>stroke, thrust — <em>embestida</em> = thrust/charge; from <em>embestir</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>como si estuviera preparado… como si ya estuviera acostumbrado</strong> — <em>Como si + imperfecto de subjuntivo</em>: 'as if he were'. <em>Como si</em> always triggers imperfect or pluperfect subjunctive.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">32</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">—Dios mío, Thess. —Absorbiendo el espectáculo que ofrece—. Eso está tan jodidamente bien... —con voz tensa. Está muy duro, la piel aterciopelada y suave. Recién duchado, limpio.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Jesus Christ, Thess.&quot; Absorbing the sight he presents. &quot;That&#x27;s so fucking good--&quot; strained. He is very hard, skin velvety soft. Freshly showered, clean.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>aterciopelada</td><td>velvety — from <em>terciopelo</em> (velvet); <em>aterciopelado/a</em> = velvety</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">33</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">El elogio sin duda tiene el efecto deseado. Thessalar se mueve, levantando la mano del muslo de Bodhi para bajarla en su lugar y palparse a través del pantalón de chándal. Gime en torno al miembro de Bodhi, lanzándole otra mirada entornada.
+«Vamos, más fuerte, no soy de cristal.»</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">The praise definitely has the intended effect.  Thessalar shifts, lifting his hand off Bodhi&#x27;s thigh so he can reach down instead, palming himself through his sweats.  He moans around Bodhi&#x27;s length, giving him another hooded look.
+Come on, harder, I&#x27;m not made of glass.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>elogio</td><td>praise — <em>elogio</em> = praise/compliment; more formal than <em>cumplido</em></td></tr>
+        <tr><td>palparse</td><td>to palm oneself — <em>palpar</em> = to feel/touch; reflexive here</td></tr>
+        <tr><td>mirada entornada</td><td>hooded look — <em>entornado</em> = half-closed; <em>entornar los ojos</em> = to half-close the eyes</td></tr>
+        <tr><td>no soy de cristal</td><td>I'm not made of glass — idiomatic; means 'I can take it / don't be so careful with me'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">34</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Se siente como ayer pero también como toda una vida entera y es diferente pero es lo mismo. Y como si Bodhi pudiera oírle pensarlo, deja caer la cabeza hacia atrás y cierra los ojos y empieza a follarse la boca de Thess al ritmo y a la profundidad que realmente quiere. Necesitándolo. Lo dice, de hecho.
+
+—Necesito tu boca... joder... vas a estar muy guapo cuando te tragues todo mi puto corrido.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">It feels like yesterday but also an entire lifetime and it&#x27;s different but it&#x27;s the same. And like Bodhi can hear him thinking it--he lets his head roll back and he closes his eyes and he begins to fuck Thess&#x27;s mouth at the pace and depth he actually wants to. Needing it. He says so, actually.
+
+&quot;Need your mouth--fuck--going to look so pretty when you swallow all my fucking come.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>como si Bodhi pudiera oírle pensarlo</td><td>as if Bodhi could hear him thinking it — <em>como si</em> + imperfect subjunctive</td></tr>
+        <tr><td>corrido</td><td>come (semen) — vulgar slang; from <em>correrse</em> = to come (orgasm)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>como si Bodhi pudiera oírle pensarlo</strong> — <em>Como si + imperfecto de subjuntivo</em>: counterfactual comparison. 'As if Bodhi could hear him thinking it.'</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">35</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar se sonroja de color rosa, claro que me voy a tragar todo aunque Bodhi sea un completo desconocido. Esto es emocionante. Estimulante. Tampoco está acostumbrado a que le llamen guapo, eso le gusta bastante.
+
+Aunque con la mandíbula relajada ya sabe que le dolerá por la mañana. Conforme Bodhi se hunde más, Thessalar traga, dejando que su garganta se abra y atraiga a Bodhi hacia el húmedo abrazo de sus músculos apretados.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar flushes pink, yeah of course I&#x27;m gonna swallow even though Bodhi&#x27;s a total stranger.  This is exciting.  Exhilarating. He&#x27;s not used to being called pretty either, likes that quite a bit.
+
+Even with his jaw relaxed he can tell he&#x27;ll be sore in the morning.  As he pushes deeper Thessalar swallows, letting his throat open and draw Bodhi into the slick embrace of tight muscles.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>se sonroja</td><td>flushes — <em>sonrojarse</em> = to blush/flush</td></tr>
+        <tr><td>estimulante</td><td>exhilarating — <em>estimulante</em> = stimulating; can mean exciting or arousing</td></tr>
+        <tr><td>le dolerá</td><td>it will hurt/ache — <em>doler</em> = to hurt/ache; works like <em>gustar</em></td></tr>
+        <tr><td>húmedo abrazo</td><td>slick/wet embrace — <em>húmedo</em> = moist/wet/humid; <em>abrazo</em> = embrace/hug</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">36</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">El sonido que emite ahora no tiene palabras. La urgencia sería, en otras circunstancias, casi vergonzosa. Follándole la boca ahora mientras Thess se lo permite de nuevo, con una serie de sonidos bajos y profundos en la garganta.
+
+Nunca ni siquiera se despidieron.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">The sound he makes now is wordless. The urgency would, under other circumstances, be almost embarrassing. Fucking his mouth now as Thess lets him again, with a series of low sounds deep in his throat.
+
+They never even said goodbye.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>en otras circunstancias</td><td>under other circumstances — <em>circunstancias</em> = circumstances; common prepositional phrase</td></tr>
+        <tr><td>ni siquiera</td><td>not even — strong negative; <em>ni siquiera</em> = not even</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>sería… casi vergonzosa</strong> — <em>Condicional simple de hipótesis</em>: 'would be almost embarrassing'. The conditional expresses what would be the case under different circumstances.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">37</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">El sonido que se le arranca es casi un gemido mientras se hunde hasta que su nariz queda a ras de Bodhi. La garganta trabajando mientras Bodhi le destroza por completo, y Thessalar se regodea en cada segundo de ello. Su mano se mete a toda prisa en el pantalón de chándal para hacerse una paja al mismo ritmo despiadado.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">The sound wrenched from him is almost a whimper as he presses down til his nose is flush against Bodhi.  His throat working as Bodhi absolutely wrecks him, and Thessalar revels in every second of it.  His hand is shoved hastily in his sweats so he can jerk off at the same ruthless pace.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>a ras de</td><td>flush against, level with — <em>a ras de</em> = flush with, at the level of</td></tr>
+        <tr><td>se regodea en</td><td>revels in — <em>regodearse en</em> = to revel in, to take delight in</td></tr>
+        <tr><td>despiadado</td><td>ruthless, merciless — <em>piedad</em> = mercy; <em>des-</em> = without; <em>despiadado</em> = merciless</td></tr>
+        <tr><td>hacerse una paja</td><td>to jerk off — vulgar colloquial; <em>paja</em> lit. = straw; established slang</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">38</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">—*Jodeeeer... —gime, con los testículos apretándose, perdido en ello—. Thess, joder...
+7:42 PM
+Mientras su polla empieza a palpitar.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;*Fuckkkkkk--&quot; he groans, balls tightening, lost to it. &quot;Thess, fuck--&quot;
+7:42 PM
+As his dick begins to jerk.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>testículos</td><td>balls, testicles — anatomical term; slang equivalents include <em>huevos</em>, <em>cojones</em></td></tr>
+        <tr><td>palpitar</td><td>to jerk/throb — <em>palpitar</em> = to throb/pulsate; from <em>palpitación</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">39</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar chupa con suficiente fuerza como para hundir las mejillas y vuelve a mirar a Bodhi, con los ojos de color verde azulado oscurecidos por el deseo.
+«Mírame, vamos, mírame tragármelo todo, cariño...»</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar sucks hard enough to hollow his cheeks and looks up at Bodhi again, teal eyes dark with desire.
+Look at me, come on, watch me fucking swallow all your come babe--</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>hundir las mejillas</td><td>to hollow one's cheeks — <em>hundir</em> = to sink/hollow; <em>mejillas</em> = cheeks</td></tr>
+        <tr><td>tragármelo todo</td><td>swallow it all — <em>tragarse</em> = to swallow; <em>-lo todo</em> = all of it</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">40</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Levanta la cabeza para mirar hacia abajo. Aturdido, respirando con fuerza por los labios entreabiertos, con los ojos dilatados. Contemplando el espectáculo de los labios de Thess envueltos a su alrededor, los preciosos ojos de Thess, sus propias manos enredadas en la suavidad de su pelo.
+
+Y se corre por la garganta de Thess, con un sonido apenas humano.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">His head raises to stare down. Dazed, breathing hard through parted lips, eyes dilated. Taking in the sight of Thess&#x27;s lips wrapped around him, Thess&#x27;s pretty eyes, his own hands tangled in the softness of his hair.
+
+And he shoots down Thess&#x27;s throat, with a barely-human sound.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>aturdido</td><td>dazed — <em>aturdirse</em> = to become dazed; <em>aturdido</em> = stunned/dazed</td></tr>
+        <tr><td>entreabiertos</td><td>parted — <em>entreabierto</em> = half-open; <em>entre-</em> = halfway</td></tr>
+        <tr><td>se corre</td><td>comes, orgasms — vulgar; <em>correrse</em> = to come; one of the most common Spanish vulgar expressions for orgasm</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">41</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar se traga casi todo, echándose hacia atrás en el último momento para dejar que una gota blanca se deslice desde sus labios hinchados mientras mira a Bodhi fijamente con ojos del color del océano.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar swallows almost all of it, drawing back at the last second to let a drop of white trickle from his swollen lips as he stares up at Bodhi with eyes the color of the ocean.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>se deslice</td><td>trickle, slide — <em>deslizarse</em> = to slide/trickle; here subjunctive after <em>dejar que</em></td></tr>
+        <tr><td>labios hinchados</td><td>swollen lips — <em>hinchado</em> = swollen; from <em>hinchar</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>para dejar que una gota… se deslice</strong> — <em>Dejar que + subjuntivo</em>: 'to let a drop trickle'. After <em>dejar que</em>, the subordinate verb is always in subjunctive.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">42</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Le desliza las manos hasta los hombros, con los ojos entornados y el rostro ligeramente sonrojado, para tirar de él hacia arriba. Para besarle. Lamiéndole la comisura de la boca y luego besándole con la boca abierta, perezoso, hambriento.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">His hands slide to Thess&#x27;s shoulders--his eyes heavy-lidded, face faintly flushed--to tug Thess up. To kiss. Licking the corner of his mouth and then kissing him open-mouthed, lazy, hungry.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>comisura</td><td>corner of the mouth — <em>comisura de los labios</em> = the corner where lips meet</td></tr>
+        <tr><td>perezoso</td><td>lazy — here in the sense of languorous/unhurried</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">43</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar se deja llevar, se sube incluso a su regazo para perseguir ese beso.
+pocket vampire
+
+Todavía sabe a Bodhi, y emite sonidos necesitados mientras sus caderas se mueven sin poder evitarlo. Líquido preseminal claro rezumando de la punta de su excitación.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar lets himself be pulled, climbs up into his lap even to chase that kiss.
+pocket vampire
+
+He still tastes like Bodhi, and makes needy noises as his hips roll helplessly.  Clear precum leaking from the tip of his arousal.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>se deja llevar</td><td>lets himself be carried — <em>dejarse llevar</em> = to let oneself be carried away; idiom</td></tr>
+        <tr><td>regazo</td><td>lap — <em>regazo</em> = lap (of a seated person)</td></tr>
+        <tr><td>rezumando</td><td>leaking, oozing — from <em>rezumar</em> = to ooze, to seep</td></tr>
+        <tr><td>líquido preseminal</td><td>precum — clinical term; colloquial: <em>líquido preseminal</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">44</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Le baja la mano para acariciarle mientras se besuquean.
+8:11 PM
+Saboreándose a sí mismo en la boca de Thess, sin evidente aversión. Un aliento de espacio entre ellos. —Un acto así merece una encantadora ayudante —dice con una sonrisa.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">His hand drops to stroke Thess, in his lap, as he makes out with him.
+8:11 PM
+Tasting himself in Thess&#x27;s mouth, with no evident distaste. A breath of space between them. &quot;An act like that deserves a lovely assistant,&quot; with a grin.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>besuquear</td><td>to make out, to kiss a lot — <em>besuquear</em> = to kiss repeatedly; from <em>beso</em></td></tr>
+        <tr><td>saboreándose a sí mismo</td><td>tasting himself — <em>saborear</em> = to savor/taste; reflexive with <em>a sí mismo</em> for clarity</td></tr>
+        <tr><td>sin evidente aversión</td><td>with no evident distaste — <em>aversión</em> = aversion/distaste</td></tr>
+        <tr><td>encantadora ayudante</td><td>lovely assistant — the classic magician's-assistant phrase</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">45</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar se mece contra su agarre y se quita la camiseta a toda prisa para pegarse a Bodhi y tener el mayor contacto piel con piel posible. —Estás como un queso —dice entre besos codiciosos—. Dios, sí, por favor, joder... —No está claro qué está pidiendo. Solo sabe que quiere más.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar rocks into his grip and fumbles his shirt off to press against Bodhi for as much skin contact as possible.  &quot;You&#x27;re hot as fuck,&quot; he says between greedy kisses.  &quot;God, yes, fucking please-&quot; It&#x27;s not clear what he&#x27;s begging for.  He just knows he wants more.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>se mece contra</td><td>rocks into — <em>mecerse</em> = to rock/sway; from <em>mecer</em></td></tr>
+        <tr><td>codiciosos</td><td>greedy — <em>codicioso</em> = greedy/covetous; from <em>codicia</em></td></tr>
+        <tr><td>estás como un queso</td><td>you're hot as fuck — lit. 'you're like a cheese'; Spanish slang for being very attractive; equivalent to <em>estás buenísimo</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">46</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Les da la vuelta para tumbar a Thess a lo largo del sofá. —Te voy a chupar el alma —dice, con la comisura de la boca curvándose—, por la polla. —Y hay un momento en que casi, casi desearía que fuera verdad.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He rolls their bodies, to lay Thess lengthwise along the couch. &quot;I am going to suck your soul out,&quot; he says, mouth quirking, &quot;through your fucking dick.&quot; And there&#x27;s a moment where he kind of, sort of, almost wishes it was true.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>da la vuelta</td><td>rolls, turns over — <em>dar la vuelta a</em> = to roll/turn over</td></tr>
+        <tr><td>tumbar</td><td>to lay down — <em>tumbar</em> = to knock down / lay flat; <em>tumbarse</em> = to lie down</td></tr>
+        <tr><td>curvándose</td><td>quirking, curving — <em>curvarse</em> = to curve</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>desearía que fuera verdad</strong> — <em>Desear que + imperfecto de subjuntivo</em>: 'wishes it were true'. Verb of desire triggers subjunctive; the imperfect subjunctive signals a contrary-to-fact/hypothetical wish.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">47</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Las cejas doradas se alzan de sorpresa y luego Thess sonríe maliciosamente. Excepto que no hay colmillos. —Ay, cariño —dice—. No me amenaces con algo agradable.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Gilded eyebrows lift up in surprise and then Thess grins wickedly.  Except there&#x27;s no fangs.  &quot;Oh babe,&quot; he says.  &quot;Don&#x27;t threaten me with a good time.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>cejas doradas</td><td>gilded eyebrows — <em>dorado</em> = golden/gilded</td></tr>
+        <tr><td>colmillos</td><td>fangs — <em>colmillo</em> = canine tooth/fang</td></tr>
+        <tr><td>no me amenaces con algo agradable</td><td>don't threaten me with a good time — calque of English idiom; used playfully</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">48</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Le besa de nuevo, luego se desliza por el cuerpo de Thess. Besándole el cuello hacia abajo, llegando al cuello de la camiseta; las manos deslizándose bajo el dobladillo de esa camiseta mientras se mueve más abajo para abrirle los pantalones.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He kisses him again, then slides down Thess&#x27;s body. Kissing down his neck, reaching the collar of his shirt--hands sliding under the hem of that shirt while he moves lower, to open his pants.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>cuello de la camiseta</td><td>collar of the shirt — <em>cuello</em> = neck/collar</td></tr>
+        <tr><td>dobladillo</td><td>hem — <em>dobladillo</em> = hem of a garment; from <em>doblar</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">49</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar se incorpora sobre los codos, pasándose una mano por el pelo. —Tío —dice, con un filo de risa nerviosa en la voz—. Esos micrófonos abiertos debían de ser bastante mejores de lo que creía.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar pushes himself up on his elbows, running a hand through his hair. &quot;Man,&quot; he says, an edge of giddy laughter in his voice.  &quot;Those open mics must have been a hell of a lot better than I thought they were.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>se incorpora sobre los codos</td><td>props himself up on his elbows — <em>incorporarse</em> = to prop oneself up, to sit up</td></tr>
+        <tr><td>micrófonos abiertos</td><td>open mics — <em>micrófono abierto</em> = open mic night; direct calque</td></tr>
+        <tr><td>debían de ser</td><td>must have been — <em>deber de + infinitivo</em> = epistemic must (probability); <em>deber + infinitivo</em> = deontic must (obligation)</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>debían de ser</strong> — <em>Deber de + infinitivo (imperfecto)</em>: expresses probability about the past: 'must have been'. Contrast with <em>debían ser</em> (obligation: 'were supposed to be').</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">50</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Toma a Thess en la mano, luego se lo mete en la boca. Sin réplica ingeniosa ahora, solo querer saborear su forma. Sus labios son tan suaves como parecen y cuando se desliza por la longitud de Thess es como si le conociera, supiera lo que le gusta. Un gemido.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He takes Thess in his hand--then takes him in his mouth. No witty comeback now, just wanting to taste the shape of him. His lips are as soft as they look and when he slides down Thess&#x27;s length it&#x27;s like he knows him, knows what he likes. A moan.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>réplica ingeniosa</td><td>witty comeback — <em>réplica</em> = reply/comeback; <em>ingenioso</em> = witty</td></tr>
+        <tr><td>saborear su forma</td><td>taste the shape of him — <em>saborear</em> = to savor/taste</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">51</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">—¡¡Joder, dulce...!! —A Thessalar se le cruzan los ojos y los brazos le flaquean, y tiene esa sensación de nuevo de déjà vu...
+
+y hace clic y está horrorizado
+
+—porque de repente se da cuenta de que el motivo por el que Bodhi ha estado coqueteando con él y besándole y jugando con él como si supiera lo que le gusta es porque lo sabe. Thessalar debió de irse a casa con él borracho después de alguna de las noches de micrófono abierto, y no lo recuerda en absoluto porque es un idiota.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Oh sweet fucking Jesus--&quot; Thessalar&#x27;s eyes cross and his arms buckle, and he has that sense again of deja vu--
+
+and it clicks and he&#x27;s mortified
+
+--because he suddenly realizes the reason Bodhi has been flirting with him and kissing him and playing with him like he knows what he likes is because he does.  Thessalar must have gone home with him drunk after one of the open mic nights, and he doesn&#x27;t remember it at all because he&#x27;s a moron.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>se le cruzan los ojos</td><td>his eyes cross — idiomatic; used for intense sensation causing momentary loss of focus</td></tr>
+        <tr><td>le flaquean los brazos</td><td>his arms buckle/give way — <em>flaquear</em> = to weaken, to give way</td></tr>
+        <tr><td>hace clic</td><td>it clicks — calque of 'it clicks'; used colloquially for a sudden realization</td></tr>
+        <tr><td>horrorizado</td><td>mortified — <em>horrorizado</em> = horrified/mortified; stronger than the English 'embarrassed'</td></tr>
+        <tr><td>debió de irse</td><td>must have gone — <em>deber de + infinitivo (pretérito)</em> = probability about a completed past action</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>debió de irse</strong> — <em>Deber de + infinitivo (pretérito)</em>: epistemic probability in the past: 'must have gone'. The <em>de</em> is key to the probabilistic reading.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">52</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Bodhi toma aliento por la nariz y luego se hunde más profundamente, tragando a Thess por la larga columna de su garganta como si estuviera decidido a hacerle olvidar sus problemas.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Bodhi takes a breath through his nose and then presses himself deeper, taking Thess down the long column of his throat like he&#x27;s determined to make him forget his troubles.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>toma aliento</td><td>takes a breath — <em>tomar aliento</em> = to take a breath; <em>aliento</em> = breath</td></tr>
+        <tr><td>la larga columna de su garganta</td><td>the long column of his throat — literary/dramatic image; <em>columna</em> = column</td></tr>
+        <tr><td>hacerle olvidar sus problemas</td><td>make him forget his troubles — <em>hacer + infinitivo (causativo)</em></td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">53</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Sus manos se aferran al pelo de Bodhi y Thessalar cierra los ojos, con las caderas arqueándose hacia esa boca cálida.
+—Nnnh, Dios mío...
+Su capacidad de formar pensamientos coherentes se está disolviendo rápidamente.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">His hands come to clutch at Bodhi&#x27;s hair and Thessalar shuts his eyes, his hips canting up into that warm mouth.
+&quot;Nnnhh oh God--&quot; His ability to form coherent thoughts is rapidly scrambling.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>se aferran a</td><td>clutch at — <em>aferrarse a</em> = to cling to, to clutch; very strong grip</td></tr>
+        <tr><td>arqueándose</td><td>canting/arching — from <em>arquearse</em> = to arch</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">54</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Se mueve al ritmo marcado por esas caderas. No, al ritmo marcado por el deseo de mover esas caderas. Con la boca abierta ahora para que Thess pueda oír el sonido de su polla abriéndose paso en la garganta de Bodhi durante varias embestidas húmedas antes de que selle de nuevo esos labios suaves. Obsceno, con los ojos vueltos hacia arriba.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He moves at the pace set by those hips. No, the pace set by the desire to move those hips. Open-mouthed now so Thess can hear the sound of his dick opening up Bodhi&#x27;s throat for several wet strokes before he seals those soft lips down on him again. Obscene, eyes rolled upward.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>marcado por</td><td>set by — <em>marcar</em> = to mark/set; <em>el ritmo marcado por</em> = the pace set by</td></tr>
+        <tr><td>selle</td><td>seals — <em>sellar</em> = to seal; subjunctive here after <em>antes de que</em></td></tr>
+        <tr><td>vueltos hacia arriba</td><td>rolled upward — <em>vuelto</em> = turned; <em>los ojos vueltos hacia arriba</em> = eyes rolled up</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>antes de que selle</strong> — <em>Antes de que + subjuntivo</em>: 'before he seals'. <em>Antes de que</em> always triggers subjunctive.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">55</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar se estremece de pies a cabeza ante los sonidos. —Santo Dios —dice, y entonces toda su concentración se centra en intentar no derrumbarse del todo. Si pudiera solo... estirar este momento, para siempre...</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar full body shudders at the noises.  &quot;Holy fuck,&quot; he says, and then all his concentration is focused on trying not to fall the fuck apart.  If he can just--stretch this moment out, forever--</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>de pies a cabeza</td><td>from head to toe, full-body — lit. 'from feet to head'; common idiom</td></tr>
+        <tr><td>derrumbarse</td><td>to fall apart, to collapse — <em>derrumbarse</em> = to collapse/crumble; used physically and emotionally</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>Si pudiera solo...</strong> — <em>Si + imperfecto de subjuntivo</em>: counterfactual wish/'if only' construction. The omitted main clause is implied: '(it would be perfect)'.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">56</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Un sonido que podría ser Thess, gemido alrededor de su polla mientras Bodhi sube para quedarse más superficial y acariciar, moviéndose rápido. Sus ojos recorren el cuerpo de Thess hacia arriba, esperando hasta que él mire hacia abajo y vea la boca de Bodhi envuelta a su alrededor.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">A sound that might be Thess, moaned around his dick as Bodhi comes up shallower and stroking, bobbing fast. His eyes cast up along Thess&#x27;s body, waiting until he looks down and sees Bodhi&#x27;s mouth wrapped around him.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>superficial</td><td>shallow — here used spatially: staying at a shallow depth</td></tr>
+        <tr><td>recorren el cuerpo hacia arriba</td><td>cast up along the body — <em>recorrer</em> = to travel/scan along</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">57</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar mece las caderas hacia arriba, casi indefenso a su merced. Su boca se entreabre, con sonidos rotos arrancados de su garganta. Aturdido, parpadea hacia abajo mirando a Bodhi, y el espectáculo que ofrece hace que a Thess se le enrosquen los dedos de los pies de puro deseo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar rocks his hips up, all but helpless at his mercy.  His mouth falls open, broken noises wrenched from his throat.  Dazedly he blinks down at Bodhi, and the sight he presents has Thess&#x27;s toes curling with sheer want.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>a su merced</td><td>at his mercy — <em>merced</em> = mercy/grace; <em>a merced de</em> = at the mercy of</td></tr>
+        <tr><td>sonidos rotos</td><td>broken noises — <em>roto</em> = broken; <em>voz rota</em> = broken voice</td></tr>
+        <tr><td>que se le enrosquen los dedos</td><td>toes curling — <em>enroscarse</em> = to curl up/coil; <em>dedos de los pies</em> = toes</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>hace que a Thess se le enrosquen los dedos</strong> — <em>Hacer que + subjuntivo</em>: 'causes Thess's toes to curl'. <em>Hacer que</em> triggers subjunctive in the subordinate clause.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">58</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Le lanza una mirada suplicante. Una mirada preciosa. Ojos de muñeca. Suplicando, con esos ojos, su corrido.
+9:24 PM
+Abriendo la boca, para que esos ojos le miren de arriba abajo al son de su garganta siendo follada, húmeda y obscena. Un fino hilo de baba desde su grueso labio inferior se desliza por la longitud de la polla de Thess.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He gives him pleading eyes. Pretty eyes. Doll eyes. Begging, with those eyes, for his come.
+9:24 PM
+Opening his mouth, so those eyes look up at him over the sound of his throat getting fucked open, wet and nasty. A thin strand of drool from his full lower lip slides down the length of Thess&#x27;s cock.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>mirada suplicante</td><td>pleading eyes — <em>suplicante</em> = pleading; from <em>suplicar</em></td></tr>
+        <tr><td>ojos de muñeca</td><td>doll eyes — <em>muñeca</em> = doll (also wrist)</td></tr>
+        <tr><td>hilo de baba</td><td>strand of drool — <em>baba</em> = drool/spittle; <em>hilo</em> = thread/strand</td></tr>
+        <tr><td>grueso labio inferior</td><td>full lower lip — <em>grueso</em> = thick/full; <em>inferior</em> = lower</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">59</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">Thessalar le pasa las manos por el pelo. Pelo largo, sedoso y oscuro. Tiene una habilidad con la boca tremendamente extraordinaria, y Thessalar puede sentir lo cerca que está. Muy cerca. Solo necesita algo, lo que sea, para empujarle al límite, y su mente busca el pensamiento que lo conseguirá...
+
+...y se posa en la pregunta de si se sentiría así si finalmente pudiera conseguir que Akaji le hiciera esto. El largo pelo negro revuelto de haber sido bien follado, los ojos dorados mirándole con ardor y hambre y...
+
+Thessalar emite un sonido ronco y ahogado mientras las caderas se le sacuden, derramándose en la boca expectante de Bodhi.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar runs his hands through Bodhi&#x27;s hair.  Long, silky dark hair.  His head game is fucking ungodly, and Thessalar can feel how close he is.  So close.  He just needs something, anything to push him over that edge, and his mind searches for the thought that will do it....
+
+....and it lands on the question of, would it feel like this if he could finally get Akaji to do this?  Long black hair mussed from being well fucked, golden eyes looking up at him with heat and hunger and--
+
+Thessalar makes a hoarse, choked noise as his hips jerk, spilling himself into Bodhi&#x27;s waiting mouth.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>revuelto de</td><td>mussed from — <em>revuelto</em> = disheveled/mussed; from <em>revolver</em></td></tr>
+        <tr><td>ronco y ahogado</td><td>hoarse and choked — <em>ronco</em> = hoarse; <em>ahogado</em> = choked/strangled</td></tr>
+        <tr><td>derramándose en</td><td>spilling into — <em>derramarse</em> = to spill/pour; used literally and metaphorically</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>si finalmente pudiera conseguir que Akaji le hiciera</strong> — <em>Si + imperfecto de subjuntivo</em> + <em>conseguir que + imperfecto de subjuntivo</em>: double subjunctive in a hypothetical construction. <em>Conseguir que alguien haga algo</em> always requires subjunctive in the embedded clause.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">60</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div style="margin-bottom:.4rem"><span class="tag">subjuntivo</span></div>
+    <div class="spanish-text">Se lo traga, se lo traga todo. Un sonido como de «mmm». No se apaga. Este Thess no le conoce. No significa nada. Aunque le conociera, no significaría nada.
+
+No hay drama.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He swallows it, swallows it all down. A hmm of a noise. It doesn&#x27;t turn off. This Thess doesn&#x27;t know him. It doesn&#x27;t mean anything. Even if he did know him, it wouldn&#x27;t mean anything.
+
+It&#x27;s chill.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>no se apaga</td><td>it doesn't turn off — <em>apagarse</em> = to go out/switch off; metaphorical for feelings not ceasing</td></tr>
+        <tr><td>no hay drama</td><td>it's chill, no big deal — colloquial; lit. 'there's no drama'</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>Aunque le conociera, no significaría nada</strong> — <em>Aunque + imperfecto de subjuntivo + condicional</em>: counterfactual concession. 'Even if he did know him, it wouldn't mean anything.' The subjunctive marks this as contrary to fact.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">61</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar se desploma hacia atrás en el sofá, estremecido y jadeando. —Joder —murmura, con los ojos cerrados—. N-no exagerabas...</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar slumps back on the couch, shuddering and panting.  &quot;Jesus Christ,&quot; he mumbles, eyes closed.  &quot;Y-you weren&#x27;t kidding....&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>se desploma</td><td>slumps — <em>desplomarse</em> = to slump/collapse; sudden loss of energy</td></tr>
+        <tr><td>no exagerabas</td><td>you weren't kidding — lit. 'you weren't exaggerating'; idiomatic use</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div><div class="practicar-group"><div style="text-align:right;padding:.5rem 1rem .25rem"><button class="shadow-btn" onclick="var g=this.closest(&#x27;.practicar-group&#x27;);var elems=Array.from(g.querySelectorAll(&#x27;.spanish-text&#x27;));var ss=&#x27;&#x27;,i;for(i=0;i&lt;elems.length;i++){var t=(elems[i].dataset.speak||elems[i].textContent.trim());if(ss.length===0){ss=t;}else if(ss.length+1+t.length&lt;=1000){ss+=&#x27;\n&#x27;+t;}else{break;}}window.open(&#x27;https://pronunciation-checker-sooty.vercel.app/?sentences=&#x27;+encodeURIComponent(ss),&#x27;_blank&#x27;);">&#127908; Practicar</button></div>
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">62</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">Se separa con un chasquido húmedo no del todo audible. Se lame los labios. —Mutuo.
+9:40 PM
+—¿Tú abrazas? —pregunta.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He pulls off of him, with a wet not-quite-pop. Licks his lips. &quot;Feeling&#x27;s mutual.&quot;
+9:40 PM
+&quot;Do you cuddle,&quot; he asks.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>chasquido húmedo</td><td>wet pop/smack — <em>chasquido</em> = click/pop/snap; the sound of lips releasing</td></tr>
+        <tr><td>se lame los labios</td><td>licks his lips — <em>lamerse</em> = to lick oneself; reflexive</td></tr>
+        <tr><td>abrazas</td><td>cuddle — <em>abrazar</em> = to hug/embrace; used colloquially for cuddling</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">63</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar se estremece de nuevo y asiente, tomándose aún un momento para recuperar el aliento. Volviendo a este momento, con Bodhi. No hay nadie más aquí salvo ellos dos. —Sí —dice, parpadeando hacia Bodhi—. En realidad no iba a dejarte dormir en el sofá.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar shudders again and nods, still taking a moment to catch his breath.  Pulling himself back to this moment, with Bodhi.  There&#x27;s nobody else here but the two of them.  &quot;Yeah,&quot; he says, blinking at Bodhi.  &quot;I wasn&#x27;t really gonna make you take the couch.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>recuperar el aliento</td><td>catch his breath — <em>recuperar el aliento</em> = to get one's breath back</td></tr>
+        <tr><td>no iba a dejarte</td><td>wasn't gonna make you — <em>ir a + infinitivo</em> in past = was going to; <em>dejar + infinitivo</em> = to let/allow</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">64</span>
+    <span class="dialogue-marker">💬 Lex</span>
+    <div class="spanish-text">—Nunca se sabe —dice—. Con tal de estar aquí.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;You never know,&quot; he says. &quot;Just happy to be here.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>nunca se sabe</td><td>you never know — impersonal with <em>se</em>; very common expression</td></tr>
+        <tr><td>con tal de estar aquí</td><td>just happy to be here — <em>con tal de</em> = as long as / just to; here implies contentment with the minimal</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">65</span>
+    <span class="dialogue-marker">💬 Sheikh</span>
+    <div class="spanish-text">Thessalar sonríe perezosamente. —Oh, créeme —ronronea—. Me alegra que hayas venido. —Y guiña un ojo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Thessalar grins lazily.  &quot;Oh believe me,&quot; he purrs back.  &quot;I&#x27;m glad you came.&quot;  And he winks.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+        <tr><td>me alegra que hayas venido</td><td>I'm glad you came — <em>alegrarse de que + subjuntivo</em>: emotion verb triggers subjunctive; perfect subjunctive for completed action</td></tr>
+        <tr><td>guiña un ojo</td><td>winks — <em>guiñar un ojo</em> = to wink</td></tr>
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+        <li><strong>me alegra que hayas venido</strong> — <em>Alegrarse de que + pretérito perfecto de subjuntivo</em>: 'I'm glad you came'. Verbs of emotion governing a different subject trigger subjunctive in the subordinate clause. Perfect subjunctive for a completed action.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div></div>
+<footer>
+  <p><em>Flash and Fire</em> &mdash; Sheikh &amp; Lex</p>
+  <p style="margin-top:.5rem;">Lectura glosada para uso personal de estudio del espa&ntilde;ol &middot; Cap&iacute;tulo 14</p>
+</footer>
+
+<script>
+(function () {
+  /* ── 1. Wrap every .spanish-text in a flex row and prepend a play button ── */
+  document.querySelectorAll('.spanish-text').forEach(function (el, i) {
+    var text = el.textContent.trim();
+    el.dataset.speak = text;
+
+    var btn = document.createElement('button');
+    btn.className = 'play-btn';
+    btn.title = 'Reproducir';
+    btn.innerHTML = '&#9654;';
+    btn.dataset.idx = i;
+
+    var row = document.createElement('div');
+    row.className = 'spanish-row';
+    el.parentNode.insertBefore(row, el);
+    row.appendChild(btn);
+    row.appendChild(el);
+  });
+
+  /* ── 2. Voice loading ── */
+  var voiceSelect = document.getElementById('voice-select');
+  var statusEl    = document.getElementById('voice-status');
+  var spanishVoices = [];
+  var allVoices     = [];
+
+  function loadVoices() {
+    allVoices = window.speechSynthesis.getVoices();
+    if (!allVoices.length) return;
+    spanishVoices = allVoices.filter(function (v) {
+      return v.lang.toLowerCase().startsWith('es');
+    });
+    voiceSelect.innerHTML = '';
+    if (spanishVoices.length === 0) {
+      allVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i + '_all';
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u26a0 No Spanish voices found \u2014 showing all voices.';
+    } else {
+      spanishVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        if (v.lang.toLowerCase() === 'es-es') opt.selected = true;
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u2713 ' + spanishVoices.length + ' Spanish voice(s) found';
+    }
+  }
+
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  setTimeout(loadVoices, 500);
+
+  function getSelectedVoice() {
+    var val = voiceSelect.value;
+    if (!val) return null;
+    if (val.endsWith('_all')) return allVoices[parseInt(val)] || null;
+    return spanishVoices[parseInt(val)] || null;
+  }
+
+  /* ── 3. Speed slider ── */
+  var speedSlider = document.getElementById('speed-slider');
+  var speedVal    = document.getElementById('speed-val');
+  speedSlider.addEventListener('input', function () {
+    speedVal.textContent = parseFloat(this.value).toFixed(2) + '\u00d7';
+  });
+
+  /* ── 4. Speech playback ── */
+  var currentBtn = null;
+
+  function stopSpeech() {
+    window.speechSynthesis.cancel();
+    if (currentBtn) {
+      currentBtn.classList.remove('playing');
+      currentBtn.innerHTML = '&#9654;';
+      currentBtn = null;
+    }
+  }
+
+  document.getElementById('stop-btn').addEventListener('click', stopSpeech);
+
+  /* ── 4b. Per-section gloss toggle ── */
+  window.toggleSectionGloss = function(btn) {
+    var group = btn.closest('.section-group');
+    if (!group) return;
+    var glosses = group.querySelectorAll('.gloss-text');
+    var toggles = group.querySelectorAll('.gloss-toggle');
+    var allHidden = Array.from(glosses).every(function(g){ return g.classList.contains('gloss-hidden'); });
+    glosses.forEach(function(g){ g.classList.toggle('gloss-hidden', !allHidden); });
+    toggles.forEach(function(t){ t.textContent = allHidden ? '▼ English' : '▶ English'; });
+    btn.textContent = allHidden ? 'Ocultar English' : 'Mostrar English';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn === currentBtn) { stopSpeech(); return; }
+    stopSpeech();
+
+    var spanishEl = btn.parentElement.querySelector('.spanish-text');
+    var text = spanishEl ? spanishEl.dataset.speak : '';
+    if (!text) return;
+
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang  = 'es-ES';
+    utter.rate  = parseFloat(speedSlider.value);
+    utter.pitch = 1;
+
+    var voice = getSelectedVoice();
+    if (voice) utter.voice = voice;
+
+    btn.classList.add('playing');
+    btn.innerHTML = '&#9632;';
+    currentBtn = btn;
+
+    /* Chrome keepalive: prevents silent cutoff of utterances > ~15 s */
+    var keepAlive = setInterval(function () {
+      if (!window.speechSynthesis.speaking) { clearInterval(keepAlive); return; }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, 10000);
+
+    utter.onend = function () {
+      clearInterval(keepAlive);
+      if (currentBtn === btn) {
+        btn.classList.remove('playing');
+        btn.innerHTML = '&#9654;';
+        currentBtn = null;
+      }
+    };
+    utter.onerror = utter.onend;
+
+    window.speechSynthesis.speak(utter);
+  });
+})();
+</script>
+<script>
+/* ── Dictionary lookup ── */
+(function () {
+
+  /* 1. Tokenize each .spanish-text into clickable word spans */
+  document.querySelectorAll('.spanish-text').forEach(function (el) {
+    var newHTML = el.innerHTML.replace(
+      /([A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+(?:['\u2019-][A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+)*)/g,
+      function (token) {
+        var lookup = token.replace(/^['\u2019-]+|['\u2019-]+$/g, '').toLowerCase();
+        if (!lookup) return token;
+        return '<span class="es-word" data-word="' + lookup + '">' + token + '</span>';
+      }
+    );
+    el.innerHTML = newHTML;
+  });
+
+  /* 2. Build popup */
+  var popup = document.createElement('div');
+  popup.id = 'dict-popup';
+  popup.innerHTML =
+    '<button id="dict-close" title="Cerrar">&#10005;</button>' +
+    '<span class="dp-word"></span>' +
+    '<div class="dp-body"></div>' +
+    '<hr class="dp-divider">' +
+    '<div class="dp-links"></div>';
+  document.body.appendChild(popup);
+
+  var dpWord  = popup.querySelector('.dp-word');
+  var dpBody  = popup.querySelector('.dp-body');
+  var dpLinks = popup.querySelector('.dp-links');
+  var dpClose = popup.querySelector('#dict-close');
+  var activeSpan = null;
+  var ES_LEMMAS = {"hunde": "hundir", "dorados": "dorado", "recorre": "recorrer", "amenaces": "amenazar", "mueve": "mover", "coqueteando": "coquetear", "pantalones": "pantalón", "trabajando": "trabajar", "esa": "ese", "carnosos": "carnoso", "quieres": "querer", "comportado": "comportar", "vuelve": "volver", "enciende": "encender", "cerrados": "cerrar", "te": "tú", "ojos": "ojo", "brazos": "brazo", "besuquean": "besuquear", "conseguirá": "conseguir", "resultan": "resultar", "pueda": "poder", "abajo": "abajar", "forman": "formar", "vamos": "ir", "pies": "pie", "estremece": "estremecer", "es": "ser", "considera": "considerar", "nerviosa": "nervioso", "las": "el", "siendo": "ser", "tenías": "tener", "botas": "bota", "recuerda": "recordar", "suplicando": "suplicar", "unas": "unir", "plena": "pleno", "debían": "deber", "deslice": "deslizar", "puedo": "poder", "supiera": "saber", "pasándose": "pasarse", "venido": "venir", "hoteles": "hotel", "una": "uno", "azules": "azular", "siente": "sentar", "follado": "follar", "apretados": "apretar", "enredada": "enredar", "acomoda": "acomodar", "preciosos": "precioso", "cosas": "cosa", "levanta": "levantar", "tragues": "tragar", "escapa": "escapar", "atraiga": "atraer", "humedece": "humedecer", "personas": "persona", "sensuales": "sensual", "acostumbrado": "acostumbrar", "necesita": "necesitar", "regodea": "regodear", "tenía": "tener", "camisetas": "camiseta", "puede": "poder", "murmura": "murmurar", "le": "él", "sale": "salar", "desaliñado": "desaliñar", "marcos": "marco", "corre": "correr", "entera": "enterar", "blanca": "blanco", "otra": "otro", "cambia": "cambiar", "noches": "noche", "abriría": "abrir", "llamen": "llamar", "armado": "armar", "alegra": "alegrar", "labios": "labio", "videojuegos": "videojuego", "esculpido": "esculpir", "cómics": "cómic", "aferran": "aferrar", "caderas": "cadera", "brillan": "brillar", "piensa": "pensar", "arrastra": "arrastrar", "deseado": "desear", "desliza": "deslizar", "pestañas": "pestaña", "engancha": "enganchar", "murió": "morir", "cierra": "cerrar", "les": "él", "sacuden": "sacudir", "oscuras": "oscuro", "merece": "merecer", "abrazas": "abrazar", "apiladas": "apilar", "habitado": "habitar", "rodillas": "rodilla", "hayas": "haya", "están": "estar", "apartamentos": "apartamento", "eso": "ese", "tiembla": "temblar", "profundizando": "profundizar", "embestidas": "embestida", "sido": "ser", "palabras": "palabra", "dicen": "decir", "muy": "mucho", "recorren": "recorrer", "relaja": "relajar", "ahoga": "ahogar", "destroza": "destrozar", "aterciopelada": "aterciopelado", "haciendo": "hacendar", "vendría": "venir", "separándose": "separarse", "guardando": "guardar", "abierta": "abrir", "cazando": "cazar", "paseen": "pasear", "cruzan": "cruzar", "conociera": "conocer", "sentiría": "sentir", "otras": "otro", "pensamientos": "pensamiento", "testículos": "testículo", "colgada": "colgar", "hombros": "hombro", "contemplando": "contemplar", "los": "el", "siento": "sentar", "tensa": "tensar", "llegando": "llegar", "necesitados": "necesitado", "ganando": "ganar", "sabe": "saber", "muslos": "muslo", "significa": "significar", "abiertos": "abrir", "asiente": "asentar", "pregunte": "preguntar", "bajos": "bajo", "centra": "centrar", "besa": "besar", "maldita": "maldito", "sonidos": "sonido", "encantadora": "encantador", "besos": "beso", "arrancados": "arrancar", "apretando": "apretar", "jadea": "jadear", "ningún": "ninguno", "músculos": "músculo", "minutos": "minuto", "colmillos": "colmillo", "vergonzosa": "vergonzoso", "respirando": "respirar", "exagerabas": "exagerar", "escondidas": "esconder", "lavados": "lavado", "arriba": "arribar", "guantes": "guante", "parpadea": "parpadear", "latiendo": "latir", "traga": "tragar", "momentos": "momento", "separa": "separar", "dilatadas": "dilatar", "frecuentaba": "frecuentar", "unos": "uno", "propias": "propio", "sienta": "sentar", "apaga": "apagar", "hinchados": "hinchar", "desearía": "desear", "relajada": "relajar", "prefiero": "preferir", "coherentes": "coherente", "voy": "ir", "ingeniosa": "ingenioso", "monedas": "moneda", "levantando": "levantar", "despidieron": "despedir", "volviendo": "volver", "horrorizado": "horrorizar", "entreabiertos": "entreabrir", "entreabre": "entreabrir", "cejas": "ceja", "perfecta": "perfecto", "habrá": "haber", "abren": "abrir", "enredadas": "enredar", "desploma": "desplomar", "emite": "emitir", "necesito": "necesitar", "desordenado": "desordenar", "mete": "meter", "alguna": "alguno", "gusta": "gustar", "parece": "parecer", "debió": "deber", "debí": "deber", "pupilas": "pupila", "doradas": "dorada", "últimos": "último", "me": "yo", "lo": "él", "llevado": "llevar", "ocupado": "ocupar", "parecida": "parecer", "calles": "calle", "zapatos": "zapato", "manos": "mano", "dejando": "dejar", "decidido": "decidir", "familiares": "familiar", "mirando": "mirar", "quiere": "querer", "exige": "exigir", "se": "él", "mece": "mecer", "estuviera": "estar", "preocupa": "preocupar", "húmedas": "húmedo", "alzan": "alzar", "pidiendo": "pedir", "burlona": "burlón", "va": "ir", "seca": "seco", "hace": "hacer", "entornada": "entornar", "enrosquen": "enroscar", "rígida": "rígido", "dolerá": "doler", "abre": "abrir", "era": "ser", "jugando": "jugar", "empieza": "empezar", "alquileres": "alquiler", "da": "dar", "duchado": "duchar", "preciosa": "precioso", "micrófonos": "micrófono", "gracias": "gracia", "gime": "gemir", "tengo": "tener", "mis": "mi", "desconcertado": "desconcertar", "ríe": "reír", "pudiera": "poder", "entornados": "entornar", "obscena": "obsceno", "está": "estar", "profundos": "profundo", "esta": "estar", "estrellas": "estrella", "salido": "salir", "enredan": "enredar", "encima": "encimar", "escribe": "escribir", "armas": "arma", "significaría": "significar", "hiciera": "hacer", "tragando": "tragar", "vampiros": "vampiro", "abriendo": "abrir", "varias": "variar", "echándose": "echarse", "miren": "mirar", "la": "el", "estás": "estar", "fotos": "foto", "reconoce": "reconocer", "latidos": "latido", "circunstancias": "circunstancia", "subiendo": "subir", "guiña": "guiñar", "recrea": "recrear", "esas": "ese", "sus": "su", "incorpora": "incorporar", "atreve": "atrever", "codiciosos": "codicioso", "usando": "usar", "sería": "ser", "dedos": "dedo", "desenfadado": "desenfadar", "creía": "creer", "parecen": "parecer", "entra": "entrar", "eres": "ere", "arranca": "arrancar", "lleva": "llevar", "algún": "alguno", "adentro": "adentrar", "profundiza": "profundizar", "vueltos": "volver", "tiene": "tener", "suaves": "suave", "acerca": "acercar", "rotos": "roto", "calcetines": "calcetín", "hay": "haber", "estremecido": "estremecer", "platos": "plato", "iba": "ir", "marcado": "marcar", "intentando": "intentar", "vea": "ver", "aturdido": "aturdir", "agacha": "agachar", "esto": "este", "rezumando": "rezumar", "esos": "ese", "jadeando": "jadear", "ellos": "él", "envuelta": "envolver", "mejillas": "mejilla", "ofrece": "ofrecer", "florece": "florecer", "oculta": "ocultar", "soy": "ser", "oscurecidos": "oscurecer", "fuera": "ser", "disolviendo": "disolver", "odia": "odiar", "húmeda": "húmedo", "dice": "decir", "coloca": "colocar", "sonríe": "sonreír", "envueltos": "envolver", "permite": "permitir", "extraordinaria": "extraordinario", "absorbiendo": "absorber", "cálida": "cálido", "sube": "subir", "dilatados": "dilatar", "sonroja": "sonrojar", "conoce": "conocer", "provoca": "provocar", "toda": "todo", "viejos": "viejo", "abierto": "abrir", "moviéndose": "moverse", "interrumpe": "interrumpir", "mire": "mirar", "esperando": "esperar", "problemas": "problema", "podría": "poder", "llega": "llegar", "intensos": "intenso", "un": "uno", "ronronea": "ronronear", "navega": "navegar", "producen": "producir", "mueven": "mover", "todos": "todo", "sonrojado": "sonrojar", "posan": "posar", "codos": "codo", "maravillado": "maravillar", "selle": "sellar", "mejores": "mejorar", "flaquean": "flaquear", "irónica": "irónico", "ha": "haber", "echa": "echar", "dientes": "diente", "azulado": "azular", "abriéndose": "abrirse", "parpadeando": "parpadear"};
+  function toLemma(w) { return ES_LEMMAS[w.toLowerCase()] || w; }
+  var dictCache  = {};
+
+  /* 3. Fetch definition (Wiktionary, then MyMemory fallback) */
+  /* Extract base word from a "form of X" Wiktionary definition HTML string.
+     Returns the base word string, or null if not a form-of entry. */
+  function extractBaseForm(defHtml) {
+    var t = defHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    // "first/second/third-person ... of X"
+    var m = t.match(/(?:first|second|third)[- ]person.{0,60}of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "plural of X", "inflection of X", "feminine of X", etc.
+    m = t.match(/^(?:inflection|plural|singular|feminine|masculine|augmentative|diminutive|superlative|past\s+(?:tense|participle)|present\s+participle|gerund|form)\s+of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "X of Y" where X ends right before "of" and Y is at end
+    m = t.match(/of\s+([\wÀ-ɏ]+)\s*(?:[:,]|$)/i);
+    if (m) return m[1].toLowerCase();
+    return null;
+  }
+
+  /* Returns true if ALL definitions in all entries look like form-of entries */
+  function getFirstBase(entries) {
+    // Return the base form if the first definition looks like a form-of entry
+    var firstDef = ((entries[0] || {}).definitions || [])[0] || {};
+    return extractBaseForm(firstDef.definition || '');
+  }
+
+  function fetchWiktionary(word) {
+    return fetch(
+      'https://en.wiktionary.org/api/rest_v1/page/definition/' + encodeURIComponent(word),
+      { headers: { Accept: 'application/json' } }
+    ).then(function(r) {
+      if (!r.ok) throw new Error('wikt');
+      return r.json();
+    }).then(function(data) {
+      var es = data.es || data.Es;
+      if (es && es.length) return es;
+      throw new Error('no entry');
+    });
+  }
+
+  function fetchDefinition(rawWord) {
+    var word = toLemma(rawWord);
+    if (dictCache[word]) return Promise.resolve(dictCache[word]);
+    return fetchWiktionary(word).then(function(es) {
+      // If all definitions are "form of X", follow the link to the base form
+      var base = getFirstBase(es);
+      if (base && base !== word.toLowerCase()) {
+        return fetchWiktionary(base).then(function(baseEs) {
+          var result = { source: 'wiktionary', entries: baseEs, inflectedFrom: rawWord, baseForm: base };
+          dictCache[word] = result; return result;
+        }).catch(function() {
+          var result = { source: 'wiktionary', entries: es };
+          dictCache[word] = result; return result;
+        });
+      }
+      var result = { source: 'wiktionary', entries: es };
+      if (word.toLowerCase() !== rawWord.toLowerCase()) result.baseForm = word;
+      dictCache[word] = result; return result;
+    }).catch(function () {
+      return fetch(
+        'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=es|en'
+      ).then(function (r) { return r.json(); }).then(function (data) {
+        var trans = data.responseData && data.responseData.translatedText;
+        if (!trans || trans.toLowerCase() === word.toLowerCase()) throw new Error('no trans');
+        var alts = (data.matches || [])
+          .filter(function (m) {
+            return m.quality > 50 && m.translation &&
+              m.translation.toLowerCase() !== word.toLowerCase() &&
+              m.translation.toLowerCase() !== trans.toLowerCase();
+          })
+          .map(function (m) { return m.translation; })
+          .filter(function (v, i, a) { return a.indexOf(v) === i; })
+          .slice(0, 3);
+        var result = { source: 'mymemory', translation: trans, alts: alts };
+        dictCache[word] = result; return result;
+      });
+    }).catch(function () {
+      var result = { source: 'none' };
+      dictCache[word] = result; return result;
+    });
+  }
+
+  function strip(h) { return h.replace(/<[^>]+>/g, ''); }
+
+  function renderBody(r) {
+    if (r.source === 'wiktionary') {
+      var html = '';
+      // Show a small note when we resolved an inflected form to its base
+      if (r.baseForm) {
+        html += '<div class="dp-alts">form of <em>' + r.baseForm + '</em></div>';
+      }
+      r.entries.slice(0, 3).forEach(function (e) {
+        html += '<div class="dp-pos">' + (e.partOfSpeech || '') + '</div><ol class="dp-defs">';
+        (e.definitions || []).slice(0, 4).forEach(function (d) {
+          html += '<li>' + strip(d.definition || '') + '</li>';
+        });
+        html += '</ol>';
+      });
+      return html;
+    }
+    if (r.source === 'mymemory') {
+      var h = '<div class="dp-trans">' + r.translation + '</div>';
+      if (r.alts && r.alts.length) h += '<div class="dp-alts">also: ' + r.alts.join(', ') + '</div>';
+      return h;
+    }
+    return '<div class="dp-none">no definition found</div>';
+  }
+
+  /* 4. Show / position / hide */
+  function positionPopup(cx, cy) {
+    var pw = popup.offsetWidth || 220, ph = popup.offsetHeight || 130;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var left = cx + 14, top = cy + 14;
+    if (left + pw > vw - 8) left = cx - pw - 14;
+    if (top  + ph > vh - 8) top  = cy - ph - 14;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  }
+
+  function showPopup(word, cx, cy) {
+    dpWord.textContent = word;
+    dpBody.innerHTML = '<div class="dp-loading">buscando…</div>';
+    dpLinks.innerHTML =
+      '<a href="https://www.wordreference.com/es/en/translation.asp?spen=' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128214; WordReference &#8594;</a>' +
+      '<a href="https://www.spanishdict.com/translate/' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128216; SpanishDict &#8594;</a>';
+    popup.style.display = 'block';
+    positionPopup(cx, cy);
+    fetchDefinition(word).then(function (result) {
+      if (dpWord.textContent !== word) return;
+      dpBody.innerHTML = renderBody(result);
+      positionPopup(cx, cy);
+    });
+  }
+
+  function hidePopup() {
+    popup.style.display = 'none';
+    if (activeSpan) { activeSpan.classList.remove('dp-active'); activeSpan = null; }
+  }
+
+  /* 5. Events */
+  document.addEventListener('click', function (e) {
+    var wordEl = e.target.closest('.es-word');
+    if (wordEl) {
+      if (activeSpan) activeSpan.classList.remove('dp-active');
+      activeSpan = wordEl;
+      wordEl.classList.add('dp-active');
+      showPopup(wordEl.dataset.word, e.clientX, e.clientY);
+      return;
+    }
+    if (!e.target.closest('#dict-popup')) hidePopup();
+  });
+
+  dpClose.addEventListener('click', function (e) { e.stopPropagation(); hidePopup(); });
+})();
+</script>
+</body>
+</html>

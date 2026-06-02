@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrevista con el Vampiro — Capítulo 27 (Primera parte) · Lectura Glosada</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #e0e0e0;
+    --muted: #8892a4;
+    --spanish: #f5c518;
+    --gloss: #a8d8a8;
+    --vocab-bg: #0d1b2a;
+    --grammar-bg: #1b1228;
+    --tag: #533483;
+    --dialogue: #1e2d1e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; line-height: 1.7; padding: 2rem 1rem; }
+  header { max-width: 880px; margin: 0 auto 3rem; text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 1.5rem; }
+  header h1 { font-size: 2rem; color: var(--accent); letter-spacing: 1px; }
+  header h2 { font-size: 1.1rem; color: var(--muted); font-weight: normal; margin-top: .4rem; }
+  header p { font-size: .9rem; color: var(--muted); margin-top: .8rem; font-style: italic; }
+  .chapter-intro { max-width: 880px; margin: 0 auto 2.5rem; background: var(--accent2); border-left: 4px solid var(--accent); padding: 1rem 1.4rem; border-radius: 4px; font-size: .95rem; }
+  .chapter-intro h3 { color: var(--accent); margin-bottom: .4rem; }
+  .sentence-block { max-width: 880px; margin: 0 auto 2rem; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .sentence-num { display: inline-block; background: var(--accent); color: #fff; font-size: .75rem; font-family: monospace; padding: .2rem .5rem; border-radius: 3px; margin-bottom: .5rem; letter-spacing: 1px; }
+  .sentence-top { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .spanish-text { font-size: 1.2rem; color: var(--spanish); font-style: italic; margin-bottom: .6rem; line-height: 1.5; }
+  .gloss-text { font-size: 1rem; color: var(--gloss); margin-top: .35rem; }
+  .gloss-label, .vocab-label, .grammar-label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; margin-bottom: .3rem; font-family: sans-serif; }
+  /* ── Per-sentence gloss toggle ── */
+  .gloss-toggle { background: none; border: none; padding: .4rem 0; cursor: pointer; font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-family: sans-serif; margin-bottom: .3rem; display: block; touch-action: manipulation; min-height: 2.5rem; }
+  .gloss-toggle:hover { color: var(--gloss); }
+  .gloss-text { visibility: visible; }
+  .gloss-text.gloss-hidden { visibility: hidden; pointer-events: none; }
+
+  .breakdown { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px) { .breakdown { grid-template-columns: 1fr; } }
+  .vocab-section { background: var(--vocab-bg); padding: 1rem 1.4rem; border-right: 1px solid rgba(255,255,255,.05); }
+  .grammar-section { background: var(--grammar-bg); padding: 1rem 1.4rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+  td { padding: .3rem .4rem; vertical-align: top; }
+  td:first-child { color: var(--spanish); font-style: italic; white-space: nowrap; padding-right: .8rem; width: 42%; }
+  tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,.05); }
+  .grammar-section ul { list-style: none; font-size: .87rem; }
+  .grammar-section li { margin-bottom: .55rem; padding-left: .8rem; border-left: 2px solid var(--tag); }
+  .grammar-section li strong { color: var(--spanish); font-style: italic; }
+  .grammar-section li em { color: #c9b1ff; font-style: normal; }
+  .section-label { max-width: 880px; margin: 0 auto 1.2rem; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--tag); font-family: sans-serif; padding-left: .2rem; display: flex; align-items: center; gap: .8rem; }
+  .tag { display: inline-block; background: var(--tag); color: #ddd; font-size: .7rem; font-family: sans-serif; padding: .1rem .4rem; border-radius: 3px; margin-right: .3rem; }
+  .dialogue-marker { color: var(--muted); font-size: .8rem; font-family: sans-serif; margin-bottom: .3rem; display: block; }
+  footer { max-width: 880px; margin: 3rem auto 0; text-align: center; font-size: .8rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); }
+
+  /* ── Audio controls ── */
+  #audio-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,52,96,.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(233,69,96,.4);
+    padding: .6rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: sans-serif; font-size: .82rem;
+  }
+  #audio-bar .bar-label { color: var(--muted); white-space: nowrap; }
+  #audio-bar .voice-select {
+    background: #0d1b2a; color: var(--text); border: 1px solid var(--tag);
+    border-radius: 4px; padding: .25rem .5rem; font-size: .8rem; flex: 1; min-width: 160px; max-width: 280px;
+  }
+  #audio-bar .speed-wrap { display: flex; align-items: center; gap: .5rem; }
+  #audio-bar input[type=range] { width: 90px; accent-color: var(--accent); cursor: pointer; }
+  #speed-val { color: var(--accent); font-weight: bold; min-width: 2.5ch; }
+  #stop-btn, .section-gloss-btn {
+    border: none; border-radius: 4px;
+    padding: .25rem .8rem; cursor: pointer; font-size: .8rem; white-space: nowrap;
+  }
+  #stop-btn { background: var(--accent); color: #fff; }
+  #stop-btn:hover { opacity: .85; }
+  .section-gloss-btn { background: var(--accent2); color: var(--muted); border: 1px solid var(--tag); margin-left: auto; flex-shrink: 0; }
+  .section-gloss-btn:hover { background: #1a4a80; color: var(--text); }
+  .voice-status { color: var(--muted); font-size: .75rem; font-style: italic; }
+
+  /* ── Play button on each card ── */
+  .spanish-row { display: flex; align-items: flex-start; gap: .6rem; }
+  .spanish-text { flex: 1; }
+  .play-btn {
+    flex-shrink: 0; margin-top: .15rem;
+    background: none; border: 1.5px solid var(--accent);
+    color: var(--accent); border-radius: 50%;
+    width: 2rem; height: 2rem; cursor: pointer;
+    font-size: .9rem; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s;
+  }
+  .play-btn:hover { background: var(--accent); color: #fff; }
+  .play-btn.playing {
+    background: var(--accent); color: #fff;
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(233,69,96,.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(233,69,96,0); }
+  }
+
+  /* ── Dictionary word spans ── */
+  .es-word {
+    cursor: pointer;
+    border-bottom: 1px dotted rgba(245,197,24,.35);
+    border-radius: 2px;
+    padding: 0 1px;
+    transition: background .1s;
+  }
+  .es-word:hover, .es-word.dp-active {
+    background: rgba(245,197,24,.18);
+    border-bottom-color: var(--spanish);
+  }
+
+  /* ── Dictionary popup ── */
+  #dict-popup {
+    position: fixed;
+    z-index: 500;
+    background: #0d1b2a;
+    border: 1px solid var(--tag);
+    border-radius: 8px;
+    padding: .75rem 1.1rem .85rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,.7);
+    min-width: 210px;
+    max-width: 310px;
+    font-family: sans-serif;
+    display: none;
+  }
+  #dict-popup .dp-word {
+    color: var(--spanish);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-family: Georgia, serif;
+    display: block;
+    margin-bottom: .4rem;
+    padding-right: 1.6rem;
+  }
+  .dp-loading { color: var(--muted); font-size: .8rem; font-style: italic; padding: .15rem 0 .3rem; }
+  .dp-pos {
+    color: var(--muted); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: 1px; margin: .45rem 0 .2rem; font-family: sans-serif;
+  }
+  .dp-defs {
+    font-size: .85rem; color: var(--text);
+    margin: 0; padding-left: 1.1rem; line-height: 1.45;
+  }
+  .dp-defs li { margin-bottom: .25rem; }
+  .dp-trans { font-size: .95rem; color: var(--text); margin: .25rem 0 .1rem; }
+  .dp-alts  { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: .1rem; }
+  .dp-none  { color: var(--muted); font-size: .8rem; font-style: italic; padding: .2rem 0 .3rem; }
+  .dp-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,.09);
+    margin: .6rem 0 .5rem;
+  }
+  #dict-popup .dp-links {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  #dict-popup .dp-links a {
+    color: var(--gloss);
+    text-decoration: none;
+    font-size: .8rem;
+    padding: .25rem .55rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,.06);
+    transition: background .12s;
+    display: block;
+  }
+  #dict-popup .dp-links a:hover { background: rgba(255,255,255,.14); }
+  #dict-close {
+    position: absolute;
+    top: .45rem; right: .6rem;
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: .9rem; line-height: 1;
+    padding: .1rem .2rem;
+  }
+  #dict-close:hover { color: var(--text); }
+
+</style>
+</head>
+<body>
+<div id="audio-bar">
+  <span class="bar-label">&#128266; Voz:</span>
+  <select id="voice-select" class="voice-select"><option>Cargando voces&hellip;</option></select>
+  <div class="speed-wrap">
+    <span class="bar-label">Velocidad:</span>
+    <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.05" value="0.85">
+    <span id="speed-val">0.85&times;</span>
+  </div>
+  <button id="stop-btn">&#9632; Parar</button>
+  <span class="voice-status" id="voice-status"></span>
+</div>
+<header>
+  <h1>Entrevista con el Vampiro</h1>
+  <h2>Anne Rice &middot; Cap&iacute;tulo 27: <em>Primera parte</em></h2>
+  <p>Pasaje 27 de 29</p>
+</header>
+<div class="section-group">
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">01</span>
+    <div class="spanish-text">Entonces pensé en ese momento; el miedo que sentí de la mera visión del altar, del sonido del Pange Lingua. Y nuevamente pensé, persistente, en mi hermano. Podía ver el ataúd yendo por el pasillo central, la procesión de los fieles detrás. Ahora no sentí miedo. Como te dije, en todo caso sentí ganas de tener algún temor, de encontrar alguna razón para tener miedo cuando avanzaba lentamente a lo largo de los altos muros ensombrecidos. Hacía frío y estaba húmedo pese al verano. La idea de la muñeca de Claudia volvió a mí. ¿Dónde estaba esa muñeca? Claudia había jugado con ella durante años. De improviso me puse a buscar esa muñeca en el recuerdo, del modo absurdo y frenético de quien busca algo en una pesadilla, llegando a puertas que no se abren o cajones que no se cierran, sin saber por qué su esfuerzo parece tan desesperado, por qué la súbita visión de una silla con un mantón encima le inspira tanto horror.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `Louis . . . if I lose you, I have nothing,&#x27; she whispered. `I would undo it to have you back. I can&#x27;t undo what I&#x27;ve done.&#x27; She put her arms around me, climbing up against me, sobbing against my heart. My hands were reluctant to touch her; and then they moved as if I couldn&#x27;t stop them, to enfold her and hold her and stroke her hair. `I can&#x27;t live without you . . : she whispered. `I would die rather than live without you. I would die the same way he died. I can&#x27;t bear you to look at me the way you did. I cannot bear it if you do not love Mel&#x27; Her sobs grew worse, more bitter, until finally I bent and kissed her soft neck and&#x27; cheeks. Winter plums. Plums from an enchanted wood where the fruit never falls from the boughs. Where the flowers never wither and die. `All right, my dear . . I said to her. `All right, my love . . : And I rocked her slowly, gently in my arms, until she dozed, murmuring something about our being eternally happy, free of Lestat forever, beginning the, great adventure of our lives.&quot; &quot;The great adventure of our lives. What does It mean to die when you can live until the end of the world? And what is `the end of the world&#x27; except a phrase, because who knows even what is the world itself? I had now lived in two centuries, seen the illusions of one utterly shattered by the other, been eternally young and eternally ancient, . possessing no illusions, living moment to moment in a way that made me picture a silver clock ticking in a void: the, painted face, the delicately carved hands looked upon by no one, looking out at no one, illuminated by a light which was not a light, like the light by which God made the world before He had made light. Ticking, ticking, ticking, the precision of the clock, in a room as vast as the universe.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">02</span>
+    <div class="spanish-text">Yo estaba en la catedral. Una mujer salió del confesionario y pasó la larga cola de quienes aguardaban. Un hombre, que tendría que haberse acercado, se quedó inmóvil, y mi ojo, sensible incluso a mi condición vulnerable, notó el hecho y me di vuelta para verlo. Me miraba. Rápidamente le di la espalda. Lo oí entrar en el confesionario y cerrar la puerta. Caminé por el pasillo del costado y entonces, más debido al agotamiento que a la convicción, me acerqué a un banco lateral y tomé asiento. Casi hice la genuflexión por antiguo hábito. Tenía la mente tan confusa y atormentada como la de cualquier mortal. &quot;Oye y ve&quot;, me dije a mí mismo. Y con este acto de voluntad, mis sentidos emergieron del tormento. A mi alrededor, en la penumbra, oí el susurro de las oraciones, el leve repiqueteo de los rosarios; el suave gemido de la mujer que se hincó en la duodécima estación. Del mar de bancos de madera se elevó el olor de las ratas. Una rata solitaria se movía en las inmediaciones del altar, una rata en el gran altar de madera tallada de la Virgen María. Los candelabros de oro brillaban en el altar; un gran crisantemo blanco de repente se dobló sobre su tallo; había gotas brillantes en sus pétalos, una fragancia amarga subía de los vasos, de los altares frontales y de los altares laterales, de las estatuas de vírgenes y Cristos y santos. Contemplé las estatuas; de pronto, y de forma completa, me obsesioné con los perfiles exánimes, los ojos fijos, las manos vacías, los dobleces congelados. Entonces mi cuerpo sufrió tal convulsión que se dobló hacia adelante y mi mano se aferró al banco siguiente. Era un cementerio de formas muertas, de efigies funerales y de ángeles de piedra. Levanté la vista y me vi a mí mismo en una visión casi palpable, subiendo los escalones del altar, abriendo el diminuto tabernáculo sacrosanto, alcanzando con manos monstruosas el cáliz consagrado y tomando el Cuerpo de Cristo y arrojando sus blancas hostias sobre la alfombra y luego pisando las hostias sagradas delante del altar, dando la Sagrada Comunión al polvo. Me puse de pie y me quedé contemplando esa visión. Supe perfectamente bien su significado.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">I said to her. `All right, my love . . : And I rocked her slowly, gently in my arms, until she dozed, murmuring something about our being eternally happy, free of Lestat forever, beginning the, great adventure of our lives.&quot; &quot;The great adventure of our lives. What does It mean to die when you can live until the end of the world? And what is `the end of the world&#x27; except a phrase, because who knows even what is the world itself? I had now lived in two centuries, seen the illusions of one utterly shattered by the other, been eternally young and eternally ancient, . possessing no illusions, living moment to moment in a way that made me picture a silver clock ticking in a void: the, painted face, the delicately carved hands looked upon by no one, looking out at no one, illuminated by a light which was not a light, like the light by which God made the world before He had made light. Ticking, ticking, ticking, the precision of the clock, in a room as vast as the universe. &quot;I was walking the streets again, Claudia gone her way to kill, the perfume of her hair and dress lingering on my fingertips, on my coat, my eyes moving far ahead of me like the pale beam of a lantern. I found myself at the cathedral: What does it mean to die when you can live until the end of the world? I was thinking of my brother&#x27;s death, of the incense and the rosary. I had the desire suddenly to be in that funeral room, listening to the sound of the women&#x27;s voices rising and falling with the Aves, the clicking of the beads, the smell of the wax. I could remember the crying. It was palpable, as if it were just yesterday, just behind a door. I saw myself walking fast down a corridor and gently giving the door a shove.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">03</span>
+    <div class="spanish-text">Dios no vivía en esa iglesia; esas estatuas daban una imagen de la nada. Yo era el sobrenatural en esa catedral. ¡Yo era el único no mortal que estaba consciente bajo ese techo! Soledad. La soledad hasta el borde de la locura. La catedral se deshizo en mi visión; los santos se sobrecogieron y cayeron. Las ratas comían la Sagrada Eucaristía y anidaban en los antepechos de las ventanas. Una rata solitaria, con un rabo enorme, estaba royendo y gruñendo en el mantel del altar hasta que cayeron los candelabros sobre las losas cubiertas por el moho. Me quedé de pie, intocado. Sin morir. Súbitamente, agarré la mano de yeso de la Virgen y la vi romperse en mi mano; dejé esa mano sobre mi palma y con la presión de mi dedo se convirtió en polvo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;The great adventure of our lives. What does It mean to die when you can live until the end of the world? And what is `the end of the world&#x27; except a phrase, because who knows even what is the world itself? I had now lived in two centuries, seen the illusions of one utterly shattered by the other, been eternally young and eternally ancient, . possessing no illusions, living moment to moment in a way that made me picture a silver clock ticking in a void: the, painted face, the delicately carved hands looked upon by no one, looking out at no one, illuminated by a light which was not a light, like the light by which God made the world before He had made light. Ticking, ticking, ticking, the precision of the clock, in a room as vast as the universe. &quot;I was walking the streets again, Claudia gone her way to kill, the perfume of her hair and dress lingering on my fingertips, on my coat, my eyes moving far ahead of me like the pale beam of a lantern. I found myself at the cathedral: What does it mean to die when you can live until the end of the world? I was thinking of my brother&#x27;s death, of the incense and the rosary. I had the desire suddenly to be in that funeral room, listening to the sound of the women&#x27;s voices rising and falling with the Aves, the clicking of the beads, the smell of the wax. I could remember the crying. It was palpable, as if it were just yesterday, just behind a door. I saw myself walking fast down a corridor and gently giving the door a shove. &quot;The great facade of the cathedral rose in a dark mass opposite the square, but the doors were open and I could see a soft, flickering light within. It was Saturday evening early, and the people were going to confession for Sunday Mass and Communion. Candles burned dim in the chandeliers. At the far end of the nave the altar loomed out of the shadows, laden with white flowers. It was to the old church on this spot that they had brought my brother for the final service before the cemetery. And I realized suddenly that I hadn&#x27;t been in this place since, never once come up the stone steps, crossed the porch, and passed through the open doors.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">04</span>
+    <div class="spanish-text">Y de repente, a través de las ruinas, a través de la puerta abierta por la que podía ver la tierra baldía en todas direcciones, incluso el gran río helado y atrapado por las ruinas incrustadas de los navíos, por esas ruinas llegaba una procesión fúnebre, una banda de hombres pálidos, blancos, y de mujeres, monstruos con ojos brillantes y vestimentas al viento, y el ataúd crujiendo sobre las ruedas de madera, las ratas correteando sobre el mármol roto y agrietado, la procesión avanzando; y entonces pude ver a Claudia en esa procesión, con sus ojos fijos detrás de un fino velo negro, una mano enguantada sobre un negro misal y la otra sobre el ataúd que se movía a su lado. Y allí, en ese ataúd, vi con horror el esqueleto de Lestat, debajo de una tapa de cristal, con la piel arrugada y presionada sobre la mismísima textura de sus huesos, y sus ojos como unos agujeros, y su cabello rubio y ondulado sobre la seda blanca.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;The great adventure of our lives. What does It mean to die when you can live until the end of the world? And what is `the end of the world&#x27; except a phrase, because who knows even what is the world itself? I had now lived in two centuries, seen the illusions of one utterly shattered by the other, been eternally young and eternally ancient, . possessing no illusions, living moment to moment in a way that made me picture a silver clock ticking in a void: the, painted face, the delicately carved hands looked upon by no one, looking out at no one, illuminated by a light which was not a light, like the light by which God made the world before He had made light. Ticking, ticking, ticking, the precision of the clock, in a room as vast as the universe. &quot;I was walking the streets again, Claudia gone her way to kill, the perfume of her hair and dress lingering on my fingertips, on my coat, my eyes moving far ahead of me like the pale beam of a lantern. I found myself at the cathedral: What does it mean to die when you can live until the end of the world? I was thinking of my brother&#x27;s death, of the incense and the rosary. I had the desire suddenly to be in that funeral room, listening to the sound of the women&#x27;s voices rising and falling with the Aves, the clicking of the beads, the smell of the wax. I could remember the crying. It was palpable, as if it were just yesterday, just behind a door. I saw myself walking fast down a corridor and gently giving the door a shove. &quot;The great facade of the cathedral rose in a dark mass opposite the square, but the doors were open and I could see a soft, flickering light within. It was Saturday evening early, and the people were going to confession for Sunday Mass and Communion. Candles burned dim in the chandeliers. At the far end of the nave the altar loomed out of the shadows, laden with white flowers. It was to the old church on this spot that they had brought my brother for the final service before the cemetery. And I realized suddenly that I hadn&#x27;t been in this place since, never once come up the stone steps, crossed the porch, and passed through the open doors.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">05</span>
+    <div class="spanish-text">La procesión se detuvo. Los fieles siguieron su camino, llenando, silenciosos, las polvorientas hileras de bancos. Y Claudia, dándose vuelta con su libro, lo abrió y levantó el velo negro de su rostro, sus ojos fijos en mí cuando su dedo dobló la página. —Y ahora estás condenado en la tierra —susurró, y su susurro hizo un eco en las ruinas—. Y ahora estás condenado en la tierra, que ha abierto su boca para recibir la sangre de tu hermano. Mientras labres esta tierra, a partir de ahora no le darás fortaleza. Serás un fugitivo y un vagabundo en la tierra.., y la venganza contra quien te mate será siete veces siete.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I was walking the streets again, Claudia gone her way to kill, the perfume of her hair and dress lingering on my fingertips, on my coat, my eyes moving far ahead of me like the pale beam of a lantern. I found myself at the cathedral: What does it mean to die when you can live until the end of the world? I was thinking of my brother&#x27;s death, of the incense and the rosary. I had the desire suddenly to be in that funeral room, listening to the sound of the women&#x27;s voices rising and falling with the Aves, the clicking of the beads, the smell of the wax. I could remember the crying. It was palpable, as if it were just yesterday, just behind a door. I saw myself walking fast down a corridor and gently giving the door a shove. &quot;The great facade of the cathedral rose in a dark mass opposite the square, but the doors were open and I could see a soft, flickering light within. It was Saturday evening early, and the people were going to confession for Sunday Mass and Communion. Candles burned dim in the chandeliers. At the far end of the nave the altar loomed out of the shadows, laden with white flowers. It was to the old church on this spot that they had brought my brother for the final service before the cemetery. And I realized suddenly that I hadn&#x27;t been in this place since, never once come up the stone steps, crossed the porch, and passed through the open doors. &quot;I had no fear. If anything, perhaps, I longed for something to happen, for the stones to tremble as I entered the shadowy foyer and saw the distant tabernacle on the altar. I remembered now that I had passed here once when the windows were ablaze and the sound of singing poured out into Jackson Square. I had hesitated then, wondering if there were some secret Lestat had never told me, something which might destroy me were I to enter. I&#x27;d felt compelled to enter, but I had pushed this out of my mind, breaking loose from the fascination of the open doors, the throng of people making one voice. I had, had something for Claudia, a doll I was taking to her, a bridal doll I&#x27;d lifted from a darkened toy shop window and placed in a great box with ribbons and tissue paper. A doll for Claudia. I remembered pressing on with it, hearing the heavy vibrations of the organ behind me, my eyes narrow from the great blaze of the candles.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">06</span>
+    <div class="spanish-text">Le grité; grité y el grito se elevó desde las profundidades de mi ser como una inmensa fuerza negra que rompía mis costillas y enviaba mi cuerpo rodando contra mi voluntad. Un gemido espantoso salió de los penitentes, un coro que creció cada vez más alto cuando me di vuelta para ver a todos a mí alrededor, empujándome en el pasillo contra los mismos costados del ataúd. Me di la vuelta para recuperar el equilibrio y me encontré apoyado en él con ambas manos. Y permanecí allí contemplando no los restos de Lestat, sino el cuerpo de mi hermano mortal. Una quietud cayó como si el velo hubiera caído sobre todos y disuelto sus formas debajo de sus silenciosos dobleces. Allí estaba mi hermano, joven y rubio y dulce como había sido en la vida, tan real y cálido que jamás lo podría haber recordado así; estaba tan perfectamente recreado, era tan perfecto en todos sus detalles... Sus cabellos rubios estaban peinados encima de su frente, los ojos los tenía cerrados como si durmiera, sus dedos suaves estaban aferrados al crucifijo sobre el pecho, y sus labios se veían tan rosados y sedosos que casi no pude soportar verlos y no tocarlos. Y justo cuando estiré la mano para tocarlos, la visión se disolvió.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;The great facade of the cathedral rose in a dark mass opposite the square, but the doors were open and I could see a soft, flickering light within. It was Saturday evening early, and the people were going to confession for Sunday Mass and Communion. Candles burned dim in the chandeliers. At the far end of the nave the altar loomed out of the shadows, laden with white flowers. It was to the old church on this spot that they had brought my brother for the final service before the cemetery. And I realized suddenly that I hadn&#x27;t been in this place since, never once come up the stone steps, crossed the porch, and passed through the open doors. &quot;I had no fear. If anything, perhaps, I longed for something to happen, for the stones to tremble as I entered the shadowy foyer and saw the distant tabernacle on the altar. I remembered now that I had passed here once when the windows were ablaze and the sound of singing poured out into Jackson Square. I had hesitated then, wondering if there were some secret Lestat had never told me, something which might destroy me were I to enter. I&#x27;d felt compelled to enter, but I had pushed this out of my mind, breaking loose from the fascination of the open doors, the throng of people making one voice. I had, had something for Claudia, a doll I was taking to her, a bridal doll I&#x27;d lifted from a darkened toy shop window and placed in a great box with ribbons and tissue paper. A doll for Claudia. I remembered pressing on with it, hearing the heavy vibrations of the organ behind me, my eyes narrow from the great blaze of the candles. &quot;Now I thought of that moment; that fear in me at the very sight of the altar, the sound of the Pange Lingua. And I thought again, persistently, of my brother. I could see the coin rolling along up the center aisle, the procession of mourners behind it. I felt no fear now. As I said, I think if anything I felt a longing for some fear, for some reason for fear as I moved slowly along the dark, stone walls. The air was chill and damp in spite of summer. The thought of Claudia&#x27;s doll came back to me. Where was that doll? For years Claudia had played with that doll. Suddenly I saw myself searching for the doll, in the relentless and meaningless manner one searches for something in a nightmare, coming on doors that won&#x27;t open or drawers that won&#x27;t shut, struggling over and over against the same meaningless thing, not knowing why the effort seems so desperate, why the sudden sight of a chair with a shawl thrown over it inspires the mind with horror.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">07</span>
+    <div class="spanish-text">Aún estaba sentado en la catedral ese sábado por la tarde, rodeado por el espeso olor de la cera en el aire inmóvil. La mujer de las estaciones había desaparecido y reinaba más oscuridad que antes a mí alrededor. Un niño apareció con la negra casaca de monaguillo, con un largo apagador dorado. Ponía el pequeño cono sobre una vela y luego sobre otra, y sobre otra. Yo estaba estupefacto. Me miró y se alejó como para no molestar a un hombre profundamente concentrado en la oración. Y entonces, cuando él avanzaba hacia el próximo candelabro, sentí una mano sobre mi hombro.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I had no fear. If anything, perhaps, I longed for something to happen, for the stones to tremble as I entered the shadowy foyer and saw the distant tabernacle on the altar. I remembered now that I had passed here once when the windows were ablaze and the sound of singing poured out into Jackson Square. I had hesitated then, wondering if there were some secret Lestat had never told me, something which might destroy me were I to enter. I&#x27;d felt compelled to enter, but I had pushed this out of my mind, breaking loose from the fascination of the open doors, the throng of people making one voice. I had, had something for Claudia, a doll I was taking to her, a bridal doll I&#x27;d lifted from a darkened toy shop window and placed in a great box with ribbons and tissue paper. A doll for Claudia. I remembered pressing on with it, hearing the heavy vibrations of the organ behind me, my eyes narrow from the great blaze of the candles. &quot;Now I thought of that moment; that fear in me at the very sight of the altar, the sound of the Pange Lingua. And I thought again, persistently, of my brother. I could see the coin rolling along up the center aisle, the procession of mourners behind it. I felt no fear now. As I said, I think if anything I felt a longing for some fear, for some reason for fear as I moved slowly along the dark, stone walls. The air was chill and damp in spite of summer. The thought of Claudia&#x27;s doll came back to me. Where was that doll? For years Claudia had played with that doll. Suddenly I saw myself searching for the doll, in the relentless and meaningless manner one searches for something in a nightmare, coming on doors that won&#x27;t open or drawers that won&#x27;t shut, struggling over and over against the same meaningless thing, not knowing why the effort seems so desperate, why the sudden sight of a chair with a shawl thrown over it inspires the mind with horror. &quot;I was in the cathedral. A woman stepped out of the confessional and passed the long line of those who waited. A man who should have stepped up neat did not move; and my eye, sensitive even in my vulnerable condition, noted this, and I turned to see him. He was staring at me. Quickly I turned my back on him. I heard him enter the confessional and shut the door. I walked up the aisle of the church and then, more from exhaustion than from any conviction, went into an empty pew and sat down. I had almost genuflected from old habit. My mind seemed as muddled and tortured as that of any human. I closed my eyes for a moment and tried to banish all thoughts. Hear and see, I said to myself. And with this act of will, my senses emerged from the torment. All around me in the gloom I heard the whisper of prayers, the tiny click of the rosary beads; soft the sighing of the woman who knelt now at the Twelfth Station. Rising from the sea of wooden pews came the scent of rats. A rat moving somewhere near the altar, a rat in the great woodcarved side altar of the Virgin Mary. The gold candlesticks shimmered on the altar; a rich white chrysanthemum bent suddenly on its stem, droplets glistening on the crowded petals, a sour fragrance rising from a score of vases, from altars and side altars, from statues of Virgins and Christs and saints. I stared at the statues; I became obsessed suddenly and completely with the lifeless profiles, the staring eyes, the empty hands, the frozen folds. Then my body convulsed with such violence that I found myself pitched forward, my hand on the pew before me. It was a cemetery of dead forms, of funereal effigy and stone angels. I looked up and saw myself in a most palpable vision ascending the altar steps, opening the tiny sacrosanct tabernacle, reaching with monstrous hands for the consecrated ciborium, and taking the Body of Christ and strewing Its white wafers all over the carpet; and walking then on the sacred wafers, walking up and down before the altar, giving Holy Communion to the dust. I rose up now in the pew and stood there staring at this vision. I knew full well the meaning of it.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">08</span>
+    <div class="spanish-text">Que dos seres humanos pudieran acercarse tanto a mí sin que los oyese, sin que me importase, me indicó en mi interior que yo estaba en peligro, pero no me importó. Levanté la mirada y vi que se trataba del sacerdote canoso. —¿Quiere la confesión? —me preguntó—, Estaba por cerrar la iglesia. Entrecerró los ojos detrás de sus gruesos lentes. La única luz provenía ahora de los pequeños vasos rojos con velas que ardían delante de los santos, y las sombras subían por los altos muros.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I had no fear. If anything, perhaps, I longed for something to happen, for the stones to tremble as I entered the shadowy foyer and saw the distant tabernacle on the altar. I remembered now that I had passed here once when the windows were ablaze and the sound of singing poured out into Jackson Square. I had hesitated then, wondering if there were some secret Lestat had never told me, something which might destroy me were I to enter. I&#x27;d felt compelled to enter, but I had pushed this out of my mind, breaking loose from the fascination of the open doors, the throng of people making one voice. I had, had something for Claudia, a doll I was taking to her, a bridal doll I&#x27;d lifted from a darkened toy shop window and placed in a great box with ribbons and tissue paper. A doll for Claudia. I remembered pressing on with it, hearing the heavy vibrations of the organ behind me, my eyes narrow from the great blaze of the candles. &quot;Now I thought of that moment; that fear in me at the very sight of the altar, the sound of the Pange Lingua. And I thought again, persistently, of my brother. I could see the coin rolling along up the center aisle, the procession of mourners behind it. I felt no fear now. As I said, I think if anything I felt a longing for some fear, for some reason for fear as I moved slowly along the dark, stone walls. The air was chill and damp in spite of summer. The thought of Claudia&#x27;s doll came back to me. Where was that doll? For years Claudia had played with that doll. Suddenly I saw myself searching for the doll, in the relentless and meaningless manner one searches for something in a nightmare, coming on doors that won&#x27;t open or drawers that won&#x27;t shut, struggling over and over against the same meaningless thing, not knowing why the effort seems so desperate, why the sudden sight of a chair with a shawl thrown over it inspires the mind with horror. &quot;I was in the cathedral. A woman stepped out of the confessional and passed the long line of those who waited. A man who should have stepped up neat did not move; and my eye, sensitive even in my vulnerable condition, noted this, and I turned to see him. He was staring at me. Quickly I turned my back on him. I heard him enter the confessional and shut the door. I walked up the aisle of the church and then, more from exhaustion than from any conviction, went into an empty pew and sat down. I had almost genuflected from old habit. My mind seemed as muddled and tortured as that of any human. I closed my eyes for a moment and tried to banish all thoughts. Hear and see, I said to myself. And with this act of will, my senses emerged from the torment. All around me in the gloom I heard the whisper of prayers, the tiny click of the rosary beads; soft the sighing of the woman who knelt now at the Twelfth Station. Rising from the sea of wooden pews came the scent of rats. A rat moving somewhere near the altar, a rat in the great woodcarved side altar of the Virgin Mary. The gold candlesticks shimmered on the altar; a rich white chrysanthemum bent suddenly on its stem, droplets glistening on the crowded petals, a sour fragrance rising from a score of vases, from altars and side altars, from statues of Virgins and Christs and saints. I stared at the statues; I became obsessed suddenly and completely with the lifeless profiles, the staring eyes, the empty hands, the frozen folds. Then my body convulsed with such violence that I found myself pitched forward, my hand on the pew before me. It was a cemetery of dead forms, of funereal effigy and stone angels. I looked up and saw myself in a most palpable vision ascending the altar steps, opening the tiny sacrosanct tabernacle, reaching with monstrous hands for the consecrated ciborium, and taking the Body of Christ and strewing Its white wafers all over the carpet; and walking then on the sacred wafers, walking up and down before the altar, giving Holy Communion to the dust. I rose up now in the pew and stood there staring at this vision. I knew full well the meaning of it. &quot;God did not live in this church; these statues gave an image to nothingness. 1 was the supernatural in this cathedral. I was the only supermortal thing that stood conscious under this roof! Loneliness. Loneliness to the point of madness. The cathedral crumbled in my vision; the saints listed and fell. Rats ate the Holy Eucharist and nested on the sills. A solitary rat with an enormous tail stood tugging and gnawing at the rotted altar cloth until the candlesticks fell and rolled on the slime-covered stones. And I remained standing. Untouched. Undead-reaching out suddenly for the plaster hand of the Virgin and seeing it break in my hand, so that I held the hand crumbling in my palm, the pressure of my thumb turning it to powder. &quot;And then suddenly through the ruins, up through the open door through which I could see a wasteland in all directions, even the great river frozen over and stuck with the encrusted ruins of ships, up through these ruins now came a funeral procession, a band of pale, white men and women, monsters with gleaming eyes and flowing black clothes, the coffin rumbling on the wooden wheels, the rats scurrying across the broken and buckling marble, the procession advancing, so that I could see then Claudia in the procession, her eyes staring from behind a thin black veil, one gloved hand locked upon a black prayer book, the other on the coffin as it moved beside her. And there now in the coffin; beneath a glass cover, I saw to my horror the skeleton of Lestat, the wrinkled skin now pressed into the very texture of his bones, his eyes but sockets, his blond hair billowed on the white satin.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">09</span>
+    <div class="spanish-text">—Usted tiene problemas, ¿verdad? ¿Le puedo ayudar en algo? —Es demasiado tarde, demasiado tarde —le susurré, y me puse de pie para irme. Se apartó de mí, al parecer sin notar aún nada de mi aspecto que lo pudiera alarmar, y me dijo bondadosamente, como para tranquilizarme: —No, aún hay tiempo. ¿Quiere venir al confesionario? Por un momento lo miré. Sentí la tentación de sonreír. Entonces se me ocurrió aceptar. Pero incluso cuando lo seguía por el pasillo, en las sombras del vestíbulo, sabía que no sería nada, que era una locura. No obstante, me arrodillé en el pequeño cubículo de madera, con mis manos cruzadas y él se sentó dentro del confesionario y abrió la ventanilla para mostrarme el esbozo mortecino de su perfil. Lo miré un momento. Y entonces dije, levantando la mano para hacer la señal de la cruz.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I was in the cathedral. A woman stepped out of the confessional and passed the long line of those who waited. A man who should have stepped up neat did not move; and my eye, sensitive even in my vulnerable condition, noted this, and I turned to see him. He was staring at me. Quickly I turned my back on him. I heard him enter the confessional and shut the door. I walked up the aisle of the church and then, more from exhaustion than from any conviction, went into an empty pew and sat down. I had almost genuflected from old habit. My mind seemed as muddled and tortured as that of any human. I closed my eyes for a moment and tried to banish all thoughts. Hear and see, I said to myself. And with this act of will, my senses emerged from the torment. All around me in the gloom I heard the whisper of prayers, the tiny click of the rosary beads; soft the sighing of the woman who knelt now at the Twelfth Station. Rising from the sea of wooden pews came the scent of rats. A rat moving somewhere near the altar, a rat in the great woodcarved side altar of the Virgin Mary. The gold candlesticks shimmered on the altar; a rich white chrysanthemum bent suddenly on its stem, droplets glistening on the crowded petals, a sour fragrance rising from a score of vases, from altars and side altars, from statues of Virgins and Christs and saints. I stared at the statues; I became obsessed suddenly and completely with the lifeless profiles, the staring eyes, the empty hands, the frozen folds. Then my body convulsed with such violence that I found myself pitched forward, my hand on the pew before me. It was a cemetery of dead forms, of funereal effigy and stone angels. I looked up and saw myself in a most palpable vision ascending the altar steps, opening the tiny sacrosanct tabernacle, reaching with monstrous hands for the consecrated ciborium, and taking the Body of Christ and strewing Its white wafers all over the carpet; and walking then on the sacred wafers, walking up and down before the altar, giving Holy Communion to the dust. I rose up now in the pew and stood there staring at this vision. I knew full well the meaning of it. &quot;God did not live in this church; these statues gave an image to nothingness. 1 was the supernatural in this cathedral. I was the only supermortal thing that stood conscious under this roof! Loneliness. Loneliness to the point of madness. The cathedral crumbled in my vision; the saints listed and fell. Rats ate the Holy Eucharist and nested on the sills. A solitary rat with an enormous tail stood tugging and gnawing at the rotted altar cloth until the candlesticks fell and rolled on the slime-covered stones. And I remained standing. Untouched. Undead-reaching out suddenly for the plaster hand of the Virgin and seeing it break in my hand, so that I held the hand crumbling in my palm, the pressure of my thumb turning it to powder. &quot;And then suddenly through the ruins, up through the open door through which I could see a wasteland in all directions, even the great river frozen over and stuck with the encrusted ruins of ships, up through these ruins now came a funeral procession, a band of pale, white men and women, monsters with gleaming eyes and flowing black clothes, the coffin rumbling on the wooden wheels, the rats scurrying across the broken and buckling marble, the procession advancing, so that I could see then Claudia in the procession, her eyes staring from behind a thin black veil, one gloved hand locked upon a black prayer book, the other on the coffin as it moved beside her. And there now in the coffin; beneath a glass cover, I saw to my horror the skeleton of Lestat, the wrinkled skin now pressed into the very texture of his bones, his eyes but sockets, his blond hair billowed on the white satin. &quot;The procession stopped. The mourners moved out, filling the dusty pews without a sound, and Claudia, turning with her book, opened it and lifted the veil back from her face, her eyes fixed on me as her finger touched the page. `And now art thou cursed from the earth,&#x27; she whispered, her whisper rising in echo in the ruins. `And now art thou cursed from the earth, which hath opened her mouth to receive thy brother&#x27;s blood from thy hand. When thou tillest the ground, it shall not henceforth yield unto thee her strength. A fugitive and a vagabond shalt thou be in the earth . . . and whoever slayeth thee, vengeance shall be taken on him seven-fold.&#x27; &quot;I shouted at her, I screamed, the scream rising up out of the depths of my being like some great rolling black force that broke from my lips and sent my body reeling against my will. A terrible sighing rose from the mourners, a chorus growing louder and louder, as I turned to see them all about me, pushing me into the aisle against the very sides of the coffin, so that I turned to get my balance and found both my hands upon it. And I stood there staring down not at the remains of Lestat, but at the body of my mortal brother. A quiet descended, as if a veil had fallen over all and made their forms dissolve beneath its soundless folds. There was my brother, blond and young and sweet as he had been in life, as real and warm to me now as he&#x27;d been years and years beyond which I could never have remembered him thus, so perfectly was he re-created, so perfectly in every detail. His blond hair brushed back from his forehead, his eyes closed as if he slept, his smooth fingers around the crucifix on his breast, his lips so pink and silken I could hardly bear to see them and not touch them. And as I reached out just to touch the softness of his skin, the vision ended.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">10</span>
+    <div class="spanish-text">—Bendígame, padre, porque he pecado, he pecado tan a menudo y hace tanto tiempo que no sé cómo cambiar ni cómo confesar ante Dios todo lo que he hecho. —Hijo, Dios es infinito en su capacidad de misericordia —me dijo—. Díselo a El de la mejor manera que conozcas y desde el fondo de tu corazón. —Asesinatos, padre, muerte tras muerte: la mujer que murió hace dos noches en Jackson Square. Yo la maté. Y a miles de otros antes que a ella, uno o dos por noche, padre, durante setenta años. He caminado por las calles de Nueva Orleans como el Segador Maldito y me he alimentado de vida humana para mantener mi propia existencia. No soy un mortal, padre; soy inmortal y condenado, como los ángeles puestos en el infierno por Dios. Soy un vampiro.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;The procession stopped. The mourners moved out, filling the dusty pews without a sound, and Claudia, turning with her book, opened it and lifted the veil back from her face, her eyes fixed on me as her finger touched the page. `And now art thou cursed from the earth,&#x27; she whispered, her whisper rising in echo in the ruins. `And now art thou cursed from the earth, which hath opened her mouth to receive thy brother&#x27;s blood from thy hand. When thou tillest the ground, it shall not henceforth yield unto thee her strength. A fugitive and a vagabond shalt thou be in the earth . . . and whoever slayeth thee, vengeance shall be taken on him seven-fold.&#x27; &quot;I shouted at her, I screamed, the scream rising up out of the depths of my being like some great rolling black force that broke from my lips and sent my body reeling against my will. A terrible sighing rose from the mourners, a chorus growing louder and louder, as I turned to see them all about me, pushing me into the aisle against the very sides of the coffin, so that I turned to get my balance and found both my hands upon it. And I stood there staring down not at the remains of Lestat, but at the body of my mortal brother. A quiet descended, as if a veil had fallen over all and made their forms dissolve beneath its soundless folds. There was my brother, blond and young and sweet as he had been in life, as real and warm to me now as he&#x27;d been years and years beyond which I could never have remembered him thus, so perfectly was he re-created, so perfectly in every detail. His blond hair brushed back from his forehead, his eyes closed as if he slept, his smooth fingers around the crucifix on his breast, his lips so pink and silken I could hardly bear to see them and not touch them. And as I reached out just to touch the softness of his skin, the vision ended. &quot;I was sitting still in the Saturday night cathedral, the smell of the tapers thick in the motionless air, the woman of the stations gone and darkness gathering behind me, across from me, and now above me. A boy appeared in the black cassock of a lay brother, with a long extinguisher on a golden pole, putting its little funnel down upon one candle and then another and then another. I was stupefied He glanced at me and then away, as if not to disturb a man deep in prayer. And then, as he moved on up to the next chandelier, I felt a hand on my shoulder. &quot;That two humans should pass this close to me without my hearing, without my even caring, registered somewhere within me that I was in danger, but I did not care. I looked up now and saw a gray-haired priest. `You wish to go to confession?&#x27; he asked. &#x27;I was about to lock up the church.&#x27; He narrowed his eyes behind his thick glasses. The only light now came from the racks of little red-glass candles which burned before the saints; and shadows leaped upon the towering walls. `You are troubled, aren&#x27;t you? Can I help you?&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">11</span>
+    <div class="spanish-text">El cura me miró: —¿Qué es esto? ¿Una especie de deporte para usted? ¿Una broma? ¡Aprovechándose de un anciano! Salió del confesionario con un portazo. Rápidamente abrí la puerta y lo vi de pie. —Joven, ¿no tiene usted temor de Dios? ¿Sabe usted el significado del sacrilegio? Me miró furioso. Entonces me acerqué, lenta, muy lentamente, y, al principio, pareció mirarme indignado; luego, confuso, dio un paso atrás. La iglesia estaba vacía, oscura; el sacristán se había retirado y las velas ardían, fantasmales, en los altares más distantes. Producían como una especie de corona, encima de su cabeza cana y de su cara.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">And as I reached out just to touch the softness of his skin, the vision ended. &quot;I was sitting still in the Saturday night cathedral, the smell of the tapers thick in the motionless air, the woman of the stations gone and darkness gathering behind me, across from me, and now above me. A boy appeared in the black cassock of a lay brother, with a long extinguisher on a golden pole, putting its little funnel down upon one candle and then another and then another. I was stupefied He glanced at me and then away, as if not to disturb a man deep in prayer. And then, as he moved on up to the next chandelier, I felt a hand on my shoulder. &quot;That two humans should pass this close to me without my hearing, without my even caring, registered somewhere within me that I was in danger, but I did not care. I looked up now and saw a gray-haired priest. `You wish to go to confession?&#x27; he asked. &#x27;I was about to lock up the church.&#x27; He narrowed his eyes behind his thick glasses. The only light now came from the racks of little red-glass candles which burned before the saints; and shadows leaped upon the towering walls. `You are troubled, aren&#x27;t you? Can I help you?&#x27; &quot; `It&#x27;s too late, too late,&#x27; I whispered to him, and rose to go. He backed away from me, still apparently unaware of anything about my appearance that should alarm him, and said kindly, to reassure me, `No, it&#x27;s still early. Do you want to come into the confessional?&#x27; &quot;For a moment I just stared at him. I was tempted to smile. And then it occurred to me to do it. But even as I followed him down the aisle, in the shadows of the vestibule, I knew this would be nothing, that it. was madness. Nevertheless, I knelt down in the small wooden booth,. my hands folded on the priedieu as he sat in the booth beside it and slid back the panel to show me the dim outline of his profile. I stared at him for a moment. And then I said it, lifting my hand to make the Sign of the Cross. `Bless me, father,. for I have sinned, sinned so often and so long I do not know how to change, nor how to confess before God what I&#x27;ve done.&#x27; &quot;&#x27; Son. God is infinite in His capacity to forgive,&#x27; he whispered to me. `Tell Him in the best way you know how and from your heart.&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">12</span>
+    <div class="spanish-text">—¡Entonces, no hay misericordia! —dije, y, de repente, le puse las manos sobre los hombros. Lo mantuve en un abrazo sobrenatural, del que no podía esperar apartarse, y lo acerqué aún más a mi cara. Abrió la boca horrorizado. —¿Ve usted lo que soy? ¿Por qué, si Dios existe, permite que yo exista? —le dije—. ¡Y usted habla de sacrilegios! Hundió sus uñas en mis manos tratando de liberarse, y el misal cayó al suelo, y su rosario repiqueteó entre los dobleces de su sotana. Fue como si luchara contra las estatuas animadas de los santos. Estiré los labios hacia atrás y le mostré mis dientes virulentos:</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `It&#x27;s too late, too late,&#x27; I whispered to him, and rose to go. He backed away from me, still apparently unaware of anything about my appearance that should alarm him, and said kindly, to reassure me, `No, it&#x27;s still early. Do you want to come into the confessional?&#x27; &quot;For a moment I just stared at him. I was tempted to smile. And then it occurred to me to do it. But even as I followed him down the aisle, in the shadows of the vestibule, I knew this would be nothing, that it. was madness. Nevertheless, I knelt down in the small wooden booth,. my hands folded on the priedieu as he sat in the booth beside it and slid back the panel to show me the dim outline of his profile. I stared at him for a moment. And then I said it, lifting my hand to make the Sign of the Cross. `Bless me, father,. for I have sinned, sinned so often and so long I do not know how to change, nor how to confess before God what I&#x27;ve done.&#x27; &quot;&#x27; Son. God is infinite in His capacity to forgive,&#x27; he whispered to me. `Tell Him in the best way you know how and from your heart.&#x27; &quot; `Murders, father, death after death. The woman who died two nights ago in Jackson Square, I killed her, and thousands of others before her, one and two a night, father, for seventy years. I have walked the streets of New Orleans like the Grim Reaper and fed on human life for my own existence. I am not mortal, father, but immortal and damned, like angels put in hell by God. I am a vampire.&#x27; &quot;The priest turned. &#x27;What is this, some sort of sport for you? Some joke? You take advantage of an old man!&#x27; he said. He slid the wooden panel back with a splat. Quickly I opened the door and stepped out to see him standing there. `Young man, do you fear God at all? Do you know the meaning of sacrilege?&#x27; He glared at me. Now I moved closer to him, slowly, very slowly, and at first he merely stared at me, outraged. Then, confused, he took a step back. The church was hollow, empty, black, the sacristan gone and the candles throwing ghastly fight only on the distant altars. They made a wreath of soft, gold fibers about his gray head and face. &#x27;Then there is no mercy!&#x27; I said to him and suddenly clamping my hands on his shoulders, I held him in a preternatural lock from which he couldn&#x27;t hope to move and held him close beneath my face. His mouth fell open in horror. `Do you see what I am! Why, if God exists, does He suffer me to exist!&#x27; I said to him. `You talk of sacrilege!&#x27; He dug his nails into my hands, trying to free himself, his missal dropping to the floor, his rosary clattering in the folds of his cassock. He might as well have fought the animated statues of the saints. I drew my lips back and showed him my virulent teeth. `Why does He suffer me to live?&#x27; I said. His face infuriated me, his fear, his contempt, his rage. I saw in it all the hatred rd seen in Babette, and he hissed at me, `Let me go! Devil!&#x27; in sheer mortal panic.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">13</span>
+    <div class="spanish-text">—¿Por qué permite Él que yo viva? Su cara me enfureció, su miedo, su desprecio, su furia. Vi todo eso; era el mismo odio que me había tenido Babette, y él me susurró, pero con pánico mortal: —¡Déjame, demonio! Lo dejé, contemplando con fascinación siniestra cómo se alejaba, moviéndose por el pasillo central como si caminara entre la nieve. Y entonces me lancé en pos de él tan rápidamente que en un instante lo abracé con mis brazos estirados, y lo envolví con mi capa en la oscuridad. Hizo un último intento desesperado por desasirse, mientras me maldecía y llamaba en su ayuda a Dios en el altar. Y entonces lo agarré en los primeros escalones de la barandilla de la Comunión y allí lo di vuelta para que me viera, y le hundí los dientes en el cuello.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `Murders, father, death after death. The woman who died two nights ago in Jackson Square, I killed her, and thousands of others before her, one and two a night, father, for seventy years. I have walked the streets of New Orleans like the Grim Reaper and fed on human life for my own existence. I am not mortal, father, but immortal and damned, like angels put in hell by God. I am a vampire.&#x27; &quot;The priest turned. &#x27;What is this, some sort of sport for you? Some joke? You take advantage of an old man!&#x27; he said. He slid the wooden panel back with a splat. Quickly I opened the door and stepped out to see him standing there. `Young man, do you fear God at all? Do you know the meaning of sacrilege?&#x27; He glared at me. Now I moved closer to him, slowly, very slowly, and at first he merely stared at me, outraged. Then, confused, he took a step back. The church was hollow, empty, black, the sacristan gone and the candles throwing ghastly fight only on the distant altars. They made a wreath of soft, gold fibers about his gray head and face. &#x27;Then there is no mercy!&#x27; I said to him and suddenly clamping my hands on his shoulders, I held him in a preternatural lock from which he couldn&#x27;t hope to move and held him close beneath my face. His mouth fell open in horror. `Do you see what I am! Why, if God exists, does He suffer me to exist!&#x27; I said to him. `You talk of sacrilege!&#x27; He dug his nails into my hands, trying to free himself, his missal dropping to the floor, his rosary clattering in the folds of his cassock. He might as well have fought the animated statues of the saints. I drew my lips back and showed him my virulent teeth. `Why does He suffer me to live?&#x27; I said. His face infuriated me, his fear, his contempt, his rage. I saw in it all the hatred rd seen in Babette, and he hissed at me, `Let me go! Devil!&#x27; in sheer mortal panic. &quot;I released him, watching with a sinister fascination as he floundered, moving up the center aisle as if he plowed through snow. And then I was after him, so swift that I surrounded him in an instant with my outstretched arms, my cape throwing him into darkness, his legs scrambling still. He was cursing me, calling on God at the altar. And then I grabbed him on the very steps to the Communion rail and pulled him down to face me there and sank my teeth into his neck.&quot; The vampire stopped. Sometime before, the boy had been about to light a cigarette. And he sat now with the match in one hand, the cigarette in the other, still as a store dummy, staring at the vampire. The vampire was looking at the floor. He turned suddenly, took the book of matches from the boy&#x27;s hand, struck the match, and held it out. The boy bent the cigarette to receive it. He inhaled and let the smoke out quickly. He uncapped the bottle and took a deep drink, his eyes always on the vampire.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">14</span>
+    <div class="spanish-text">El vampiro se detuvo. Un minuto antes, el entrevistador había estado a punto de prender un cigarrillo. Pero ahora se quedó sentado con las cerillas en una mano y el cigarrillo en la otra, inmóvil como un maniquí de vitrina, mirando al vampiro. Éste tenía la vista fija en el suelo. Se dio vuelta de repente, le quitó las cerillas al muchacho de la mano, encendió una y se la ofreció. El chico se inclinó. Inhaló y expulsó el humo rápidamente. Destapó la botella y tomó un largo trago, con sus ojos siempre fijos en el vampiro.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">outstretched arms, my cape throwing him into darkness, his legs scrambling still. He was cursing me, calling on God at the altar. And then I grabbed him on the very steps to the Communion rail and pulled him down to face me there and sank my teeth into his neck.&quot; The vampire stopped. Sometime before, the boy had been about to light a cigarette. And he sat now with the match in one hand, the cigarette in the other, still as a store dummy, staring at the vampire. The vampire was looking at the floor. He turned suddenly, took the book of matches from the boy&#x27;s hand, struck the match, and held it out. The boy bent the cigarette to receive it. He inhaled and let the smoke out quickly. He uncapped the bottle and took a deep drink, his eyes always on the vampire. He was patient again, waiting until the vampire was ready to resume.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">15</span>
+    <div class="spanish-text">Nuevamente fue paciente, a la espera de que el vampiro reanudara el hilo de la narración. —No recordaba la Europa de mi infancia. Ni siquiera el viaje a América, en realidad. Que yo hubiera nacido era una idea abstracta. No obstante, ejercía una atracción en mí tan poderosa como Francia puede tenerla para un hombre de las colonias. Yo hablaba francés, leía francés, recordaba haber esperado los informes sobre la Revolución y leído los reportajes de las victorias de Napoleón en los diarios franceses. Recuerdo la rabia que sentí cuando él vendió la colonia de Luisiana a los Estados Unidos. Yo no sabía cuánto del mortal francés aún vivía en mí. En realidad, ya había desaparecido, pero yo sentía un inmenso deseo de ver Europa y de conocerla, lo que me venía no sólo de haber leído toda su literatura y filosofía, sino también de una sensación de haber sido formado en Europa con más profundidad y agudeza que el resto de los norteamericanos. Yo era un creóle que quería ver dónde había comenzado todo.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">Sometime before, the boy had been about to light a cigarette. And he sat now with the match in one hand, the cigarette in the other, still as a store dummy, staring at the vampire. The vampire was looking at the floor. He turned suddenly, took the book of matches from the boy&#x27;s hand, struck the match, and held it out. The boy bent the cigarette to receive it. He inhaled and let the smoke out quickly. He uncapped the bottle and took a deep drink, his eyes always on the vampire. He was patient again, waiting until the vampire was ready to resume. &quot;I didn&#x27;t remember Europe from my childhood. Not even the voyage to America, -really. That I had been born there was an abstract idea. Yet it had a hold over me which was as powerful as the hold France can have on a colonial. I spoke French, read French, remembered waiting for the reports of the Revolution and reading the Paris newspaper accounts of Napoleon&#x27;s victories. I remember the anger I felt when he sold the colony of Louisiana to the United States. How long the mortal Frenchman lived in me I don&#x27;t know. He was gone by this time, really, but there was in me that great desire to see Europe and to know it, which comes not only from the reading of all the literature and the philosophy, but from the feeling of having been shaped by Europe more deeply and keenly than the rest of Americans. I was a Creole who wanted to see where it had all begun.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">16</span>
+    <div class="spanish-text">Y entonces, en ese momento, me concentré en ello, empezando a sacar de mis armarios y baúles todo lo que no me fuera esencial. Y la verdad es que muy pocas cosas me eran esenciales. La mayor parte se quedaría en la casa de la ciudad, a la que estaba seguro de retornar tarde o temprano, aunque sólo fuera para pasar mis posesiones a otra parecida y así empezar una nueva vida en Nueva Orleans. No podía concebir la idea de irme para siempre. Pero tenía mi corazón y mis pensamientos en Europa.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">He was patient again, waiting until the vampire was ready to resume. &quot;I didn&#x27;t remember Europe from my childhood. Not even the voyage to America, -really. That I had been born there was an abstract idea. Yet it had a hold over me which was as powerful as the hold France can have on a colonial. I spoke French, read French, remembered waiting for the reports of the Revolution and reading the Paris newspaper accounts of Napoleon&#x27;s victories. I remember the anger I felt when he sold the colony of Louisiana to the United States. How long the mortal Frenchman lived in me I don&#x27;t know. He was gone by this time, really, but there was in me that great desire to see Europe and to know it, which comes not only from the reading of all the literature and the philosophy, but from the feeling of having been shaped by Europe more deeply and keenly than the rest of Americans. I was a Creole who wanted to see where it had all begun. &quot;And so I turned my mind to this now. To divesting my closets and trunks of everything that was not essential to me. And very little was essential to me, really. And much of that might remain in the town house, to which I was certain I would return sooner or later, if only to move my possessions to another similar one and start a new life in New Orleans. I couldn&#x27;t conceive of leaving it forever. Wouldn&#x27;t. But I fixed my mind and heart on Europe.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">17</span>
+    <div class="spanish-text">Empecé a darme cuenta por primera vez de que podría ver el mundo, si así lo deseaba. Que era, como había dicho Claudia, libre de ir a donde quisiera. Mientras tanto, ella hizo un plan. Su idea más decidida era que primero debíamos ir a Europa central, donde los vampiros parecían ser más numerosos. Ella estaba segura de que allí podríamos encontrar algo que nos instruyera, nos explicara nuestros orígenes. Pero parecía ansiosa por algo más que respuestas: quería una comunión con los de su propia especie. Lo mencionaba sin cesar:</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I didn&#x27;t remember Europe from my childhood. Not even the voyage to America, -really. That I had been born there was an abstract idea. Yet it had a hold over me which was as powerful as the hold France can have on a colonial. I spoke French, read French, remembered waiting for the reports of the Revolution and reading the Paris newspaper accounts of Napoleon&#x27;s victories. I remember the anger I felt when he sold the colony of Louisiana to the United States. How long the mortal Frenchman lived in me I don&#x27;t know. He was gone by this time, really, but there was in me that great desire to see Europe and to know it, which comes not only from the reading of all the literature and the philosophy, but from the feeling of having been shaped by Europe more deeply and keenly than the rest of Americans. I was a Creole who wanted to see where it had all begun. &quot;And so I turned my mind to this now. To divesting my closets and trunks of everything that was not essential to me. And very little was essential to me, really. And much of that might remain in the town house, to which I was certain I would return sooner or later, if only to move my possessions to another similar one and start a new life in New Orleans. I couldn&#x27;t conceive of leaving it forever. Wouldn&#x27;t. But I fixed my mind and heart on Europe. &quot;It began to penetrate for the first time that I might see the world if I wanted. That I was, as Claudia said, free.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">18</span>
+    <div class="spanish-text">—Mi propia especie... —y lo decía con una entonación diferente a la que yo podría haber usado.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;And so I turned my mind to this now. To divesting my closets and trunks of everything that was not essential to me. And very little was essential to me, really. And much of that might remain in the town house, to which I was certain I would return sooner or later, if only to move my possessions to another similar one and start a new life in New Orleans. I couldn&#x27;t conceive of leaving it forever. Wouldn&#x27;t. But I fixed my mind and heart on Europe. &quot;It began to penetrate for the first time that I might see the world if I wanted. That I was, as Claudia said, free. &quot;Meantime, she made a plan. It was her idea most definitely that we must go first to central Europe, where the vampire seemed most prevalent. She was certain we could find something there that would instruct us, explain our origins. But she seemed anxious for more than answers: a communion with her own kind. She mentioned this over and over, `My own kind,&#x27; and she said it with a different intonation than I might have used. She made me feel the gulf that separated us. In the first years of our life together, I had thought her like Lestat, imbibing his instinct to kill, though she shared my tastes in everything else. Now I knew her to be less human than either of us, less human than either of us might have dreamed. Not the faintest conception bound her to the sympathies of human existence. Perhaps this explained why-despite everything I had done or failed to do-she clung to me. I was not her own kind. Merely the closest thing to it.&quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<footer>
+  <p><em>Entrevista con el Vampiro</em> &mdash; Anne Rice</p>
+  <p style="margin-top:.5rem;">Lectura glosada para uso personal de estudio del espa&ntilde;ol &middot; Cap&iacute;tulo 27</p>
+</footer>
+
+<script>
+(function () {
+  /* ── 1. Wrap every .spanish-text in a flex row and prepend a play button ── */
+  document.querySelectorAll('.spanish-text').forEach(function (el, i) {
+    var text = el.textContent.trim();
+    el.dataset.speak = text;
+
+    var btn = document.createElement('button');
+    btn.className = 'play-btn';
+    btn.title = 'Reproducir';
+    btn.innerHTML = '&#9654;';
+    btn.dataset.idx = i;
+
+    var row = document.createElement('div');
+    row.className = 'spanish-row';
+    el.parentNode.insertBefore(row, el);
+    row.appendChild(btn);
+    row.appendChild(el);
+  });
+
+  /* ── 2. Voice loading ── */
+  var voiceSelect = document.getElementById('voice-select');
+  var statusEl    = document.getElementById('voice-status');
+  var spanishVoices = [];
+  var allVoices     = [];
+
+  function loadVoices() {
+    allVoices = window.speechSynthesis.getVoices();
+    if (!allVoices.length) return;
+    spanishVoices = allVoices.filter(function (v) {
+      return v.lang.toLowerCase().startsWith('es');
+    });
+    voiceSelect.innerHTML = '';
+    if (spanishVoices.length === 0) {
+      allVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i + '_all';
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u26a0 No Spanish voices found \u2014 showing all voices.';
+    } else {
+      spanishVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        if (v.lang.toLowerCase() === 'es-es') opt.selected = true;
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u2713 ' + spanishVoices.length + ' Spanish voice(s) found';
+    }
+  }
+
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  setTimeout(loadVoices, 500);
+
+  function getSelectedVoice() {
+    var val = voiceSelect.value;
+    if (!val) return null;
+    if (val.endsWith('_all')) return allVoices[parseInt(val)] || null;
+    return spanishVoices[parseInt(val)] || null;
+  }
+
+  /* ── 3. Speed slider ── */
+  var speedSlider = document.getElementById('speed-slider');
+  var speedVal    = document.getElementById('speed-val');
+  speedSlider.addEventListener('input', function () {
+    speedVal.textContent = parseFloat(this.value).toFixed(2) + '\u00d7';
+  });
+
+  /* ── 4. Speech playback ── */
+  var currentBtn = null;
+
+  function stopSpeech() {
+    window.speechSynthesis.cancel();
+    if (currentBtn) {
+      currentBtn.classList.remove('playing');
+      currentBtn.innerHTML = '&#9654;';
+      currentBtn = null;
+    }
+  }
+
+  document.getElementById('stop-btn').addEventListener('click', stopSpeech);
+
+  /* ── 4b. Per-section gloss toggle ── */
+  window.toggleSectionGloss = function(btn) {
+    var group = btn.closest('.section-group');
+    if (!group) return;
+    var glosses = group.querySelectorAll('.gloss-text');
+    var toggles = group.querySelectorAll('.gloss-toggle');
+    var allHidden = Array.from(glosses).every(function(g){ return g.classList.contains('gloss-hidden'); });
+    glosses.forEach(function(g){ g.classList.toggle('gloss-hidden', !allHidden); });
+    toggles.forEach(function(t){ t.textContent = allHidden ? '▼ English' : '▶ English'; });
+    btn.textContent = allHidden ? 'Ocultar English' : 'Mostrar English';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn === currentBtn) { stopSpeech(); return; }
+    stopSpeech();
+
+    var spanishEl = btn.parentElement.querySelector('.spanish-text');
+    var text = spanishEl ? spanishEl.dataset.speak : '';
+    if (!text) return;
+
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang  = 'es-ES';
+    utter.rate  = parseFloat(speedSlider.value);
+    utter.pitch = 1;
+
+    var voice = getSelectedVoice();
+    if (voice) utter.voice = voice;
+
+    btn.classList.add('playing');
+    btn.innerHTML = '&#9632;';
+    currentBtn = btn;
+
+    /* Chrome keepalive: prevents silent cutoff of utterances > ~15 s */
+    var keepAlive = setInterval(function () {
+      if (!window.speechSynthesis.speaking) { clearInterval(keepAlive); return; }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, 10000);
+
+    utter.onend = function () {
+      clearInterval(keepAlive);
+      if (currentBtn === btn) {
+        btn.classList.remove('playing');
+        btn.innerHTML = '&#9654;';
+        currentBtn = null;
+      }
+    };
+    utter.onerror = utter.onend;
+
+    window.speechSynthesis.speak(utter);
+  });
+})();
+</script>
+<script>
+/* ── Dictionary lookup ── */
+(function () {
+
+  /* 1. Tokenize each .spanish-text into clickable word spans */
+  document.querySelectorAll('.spanish-text').forEach(function (el) {
+    var newHTML = el.innerHTML.replace(
+      /([A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+(?:['\u2019-][A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+)*)/g,
+      function (token) {
+        var lookup = token.replace(/^['\u2019-]+|['\u2019-]+$/g, '').toLowerCase();
+        if (!lookup) return token;
+        return '<span class="es-word" data-word="' + lookup + '">' + token + '</span>';
+      }
+    );
+    el.innerHTML = newHTML;
+  });
+
+  /* 2. Build popup */
+  var popup = document.createElement('div');
+  popup.id = 'dict-popup';
+  popup.innerHTML =
+    '<button id="dict-close" title="Cerrar">&#10005;</button>' +
+    '<span class="dp-word"></span>' +
+    '<div class="dp-body"></div>' +
+    '<hr class="dp-divider">' +
+    '<div class="dp-links"></div>';
+  document.body.appendChild(popup);
+
+  var dpWord  = popup.querySelector('.dp-word');
+  var dpBody  = popup.querySelector('.dp-body');
+  var dpLinks = popup.querySelector('.dp-links');
+  var dpClose = popup.querySelector('#dict-close');
+  var activeSpan = null;
+  var ES_LEMMAS = {"sombras": "sombrar", "parece": "parecer", "alejaba": "alejar", "cerillas": "cerilla", "victorias": "victoria", "cabellos": "cabello", "perfiles": "perfilar", "seres": "ser", "brillantes": "brillante", "sería": "ser", "baldía": "baldío", "explicara": "explicar", "brillaban": "brillar", "sentó": "sentar", "alguna": "alguno", "venía": "venir", "formado": "formar", "vacías": "vaciar", "todos": "todo", "tratando": "tratar", "labres": "labrar", "soy": "ser", "una": "uno", "comenzado": "comenzar", "quitó": "quitar", "agrietado": "agrietar", "profundidades": "profundidad", "rojos": "rojo", "reportajes": "reportaje", "fuera": "ser", "he": "haber", "congelados": "congelar", "rosarios": "rosario", "destapó": "destapar", "estaciones": "estacionar", "obsesioné": "obsesionar", "te": "tú", "atrapado": "atrapar", "diarios": "diario", "disolvió": "disolver", "es": "ser", "blancos": "blanco", "puertas": "puerta", "sido": "ser", "decidida": "decidir", "inhaló": "inhalar", "confusa": "confuso", "crujiendo": "crujir", "santos": "santo", "manos": "mano", "correteando": "corretear", "lenta": "lento", "levanté": "levantar", "entrecerró": "entrecerrar", "parecían": "parecer", "sentí": "sentir", "podría": "poder", "abrió": "abrir", "maté": "matar", "unidos": "unir", "toda": "todo", "deseaba": "desear", "ansiosa": "ansioso", "era": "ser", "darás": "dar", "silenciosos": "silencioso", "le": "él", "agujeros": "agujero", "pese": "pesar", "negra": "negro", "volvió": "volver", "enviaba": "enviar", "altos": "alto", "mera": "merar", "vivía": "vivir", "vírgenes": "virgen", "anidaban": "anidar", "oí": "oír", "puedo": "poder", "instruyera": "instruir", "abstracta": "abstracto", "franceses": "francés", "unos": "uno", "aferrados": "aferrar", "convirtió": "convertir", "ensombrecidos": "ensombrecer", "ratas": "rata", "éste": "este", "penitentes": "penitente", "años": "año", "tomé": "tomar", "eran": "ser", "seguía": "seguir", "propia": "propio", "huesos": "hueso", "había": "haber", "indicó": "indicar", "presionada": "presionar", "llenando": "llenar", "ojos": "ojo", "quedaría": "quedar", "quedó": "quedar", "fue": "ir", "grité": "gritar", "otra": "otro", "los": "el", "avanzaba": "avanzar", "rubios": "rubio", "cerrados": "cerrar", "consagrado": "consagrar", "lo": "él", "levantando": "levantar", "encima": "encimar", "abriendo": "abrir", "provenía": "provenir", "miles": "mil", "mujeres": "mujer", "vasos": "vaso", "la": "el", "fieles": "fiel", "importó": "importar", "monstruos": "monstruo", "caminado": "caminar", "subía": "subir", "súbita": "súbito", "mantuve": "mantener", "se": "él", "expulsó": "expulsar", "oscura": "oscuro", "hace": "hacer", "sabía": "saber", "estaba": "estar", "navíos": "navío", "animadas": "animar", "cajones": "cajón", "gruesos": "grueso", "empezando": "empezar", "viera": "ver", "tendría": "tener", "importase": "importar", "inclinó": "inclinar", "informes": "informe", "pensamientos": "pensamiento", "agarré": "agarrar", "polvorientas": "polvoriento", "aguardaban": "aguardar", "humanos": "humano", "encendió": "encender", "puse": "poner", "esto": "este", "blancas": "blanco", "exista": "existir", "arrodillé": "arrodillar", "formas": "forma", "creció": "crecer", "poderosa": "poderoso", "hacía": "hacer", "siniestra": "siniestro", "esas": "ese", "peinados": "peinado", "estiré": "estirar", "caminara": "caminar", "fijos": "fijo", "subiendo": "subir", "pálidos": "pálido", "distantes": "distante", "abracé": "abracar", "un": "uno", "quiere": "querer", "lancé": "lanzar", "abren": "abrir", "tiene": "tener", "dijo": "decir", "abierta": "abrir", "emergieron": "emerger", "atormentada": "atormentar", "ondulado": "ondular", "sentía": "sentir", "caminé": "caminar", "muertas": "muerta", "pudieran": "poder", "luchara": "luchar", "mis": "mi", "quienes": "quien", "encontré": "encontrar", "oraciones": "oración", "acercado": "acercar", "ganas": "gana", "pasó": "pasar", "puestos": "puesto", "ruinas": "ruinar", "norteamericanos": "norteamericano", "respuestas": "respuesta", "ocurrió": "ocurrir", "reanudara": "reanudar", "eso": "ese", "empecé": "empezar", "brazos": "brazo", "permanecí": "permanecer", "disuelto": "disolver", "leído": "leer", "contemplando": "contemplar", "estás": "estar", "adelante": "adelantar", "las": "el", "sobrecogieron": "sobrecoger", "pequeños": "pequeño", "velas": "velar", "hizo": "hacer", "ambas": "ambos", "uñas": "uña", "mencionaba": "mencionar", "cualquier": "cualquiera", "leía": "leer", "tomó": "tomar", "ardían": "arder", "trataba": "tratar", "ponía": "poner", "daban": "dar", "di": "dar", "jugado": "jugar", "mismos": "mismo", "esenciales": "esencial", "rodeado": "rodear", "subían": "subir", "tenía": "tener", "serás": "ser", "exánimes": "exánime", "estirados": "estirar", "pisando": "pisar", "sedosos": "sedoso", "usado": "usar", "salió": "salir", "hice": "hacer", "esa": "ese", "monstruosas": "monstruoso", "tenido": "tener", "antepechos": "antepecho", "durmiera": "dormir", "incrustadas": "incrustar", "parecía": "parecer", "alejó": "alejar", "miraba": "mirar", "apartó": "apartar", "efigies": "efigie", "alimentado": "alimentar", "segura": "segurar", "ofreció": "ofrecer", "problemas": "problema", "quisiera": "querer", "cosas": "cosa", "detalles": "detalle", "será": "ser", "hileras": "hilera", "apoyado": "apoyar", "rompía": "romper", "ella": "él", "enfureció": "enfurecer", "llamaba": "llamar", "inspira": "inspirar", "llegando": "llegar", "sagrada": "sagrado", "quedé": "quedar", "ángeles": "ángel", "notó": "notar", "acerqué": "acercar", "fantasmales": "fantasmal", "aferró": "aferrar", "inmediaciones": "inmediación", "recordaba": "recordar", "arrojando": "arrojar", "direcciones": "direccionar", "envolví": "envolver", "cayeron": "caer", "miré": "mirar", "altares": "altar", "muros": "muro", "dobló": "doblar", "cierran": "cerrar", "siguieron": "seguir", "concentré": "concentrar", "suaves": "suave", "gruñendo": "gruñir", "esperado": "esperar", "dientes": "diente", "susurró": "susurrar", "alcanzando": "alcanzar", "permite": "permitir", "ejercía": "ejercer", "abierto": "abrir", "numerosos": "numeroso", "conozcas": "conocer", "horrorizado": "horrorizar", "sentidos": "sentido", "dobleces": "doblez", "detuvo": "detener", "vi": "ver", "royendo": "roer", "baúles": "baúl", "apareció": "aparecer", "nuestros": "nuestro", "vacía": "vacío", "hombres": "hombre", "losas": "losa", "podía": "poder", "movía": "mover", "elevó": "elevar", "recordado": "recordar", "blanca": "blanco", "decía": "decir", "calles": "calle", "labios": "labio", "lentes": "lente", "sentado": "sentar", "debido": "deber", "amarga": "amargar", "moviéndose": "moverse", "ha": "haber", "hostias": "hostia", "costillas": "costilla", "parecida": "parecer", "orígenes": "origen", "hubiera": "haber", "pudiera": "poder", "estatuas": "estatua", "deshizo": "deshacer", "costados": "costado", "frontales": "frontal", "puede": "poder", "existe": "existir", "hundí": "hundir", "sacrilegios": "sacrilegio", "dejé": "dejar", "hundió": "hundir", "otros": "otro", "sagradas": "sagrado", "dedos": "dedo", "hincó": "hincar", "algún": "alguno", "arrugada": "arrugar", "dentro": "dentrar", "esta": "estar", "candelabros": "candelabro", "tomando": "tomar", "enguantada": "enguantar", "completa": "completar", "todas": "todo", "dando": "dar", "cruzadas": "cruzada", "contemplé": "contemplar", "quería": "querer", "rodando": "rodar", "sus": "su", "estaban": "estar", "producían": "producir", "mirando": "mirar", "maldecía": "maldecir", "ruedas": "rueda", "gotas": "gota", "avanzando": "avanzar", "llegaba": "llegar", "preguntó": "preguntar", "laterales": "lateral", "cubiertas": "cubierta", "sé": "ser", "sufrió": "sufrir", "dio": "dar", "posesiones": "posesionar", "yendo": "ir", "veían": "ver", "ventanas": "ventana", "hay": "haber", "armarios": "armario", "oye": "oír", "humana": "humanar", "viva": "vivar", "mostré": "mostrar", "cristos": "cristo", "hombros": "hombro", "me": "yo", "inmensa": "inmenso", "noches": "noche", "rosados": "rosado", "levantó": "levantar", "escalones": "escalonar", "vendió": "vender", "pocas": "poco", "estados": "estado", "indignado": "indignar", "hablaba": "hablar", "oyese": "oír", "pétalos": "pétalo", "muy": "mucho", "vestimentas": "vestimenta", "repiqueteó": "repiquetear", "murió": "morir", "vampiros": "vampiro", "restos": "resto", "recreado": "recrear", "cayó": "caer", "miró": "mirar", "pareció": "parecer", "colonias": "colonia", "veces": "vez", "comían": "comer", "fija": "fijar", "virulentos": "virulento", "asesinatos": "asesinato", "sabe": "saber", "podríamos": "poder", "debíamos": "deber", "bancos": "banco", "única": "único", "susurré": "susurrar", "reinaba": "reinar", "tallada": "tallar", "abrí": "abrir", "funerales": "funeral", "pude": "poder", "primeros": "primero", "pensé": "pensar"};
+  function toLemma(w) { return ES_LEMMAS[w.toLowerCase()] || w; }
+  var dictCache  = {};
+
+  /* 3. Fetch definition (Wiktionary, then MyMemory fallback) */
+  /* Extract base word from a "form of X" Wiktionary definition HTML string.
+     Returns the base word string, or null if not a form-of entry. */
+  function extractBaseForm(defHtml) {
+    var t = defHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    // "first/second/third-person ... of X"
+    var m = t.match(/(?:first|second|third)[- ]person.{0,60}of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "plural of X", "inflection of X", "feminine of X", etc.
+    m = t.match(/^(?:inflection|plural|singular|feminine|masculine|augmentative|diminutive|superlative|past\s+(?:tense|participle)|present\s+participle|gerund|form)\s+of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "X of Y" where X ends right before "of" and Y is at end
+    m = t.match(/of\s+([\wÀ-ɏ]+)\s*(?:[:,]|$)/i);
+    if (m) return m[1].toLowerCase();
+    return null;
+  }
+
+  /* Returns true if ALL definitions in all entries look like form-of entries */
+  function getFirstBase(entries) {
+    // Return the base form if the first definition looks like a form-of entry
+    var firstDef = ((entries[0] || {}).definitions || [])[0] || {};
+    return extractBaseForm(firstDef.definition || '');
+  }
+
+  function fetchWiktionary(word) {
+    return fetch(
+      'https://en.wiktionary.org/api/rest_v1/page/definition/' + encodeURIComponent(word),
+      { headers: { Accept: 'application/json' } }
+    ).then(function(r) {
+      if (!r.ok) throw new Error('wikt');
+      return r.json();
+    }).then(function(data) {
+      var es = data.es || data.Es;
+      if (es && es.length) return es;
+      throw new Error('no entry');
+    });
+  }
+
+  function fetchDefinition(rawWord) {
+    var word = toLemma(rawWord);
+    if (dictCache[word]) return Promise.resolve(dictCache[word]);
+    return fetchWiktionary(word).then(function(es) {
+      // If all definitions are "form of X", follow the link to the base form
+      var base = getFirstBase(es);
+      if (base && base !== word.toLowerCase()) {
+        return fetchWiktionary(base).then(function(baseEs) {
+          var result = { source: 'wiktionary', entries: baseEs, inflectedFrom: rawWord, baseForm: base };
+          dictCache[word] = result; return result;
+        }).catch(function() {
+          var result = { source: 'wiktionary', entries: es };
+          dictCache[word] = result; return result;
+        });
+      }
+      var result = { source: 'wiktionary', entries: es };
+      if (word.toLowerCase() !== rawWord.toLowerCase()) result.baseForm = word;
+      dictCache[word] = result; return result;
+    }).catch(function () {
+      return fetch(
+        'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=es|en'
+      ).then(function (r) { return r.json(); }).then(function (data) {
+        var trans = data.responseData && data.responseData.translatedText;
+        if (!trans || trans.toLowerCase() === word.toLowerCase()) throw new Error('no trans');
+        var alts = (data.matches || [])
+          .filter(function (m) {
+            return m.quality > 50 && m.translation &&
+              m.translation.toLowerCase() !== word.toLowerCase() &&
+              m.translation.toLowerCase() !== trans.toLowerCase();
+          })
+          .map(function (m) { return m.translation; })
+          .filter(function (v, i, a) { return a.indexOf(v) === i; })
+          .slice(0, 3);
+        var result = { source: 'mymemory', translation: trans, alts: alts };
+        dictCache[word] = result; return result;
+      });
+    }).catch(function () {
+      var result = { source: 'none' };
+      dictCache[word] = result; return result;
+    });
+  }
+
+  function strip(h) { return h.replace(/<[^>]+>/g, ''); }
+
+  function renderBody(r) {
+    if (r.source === 'wiktionary') {
+      var html = '';
+      // Show a small note when we resolved an inflected form to its base
+      if (r.baseForm) {
+        html += '<div class="dp-alts">form of <em>' + r.baseForm + '</em></div>';
+      }
+      r.entries.slice(0, 3).forEach(function (e) {
+        html += '<div class="dp-pos">' + (e.partOfSpeech || '') + '</div><ol class="dp-defs">';
+        (e.definitions || []).slice(0, 4).forEach(function (d) {
+          html += '<li>' + strip(d.definition || '') + '</li>';
+        });
+        html += '</ol>';
+      });
+      return html;
+    }
+    if (r.source === 'mymemory') {
+      var h = '<div class="dp-trans">' + r.translation + '</div>';
+      if (r.alts && r.alts.length) h += '<div class="dp-alts">also: ' + r.alts.join(', ') + '</div>';
+      return h;
+    }
+    return '<div class="dp-none">no definition found</div>';
+  }
+
+  /* 4. Show / position / hide */
+  function positionPopup(cx, cy) {
+    var pw = popup.offsetWidth || 220, ph = popup.offsetHeight || 130;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var left = cx + 14, top = cy + 14;
+    if (left + pw > vw - 8) left = cx - pw - 14;
+    if (top  + ph > vh - 8) top  = cy - ph - 14;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  }
+
+  function showPopup(word, cx, cy) {
+    dpWord.textContent = word;
+    dpBody.innerHTML = '<div class="dp-loading">buscando…</div>';
+    dpLinks.innerHTML =
+      '<a href="https://www.wordreference.com/es/en/translation.asp?spen=' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128214; WordReference &#8594;</a>' +
+      '<a href="https://www.spanishdict.com/translate/' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128216; SpanishDict &#8594;</a>';
+    popup.style.display = 'block';
+    positionPopup(cx, cy);
+    fetchDefinition(word).then(function (result) {
+      if (dpWord.textContent !== word) return;
+      dpBody.innerHTML = renderBody(result);
+      positionPopup(cx, cy);
+    });
+  }
+
+  function hidePopup() {
+    popup.style.display = 'none';
+    if (activeSpan) { activeSpan.classList.remove('dp-active'); activeSpan = null; }
+  }
+
+  /* 5. Events */
+  document.addEventListener('click', function (e) {
+    var wordEl = e.target.closest('.es-word');
+    if (wordEl) {
+      if (activeSpan) activeSpan.classList.remove('dp-active');
+      activeSpan = wordEl;
+      wordEl.classList.add('dp-active');
+      showPopup(wordEl.dataset.word, e.clientX, e.clientY);
+      return;
+    }
+    if (!e.target.closest('#dict-popup')) hidePopup();
+  });
+
+  dpClose.addEventListener('click', function (e) { e.stopPropagation(); hidePopup(); });
+})();
+</script>
+</body>
+</html>

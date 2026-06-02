@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrevista con el Vampiro — Capítulo 8 (Tercera parte) · Lectura Glosada</title>
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --card: #16213e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #e0e0e0;
+    --muted: #8892a4;
+    --spanish: #f5c518;
+    --gloss: #a8d8a8;
+    --vocab-bg: #0d1b2a;
+    --grammar-bg: #1b1228;
+    --tag: #533483;
+    --dialogue: #1e2d1e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Georgia', serif; line-height: 1.7; padding: 2rem 1rem; }
+  header { max-width: 880px; margin: 0 auto 3rem; text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 1.5rem; }
+  header h1 { font-size: 2rem; color: var(--accent); letter-spacing: 1px; }
+  header h2 { font-size: 1.1rem; color: var(--muted); font-weight: normal; margin-top: .4rem; }
+  header p { font-size: .9rem; color: var(--muted); margin-top: .8rem; font-style: italic; }
+  .chapter-intro { max-width: 880px; margin: 0 auto 2.5rem; background: var(--accent2); border-left: 4px solid var(--accent); padding: 1rem 1.4rem; border-radius: 4px; font-size: .95rem; }
+  .chapter-intro h3 { color: var(--accent); margin-bottom: .4rem; }
+  .sentence-block { max-width: 880px; margin: 0 auto 2rem; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+  .sentence-num { display: inline-block; background: var(--accent); color: #fff; font-size: .75rem; font-family: monospace; padding: .2rem .5rem; border-radius: 3px; margin-bottom: .5rem; letter-spacing: 1px; }
+  .sentence-top { padding: 1.2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .spanish-text { font-size: 1.2rem; color: var(--spanish); font-style: italic; margin-bottom: .6rem; line-height: 1.5; }
+  .gloss-text { font-size: 1rem; color: var(--gloss); margin-top: .35rem; }
+  .gloss-label, .vocab-label, .grammar-label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; margin-bottom: .3rem; font-family: sans-serif; }
+  /* ── Per-sentence gloss toggle ── */
+  .gloss-toggle { background: none; border: none; padding: .4rem 0; cursor: pointer; font-size: .7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-family: sans-serif; margin-bottom: .3rem; display: block; touch-action: manipulation; min-height: 2.5rem; }
+  .gloss-toggle:hover { color: var(--gloss); }
+  .gloss-text { visibility: visible; }
+  .gloss-text.gloss-hidden { visibility: hidden; pointer-events: none; }
+
+  .breakdown { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 600px) { .breakdown { grid-template-columns: 1fr; } }
+  .vocab-section { background: var(--vocab-bg); padding: 1rem 1.4rem; border-right: 1px solid rgba(255,255,255,.05); }
+  .grammar-section { background: var(--grammar-bg); padding: 1rem 1.4rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; }
+  td { padding: .3rem .4rem; vertical-align: top; }
+  td:first-child { color: var(--spanish); font-style: italic; white-space: nowrap; padding-right: .8rem; width: 42%; }
+  tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,.05); }
+  .grammar-section ul { list-style: none; font-size: .87rem; }
+  .grammar-section li { margin-bottom: .55rem; padding-left: .8rem; border-left: 2px solid var(--tag); }
+  .grammar-section li strong { color: var(--spanish); font-style: italic; }
+  .grammar-section li em { color: #c9b1ff; font-style: normal; }
+  .section-label { max-width: 880px; margin: 0 auto 1.2rem; font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--tag); font-family: sans-serif; padding-left: .2rem; display: flex; align-items: center; gap: .8rem; }
+  .tag { display: inline-block; background: var(--tag); color: #ddd; font-size: .7rem; font-family: sans-serif; padding: .1rem .4rem; border-radius: 3px; margin-right: .3rem; }
+  .dialogue-marker { color: var(--muted); font-size: .8rem; font-family: sans-serif; margin-bottom: .3rem; display: block; }
+  footer { max-width: 880px; margin: 3rem auto 0; text-align: center; font-size: .8rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); }
+
+  /* ── Audio controls ── */
+  #audio-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,52,96,.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(233,69,96,.4);
+    padding: .6rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-family: sans-serif; font-size: .82rem;
+  }
+  #audio-bar .bar-label { color: var(--muted); white-space: nowrap; }
+  #audio-bar .voice-select {
+    background: #0d1b2a; color: var(--text); border: 1px solid var(--tag);
+    border-radius: 4px; padding: .25rem .5rem; font-size: .8rem; flex: 1; min-width: 160px; max-width: 280px;
+  }
+  #audio-bar .speed-wrap { display: flex; align-items: center; gap: .5rem; }
+  #audio-bar input[type=range] { width: 90px; accent-color: var(--accent); cursor: pointer; }
+  #speed-val { color: var(--accent); font-weight: bold; min-width: 2.5ch; }
+  #stop-btn, .section-gloss-btn {
+    border: none; border-radius: 4px;
+    padding: .25rem .8rem; cursor: pointer; font-size: .8rem; white-space: nowrap;
+  }
+  #stop-btn { background: var(--accent); color: #fff; }
+  #stop-btn:hover { opacity: .85; }
+  .section-gloss-btn { background: var(--accent2); color: var(--muted); border: 1px solid var(--tag); margin-left: auto; flex-shrink: 0; }
+  .section-gloss-btn:hover { background: #1a4a80; color: var(--text); }
+  .voice-status { color: var(--muted); font-size: .75rem; font-style: italic; }
+
+  /* ── Play button on each card ── */
+  .spanish-row { display: flex; align-items: flex-start; gap: .6rem; }
+  .spanish-text { flex: 1; }
+  .play-btn {
+    flex-shrink: 0; margin-top: .15rem;
+    background: none; border: 1.5px solid var(--accent);
+    color: var(--accent); border-radius: 50%;
+    width: 2rem; height: 2rem; cursor: pointer;
+    font-size: .9rem; display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s;
+  }
+  .play-btn:hover { background: var(--accent); color: #fff; }
+  .play-btn.playing {
+    background: var(--accent); color: #fff;
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(233,69,96,.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(233,69,96,0); }
+  }
+
+  /* ── Dictionary word spans ── */
+  .es-word {
+    cursor: pointer;
+    border-bottom: 1px dotted rgba(245,197,24,.35);
+    border-radius: 2px;
+    padding: 0 1px;
+    transition: background .1s;
+  }
+  .es-word:hover, .es-word.dp-active {
+    background: rgba(245,197,24,.18);
+    border-bottom-color: var(--spanish);
+  }
+
+  /* ── Dictionary popup ── */
+  #dict-popup {
+    position: fixed;
+    z-index: 500;
+    background: #0d1b2a;
+    border: 1px solid var(--tag);
+    border-radius: 8px;
+    padding: .75rem 1.1rem .85rem;
+    box-shadow: 0 6px 24px rgba(0,0,0,.7);
+    min-width: 210px;
+    max-width: 310px;
+    font-family: sans-serif;
+    display: none;
+  }
+  #dict-popup .dp-word {
+    color: var(--spanish);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-family: Georgia, serif;
+    display: block;
+    margin-bottom: .4rem;
+    padding-right: 1.6rem;
+  }
+  .dp-loading { color: var(--muted); font-size: .8rem; font-style: italic; padding: .15rem 0 .3rem; }
+  .dp-pos {
+    color: var(--muted); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: 1px; margin: .45rem 0 .2rem; font-family: sans-serif;
+  }
+  .dp-defs {
+    font-size: .85rem; color: var(--text);
+    margin: 0; padding-left: 1.1rem; line-height: 1.45;
+  }
+  .dp-defs li { margin-bottom: .25rem; }
+  .dp-trans { font-size: .95rem; color: var(--text); margin: .25rem 0 .1rem; }
+  .dp-alts  { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: .1rem; }
+  .dp-none  { color: var(--muted); font-size: .8rem; font-style: italic; padding: .2rem 0 .3rem; }
+  .dp-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,.09);
+    margin: .6rem 0 .5rem;
+  }
+  #dict-popup .dp-links {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  #dict-popup .dp-links a {
+    color: var(--gloss);
+    text-decoration: none;
+    font-size: .8rem;
+    padding: .25rem .55rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,.06);
+    transition: background .12s;
+    display: block;
+  }
+  #dict-popup .dp-links a:hover { background: rgba(255,255,255,.14); }
+  #dict-close {
+    position: absolute;
+    top: .45rem; right: .6rem;
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: .9rem; line-height: 1;
+    padding: .1rem .2rem;
+  }
+  #dict-close:hover { color: var(--text); }
+
+</style>
+</head>
+<body>
+<div id="audio-bar">
+  <span class="bar-label">&#128266; Voz:</span>
+  <select id="voice-select" class="voice-select"><option>Cargando voces&hellip;</option></select>
+  <div class="speed-wrap">
+    <span class="bar-label">Velocidad:</span>
+    <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.05" value="0.85">
+    <span id="speed-val">0.85&times;</span>
+  </div>
+  <button id="stop-btn">&#9632; Parar</button>
+  <span class="voice-status" id="voice-status"></span>
+</div>
+<header>
+  <h1>Entrevista con el Vampiro</h1>
+  <h2>Anne Rice &middot; Cap&iacute;tulo 8: <em>Tercera parte</em></h2>
+  <p>Pasaje 8 de 20</p>
+</header>
+<div class="section-group">
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">01</span>
+    <div class="spanish-text">Las voces de los otros volvieron a oírse, como si conferenciaran entre ellos sobre las muertes de esa noche, describiendo este o aquel encuentro sin un indicio de emoción; los desafíos a la crueldad surgían de vez en cuando como relámpagos de luz blanca: un vampiro alto y delgado estaba arrinconado por una inútil narración de vida humana, carente de espíritu, que le impedía hacer lo más entretenido que se podía hacer en ese momento. Era simple, opaco, de palabra lenta, y caía en largos períodos de silencio estupefacto, como si, casi ahíto de sangre, se pudiera meter ya en el ataúd y permanecer allí. Y, no obstante, seguía escuchando, mantenido por la presión de su grupo anormal, que había hecho de la inmortalidad un círculo de conformistas. ¿Cómo lo habría averiguado Lestat? ¿Había estado con ellos? ¿Por qué se había ido? Nadie había imperado sobre Lestat; él había sido el amo de su pequeño círculo, ¡pero cómo habrían elogiado su inventiva, su juego felino con las víctimas! Y la &quot;pérdida&quot;..., esa palabra, ese valor que había tenido suprema importancia para mí como vampiro novato y que tantas veces había escuchado: Tú &quot;perdiste&quot; la oportunidad de matar a ese niño; tú &quot;perdiste&quot; la oportunidad de asustar a esa vieja o enloquecer a aquel hombre, lo que habría logrado una pequeña prestidigitación.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Celeste shuddered, uttering something in contempt, an aristocrat speaking of vulgar cousins who bear the same name. But I was watching Claudia because it seemed her eyes were misted again as before. She looked away from Armand suddenly. &quot;The voices of the others rose again, affected party voices, as they conferred with one another on the night&#x27;s kills, describing this or that encounter without a smattering of emotion, challenges to cruelty erupting from time to time like flashes of white lightning: a tall, thin vampire being accosted in one corner for a needless romanticizing of mortal life, a lack of spirit, a refusal to do the most entertaining thing at the moment it was available to him. He was simple, shrugging, stow at words, and would fall for long periods into a stupefied silence, as if, near-choked with blood, he would as soon have gone to his coffin as remained here. And yet he remained, held by the pressure of this unnatural group who had made of immortality a conformist&#x27;s club. How would Lestat have found it? Had he been here? What had caused him to leave? No one had dictated to Lestat he was master of his small circle; but how they would have praised his inventiveness, his catlike toying with his victims. And waste . . . that word, that value which had been all-important to me as a fledgling vampire; was spoken of often. You `wasted&#x27; the opportunity to kill this child. You `wasted&#x27; the opportunity to frighten this poor woman or drive that man to madness, which only a little prestidigitation Would have accomplished. &quot;My head was spinning. A common mortal headache. I longed to get away from these vampires, and only the distant figure of Armand held me, despite his warnings. He seemed remote from the others now, though he nodded often enough and uttered a few words here and there so that he seemed a part of them, his hand only occasionally rising from the lion&#x27;s paw of his chair. And my heart expanded when I saw him this way, saw that no one amongst the small throng caught his glance as I caught his glance, and no one held it from time to time as I held it. Yet he remained aloof from me, his eyes alone returning to me. His warning echoed in my ears, yet I disregarded it. I longed to get away from the theater altogether and stood listlessly, garnering information at last that was useless and infinitely dull.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">02</span>
+    <div class="spanish-text">La cabeza me daba vueltas. Un común dolor de cabeza humano. Deseé alejarme de esos vampiros. Únicamente la figura distante de Armand me clavaba en el sitio pese a sus advertencias. Ahora parecía remoto, aunque a menudo sacudía la cabeza y pronunciaba unas pocas palabras aquí y allí, de modo que parecía formar parte de ellos; y su mano se levantaba ocasionalmente de la garra de león de su silla. Mi corazón latió cuando lo vi de esa manera; vi que nadie había pescado su mirada cuando me encontré con ella y nadie la encontraba de tanto en tanto como yo. No obstante, se mantuvo distanciado de mí y sólo sus ojos retornaban a mí. Su advertencia seguía resonando en mis oídos; sin embargo, la descarté. Me quería ir del teatro y allí estaba reuniendo una información que, como mínimo, me era inútil e infinitamente aburrida.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;The voices of the others rose again, affected party voices, as they conferred with one another on the night&#x27;s kills, describing this or that encounter without a smattering of emotion, challenges to cruelty erupting from time to time like flashes of white lightning: a tall, thin vampire being accosted in one corner for a needless romanticizing of mortal life, a lack of spirit, a refusal to do the most entertaining thing at the moment it was available to him. He was simple, shrugging, stow at words, and would fall for long periods into a stupefied silence, as if, near-choked with blood, he would as soon have gone to his coffin as remained here. And yet he remained, held by the pressure of this unnatural group who had made of immortality a conformist&#x27;s club. How would Lestat have found it? Had he been here? What had caused him to leave? No one had dictated to Lestat he was master of his small circle; but how they would have praised his inventiveness, his catlike toying with his victims. And waste . . . that word, that value which had been all-important to me as a fledgling vampire; was spoken of often. You `wasted&#x27; the opportunity to kill this child. You `wasted&#x27; the opportunity to frighten this poor woman or drive that man to madness, which only a little prestidigitation Would have accomplished. &quot;My head was spinning. A common mortal headache. I longed to get away from these vampires, and only the distant figure of Armand held me, despite his warnings. He seemed remote from the others now, though he nodded often enough and uttered a few words here and there so that he seemed a part of them, his hand only occasionally rising from the lion&#x27;s paw of his chair. And my heart expanded when I saw him this way, saw that no one amongst the small throng caught his glance as I caught his glance, and no one held it from time to time as I held it. Yet he remained aloof from me, his eyes alone returning to me. His warning echoed in my ears, yet I disregarded it. I longed to get away from the theater altogether and stood listlessly, garnering information at last that was useless and infinitely dull. &quot; `But is there no crime amongst you, no cardinal crime?&#x27; Claudia asked. Her violet eyes seemed fixed on me, even in the mirror, as I stood with my back to her.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">03</span>
+    <div class="spanish-text">—Pero, entre vosotros, ¿no existe el crimen, algún delito máximo? —preguntó Claudia. Sus ojos violetas estaban fijos en mí, incluso en el espejo, cuando me encontraba de espaldas a ella. —¿Un delito? ¡El aburrimiento! —gritó Estelle y señaló a Armand con su dedo blanco; él se rió un poco con ella desde su distante posición al otro lado de la habitación—. ¡El aburrimiento es la muerte! —gritó ella, y mostró sus colmillos de vampira, de modo que Armand se llevó la lánguida mano a la frente en un gesto teatral de pánico y condena.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;The voices of the others rose again, affected party voices, as they conferred with one another on the night&#x27;s kills, describing this or that encounter without a smattering of emotion, challenges to cruelty erupting from time to time like flashes of white lightning: a tall, thin vampire being accosted in one corner for a needless romanticizing of mortal life, a lack of spirit, a refusal to do the most entertaining thing at the moment it was available to him. He was simple, shrugging, stow at words, and would fall for long periods into a stupefied silence, as if, near-choked with blood, he would as soon have gone to his coffin as remained here. And yet he remained, held by the pressure of this unnatural group who had made of immortality a conformist&#x27;s club. How would Lestat have found it? Had he been here? What had caused him to leave? No one had dictated to Lestat he was master of his small circle; but how they would have praised his inventiveness, his catlike toying with his victims. And waste . . . that word, that value which had been all-important to me as a fledgling vampire; was spoken of often. You `wasted&#x27; the opportunity to kill this child. You `wasted&#x27; the opportunity to frighten this poor woman or drive that man to madness, which only a little prestidigitation Would have accomplished. &quot;My head was spinning. A common mortal headache. I longed to get away from these vampires, and only the distant figure of Armand held me, despite his warnings. He seemed remote from the others now, though he nodded often enough and uttered a few words here and there so that he seemed a part of them, his hand only occasionally rising from the lion&#x27;s paw of his chair. And my heart expanded when I saw him this way, saw that no one amongst the small throng caught his glance as I caught his glance, and no one held it from time to time as I held it. Yet he remained aloof from me, his eyes alone returning to me. His warning echoed in my ears, yet I disregarded it. I longed to get away from the theater altogether and stood listlessly, garnering information at last that was useless and infinitely dull. &quot; `But is there no crime amongst you, no cardinal crime?&#x27; Claudia asked. Her violet eyes seemed fixed on me, even in the mirror, as I stood with my back to her. &quot; `Crime! Boredom!&#x27; cried out Estelle, and she pointed a white finger at Armand. He laughed softly with her from his distant position at the end of the room. `Boredom is death!&#x27; she cried and bared her vampire fangs, so that Armand put a languid hand to his forehead in a stage gesture of fear and falling.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">04</span>
+    <div class="spanish-text">Pero Santiago, que observaba con las manos a la espalda, intervino: —Un delito —dijo—: Sí que lo hay; un delito por el cual buscaríamos a otro vampiro hasta darle muerte. ¿Os podéis imaginar de qué se trata? —Miró a Claudia, luego a mí y volvió al rostro imperturbable de Claudia—. Vosotros deberíais saberlo, ya que sois tan misteriosos acerca del vampiro que os creó.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `But is there no crime amongst you, no cardinal crime?&#x27; Claudia asked. Her violet eyes seemed fixed on me, even in the mirror, as I stood with my back to her. &quot; `Crime! Boredom!&#x27; cried out Estelle, and she pointed a white finger at Armand. He laughed softly with her from his distant position at the end of the room. `Boredom is death!&#x27; she cried and bared her vampire fangs, so that Armand put a languid hand to his forehead in a stage gesture of fear and falling. &quot;But Santiago, who was watching with his hands behind his back, intervened. `Crime!&#x27; he said. `Yes, there is a crime. A crime for which we would hunt another vampire down until we destroyed him. Can you guess what that is?&#x27; He glanced from Claudia to me and back again to her masklike face. `You should know, who are so secretive about the vampire that made you.&#x27; &quot; `And why is that?&#x27; she asked, her eyes widening ever so slightly, her hands resting still in her lap.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">05</span>
+    <div class="spanish-text">—¿Por qué? —preguntó ella, abriendo los ojos apenas y las manos aún inmóviles sobre las piernas. Un murmullo se oyó en la habitación, primero en un rincón luego en todo el recinto. Y todos los rostros se dirigieron a Santiago, que permaneció con las manos a la espalda, de pie frente a Claudia. Sus ojos brillaron cuando se percató de que tenía la palabra. Y entonces, vino en mi dirección, se puso detrás de mí y, con una mano sobre mi hombro, dijo:</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `Crime! Boredom!&#x27; cried out Estelle, and she pointed a white finger at Armand. He laughed softly with her from his distant position at the end of the room. `Boredom is death!&#x27; she cried and bared her vampire fangs, so that Armand put a languid hand to his forehead in a stage gesture of fear and falling. &quot;But Santiago, who was watching with his hands behind his back, intervened. `Crime!&#x27; he said. `Yes, there is a crime. A crime for which we would hunt another vampire down until we destroyed him. Can you guess what that is?&#x27; He glanced from Claudia to me and back again to her masklike face. `You should know, who are so secretive about the vampire that made you.&#x27; &quot; `And why is that?&#x27; she asked, her eyes widening ever so slightly, her hands resting still in her lap. &quot;A hush fell over the room, gradually then completely, all those white faces turned to face Santiago as he stood there, one foot forward, his hands clasped behind his back, towering over Claudia. His eyes gleamed as he saw he had the floor. And then he broke away and crept up behind me, putting his hand on my shoulder. `Can you guess what that crime is? Didn&#x27;t your vampire master tell you?&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">06</span>
+    <div class="spanish-text">—¿Acaso tú no sabes de qué crimen se trata? ¿No te lo dijo tu maestro vampiro? Haciéndome dar vuelta lentamente con esas manos intrusas y ya conocidas, me tocó el corazón levemente siguiendo el ritmo de sus palabras. —Es el delito que significa muerte para cualquier vampiro que lo cometa. ¡Se trata de matar a tu propia especie! —¡Aaah! —exclamó Claudia, y se puso a reír a carcajadas; caminó por la sala con su vestido de seda, a pasos firmes; me tomó de la mano—. Me temía que fuera haber nacido, como Venus, de la espuma. ¡Como nos pasó a nosotros! ¡Un maestro vampiro! Vamos, Louis, vamos —me dijo y me hizo un gesto para que la siguiera.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `And why is that?&#x27; she asked, her eyes widening ever so slightly, her hands resting still in her lap. &quot;A hush fell over the room, gradually then completely, all those white faces turned to face Santiago as he stood there, one foot forward, his hands clasped behind his back, towering over Claudia. His eyes gleamed as he saw he had the floor. And then he broke away and crept up behind me, putting his hand on my shoulder. `Can you guess what that crime is? Didn&#x27;t your vampire master tell you?&#x27; &quot;And drawing me slowly around with those invading familiar hands, he tapped my heart lightly in time with its quickening pace. &quot; `It is the crime that means death to any vampire anywhere who commits it. It is to kill your own kind!&#x27; &quot; `Aaaaah!&#x27; Claudia cried out, and lapsed into peals of laughter. She was walking across the floor now with swirling lavender silk and crisp resounding steps. Taking my hand, she said, `I was so afraid it was to be born like Venus out of the foam, as we were! Master vampire! Come, Louis, let&#x27;s go!&#x27; she beckoned, as she pulled me away.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">07</span>
+    <div class="spanish-text">Armand se reía. Santiago quedó en silencio. Y fue Armand quien se puso de pie cuando llegamos a la puerta. —Seréis bienvenidos mañana por la noche. Y la noche siguiente. Pienso —siguió contando el vampiro, tras una pausa— que contuve la respiración hasta que llegamos afuera. Caía la lluvia y toda la calle parecía triste y desolada, pero hermosa. Volaban unos pocos pedazos de papel en el viento; un carruaje brillante pasó con el ruido pesado y rítmico de los cascos de los caballos. El cielo era de un violeta pálido. Caminé rápidamente con Claudia a mi lado. Cuando se cansó de mis largos pasos, me la puse en los brazos.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `It is the crime that means death to any vampire anywhere who commits it. It is to kill your own kind!&#x27; &quot; `Aaaaah!&#x27; Claudia cried out, and lapsed into peals of laughter. She was walking across the floor now with swirling lavender silk and crisp resounding steps. Taking my hand, she said, `I was so afraid it was to be born like Venus out of the foam, as we were! Master vampire! Come, Louis, let&#x27;s go!&#x27; she beckoned, as she pulled me away. &quot;Armand was laughing. Santiago was still. And it was Armand who rose when we reached the door. `You&#x27;re welcome tomorrow night,&#x27; he said. `And the night after.&#x27; &quot;I don&#x27;t think I caught my breath until rd reached the street. The rain was still falling, and all of the street seemed sodden and desolate in the rain, but beautiful. A few scattered bits of paper blowing in the wind, a gleaming carriage passing slowly with the thick, rhythmic clop of the horse. The sky was pale violet. I sped fast, with Claudia beside me leading the way, then finally frustrated with the length of my stride, riding in my arms. &quot; `I don&#x27;t like them,&#x27; she said to me with a steel fury as we neared the Hotel Saint-Gabriel. Even its immense, brightly lit lobby was still in the pre-dawn hour. I spirited past the sleepy clerks, the long faces at the desk. `I&#x27;ve searched for them the world over, and I despise them!&#x27; She threw off her cape and walked into the center of the room. A volley of rain hit the French windows. I found myself turning up the lights one by one and lifting the candelabrum to the gas flames as if I were Lestat or Claudia. And then, seeking the puce velvet chair I&#x27;d envisioned in that cellar, I slipped down into it, exhausted. It seemed for the moment as if the room blazed about me; as my eyes fixed on a gilt-framed painting of pastel trees and serene waters, the vampire spell was broken. They couldn&#x27;t touch us here, and yet I knew this to be a lie, a foolish lie.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">08</span>
+    <div class="spanish-text">—No me gustan —dijo con una furia acerada cuando nos acercábamos al Hotel Saint-Gabriel. Su entrada inmensa e iluminada estaba silenciosa en aquellas horas cercanas al alba. Pasé al lado de los empleados semidormidos—. ¡Los he buscado por medio mundo y los detesto! Se quitó la capa y la arrojó en un rincón de la habitación. Un golpe de lluvia azotó los vidrios del balcón. Me encontré apagando las luces una a una y levantando el candelabro hasta las lámparas de gas como si fuera Lestat o Claudia. Y entonces, al ver el sillón de terciopelo que había deseado en aquel sótano, me desplomé en él. Por un momento el cuarto pareció relumbrar a mí alrededor; cuando fijé la vista en el marco dorado del cuadro de árboles y aguas serenas, se deshizo el embrujo de los vampiros. Ahí no nos podían tocar y, no obstante, yo sabía que eso era una mentira, una estúpida mentira.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;Armand was laughing. Santiago was still. And it was Armand who rose when we reached the door. `You&#x27;re welcome tomorrow night,&#x27; he said. `And the night after.&#x27; &quot;I don&#x27;t think I caught my breath until rd reached the street. The rain was still falling, and all of the street seemed sodden and desolate in the rain, but beautiful. A few scattered bits of paper blowing in the wind, a gleaming carriage passing slowly with the thick, rhythmic clop of the horse. The sky was pale violet. I sped fast, with Claudia beside me leading the way, then finally frustrated with the length of my stride, riding in my arms. &quot; `I don&#x27;t like them,&#x27; she said to me with a steel fury as we neared the Hotel Saint-Gabriel. Even its immense, brightly lit lobby was still in the pre-dawn hour. I spirited past the sleepy clerks, the long faces at the desk. `I&#x27;ve searched for them the world over, and I despise them!&#x27; She threw off her cape and walked into the center of the room. A volley of rain hit the French windows. I found myself turning up the lights one by one and lifting the candelabrum to the gas flames as if I were Lestat or Claudia. And then, seeking the puce velvet chair I&#x27;d envisioned in that cellar, I slipped down into it, exhausted. It seemed for the moment as if the room blazed about me; as my eyes fixed on a gilt-framed painting of pastel trees and serene waters, the vampire spell was broken. They couldn&#x27;t touch us here, and yet I knew this to be a lie, a foolish lie. &quot; `I am in danger, danger,&#x27; Claudia said with that smoldering wrath.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">09</span>
+    <div class="spanish-text">—Estoy en peligro, en peligro —dijo Claudia con furia latente. —Pero, ¿cómo pueden saber lo que le hicimos? Además, ¡los dos estamos en peligro! ¿Piensas por un momento que no reconozco mi propia culpabilidad? Y si tú fueras la única... —estiré mis brazos en su dirección cuando se me acercó, pero sus ojos furiosos se posaron en mí y dejé que mis manos cayeran a un costado—, ¿piensas que te abandonaría en el peligro?</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `I don&#x27;t like them,&#x27; she said to me with a steel fury as we neared the Hotel Saint-Gabriel. Even its immense, brightly lit lobby was still in the pre-dawn hour. I spirited past the sleepy clerks, the long faces at the desk. `I&#x27;ve searched for them the world over, and I despise them!&#x27; She threw off her cape and walked into the center of the room. A volley of rain hit the French windows. I found myself turning up the lights one by one and lifting the candelabrum to the gas flames as if I were Lestat or Claudia. And then, seeking the puce velvet chair I&#x27;d envisioned in that cellar, I slipped down into it, exhausted. It seemed for the moment as if the room blazed about me; as my eyes fixed on a gilt-framed painting of pastel trees and serene waters, the vampire spell was broken. They couldn&#x27;t touch us here, and yet I knew this to be a lie, a foolish lie. &quot; `I am in danger, danger,&#x27; Claudia said with that smoldering wrath. &quot; But how can they know what we did to him? Besides, we are in danger! Do you think for a moment I don&#x27;t acknowledge my own guilt! And if you wire the only one . . : I reached out for her now as she drew near, but her fierce eyes settled on me and I let my hands drop back limp. `Do you think I would leave you in danger?&#x27; &quot;She was smiling. For a moment I didn&#x27;t believe my eyes. `No, you would not, Louis. You would not. Danger holds you to me. . .</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">10</span>
+    <div class="spanish-text">Ella sonrió. Por un instante, no pude creer en mis propios ojos. —No, Louis, tú no lo harías. Tú no lo harías. El peligro me ata a ti. —El amor me ata a ti —dije en voz baja. —¿El amor? —murmuró—. ¿Qué quieres decir con el amor? Y entonces, como si se percatara del dolor en mis facciones, se me acercó y me puso las manos en las mejillas. Estaba fría, insatisfecha, del mismo modo en que yo me sentía frío e insatisfecho, provocado por aquel chico mortal, pero insatisfecho.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `I am in danger, danger,&#x27; Claudia said with that smoldering wrath. &quot; But how can they know what we did to him? Besides, we are in danger! Do you think for a moment I don&#x27;t acknowledge my own guilt! And if you wire the only one . . : I reached out for her now as she drew near, but her fierce eyes settled on me and I let my hands drop back limp. `Do you think I would leave you in danger?&#x27; &quot;She was smiling. For a moment I didn&#x27;t believe my eyes. `No, you would not, Louis. You would not. Danger holds you to me. . . &quot; `Love holds me to you,&#x27; I said softly. &quot; `Love?&#x27; she mused. `What do you mean by love?&#x27; And then, as if she could see the pain in my face, she came close and put her hands on my cheek. She was cold, unsatisfied, as I was cold and unsatisfied, teased by that mortal boy but unsatisfied. &quot; `That you take my love for granted always,&#x27; I said to her. `That we are wed. . . &#x27; But even as I said these words I felt my old conviction waver; I felt that torment I&#x27;d felt last night when she had taunted me about mortal passion. I turned away from her.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">11</span>
+    <div class="spanish-text">—Tú siempre has dado mi amor por sentado. Nosotros estamos unidos... —dije; pero al mismo tiempo que decía estas palabras, sentí que saqueaba mi antigua convicción; sentí el tormento que había sentido la noche anterior cuando ella me provocara con la pasión mortal; me separé de ella. —Tú me dejarías por Armand si él te hiciera un solo gesto —dijo. —Jamás... —dije.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `Love?&#x27; she mused. `What do you mean by love?&#x27; And then, as if she could see the pain in my face, she came close and put her hands on my cheek. She was cold, unsatisfied, as I was cold and unsatisfied, teased by that mortal boy but unsatisfied. &quot; `That you take my love for granted always,&#x27; I said to her. `That we are wed. . . &#x27; But even as I said these words I felt my old conviction waver; I felt that torment I&#x27;d felt last night when she had taunted me about mortal passion. I turned away from her. &quot; `You would leave me for Armand if he beckoned to you .... &quot; `Never . . : I said to her. &quot; `You would leave me, and he wants you as you want him. He&#x27;s been waiting for you. . .</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">12</span>
+    <div class="spanish-text">—Me dejarías. Y él te quiere tanto como tú a él. Te ha estado esperando... —Jamás... —repetí, y me levanté, acercándome al armario. Las puertas estaban cerradas, pero no dejarían afuera a los vampiros. Únicamente nosotros podíamos mantenerlos alejados levantándonos tan pronto como nos lo permitiera la luz. Me di vuelta y le dije que se acercara. Ella estaba a mi lado. Quise hundir la cara en su cabello, quise rogarle que me perdonara. Porque, en realidad, ella tenía razón. Sin embargo, yo la amaba; yo la amaba como siempre. Y ahora, cuando la apreté contra mí, ella dijo:</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `Never . . : I said to her. &quot; `You would leave me, and he wants you as you want him. He&#x27;s been waiting for you. . . &quot; `Never. . . .&#x27; I rose now and made my way to that chest. The doors were locked, but they would not keep those vampires out. Only we could keep them out by rising as early as the light would let us. I turned to her and told her to come. And she was at my side. I wanted to bury my face in her hair, I wanted to beg her forgiveness. Because, in truth, she was right; and yet I loved her, loved her as always. And now, as I drew her in close to me, she said `Do you know what it was that he told me over and over without ever speaking a word; do you know what was the kernel of the trance he put me in so my eyes could only look at him, so that he pulled me as if my heart were on a string?&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">13</span>
+    <div class="spanish-text">—¿Sabes lo que dijo una y otra vez sin siquiera abrir los labios? ¿Sabes en qué estado de trance me puso, cuando mis ojos sólo podían verlo a él, como si pusiera mi corazón en un hilo? —Entonces, tú lo sentiste... —susurré—. A mí me sucedió lo mismo. —¡Me dejó indefensa! —dijo ella, y vi su imagen apoyada en los libros del escritorio, y su cuello laxo, como sus manos.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `You would leave me, and he wants you as you want him. He&#x27;s been waiting for you. . . &quot; `Never. . . .&#x27; I rose now and made my way to that chest. The doors were locked, but they would not keep those vampires out. Only we could keep them out by rising as early as the light would let us. I turned to her and told her to come. And she was at my side. I wanted to bury my face in her hair, I wanted to beg her forgiveness. Because, in truth, she was right; and yet I loved her, loved her as always. And now, as I drew her in close to me, she said `Do you know what it was that he told me over and over without ever speaking a word; do you know what was the kernel of the trance he put me in so my eyes could only look at him, so that he pulled me as if my heart were on a string?&#x27; &quot; &#x27;So you felt it . . : I whispered. `So it was the same.&#x27; &quot; `He rendered me powerless!&#x27; she said. I saw the image of her against those books above his desk, her limp neck, her dead hands. &quot; `But what are you saying? That he spoke to you, that he . . .&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">14</span>
+    <div class="spanish-text">—¿Pero qué dices? ¿Que él te habló, que...? —¡Sin palabras! —repitió; pude ver que se apagaban las lámparas de gas, las llamas demasiado sólidas en su inmovilidad; la lluvia golpeaba en los vidrios—. ¿Sabes lo que me dijo...? —susurró—. Que yo debía morir, que debía dejarte en paz. Sacudí la cabeza y, no obstante, en mi monstruoso corazón sentí una ola de excitación. Ella dijo la verdad tal como la creía. En sus ojos había una película vidriosa y plateada.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; &#x27;So you felt it . . : I whispered. `So it was the same.&#x27; &quot; `He rendered me powerless!&#x27; she said. I saw the image of her against those books above his desk, her limp neck, her dead hands. &quot; `But what are you saying? That he spoke to you, that he . . .&#x27; &quot; `Without words!&#x27; she repeated. I could see the gaslights going dim, the candle flames too solid in their stillness. The rain beat on the panes. `Do you know what he said . . . that I should die!&#x27; she whispered. `That I should let you go.&#x27; &quot;I shook my head, and yet in my monstrous heart I felt a surge of excitement. She spoke the truth as she believed it. There was a film in her eyes, glassy and silver. `He draws life out of me into himself,&#x27; she said, her lovely lips trembling so, I couldn&#x27;t bear it. I held her tight, but the tears stood in her eyes. `Life out of the boy who is his slave, life out of me whom he would make his slave. He loves you. He loves you. He would have you, and he would not have me stand in the way.&#x27;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">15</span>
+    <div class="spanish-text">—Con su presencia me arrebataba la vida —dijo, y sus hermosos labios temblaron de tal manera que no lo pude soportar; la abracé, pero sus ojos continuaron llenos de lágrimas—. Le arrebata la vida al chico que es su esclavo, me la quita a mí, a quien 61 haría su esclava. Te quiere a ti. Te quiere y no tolerará que me interponga en su camino. —¡No lo comprendo! —me resistí, besándola; quise cubrir de besos sus mejillas, sus labios.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `Without words!&#x27; she repeated. I could see the gaslights going dim, the candle flames too solid in their stillness. The rain beat on the panes. `Do you know what he said . . . that I should die!&#x27; she whispered. `That I should let you go.&#x27; &quot;I shook my head, and yet in my monstrous heart I felt a surge of excitement. She spoke the truth as she believed it. There was a film in her eyes, glassy and silver. `He draws life out of me into himself,&#x27; she said, her lovely lips trembling so, I couldn&#x27;t bear it. I held her tight, but the tears stood in her eyes. `Life out of the boy who is his slave, life out of me whom he would make his slave. He loves you. He loves you. He would have you, and he would not have me stand in the way.&#x27; &quot; `You don&#x27;t understand him!&#x27; I fought it, kissing her; I wanted to shower her with kisses, her cheek, her lips.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">16</span>
+    <div class="spanish-text">—No, yo lo comprendo demasiado bien —susurró ella ante mis labios, incluso cuando la besaba—. Tú eres quien no lo comprende. La admiración te ha enceguecido, la fascinación por su conocimiento, por su poder. Si supieras cómo sacia su sed con la muerte lo odiarías más de lo que jamás odiaste a Lestat. Louis, jamás debes volver a él. Te lo digo, ¡estoy en peligro!</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot;I shook my head, and yet in my monstrous heart I felt a surge of excitement. She spoke the truth as she believed it. There was a film in her eyes, glassy and silver. `He draws life out of me into himself,&#x27; she said, her lovely lips trembling so, I couldn&#x27;t bear it. I held her tight, but the tears stood in her eyes. `Life out of the boy who is his slave, life out of me whom he would make his slave. He loves you. He loves you. He would have you, and he would not have me stand in the way.&#x27; &quot; `You don&#x27;t understand him!&#x27; I fought it, kissing her; I wanted to shower her with kisses, her cheek, her lips. &quot; `No, I understand him only too well,&#x27; she whispered to my lips, even as they kissed her. `It is you who don&#x27;t understand him. Love&#x27;s blinded you, your fascination with his knowledge, his power. If you knew how he drinks death you&#x27;d hate him more than you ever hated Lestat. Louis, you must never return to him. I tell you, I&#x27;m in danger!&#x27; &quot;</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="sentence-block">
+  <div class="sentence-top">
+    <span class="sentence-num">17</span>
+    <div class="spanish-text">A la noche siguiente la dejé, convencido de que entre todos los vampiros del teatro sólo podía confiar en Armand. Ella me dejó ir sin ganas, y la expresión de sus ojos me produjo honda preocupación. La debilidad le era desconocida y, sin embargo, sentí miedo, como si algo se quebrara, cuando me dejó salir. Y me apresuré en mi misión; esperé fuera del teatro hasta que el último de los espectadores se hubo marchado, y los porteros estaban cerrando ya las puertas.</div>
+    <button type="button" class="gloss-toggle" onclick="var t=this.nextElementSibling;var h=t.classList.toggle('gloss-hidden');this.textContent=h?'▶ English':'▼ English';">▶ English</button>
+    <div class="gloss-text gloss-hidden">&quot; `You don&#x27;t understand him!&#x27; I fought it, kissing her; I wanted to shower her with kisses, her cheek, her lips. &quot; `No, I understand him only too well,&#x27; she whispered to my lips, even as they kissed her. `It is you who don&#x27;t understand him. Love&#x27;s blinded you, your fascination with his knowledge, his power. If you knew how he drinks death you&#x27;d hate him more than you ever hated Lestat. Louis, you must never return to him. I tell you, I&#x27;m in danger!&#x27; &quot; &quot;Early the next night, I left her, convinced that Armand alone among the vampires of the theater could be trusted. She let me go reluctantly, and I was troubled, deeply, by the expression in her eyes. Weakness was unknown to her, and yet I saw fear and something beaten even now as she let me go. And I hurried on my mission, waiting outside the theater until the last of the patrons had gone and the doormen were tending to the locks. &quot;What they thought I was, I wasn&#x27;t certain. An actor, like the others, who did not take off his paint? It didn&#x27;t matter. What mattered was that they let me through, and I passed them and the few vampires in the ballroom, unaccosted, to stand at last at Armand&#x27;s open door. He saw me immediately, no doubt had heard my step a long way off, and he welcomed me at once and asked me to sit down. He was busy with his human boy, who was dining at the desk on a silver plate of meats and fish. A decanter of white wine stood next to him, and though he was feverish and weak from last night, his skin was florid and his heat and fragrance were a torment to me. Tot apparently to Armand, who sat in the leather chair by the fire opposite me, turned to the human, his arms folded on the leather arm. The boy filled his glass and held it up now in a salute. &#x27;My master,&#x27; he said, his eyes flashing on me as he smiled; but the toast was to Armand.</div>
+  </div>
+  <div class="breakdown">
+    <div class="vocab-section">
+      <span class="vocab-label">vocabulario</span>
+      <table>
+
+      </table>
+    </div>
+    <div class="grammar-section">
+      <span class="grammar-label">gramática</span>
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<footer>
+  <p><em>Entrevista con el Vampiro</em> &mdash; Anne Rice</p>
+  <p style="margin-top:.5rem;">Lectura glosada para uso personal de estudio del espa&ntilde;ol &middot; Cap&iacute;tulo 8</p>
+</footer>
+
+<script>
+(function () {
+  /* ── 1. Wrap every .spanish-text in a flex row and prepend a play button ── */
+  document.querySelectorAll('.spanish-text').forEach(function (el, i) {
+    var text = el.textContent.trim();
+    el.dataset.speak = text;
+
+    var btn = document.createElement('button');
+    btn.className = 'play-btn';
+    btn.title = 'Reproducir';
+    btn.innerHTML = '&#9654;';
+    btn.dataset.idx = i;
+
+    var row = document.createElement('div');
+    row.className = 'spanish-row';
+    el.parentNode.insertBefore(row, el);
+    row.appendChild(btn);
+    row.appendChild(el);
+  });
+
+  /* ── 2. Voice loading ── */
+  var voiceSelect = document.getElementById('voice-select');
+  var statusEl    = document.getElementById('voice-status');
+  var spanishVoices = [];
+  var allVoices     = [];
+
+  function loadVoices() {
+    allVoices = window.speechSynthesis.getVoices();
+    if (!allVoices.length) return;
+    spanishVoices = allVoices.filter(function (v) {
+      return v.lang.toLowerCase().startsWith('es');
+    });
+    voiceSelect.innerHTML = '';
+    if (spanishVoices.length === 0) {
+      allVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i + '_all';
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u26a0 No Spanish voices found \u2014 showing all voices.';
+    } else {
+      spanishVoices.forEach(function (v, i) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = v.name + ' (' + v.lang + ')';
+        if (v.lang.toLowerCase() === 'es-es') opt.selected = true;
+        voiceSelect.appendChild(opt);
+      });
+      statusEl.textContent = '\u2713 ' + spanishVoices.length + ' Spanish voice(s) found';
+    }
+  }
+
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  setTimeout(loadVoices, 500);
+
+  function getSelectedVoice() {
+    var val = voiceSelect.value;
+    if (!val) return null;
+    if (val.endsWith('_all')) return allVoices[parseInt(val)] || null;
+    return spanishVoices[parseInt(val)] || null;
+  }
+
+  /* ── 3. Speed slider ── */
+  var speedSlider = document.getElementById('speed-slider');
+  var speedVal    = document.getElementById('speed-val');
+  speedSlider.addEventListener('input', function () {
+    speedVal.textContent = parseFloat(this.value).toFixed(2) + '\u00d7';
+  });
+
+  /* ── 4. Speech playback ── */
+  var currentBtn = null;
+
+  function stopSpeech() {
+    window.speechSynthesis.cancel();
+    if (currentBtn) {
+      currentBtn.classList.remove('playing');
+      currentBtn.innerHTML = '&#9654;';
+      currentBtn = null;
+    }
+  }
+
+  document.getElementById('stop-btn').addEventListener('click', stopSpeech);
+
+  /* ── 4b. Per-section gloss toggle ── */
+  window.toggleSectionGloss = function(btn) {
+    var group = btn.closest('.section-group');
+    if (!group) return;
+    var glosses = group.querySelectorAll('.gloss-text');
+    var toggles = group.querySelectorAll('.gloss-toggle');
+    var allHidden = Array.from(glosses).every(function(g){ return g.classList.contains('gloss-hidden'); });
+    glosses.forEach(function(g){ g.classList.toggle('gloss-hidden', !allHidden); });
+    toggles.forEach(function(t){ t.textContent = allHidden ? '▼ English' : '▶ English'; });
+    btn.textContent = allHidden ? 'Ocultar English' : 'Mostrar English';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn === currentBtn) { stopSpeech(); return; }
+    stopSpeech();
+
+    var spanishEl = btn.parentElement.querySelector('.spanish-text');
+    var text = spanishEl ? spanishEl.dataset.speak : '';
+    if (!text) return;
+
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang  = 'es-ES';
+    utter.rate  = parseFloat(speedSlider.value);
+    utter.pitch = 1;
+
+    var voice = getSelectedVoice();
+    if (voice) utter.voice = voice;
+
+    btn.classList.add('playing');
+    btn.innerHTML = '&#9632;';
+    currentBtn = btn;
+
+    /* Chrome keepalive: prevents silent cutoff of utterances > ~15 s */
+    var keepAlive = setInterval(function () {
+      if (!window.speechSynthesis.speaking) { clearInterval(keepAlive); return; }
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }, 10000);
+
+    utter.onend = function () {
+      clearInterval(keepAlive);
+      if (currentBtn === btn) {
+        btn.classList.remove('playing');
+        btn.innerHTML = '&#9654;';
+        currentBtn = null;
+      }
+    };
+    utter.onerror = utter.onend;
+
+    window.speechSynthesis.speak(utter);
+  });
+})();
+</script>
+<script>
+/* ── Dictionary lookup ── */
+(function () {
+
+  /* 1. Tokenize each .spanish-text into clickable word spans */
+  document.querySelectorAll('.spanish-text').forEach(function (el) {
+    var newHTML = el.innerHTML.replace(
+      /([A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+(?:['\u2019-][A-Za-z\xC0-\xFFÀ-ɏ\xF1\xD1]+)*)/g,
+      function (token) {
+        var lookup = token.replace(/^['\u2019-]+|['\u2019-]+$/g, '').toLowerCase();
+        if (!lookup) return token;
+        return '<span class="es-word" data-word="' + lookup + '">' + token + '</span>';
+      }
+    );
+    el.innerHTML = newHTML;
+  });
+
+  /* 2. Build popup */
+  var popup = document.createElement('div');
+  popup.id = 'dict-popup';
+  popup.innerHTML =
+    '<button id="dict-close" title="Cerrar">&#10005;</button>' +
+    '<span class="dp-word"></span>' +
+    '<div class="dp-body"></div>' +
+    '<hr class="dp-divider">' +
+    '<div class="dp-links"></div>';
+  document.body.appendChild(popup);
+
+  var dpWord  = popup.querySelector('.dp-word');
+  var dpBody  = popup.querySelector('.dp-body');
+  var dpLinks = popup.querySelector('.dp-links');
+  var dpClose = popup.querySelector('#dict-close');
+  var activeSpan = null;
+  var ES_LEMMAS = {"vieja": "viejo", "ellos": "él", "vueltas": "vuelta", "plateada": "platear", "comprendo": "comprender", "arrinconado": "arrinconar", "murmuró": "murmurar", "exclamó": "exclamar", "habló": "hablar", "percatara": "percatar", "has": "haber", "intrusas": "intrusar", "hicimos": "hacer", "todos": "todo", "una": "uno", "quitó": "quitar", "sucedió": "suceder", "deberíais": "deber", "brillaron": "brillar", "espectadores": "espectador", "percató": "percatar", "fuera": "ser", "he": "haber", "observaba": "observar", "fría": "frío", "debes": "debe", "temblaron": "temblar", "misteriosos": "misterioso", "te": "tú", "arrebataba": "arrebatar", "es": "ser", "buscaríamos": "buscar", "dices": "decir", "puertas": "puerta", "sido": "ser", "debía": "deber", "interponga": "interponer", "arrebata": "arrebatar", "señaló": "señalar", "largos": "largo", "puso": "poner", "manos": "mano", "lenta": "lento", "cascos": "casco", "siguió": "seguir", "levanté": "levantar", "sentí": "sentir", "silenciosa": "silencioso", "descarté": "descartar", "unidos": "unir", "toda": "todo", "era": "ser", "caía": "caer", "le": "él", "quise": "querer", "buscado": "buscar", "pese": "pesar", "furiosos": "furioso", "volvió": "volver", "estúpida": "estúpido", "elogiado": "elogiar", "porteros": "portero", "apoyada": "apoyar", "pocos": "poco", "habría": "haber", "luces": "lucir", "tocó": "tocar", "serenas": "serenar", "unos": "uno", "marchado": "marchar", "oídos": "oído", "harías": "hacer", "escuchando": "escuchar", "creía": "creer", "períodos": "período", "llevó": "llevar", "seguía": "seguir", "propia": "propio", "rostros": "rostro", "había": "haber", "volvieron": "volver", "ojos": "ojo", "apagando": "apagar", "aburrida": "aburrir", "pusiera": "poner", "quedó": "quedar", "desafíos": "desafío", "fue": "ir", "relámpagos": "relámpago", "otra": "otro", "los": "el", "desolada": "desolar", "podíamos": "poder", "lánguida": "lánguido", "retornaban": "retornar", "supieras": "saber", "lo": "él", "carcajadas": "carcajada", "levantando": "levantar", "mejillas": "mejilla", "abriendo": "abrir", "escuchado": "escuchar", "iluminada": "iluminado", "fueras": "ser", "árboles": "árbol", "seréis": "ser", "la": "el", "abandonaría": "abandonar", "dejó": "dejar", "repitió": "repetir", "acercara": "acercar", "repetí": "repetir", "se": "él", "voces": "voz", "dejarías": "dejar", "esperando": "esperar", "sabía": "saber", "estaba": "estar", "estas": "estar", "puse": "poner", "siguiera": "seguir", "vidrios": "vidrio", "empleados": "empleado", "unas": "unir", "estamos": "estar", "esas": "ese", "pedazos": "pedazo", "estiré": "estirar", "fijos": "fijo", "convencido": "convencer", "abracé": "abracar", "quieres": "querer", "un": "uno", "esperé": "esperar", "inmóviles": "inmóvil", "indefensa": "indefenso", "quiere": "querer", "libros": "libro", "dijo": "decir", "provocara": "provocar", "habrían": "haber", "tantas": "tanto", "podían": "poder", "sentía": "sentir", "espaldas": "espalda", "caminé": "caminar", "contando": "contar", "imperado": "imperar", "mis": "mi", "pasos": "paso", "acercábamos": "acercar", "encontré": "encontrar", "golpeaba": "golpear", "cerrando": "cerrar", "pasó": "pasar", "ganas": "gana", "gustan": "gustar", "sacia": "saciar", "comprende": "comprender", "resonando": "resonar", "eso": "ese", "brazos": "brazo", "alejados": "alejar", "ata": "atar", "averiguado": "averiguar", "ido": "ir", "mostró": "mostrar", "podéis": "podar", "las": "el", "hizo": "hacer", "cualquier": "cualquiera", "acerada": "acerar", "besos": "beso", "tomó": "tomar", "deseé": "desear", "cercanas": "cercano", "creó": "crear", "odiaste": "odiar", "palabras": "palabra", "di": "dar", "sentiste": "sentir", "desconocida": "desconocido", "propios": "propio", "mantenido": "mantener", "tenía": "tener", "aguas": "agua", "sacudí": "sacudir", "gritó": "gritar", "acercó": "acercar", "conformistas": "conformista", "esa": "ese", "pronunciaba": "pronunciar", "sonrió": "sonreír", "antigua": "antiguar", "tenido": "tener", "firmes": "firme", "conocidas": "conocido", "tolerará": "tolerar", "parecía": "parecer", "advertencias": "advertencia", "siguiendo": "seguir", "estoy": "estar", "sacudía": "sacudir", "conferenciaran": "conferenciar", "continuaron": "continuar", "facciones": "facción", "permaneció": "permanecer", "ella": "él", "hiciera": "hacer", "esos": "ese", "vamos": "ir", "semidormidos": "semidormido", "pueden": "poder", "sabes": "saber", "detesto": "detestar", "apagaban": "apagar", "colmillos": "colmillo", "sólidas": "sólido", "deseado": "desear", "azotó": "azotar", "muertes": "muerte", "volaban": "volar", "resistí": "resistir", "significa": "significar", "susurró": "susurrar", "perdiste": "perder", "levantaba": "levantar", "reuniendo": "reunir", "vi": "ver", "llenos": "lleno", "podía": "poder", "intervino": "intervenir", "fijé": "fijar", "blanca": "blanco", "decía": "decir", "insatisfecha": "insatisfecho", "violetas": "violeta", "labios": "labio", "sentado": "sentar", "mantuvo": "mantener", "oyó": "oír", "ha": "haber", "pudiera": "poder", "daba": "dar", "quebrara": "quebrar", "permitiera": "permitir", "deshizo": "deshacer", "amaba": "amar", "latió": "latir", "arrojó": "arrojar", "existe": "existir", "encontraba": "encontrar", "caminó": "caminar", "dejé": "dejar", "otros": "otro", "trance": "tranzar", "apreté": "apretar", "llamas": "llama", "algún": "alguno", "posaron": "posar", "vidriosa": "vidrioso", "dirigieron": "dirigir", "hermosos": "hermoso", "eres": "ere", "quería": "querer", "produjo": "producir", "sus": "su", "esclava": "esclavo", "estaban": "estar", "cansó": "cansar", "piernas": "pierna", "reía": "reír", "acerca": "acercar", "preguntó": "preguntar", "describiendo": "describir", "bienvenidos": "bienvenido", "perdonara": "perdonar", "apresuré": "apresurar", "logrado": "lograr", "afuera": "aforar", "pequeña": "pequeño", "reconozco": "reconocer", "hay": "haber", "horas": "hora", "humana": "humanar", "distanciado": "distanciar", "dejarían": "dejar", "víctimas": "víctima", "desplomé": "desplomar", "me": "yo", "saqueaba": "saquear", "inmensa": "inmenso", "digo": "decir", "aquellas": "aquel", "contuve": "contener", "lágrimas": "lágrima", "pocas": "poco", "clavaba": "clavar", "lámparas": "lámpara", "temía": "temer", "hermosa": "hermoso", "caballos": "caballo", "separé": "separar", "vampiros": "vampiro", "haría": "hacer", "odiarías": "odiar", "miró": "mirar", "pareció": "parecer", "surgían": "surgir", "veces": "vez", "piensas": "pensar", "cayeran": "caer", "única": "único", "susurré": "susurrar", "provocado": "provocar", "sois": "ser", "rió": "reír", "impedía": "impedir", "pasé": "pasar", "llegamos": "llegar", "hubo": "haber", "pude": "poder", "besaba": "besar", "enceguecido": "enceguecer", "cerradas": "cerrada"};
+  function toLemma(w) { return ES_LEMMAS[w.toLowerCase()] || w; }
+  var dictCache  = {};
+
+  /* 3. Fetch definition (Wiktionary, then MyMemory fallback) */
+  /* Extract base word from a "form of X" Wiktionary definition HTML string.
+     Returns the base word string, or null if not a form-of entry. */
+  function extractBaseForm(defHtml) {
+    var t = defHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    // "first/second/third-person ... of X"
+    var m = t.match(/(?:first|second|third)[- ]person.{0,60}of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "plural of X", "inflection of X", "feminine of X", etc.
+    m = t.match(/^(?:inflection|plural|singular|feminine|masculine|augmentative|diminutive|superlative|past\s+(?:tense|participle)|present\s+participle|gerund|form)\s+of\s+([\wÀ-ɏ]+)/i);
+    if (m) return m[1].toLowerCase();
+    // "X of Y" where X ends right before "of" and Y is at end
+    m = t.match(/of\s+([\wÀ-ɏ]+)\s*(?:[:,]|$)/i);
+    if (m) return m[1].toLowerCase();
+    return null;
+  }
+
+  /* Returns true if ALL definitions in all entries look like form-of entries */
+  function getFirstBase(entries) {
+    // Return the base form if the first definition looks like a form-of entry
+    var firstDef = ((entries[0] || {}).definitions || [])[0] || {};
+    return extractBaseForm(firstDef.definition || '');
+  }
+
+  function fetchWiktionary(word) {
+    return fetch(
+      'https://en.wiktionary.org/api/rest_v1/page/definition/' + encodeURIComponent(word),
+      { headers: { Accept: 'application/json' } }
+    ).then(function(r) {
+      if (!r.ok) throw new Error('wikt');
+      return r.json();
+    }).then(function(data) {
+      var es = data.es || data.Es;
+      if (es && es.length) return es;
+      throw new Error('no entry');
+    });
+  }
+
+  function fetchDefinition(rawWord) {
+    var word = toLemma(rawWord);
+    if (dictCache[word]) return Promise.resolve(dictCache[word]);
+    return fetchWiktionary(word).then(function(es) {
+      // If all definitions are "form of X", follow the link to the base form
+      var base = getFirstBase(es);
+      if (base && base !== word.toLowerCase()) {
+        return fetchWiktionary(base).then(function(baseEs) {
+          var result = { source: 'wiktionary', entries: baseEs, inflectedFrom: rawWord, baseForm: base };
+          dictCache[word] = result; return result;
+        }).catch(function() {
+          var result = { source: 'wiktionary', entries: es };
+          dictCache[word] = result; return result;
+        });
+      }
+      var result = { source: 'wiktionary', entries: es };
+      if (word.toLowerCase() !== rawWord.toLowerCase()) result.baseForm = word;
+      dictCache[word] = result; return result;
+    }).catch(function () {
+      return fetch(
+        'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=es|en'
+      ).then(function (r) { return r.json(); }).then(function (data) {
+        var trans = data.responseData && data.responseData.translatedText;
+        if (!trans || trans.toLowerCase() === word.toLowerCase()) throw new Error('no trans');
+        var alts = (data.matches || [])
+          .filter(function (m) {
+            return m.quality > 50 && m.translation &&
+              m.translation.toLowerCase() !== word.toLowerCase() &&
+              m.translation.toLowerCase() !== trans.toLowerCase();
+          })
+          .map(function (m) { return m.translation; })
+          .filter(function (v, i, a) { return a.indexOf(v) === i; })
+          .slice(0, 3);
+        var result = { source: 'mymemory', translation: trans, alts: alts };
+        dictCache[word] = result; return result;
+      });
+    }).catch(function () {
+      var result = { source: 'none' };
+      dictCache[word] = result; return result;
+    });
+  }
+
+  function strip(h) { return h.replace(/<[^>]+>/g, ''); }
+
+  function renderBody(r) {
+    if (r.source === 'wiktionary') {
+      var html = '';
+      // Show a small note when we resolved an inflected form to its base
+      if (r.baseForm) {
+        html += '<div class="dp-alts">form of <em>' + r.baseForm + '</em></div>';
+      }
+      r.entries.slice(0, 3).forEach(function (e) {
+        html += '<div class="dp-pos">' + (e.partOfSpeech || '') + '</div><ol class="dp-defs">';
+        (e.definitions || []).slice(0, 4).forEach(function (d) {
+          html += '<li>' + strip(d.definition || '') + '</li>';
+        });
+        html += '</ol>';
+      });
+      return html;
+    }
+    if (r.source === 'mymemory') {
+      var h = '<div class="dp-trans">' + r.translation + '</div>';
+      if (r.alts && r.alts.length) h += '<div class="dp-alts">also: ' + r.alts.join(', ') + '</div>';
+      return h;
+    }
+    return '<div class="dp-none">no definition found</div>';
+  }
+
+  /* 4. Show / position / hide */
+  function positionPopup(cx, cy) {
+    var pw = popup.offsetWidth || 220, ph = popup.offsetHeight || 130;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var left = cx + 14, top = cy + 14;
+    if (left + pw > vw - 8) left = cx - pw - 14;
+    if (top  + ph > vh - 8) top  = cy - ph - 14;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  }
+
+  function showPopup(word, cx, cy) {
+    dpWord.textContent = word;
+    dpBody.innerHTML = '<div class="dp-loading">buscando…</div>';
+    dpLinks.innerHTML =
+      '<a href="https://www.wordreference.com/es/en/translation.asp?spen=' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128214; WordReference &#8594;</a>' +
+      '<a href="https://www.spanishdict.com/translate/' + encodeURIComponent(word) +
+        '" target="_blank" rel="noopener">&#128216; SpanishDict &#8594;</a>';
+    popup.style.display = 'block';
+    positionPopup(cx, cy);
+    fetchDefinition(word).then(function (result) {
+      if (dpWord.textContent !== word) return;
+      dpBody.innerHTML = renderBody(result);
+      positionPopup(cx, cy);
+    });
+  }
+
+  function hidePopup() {
+    popup.style.display = 'none';
+    if (activeSpan) { activeSpan.classList.remove('dp-active'); activeSpan = null; }
+  }
+
+  /* 5. Events */
+  document.addEventListener('click', function (e) {
+    var wordEl = e.target.closest('.es-word');
+    if (wordEl) {
+      if (activeSpan) activeSpan.classList.remove('dp-active');
+      activeSpan = wordEl;
+      wordEl.classList.add('dp-active');
+      showPopup(wordEl.dataset.word, e.clientX, e.clientY);
+      return;
+    }
+    if (!e.target.closest('#dict-popup')) hidePopup();
+  });
+
+  dpClose.addEventListener('click', function (e) { e.stopPropagation(); hidePopup(); });
+})();
+</script>
+</body>
+</html>
